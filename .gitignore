@@ -55,3 +55,6 @@ coverage/
 # Sentry / Crashlytics symbols
 *.dSYM.zip
 *.dSYM
+
+# Claude Code per-user overrides (project-shared settings live in settings.json)
+.claude/settings.local.json
