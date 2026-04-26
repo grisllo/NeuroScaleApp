@@ -1,15 +1,129 @@
 {
   "@@locale": "es",
+
   "appTitle": "NeuroScale",
-  "@appTitle": {
-    "description": "Título de la aplicación"
-  },
+  "@appTitle": { "description": "Título de la aplicación" },
+
   "disclaimerTitle": "Aviso médico",
-  "@disclaimerTitle": {
-    "description": "Título del disclaimer médico"
-  },
+  "@disclaimerTitle": { "description": "Título del disclaimer médico" },
+
   "disclaimerBody": "Esta aplicación es una herramienta de apoyo y aprendizaje. No sustituye al criterio clínico profesional. Los resultados deben ser interpretados por un profesional cualificado.",
-  "@disclaimerBody": {
-    "description": "Texto del disclaimer médico mostrado al usuario"
-  }
+  "@disclaimerBody": { "description": "Texto del disclaimer médico" },
+
+  "disclaimerAcceptButton": "Entendido, continuar",
+  "@disclaimerAcceptButton": { "description": "Botón de aceptación del disclaimer" },
+
+  "loginTitle": "Iniciar sesión",
+  "@loginTitle": { "description": "Título de la pantalla de login" },
+
+  "registerTitle": "Crear cuenta",
+  "@registerTitle": { "description": "Título de la pantalla de registro" },
+
+  "emailLabel": "Correo electrónico",
+  "@emailLabel": { "description": "Etiqueta del campo email" },
+
+  "emailHint": "ejemplo@correo.com",
+  "@emailHint": { "description": "Placeholder del campo email" },
+
+  "passwordLabel": "Contraseña",
+  "@passwordLabel": { "description": "Etiqueta del campo contraseña" },
+
+  "passwordHint": "Mínimo 6 caracteres",
+  "@passwordHint": { "description": "Placeholder del campo contraseña" },
+
+  "confirmPasswordLabel": "Confirmar contraseña",
+  "@confirmPasswordLabel": { "description": "Etiqueta del campo confirmar contraseña" },
+
+  "loginButton": "Iniciar sesión",
+  "@loginButton": { "description": "Botón de login" },
+
+  "registerButton": "Crear cuenta",
+  "@registerButton": { "description": "Botón de registro" },
+
+  "loginLinkText": "¿Ya tienes cuenta? Inicia sesión",
+  "@loginLinkText": { "description": "Enlace hacia login desde registro" },
+
+  "registerLinkText": "¿No tienes cuenta? Regístrate",
+  "@registerLinkText": { "description": "Enlace hacia registro desde login" },
+
+  "fieldRequiredError": "Este campo es obligatorio",
+  "@fieldRequiredError": { "description": "Error de campo vacío" },
+
+  "emailInvalidError": "Introduce un correo electrónico válido",
+  "@emailInvalidError": { "description": "Error de formato email" },
+
+  "passwordMismatchError": "Las contraseñas no coinciden",
+  "@passwordMismatchError": { "description": "Error de contraseñas que no coinciden" },
+
+  "passwordTooShortError": "La contraseña debe tener al menos 6 caracteres",
+  "@passwordTooShortError": { "description": "Error de contraseña muy corta" },
+
+  "gcsTitle": "Glasgow Coma Scale",
+  "@gcsTitle": { "description": "Título de la escala GCS" },
+
+  "gcsSubtitle": "Evaluación del nivel de consciencia",
+  "@gcsSubtitle": { "description": "Subtítulo de la escala GCS" },
+
+  "gcsEyeLabel": "Respuesta ocular",
+  "@gcsEyeLabel": { "description": "Etiqueta del ítem ocular en GCS" },
+
+  "gcsVerbalLabel": "Respuesta verbal",
+  "@gcsVerbalLabel": { "description": "Etiqueta del ítem verbal en GCS" },
+
+  "gcsMotorLabel": "Respuesta motora",
+  "@gcsMotorLabel": { "description": "Etiqueta del ítem motor en GCS" },
+
+  "gcsCalculateButton": "Calcular puntuación",
+  "@gcsCalculateButton": { "description": "Botón de cálculo en la escala GCS" },
+
+  "gcsResultTitle": "Resultado GCS",
+  "@gcsResultTitle": { "description": "Título de la pantalla de resultado GCS" },
+
+  "severityNone": "Sin síntomas",
+  "@severityNone": { "description": "Etiqueta de severidad: ninguna" },
+
+  "severityMild": "Leve",
+  "@severityMild": { "description": "Etiqueta de severidad: leve" },
+
+  "severityModerate": "Moderado",
+  "@severityModerate": { "description": "Etiqueta de severidad: moderado" },
+
+  "severitySevere": "Grave",
+  "@severitySevere": { "description": "Etiqueta de severidad: grave" },
+
+  "resultSaveButton": "Guardar evaluación",
+  "@resultSaveButton": { "description": "Botón para guardar la evaluación" },
+
+  "saveDialogTitle": "Guardar evaluación",
+  "@saveDialogTitle": { "description": "Título del diálogo de guardado" },
+
+  "caseDescriptionLabel": "Descripción del caso",
+  "@caseDescriptionLabel": { "description": "Etiqueta del campo case_description" },
+
+  "caseDescriptionHint": "Ej: varón, 65 años, TCE por caída. Sin datos identificativos.",
+  "@caseDescriptionHint": { "description": "Placeholder de case_description" },
+
+  "caseDescriptionWarning": "⚠ No incluir datos identificativos del paciente (nombre, DNI, fechas de nacimiento…)",
+  "@caseDescriptionWarning": { "description": "Aviso anti-PII en el diálogo de guardado" },
+
+  "saveButton": "Guardar",
+  "@saveButton": { "description": "Botón de guardar genérico" },
+
+  "cancelButton": "Cancelar",
+  "@cancelButton": { "description": "Botón de cancelar genérico" },
+
+  "saveSuccessMessage": "Evaluación guardada correctamente",
+  "@saveSuccessMessage": { "description": "Mensaje de éxito al guardar evaluación" },
+
+  "saveErrorMessage": "Error al guardar. Inténtalo de nuevo.",
+  "@saveErrorMessage": { "description": "Mensaje de error al guardar evaluación" },
+
+  "signOutButton": "Cerrar sesión",
+  "@signOutButton": { "description": "Botón de cerrar sesión" },
+
+  "genericErrorMessage": "Ha ocurrido un error inesperado",
+  "@genericErrorMessage": { "description": "Mensaje de error genérico" },
+
+  "retryButton": "Reintentar",
+  "@retryButton": { "description": "Botón de reintentar acción" }
 }

@@ -2,64 +2,137 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/env/env.dart';
+import '../../core/providers/disclaimer_provider.dart';
+import '../../features/auth/presentation/providers/auth_controller.dart';
+import '../../features/auth/presentation/providers/session_provider.dart';
+import '../../features/auth/presentation/screens/disclaimer_screen.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/evaluations/presentation/screens/result_screen.dart';
+import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
+import '../../features/scales/shared/domain/entities/scale_result.dart';
+
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final notifier = _RouterNotifier(ref);
   return GoRouter(
     initialLocation: '/',
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: Env.isDev,
+    refreshListenable: notifier,
+    redirect: (_, state) => notifier.redirect(state),
     routes: [
       GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (context, state) => const HomeScreen(),
+        path: '/disclaimer',
+        name: 'disclaimer',
+        builder: (_, __) => const DisclaimerScreen(),
       ),
       GoRoute(
         path: '/login',
         name: 'login',
-        builder: (context, state) => const _PlaceholderScreen(title: 'Login'),
+        builder: (_, __) => const LoginScreen(),
       ),
       GoRoute(
         path: '/register',
         name: 'register',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Registro'),
+        builder: (_, __) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/',
+        name: 'home',
+        builder: (_, __) => const HomeScreen(),
       ),
       GoRoute(
         path: '/scales/gcs',
         name: 'gcs',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Glasgow Coma Scale'),
+        builder: (_, __) => const GcsScaleScreen(),
       ),
       GoRoute(
         path: '/result',
         name: 'result',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Resultado'),
+        builder: (_, state) {
+          final extra = state.extra! as (ScaleResult, String);
+          return ResultScreen(result: extra.$1, scaleTitle: extra.$2);
+        },
       ),
       GoRoute(
         path: '/history',
         name: 'history',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: 'Historial'),
+        builder: (_, __) => const _PlaceholderScreen(title: 'Historial'),
       ),
     ],
-    errorBuilder: (context, state) => Scaffold(
+    errorBuilder: (_, state) => Scaffold(
       appBar: AppBar(title: const Text('Error')),
-      body:
-          Center(child: Text(state.error?.toString() ?? 'Ruta no encontrada')),
+      body: Center(
+        child: Text(state.error?.toString() ?? 'Ruta no encontrada'),
+      ),
     ),
   );
 });
 
-class HomeScreen extends StatelessWidget {
+class _RouterNotifier extends ChangeNotifier {
+  _RouterNotifier(this._ref) {
+    _ref.listen(sessionProvider, (_, __) => notifyListeners());
+    _ref.listen(disclaimerAcceptedProvider, (_, __) => notifyListeners());
+  }
+
+  final Ref _ref;
+
+  String? redirect(GoRouterState state) {
+    final disclaimerAccepted = _ref.read(disclaimerAcceptedProvider);
+    final session = _ref.read(sessionProvider);
+    final isLoggedIn = session.asData?.value != null;
+    final location = state.matchedLocation;
+
+    const authRoutes = {'/login', '/register'};
+    const publicRoutes = {'/login', '/register', '/disclaimer'};
+
+    if (!disclaimerAccepted && !publicRoutes.contains(location)) {
+      return '/disclaimer';
+    }
+    if (!isLoggedIn && !publicRoutes.contains(location)) {
+      return '/login';
+    }
+    if (isLoggedIn && authRoutes.contains(location)) {
+      return '/';
+    }
+    return null;
+  }
+}
+
+// ── Home screen ────────────────────────────────────────────────────────────
+
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(sessionProvider).asData?.value;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('NeuroScale')),
+      appBar: AppBar(
+        title: const Text('NeuroScale'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cerrar sesión',
+            onPressed: () =>
+                ref.read(authControllerProvider.notifier).signOut(),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          if (session != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                session.email,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ),
           Text(
             'Escalas neurológicas',
             style: Theme.of(context).textTheme.headlineSmall,
@@ -88,6 +161,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// ── Placeholder (Fase 2+) ──────────────────────────────────────────────────
+
 class _PlaceholderScreen extends StatelessWidget {
   const _PlaceholderScreen({required this.title});
 
@@ -100,18 +175,13 @@ class _PlaceholderScreen extends StatelessWidget {
         title: Text(title),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            if (context.canPop()) {
-              context.pop();
-            } else {
-              context.goNamed('home');
-            }
-          },
+          onPressed: () =>
+              context.canPop() ? context.pop() : context.goNamed('home'),
         ),
       ),
       body: Center(
         child: Text(
-          'Pantalla "$title" pendiente de implementación.',
+          '$title — disponible en una próxima fase.',
           style: Theme.of(context).textTheme.bodyLarge,
           textAlign: TextAlign.center,
         ),

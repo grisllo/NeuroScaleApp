@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/env/env.dart';
+import 'core/providers/disclaimer_provider.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final disclaimerAccepted = prefs.getBool('disclaimer_accepted') ?? false;
 
   if (Env.hasSupabase) {
     await Supabase.initialize(
@@ -19,7 +24,12 @@ Future<void> main() async {
     );
   }
 
-  Widget rootWidget() => const ProviderScope(child: NeuroScaleApp());
+  Widget rootWidget() => ProviderScope(
+        overrides: [
+          disclaimerAcceptedProvider.overrideWith((_) => disclaimerAccepted),
+        ],
+        child: const NeuroScaleApp(),
+      );
 
   if (Env.hasSentry) {
     await SentryFlutter.init(
