@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze)",
+      "Bash(flutter analyze:*)",
+      "Bash(flutter test)",
+      "Bash(flutter test:*)",
+      "Bash(flutter pub get)",
+      "Bash(flutter pub add:*)",
+      "Bash(flutter pub remove:*)",
+      "Bash(flutter pub upgrade:*)",
+      "Bash(flutter pub outdated)",
+      "Bash(flutter pub deps:*)",
+      "Bash(flutter pub run:*)",
+      "Bash(flutter gen-l10n)",
+      "Bash(flutter gen-l10n:*)",
+      "Bash(flutter clean)",
+      "Bash(flutter doctor:*)",
+      "Bash(flutter --version)",
+      "Bash(dart --version)",
+      "Bash(dart format:*)",
+      "Bash(dart fix:*)",
+      "Bash(dart analyze:*)",
+      "Bash(dart pub:*)",
+      "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git ls-files:*)"
+    ],
+    "deny": [
+      "Read(./env/dev.json)",
+      "Read(./env/prod.json)",
+      "Read(./env/staging.json)",
+      "Read(./**/*.key)",
+      "Read(./**/credentials.json)",
+      "Read(./**/secrets.json)"
+    ]
+  }
+}
