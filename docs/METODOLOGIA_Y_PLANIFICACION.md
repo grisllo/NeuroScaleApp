@@ -123,7 +123,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2A.1: Refactor ResultScreen + History básica | `4c1706a` | 2026-04-27 | ~3,0 h |
 | Fase 2A.2: Filtros, búsqueda y paginación | `c822d01` | 2026-04-27 | ~2,0 h |
 | Fase 2A.3: Gráficos evolución fl_chart | `6cde524` | 2026-04-27 | ~2,5 h |
-| **Total acumulado (real)** | | | **~18,0 h** |
+| Fase 2A.4: mRS 0-6 | `2e10959` | 2026-04-27 | ~1,5 h |
+| **Total acumulado (real)** | | | **~19,5 h** |
 
 ### 3.3 Análisis de desviaciones (Fases 0, 1 y 2A parcial)
 
@@ -139,7 +140,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2A.1: Refactor + History | 3,0 h | 3,0 h | 0,0 h | En línea con la estimación; la skill phase-close añadió overhead mínimo |
 | Fase 2A.2: Filtros + búsqueda + paginación | 2,0 h | 2,0 h | 0,0 h | Estimación precisa; el patrón de named params en mocktail añadió ~15 min recuperados en el debounce |
 | Fase 2A.3: Gráficos fl_chart | 2,5 h | 2,5 h | 0,0 h | Estimación precisa; incompatibilidad fl_chart 0.71→0.68 por Flutter 3.24 añadió ~20 min de diagnóstico |
-| **Total** | **19,0 h** | **18,0 h** | **−1,0 h** | **Desviación total: −5,3%** |
+| Fase 2A.4: mRS 0-6 | 1,5 h | 1,5 h | 0,0 h | create-scale skill ejecutó el patrón directamente; 0 correcciones en analyze |
+| **Total** | **20,5 h** | **19,5 h** | **−1,0 h** | **Desviación total: −4,9%** |
 
 **Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
 
@@ -157,7 +159,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#6](https://github.com/grisllo/NeuroScaleApp/issues/6) | `4c1706a` | CU-08: Ver historial de evaluaciones propias; CU-08b: Borrar evaluación |
 | [#7](https://github.com/grisllo/NeuroScaleApp/issues/7) | `c822d01` | CU-09: Filtrar historial por escala y fecha; CU-09b: Buscar por caso; CU-09c: Paginación |
 | [#8](https://github.com/grisllo/NeuroScaleApp/issues/8) | `6cde524` | CU-10: Ver evolución temporal de una escala (LineChart normalizado) |
-| [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | pendiente | CU-11: Completar escala mRS |
+| [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | `2e10959` | CU-11: Completar escala mRS (grados 0-6, incluye fallecido) |
 | [#10](https://github.com/grisllo/NeuroScaleApp/issues/10) | pendiente | CU-12: Completar Barthel Index |
 | [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | pendiente | CU-13: Completar ABCD2 (riesgo post-AIT) |
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | pendiente | CU-14: Completar NIHSS |
