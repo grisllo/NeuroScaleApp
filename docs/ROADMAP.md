@@ -81,7 +81,8 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 - ✅ 2A.2 — Filtros, búsqueda y paginación (2026-04-27) — commit `c822d01`
 - ✅ 2A.3 — Gráficos de evolución fl_chart (2026-04-27) — commit `6cde524`
 - ✅ 2A.4 — mRS 0-6 (2026-04-27) — commit `2e10959`
-- 🚧 2A.5 — Barthel Index
+- ✅ 2A.5 — Barthel Index 0-100 (2026-04-27) — commit `7ced22c`
+- 🚧 2A.6 — ABCD2
 - 📅 2A.3 — Gráficos fl_chart
 - 📅 2A.4 — mRS 0-6
 - 📅 2A.5 — Barthel Index
