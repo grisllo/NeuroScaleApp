@@ -10,6 +10,7 @@ import '../../features/auth/presentation/screens/disclaimer_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/evaluations/presentation/screens/result_screen.dart';
+import '../../features/history/presentation/screens/history_screen.dart';
 import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
 import '../../features/scales/shared/domain/entities/scale_result.dart';
 
@@ -50,14 +51,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/result',
         name: 'result',
         builder: (_, state) {
-          final extra = state.extra! as (ScaleResult, String);
-          return ResultScreen(result: extra.$1, scaleTitle: extra.$2);
+          final extra = state.extra! as (ScaleResult, String, String);
+          return ResultScreen(
+            result: extra.$1,
+            scaleTitle: extra.$2,
+            scaleType: extra.$3,
+          );
         },
       ),
       GoRoute(
         path: '/history',
         name: 'history',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Historial'),
+        builder: (_, __) => const HistoryScreen(),
       ),
     ],
     errorBuilder: (_, state) => Scaffold(
@@ -161,31 +166,3 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-// ── Placeholder (Fase 2+) ──────────────────────────────────────────────────
-
-class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () =>
-              context.canPop() ? context.pop() : context.goNamed('home'),
-        ),
-      ),
-      body: Center(
-        child: Text(
-          '$title — disponible en una próxima fase.',
-          style: Theme.of(context).textTheme.bodyLarge,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}

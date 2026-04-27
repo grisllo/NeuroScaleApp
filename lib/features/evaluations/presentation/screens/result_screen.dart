@@ -15,10 +15,12 @@ class ResultScreen extends ConsumerWidget {
     super.key,
     required this.result,
     required this.scaleTitle,
+    required this.scaleType,
   });
 
   final ScaleResult result;
   final String scaleTitle;
+  final String scaleType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -215,7 +217,7 @@ class ResultScreen extends ConsumerWidget {
     final evaluation = Evaluation(
       id: '',
       userId: userId,
-      scaleType: 'gcs',
+      scaleType: scaleType,
       scaleVersion: 1,
       caseDescription: description.trim(),
       totalScore: result.totalScore,

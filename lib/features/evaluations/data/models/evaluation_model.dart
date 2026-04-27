@@ -27,6 +27,21 @@ class EvaluationModel extends Evaluation {
         updatedAt: e.updatedAt,
       );
 
+  factory EvaluationModel.fromJson(Map<String, dynamic> json) =>
+      EvaluationModel(
+        id: json['id'] as String,
+        userId: json['user_id'] as String,
+        scaleType: json['scale_type'] as String,
+        scaleVersion: json['scale_version'] as int,
+        caseDescription: json['case_description'] as String,
+        totalScore: json['total_score'] as int,
+        interpretation: json['interpretation'] as String,
+        detailedScores:
+            Map<String, dynamic>.from(json['detailed_scores'] as Map),
+        createdAt: DateTime.parse(json['created_at'] as String),
+        updatedAt: DateTime.parse(json['updated_at'] as String),
+      );
+
   /// Only includes columns managed by the app — Supabase generates id/timestamps.
   Map<String, dynamic> toJson() => {
         'user_id': userId,

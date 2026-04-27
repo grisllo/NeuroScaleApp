@@ -63,7 +63,7 @@ class GcsScaleScreen extends ConsumerWidget {
   ) {
     final result = calculateGcs(answers);
     ref.read(gcsAnswersProvider.notifier).reset();
-    context.go('/result', extra: (result, _definition.displayName));
+    context.go('/result', extra: (result, _definition.displayName, 'gcs'));
   }
 }
 

@@ -18,4 +18,22 @@ class EvaluationRepositoryImpl implements EvaluationRepository {
       throw UnexpectedFailure(e.message);
     }
   }
+
+  @override
+  Future<List<Evaluation>> fetchAll(String userId) async {
+    try {
+      return await _datasource.fetchAll(userId);
+    } on AppException catch (e) {
+      throw UnexpectedFailure(e.message);
+    }
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    try {
+      await _datasource.delete(id);
+    } on AppException catch (e) {
+      throw UnexpectedFailure(e.message);
+    }
+  }
 }

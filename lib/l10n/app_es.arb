@@ -125,5 +125,26 @@
   "@genericErrorMessage": { "description": "Mensaje de error genérico" },
 
   "retryButton": "Reintentar",
-  "@retryButton": { "description": "Botón de reintentar acción" }
+  "@retryButton": { "description": "Botón de reintentar acción" },
+
+  "historyTitle": "Historial",
+  "@historyTitle": { "description": "Título de la pantalla de historial" },
+
+  "historyEmpty": "Aún no tienes evaluaciones guardadas.",
+  "@historyEmpty": { "description": "Mensaje de estado vacío en historial" },
+
+  "historyEmptyAction": "Ir al inicio",
+  "@historyEmptyAction": { "description": "CTA del estado vacío en historial" },
+
+  "deleteEvaluationButton": "Borrar evaluación",
+  "@deleteEvaluationButton": { "description": "Botón de borrado de evaluación" },
+
+  "deleteConfirmTitle": "¿Borrar evaluación?",
+  "@deleteConfirmTitle": { "description": "Título del diálogo de confirmación de borrado" },
+
+  "deleteConfirmBody": "Esta acción no se puede deshacer.",
+  "@deleteConfirmBody": { "description": "Cuerpo del diálogo de confirmación de borrado" },
+
+  "deleteSuccessMessage": "Evaluación eliminada correctamente",
+  "@deleteSuccessMessage": { "description": "Mensaje de éxito al borrar evaluación" }
 }
