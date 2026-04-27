@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 1** — iniciada 2026-04-26.
+**Fase activa: Fase 2A** — iniciada 2026-04-27.
 
 ---
 
@@ -35,7 +35,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 1 — MVP: Auth + GCS + Guardado 🚧 En curso
+### Fase 1 — MVP: Auth + GCS + Guardado ✅ Completada (2026-04-27)
 
 **Objetivo end-to-end**: un médico se registra, calcula un GCS, ve el resultado interpretado con disclaimer médico y guarda la evaluación de forma anonimizada.
 
@@ -63,17 +63,23 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 2A — Historial + Rankin + Barthel 📅 Planificada
+### Fase 2A — Historial + mRS + Barthel + ABCD2 🚧 En curso
 
-**Objetivo**: el usuario puede ver su historial de evaluaciones, filtrar y ver gráficos de evolución. Se añaden dos escalas sencillas.
+**Objetivo**: el usuario puede ver su historial de evaluaciones, filtrar y ver gráficos de evolución. Se añaden tres escalas sencillas.
 
 **Entregables**:
 - Feature `history`: lista de evaluaciones, filtros por escala/fecha, búsqueda por `case_description`.
 - Gráficos de evolución temporal con `fl_chart` (línea por escala).
-- Escala **Rankin** (ordinal 0-5, trivial) con tests.
+- Escala **mRS** (Modified Rankin Scale 0-6, incluye 6 = fallecido) con tests.
 - Escala **Barthel** (10 ítems, suma 0-100) con tests.
-- Ruta `/history` con UI real.
-- Paginación o scroll infinito si el historial crece.
+- Escala **ABCD2** (0-7, estratificación de riesgo post-AIT) con tests. Requiere migración `0002_add_abcd2.sql`.
+- Ruta `/history` con UI real (reemplaza `_PlaceholderScreen`).
+- Paginación scroll infinito.
+
+**Decisiones de diseño para Fase 2A**:
+- **mRS 0-6** (no 0-5): el estándar clínico actual incluye el grado 6 (fallecido). Diverge del spec original.
+- **ABCD2 añadida a esta fase**: complejidad similar a Barthel (5 ítems con pesos directos, sin lógica condicional).
+- **GoRouter extras codec pendiente**: warning de `ScaleResult` sin codec se corrige en el refactor de `ResultScreen` (subfase 2A.1).
 
 ---
 
@@ -141,8 +147,9 @@ lib/
 │   │   ├── shared/  entidades base (ScaleItem, ScaleResult, Severity)
 │   │   ├── gcs/
 │   │   ├── nihss/   (Fase 2B)
-│   │   ├── rankin/  (Fase 2A)
-│   │   └── barthel/ (Fase 2A)
+│   │   ├── rankin/  (Fase 2A — mRS 0-6)
+│   │   ├── barthel/ (Fase 2A)
+│   │   └── abcd2/   (Fase 2A)
 │   ├── evaluations/ data/  domain/  presentation/
 │   └── history/     (Fase 2A)
 └── l10n/            app_es.arb  →  generated/app_localizations.dart
