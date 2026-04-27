@@ -20,9 +20,25 @@ class EvaluationRepositoryImpl implements EvaluationRepository {
   }
 
   @override
-  Future<List<Evaluation>> fetchAll(String userId) async {
+  Future<List<Evaluation>> fetchAll(
+    String userId, {
+    Set<String> scales = const {},
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    String searchQuery = '',
+    int page = 0,
+    int pageSize = 20,
+  }) async {
     try {
-      return await _datasource.fetchAll(userId);
+      return await _datasource.fetchAll(
+        userId,
+        scales: scales,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        searchQuery: searchQuery,
+        page: page,
+        pageSize: pageSize,
+      );
     } on AppException catch (e) {
       throw UnexpectedFailure(e.message);
     }

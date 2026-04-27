@@ -18,13 +18,40 @@ class SupabaseEvaluationDatasource {
     }
   }
 
-  Future<List<EvaluationModel>> fetchAll(String userId) async {
+  Future<List<EvaluationModel>> fetchAll(
+    String userId, {
+    Set<String> scales = const {},
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    String searchQuery = '',
+    int page = 0,
+    int pageSize = 20,
+  }) async {
     try {
-      final rows = await _client
+      var query = _client
           .from('evaluations')
           .select()
-          .eq('user_id', userId)
-          .order('created_at', ascending: false);
+          .eq('user_id', userId);
+
+      if (scales.isNotEmpty) {
+        query = query.inFilter('scale_type', scales.toList());
+      }
+      if (dateFrom != null) {
+        query = query.gte('created_at', dateFrom.toIso8601String());
+      }
+      if (dateTo != null) {
+        // Include the full end day
+        final endOfDay = DateTime(dateTo.year, dateTo.month, dateTo.day, 23, 59, 59);
+        query = query.lte('created_at', endOfDay.toIso8601String());
+      }
+      if (searchQuery.isNotEmpty) {
+        query = query.ilike('case_description', '%$searchQuery%');
+      }
+
+      final rows = await query
+          .order('created_at', ascending: false)
+          .range(page * pageSize, (page + 1) * pageSize - 1);
+
       return rows.map(EvaluationModel.fromJson).toList();
     } on PostgrestException catch (e) {
       throw ServerException(e.message);

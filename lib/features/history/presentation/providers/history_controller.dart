@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../features/auth/presentation/providers/session_provider.dart';
@@ -8,15 +9,88 @@ import '../../../../features/evaluations/domain/usecases/delete_evaluation_useca
 import '../../../../features/evaluations/domain/usecases/fetch_evaluations_usecase.dart';
 import '../../../../features/evaluations/presentation/providers/evaluation_provider.dart';
 
-class HistoryController extends AsyncNotifier<List<Evaluation>> {
-  @override
-  FutureOr<List<Evaluation>> build() => _fetch();
+class HistoryFilter {
+  const HistoryFilter({
+    this.scales = const {},
+    this.dateRange,
+    this.searchQuery = '',
+  });
 
-  Future<List<Evaluation>> _fetch() {
+  final Set<String> scales;
+  final DateTimeRange? dateRange;
+  final String searchQuery;
+
+  HistoryFilter copyWith({
+    Set<String>? scales,
+    Object? dateRange = _sentinel,
+    String? searchQuery,
+  }) =>
+      HistoryFilter(
+        scales: scales ?? this.scales,
+        dateRange:
+            dateRange == _sentinel ? this.dateRange : dateRange as DateTimeRange?,
+        searchQuery: searchQuery ?? this.searchQuery,
+      );
+
+  static const _sentinel = Object();
+}
+
+class HistoryController extends AsyncNotifier<List<Evaluation>> {
+  static const _pageSize = 20;
+
+  HistoryFilter _filter = const HistoryFilter();
+  int _page = 0;
+  bool _hasMore = true;
+  bool _isLoadingMore = false;
+
+  HistoryFilter get filter => _filter;
+  bool get hasMore => _hasMore;
+  bool get isLoadingMore => _isLoadingMore;
+
+  @override
+  FutureOr<List<Evaluation>> build() => _fetch(reset: true);
+
+  Future<List<Evaluation>> _fetch({bool reset = false}) async {
+    if (reset) {
+      _page = 0;
+      _hasMore = true;
+    }
     final userId = ref.read(sessionProvider).asData?.value?.id ?? '';
-    return FetchEvaluationsUseCase(
+    final results = await FetchEvaluationsUseCase(
       ref.read(evaluationRepositoryProvider),
-    ).call(userId);
+    ).call(
+      userId,
+      scales: _filter.scales,
+      dateFrom: _filter.dateRange?.start,
+      dateTo: _filter.dateRange?.end,
+      searchQuery: _filter.searchQuery,
+      page: _page,
+      pageSize: _pageSize,
+    );
+    if (results.length < _pageSize) _hasMore = false;
+    return results;
+  }
+
+  Future<void> setFilter(HistoryFilter filter) async {
+    _filter = filter;
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetch(reset: true));
+  }
+
+  Future<void> loadMore() async {
+    if (!_hasMore || _isLoadingMore) return;
+    _isLoadingMore = true;
+    final current = state.value ?? [];
+    _page++;
+    try {
+      final more = await _fetch();
+      state = AsyncData([...current, ...more]);
+    } catch (e, st) {
+      _page--;
+      state = AsyncError(e, st);
+    } finally {
+      _isLoadingMore = false;
+    }
   }
 
   Future<void> delete(String id) async {

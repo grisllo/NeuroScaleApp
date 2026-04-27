@@ -19,6 +19,25 @@ Evaluation _eval(String id, DateTime createdAt) => Evaluation(
       updatedAt: createdAt,
     );
 
+// Matcher helper: matches any fetchAll call for a given userId
+void _stubFetchAll(
+  _MockEvaluationRepository repo,
+  String userId,
+  Future<List<Evaluation>> Function() answer,
+) {
+  when(
+    () => repo.fetchAll(
+      userId,
+      scales: any(named: 'scales'),
+      dateFrom: any(named: 'dateFrom'),
+      dateTo: any(named: 'dateTo'),
+      searchQuery: any(named: 'searchQuery'),
+      page: any(named: 'page'),
+      pageSize: any(named: 'pageSize'),
+    ),
+  ).thenAnswer((_) => answer());
+}
+
 void main() {
   late _MockEvaluationRepository mockRepo;
   late FetchEvaluationsUseCase useCase;
@@ -33,17 +52,15 @@ void main() {
       _eval('e1', DateTime(2026, 4, 27)),
       _eval('e2', DateTime(2026, 4, 26)),
     ];
-    when(() => mockRepo.fetchAll('user-1'))
-        .thenAnswer((_) async => evaluations);
+    _stubFetchAll(mockRepo, 'user-1', () async => evaluations);
 
     final result = await useCase('user-1');
 
     expect(result, evaluations);
-    verify(() => mockRepo.fetchAll('user-1')).called(1);
   });
 
   test('devuelve lista vacía si el repositorio no tiene datos', () async {
-    when(() => mockRepo.fetchAll('user-1')).thenAnswer((_) async => []);
+    _stubFetchAll(mockRepo, 'user-1', () async => []);
 
     final result = await useCase('user-1');
 
@@ -54,8 +71,7 @@ void main() {
       () async {
     final newer = _eval('e1', DateTime(2026, 4, 27));
     final older = _eval('e2', DateTime(2026, 4, 26));
-    when(() => mockRepo.fetchAll('user-1'))
-        .thenAnswer((_) async => [newer, older]);
+    _stubFetchAll(mockRepo, 'user-1', () async => [newer, older]);
 
     final result = await useCase('user-1');
 
@@ -64,8 +80,72 @@ void main() {
   });
 
   test('propaga la excepción si el repositorio falla', () {
-    when(() => mockRepo.fetchAll(any())).thenThrow(Exception('network error'));
+    when(
+      () => mockRepo.fetchAll(
+        any(),
+        scales: any(named: 'scales'),
+        dateFrom: any(named: 'dateFrom'),
+        dateTo: any(named: 'dateTo'),
+        searchQuery: any(named: 'searchQuery'),
+        page: any(named: 'page'),
+        pageSize: any(named: 'pageSize'),
+      ),
+    ).thenThrow(Exception('network error'));
 
     expect(() => useCase('user-1'), throwsException);
+  });
+
+  test('pasa filtro de escalas al repositorio', () async {
+    _stubFetchAll(mockRepo, 'user-1', () async => []);
+
+    await useCase('user-1', scales: {'gcs', 'barthel'});
+
+    verify(
+      () => mockRepo.fetchAll(
+        'user-1',
+        scales: {'gcs', 'barthel'},
+        dateFrom: any(named: 'dateFrom'),
+        dateTo: any(named: 'dateTo'),
+        searchQuery: any(named: 'searchQuery'),
+        page: any(named: 'page'),
+        pageSize: any(named: 'pageSize'),
+      ),
+    ).called(1);
+  });
+
+  test('pasa búsqueda textual al repositorio', () async {
+    _stubFetchAll(mockRepo, 'user-1', () async => []);
+
+    await useCase('user-1', searchQuery: 'varón');
+
+    verify(
+      () => mockRepo.fetchAll(
+        'user-1',
+        scales: any(named: 'scales'),
+        dateFrom: any(named: 'dateFrom'),
+        dateTo: any(named: 'dateTo'),
+        searchQuery: 'varón',
+        page: any(named: 'page'),
+        pageSize: any(named: 'pageSize'),
+      ),
+    ).called(1);
+  });
+
+  test('pasa número de página al repositorio', () async {
+    _stubFetchAll(mockRepo, 'user-1', () async => []);
+
+    await useCase('user-1', page: 2);
+
+    verify(
+      () => mockRepo.fetchAll(
+        'user-1',
+        scales: any(named: 'scales'),
+        dateFrom: any(named: 'dateFrom'),
+        dateTo: any(named: 'dateTo'),
+        searchQuery: any(named: 'searchQuery'),
+        page: 2,
+        pageSize: any(named: 'pageSize'),
+      ),
+    ).called(1);
   });
 }

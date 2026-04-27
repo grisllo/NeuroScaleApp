@@ -6,6 +6,22 @@ class FetchEvaluationsUseCase {
 
   final EvaluationRepository _repository;
 
-  Future<List<Evaluation>> call(String userId) =>
-      _repository.fetchAll(userId);
+  Future<List<Evaluation>> call(
+    String userId, {
+    Set<String> scales = const {},
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    String searchQuery = '',
+    int page = 0,
+    int pageSize = 20,
+  }) =>
+      _repository.fetchAll(
+        userId,
+        scales: scales,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        searchQuery: searchQuery,
+        page: page,
+        pageSize: pageSize,
+      );
 }

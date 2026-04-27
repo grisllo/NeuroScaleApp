@@ -146,5 +146,17 @@
   "@deleteConfirmBody": { "description": "Cuerpo del diálogo de confirmación de borrado" },
 
   "deleteSuccessMessage": "Evaluación eliminada correctamente",
-  "@deleteSuccessMessage": { "description": "Mensaje de éxito al borrar evaluación" }
+  "@deleteSuccessMessage": { "description": "Mensaje de éxito al borrar evaluación" },
+
+  "filterByScale": "Filtrar por escala",
+  "@filterByScale": { "description": "Tooltip del filtro de escala en historial" },
+
+  "filterByDate": "Filtrar por fecha",
+  "@filterByDate": { "description": "Botón de filtro por rango de fechas en historial" },
+
+  "searchHint": "Buscar en descripción del caso…",
+  "@searchHint": { "description": "Placeholder del campo de búsqueda en historial" },
+
+  "loadingMore": "Cargando más…",
+  "@loadingMore": { "description": "Indicador de carga de más evaluaciones en historial" }
 }
