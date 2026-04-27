@@ -5,14 +5,13 @@ allprojects {
     }
 }
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(":app")
+rootProject.ext {
+    set("flutter.compileSdkVersion", 35)
+    set("flutter.minSdkVersion", 21)
+    set("flutter.targetSdkVersion", 35)
+    set("flutter.ndkVersion", "27.0.12077973")
+    set("flutter.versionCode", 1)
+    set("flutter.versionName", "1.0.0")
 }
 
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}
+rootProject.buildDir = "../build"

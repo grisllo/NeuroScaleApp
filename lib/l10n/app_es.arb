@@ -169,6 +169,36 @@
   "evolutionEmpty": "Necesitas al menos 2 evaluaciones de la misma escala para ver su evolución.",
   "@evolutionEmpty": { "description": "Estado vacío de la pestaña de evolución" },
 
+  "abcd2Title": "ABCD2",
+  "@abcd2Title": { "description": "Título de la escala ABCD2" },
+
+  "abcd2Subtitle": "Estratificación del riesgo de ictus tras AIT",
+  "@abcd2Subtitle": { "description": "Subtítulo de la escala ABCD2" },
+
+  "abcd2AgeLabel": "Edad",
+  "@abcd2AgeLabel": { "description": "Ítem edad ABCD2" },
+
+  "abcd2BpLabel": "Tensión arterial",
+  "@abcd2BpLabel": { "description": "Ítem tensión arterial ABCD2" },
+
+  "abcd2ClinicalLabel": "Características clínicas del AIT",
+  "@abcd2ClinicalLabel": { "description": "Ítem clínica ABCD2" },
+
+  "abcd2DurationLabel": "Duración de los síntomas",
+  "@abcd2DurationLabel": { "description": "Ítem duración ABCD2" },
+
+  "abcd2DiabetesLabel": "Diabetes mellitus",
+  "@abcd2DiabetesLabel": { "description": "Ítem diabetes ABCD2" },
+
+  "abcd2RiskLow": "Riesgo bajo (~1.0%)",
+  "@abcd2RiskLow": { "description": "Interpretación riesgo bajo ABCD2" },
+
+  "abcd2RiskModerate": "Riesgo moderado (~4.1%)",
+  "@abcd2RiskModerate": { "description": "Interpretación riesgo moderado ABCD2" },
+
+  "abcd2RiskHigh": "Riesgo alto (~8.1%)",
+  "@abcd2RiskHigh": { "description": "Interpretación riesgo alto ABCD2" },
+
   "barthelTitle": "Barthel Index",
   "@barthelTitle": { "description": "Título del Barthel Index" },
 
