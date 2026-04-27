@@ -158,5 +158,24 @@
   "@searchHint": { "description": "Placeholder del campo de búsqueda en historial" },
 
   "loadingMore": "Cargando más…",
-  "@loadingMore": { "description": "Indicador de carga de más evaluaciones en historial" }
+  "@loadingMore": { "description": "Indicador de carga de más evaluaciones en historial" },
+
+  "listTab": "Lista",
+  "@listTab": { "description": "Etiqueta de la pestaña de lista en historial" },
+
+  "evolutionTab": "Evolución",
+  "@evolutionTab": { "description": "Etiqueta de la pestaña de evolución temporal en historial" },
+
+  "evolutionEmpty": "Necesitas al menos 2 evaluaciones de la misma escala para ver su evolución.",
+  "@evolutionEmpty": { "description": "Estado vacío de la pestaña de evolución" },
+
+  "evolutionTooltipScore": "{score}/{max} — {interpretation}",
+  "@evolutionTooltipScore": {
+    "description": "Texto del tooltip en el gráfico de evolución",
+    "placeholders": {
+      "score": { "type": "int" },
+      "max": { "type": "int" },
+      "interpretation": { "type": "String" }
+    }
+  }
 }

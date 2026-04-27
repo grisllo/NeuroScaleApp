@@ -10,6 +10,7 @@ import '../../../../features/scales/shared/domain/entities/severity.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/history_controller.dart';
 import 'evaluation_detail_screen.dart';
+import 'evolution_tab.dart';
 
 // All supported scale types (chips filter)
 const _kScales = ['gcs', 'rankin', 'barthel', 'abcd2'];
@@ -91,130 +92,142 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
     final filter = notifier.filter;
     final hasActiveDateFilter = filter.dateRange != null;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.historyTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () =>
-              context.canPop() ? context.pop() : context.goNamed('home'),
-        ),
-      ),
-      body: Column(
-        children: [
-          // ── Search bar ──────────────────────────────────────────────
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                hintText: l10n.searchHint,
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          _onSearchChanged('');
-                        },
-                      )
-                    : null,
-                isDense: true,
-                border: const OutlineInputBorder(),
-              ),
-            ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.historyTitle),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () =>
+                context.canPop() ? context.pop() : context.goNamed('home'),
           ),
-          // ── Scale chips ─────────────────────────────────────────────
-          SizedBox(
-            height: 48,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: l10n.listTab),
+              Tab(text: l10n.evolutionTab),
+            ],
+          ),
+        ),
+        body: historyAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ..._kScales.map(
-                  (scale) => Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: FilterChip(
-                      label: Text(scale.toUpperCase()),
-                      selected: filter.scales.contains(scale),
-                      onSelected: (_) => _toggleScale(scale),
-                    ),
-                  ),
-                ),
-                // Date range chip
-                Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: FilterChip(
-                    avatar: const Icon(Icons.date_range, size: 16),
-                    label: Text(
-                      hasActiveDateFilter
-                          ? '${_fmt(filter.dateRange!.start)} – ${_fmt(filter.dateRange!.end)}'
-                          : l10n.filterByDate,
-                    ),
-                    selected: hasActiveDateFilter,
-                    onSelected: (_) => _pickDateRange(),
-                    onDeleted: hasActiveDateFilter
-                        ? () => notifier.setFilter(
-                              filter.copyWith(dateRange: null),
-                            )
-                        : null,
-                  ),
+                Text(e.toString()),
+                const SizedBox(height: 12),
+                FilledButton(
+                  onPressed: () => ref.invalidate(historyControllerProvider),
+                  child: Text(l10n.retryButton),
                 ),
               ],
             ),
           ),
-          const Divider(height: 1),
-          // ── List ────────────────────────────────────────────────────
-          Expanded(
-            child: historyAsync.when(
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(e.toString()),
-                    const SizedBox(height: 12),
-                    FilledButton(
-                      onPressed: () =>
-                          ref.invalidate(historyControllerProvider),
-                      child: Text(l10n.retryButton),
+          data: (evaluations) => TabBarView(
+            children: [
+              // ── Tab 0: Lista ────────────────────────────────────────
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: _onSearchChanged,
+                      decoration: InputDecoration(
+                        hintText: l10n.searchHint,
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _searchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  _onSearchChanged('');
+                                },
+                              )
+                            : null,
+                        isDense: true,
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              data: (evaluations) => evaluations.isEmpty
-                  ? _EmptyState(l10n: l10n)
-                  : ListView.builder(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.all(16),
-                      itemCount:
-                          evaluations.length + (notifier.hasMore ? 1 : 0),
-                      itemBuilder: (_, i) {
-                        if (i == evaluations.length) {
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        return _EvaluationCard(
-                          evaluation: evaluations[i],
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (_) => EvaluationDetailScreen(
-                                evaluation: evaluations[i],
-                              ),
+                  ),
+                  SizedBox(
+                    height: 48,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      children: [
+                        ..._kScales.map(
+                          (scale) => Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: FilterChip(
+                              label: Text(scale.toUpperCase()),
+                              selected: filter.scales.contains(scale),
+                              onSelected: (_) => _toggleScale(scale),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: FilterChip(
+                            avatar: const Icon(Icons.date_range, size: 16),
+                            label: Text(
+                              hasActiveDateFilter
+                                  ? '${_fmt(filter.dateRange!.start)} – ${_fmt(filter.dateRange!.end)}'
+                                  : l10n.filterByDate,
+                            ),
+                            selected: hasActiveDateFilter,
+                            onSelected: (_) => _pickDateRange(),
+                            onDeleted: hasActiveDateFilter
+                                ? () => notifier.setFilter(
+                                      filter.copyWith(dateRange: null),
+                                    )
+                                : null,
+                          ),
+                        ),
+                      ],
                     ),
-            ),
+                  ),
+                  const Divider(height: 1),
+                  Expanded(
+                    child: evaluations.isEmpty
+                        ? _EmptyState(l10n: l10n)
+                        : ListView.builder(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.all(16),
+                            itemCount: evaluations.length +
+                                (notifier.hasMore ? 1 : 0),
+                            itemBuilder: (_, i) {
+                              if (i == evaluations.length) {
+                                return const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  child:
+                                      Center(child: CircularProgressIndicator()),
+                                );
+                              }
+                              return _EvaluationCard(
+                                evaluation: evaluations[i],
+                                onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => EvaluationDetailScreen(
+                                      evaluation: evaluations[i],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
+              // ── Tab 1: Evolución ────────────────────────────────────
+              EvolutionTab(evaluations: evaluations),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   email_validator: ^3.0.0
-  fl_chart: ^0.71.0
+  fl_chart: ">=0.68.0 <0.69.0"
   flutter:
     sdk: flutter
   flutter_localizations:
