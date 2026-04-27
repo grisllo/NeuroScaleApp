@@ -11,6 +11,7 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/evaluations/presentation/screens/result_screen.dart';
 import '../../features/history/presentation/screens/history_screen.dart';
+import '../../features/scales/barthel/presentation/screens/barthel_scale_screen.dart';
 import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
 import '../../features/scales/rankin/presentation/screens/rankin_scale_screen.dart';
 import '../../features/scales/shared/domain/entities/scale_result.dart';
@@ -52,6 +53,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/scales/rankin',
         name: 'rankin',
         builder: (_, __) => const RankinScaleScreen(),
+      ),
+      GoRoute(
+        path: '/scales/barthel',
+        name: 'barthel',
+        builder: (_, __) => const BarthelScaleScreen(),
       ),
       GoRoute(
         path: '/result',
@@ -155,6 +161,15 @@ class HomeScreen extends ConsumerWidget {
               subtitle: const Text('Evaluación del nivel de consciencia'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.goNamed('gcs'),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Card(
+            child: ListTile(
+              title: const Text('Barthel Index'),
+              subtitle: const Text('Índice de actividades de la vida diaria'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.goNamed('barthel'),
             ),
           ),
           const SizedBox(height: 8),

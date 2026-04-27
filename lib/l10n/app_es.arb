@@ -169,6 +169,42 @@
   "evolutionEmpty": "Necesitas al menos 2 evaluaciones de la misma escala para ver su evolución.",
   "@evolutionEmpty": { "description": "Estado vacío de la pestaña de evolución" },
 
+  "barthelTitle": "Barthel Index",
+  "@barthelTitle": { "description": "Título del Barthel Index" },
+
+  "barthelSubtitle": "Índice de actividades de la vida diaria (AVD)",
+  "@barthelSubtitle": { "description": "Subtítulo del Barthel Index" },
+
+  "barthelItemFeeding": "Alimentación",
+  "@barthelItemFeeding": { "description": "Ítem alimentación Barthel" },
+
+  "barthelItemBathing": "Baño / Ducha",
+  "@barthelItemBathing": { "description": "Ítem baño Barthel" },
+
+  "barthelItemGrooming": "Aseo personal",
+  "@barthelItemGrooming": { "description": "Ítem aseo Barthel" },
+
+  "barthelItemDressing": "Vestido",
+  "@barthelItemDressing": { "description": "Ítem vestido Barthel" },
+
+  "barthelItemBowels": "Deposiciones",
+  "@barthelItemBowels": { "description": "Ítem deposiciones Barthel" },
+
+  "barthelItemBladder": "Micción",
+  "@barthelItemBladder": { "description": "Ítem micción Barthel" },
+
+  "barthelItemToiletUse": "Uso del WC",
+  "@barthelItemToiletUse": { "description": "Ítem uso del WC Barthel" },
+
+  "barthelItemTransfer": "Traslado sillón–cama",
+  "@barthelItemTransfer": { "description": "Ítem traslado Barthel" },
+
+  "barthelItemMobility": "Deambulación",
+  "@barthelItemMobility": { "description": "Ítem deambulación Barthel" },
+
+  "barthelItemStairs": "Subir y bajar escaleras",
+  "@barthelItemStairs": { "description": "Ítem escaleras Barthel" },
+
   "rankinTitle": "mRS (Modified Rankin Scale)",
   "@rankinTitle": { "description": "Título de la escala mRS" },
 
