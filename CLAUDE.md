@@ -75,6 +75,15 @@ The implementation roadmap lives at `~/.claude/plans/wild-imagining-creek.md` (a
 - **Fase 3**: clinical algorithms, offline mode, profile.
 - The `patients` table from the original spec was deliberately deferred to Fase 3 — for MVP, evaluations carry a free-text `case_description` only.
 
+## Skills
+
+| Skill | Command | When to use |
+| --- | --- | --- |
+| `create-scale` | `/create-scale` | Scaffold a new neurological scale (calculator, screen, ARB strings, boundary tests) |
+| `phase-close` | `/phase-close` | End-of-subfase checklist: analyze → test → update docs → close GitHub issue → commit → push |
+
+`phase-close` asks for: subfase ID, GitHub issue number, real hours spent, and whether it closes a full phase.
+
 ## Working with Claude Code in this repo
 
 1. **Plan first, implement after**. The user prefers `/plan` mode for non-trivial work. Wait for approval before editing.
@@ -82,3 +91,4 @@ The implementation roadmap lives at `~/.claude/plans/wild-imagining-creek.md` (a
 3. **Tests are mandatory for every scale calculator**. Cover boundaries (every interpretation threshold) and invalid inputs.
 4. **Run `flutter analyze` before committing.** CI will block PRs that fail analyze or test.
 5. **i18n**: every new user-facing string goes through ARB. Don't hardcode in widgets.
+6. **Run `/phase-close` at the end of every subfase** to keep docs, issues and the Gantt actualizados.
