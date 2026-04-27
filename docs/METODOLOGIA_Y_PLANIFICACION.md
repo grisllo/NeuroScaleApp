@@ -120,8 +120,10 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 1: Migración Supabase + E2E smoke test | `a127711` | 2026-04-27 13:00 | ~1,5 h |
 | GitHub setup + issues + documentación | — | 2026-04-27 | ~1,0 h |
 | **Total Fase 0 + Fase 1 (real)** | | | **~10,5 h** |
+| Fase 2A.1: Refactor ResultScreen + History básica | `4c1706a` | 2026-04-27 | ~3,0 h |
+| **Total acumulado (real)** | | | **~13,5 h** |
 
-### 3.3 Análisis de desviaciones (Fases 0 y 1)
+### 3.3 Análisis de desviaciones (Fases 0, 1 y 2A parcial)
 
 | Tarea | Estimado | Real | Desviación | Causa |
 |---|---|---|---|---|
@@ -132,9 +134,10 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 1 Evaluations | 2,0 h | 1,0 h | −1,0 h | El repositorio y datasource siguieron el mismo patrón de auth |
 | Fase 1 Supabase | 1,0 h | 1,5 h | +0,5 h | Problemas de autenticación MCP en sesión anterior; requirió nueva sesión |
 | GitHub setup | 0,5 h | 1,0 h | +0,5 h | gh CLI no estaba en PATH; configuración de credenciales HTTPS |
-| **Total** | **11,5 h** | **10,5 h** | **−1,0 h** | **Desviación total: −8,7%** |
+| Fase 2A.1: Refactor + History | 3,0 h | 3,0 h | 0,0 h | En línea con la estimación; la skill phase-close añadió overhead mínimo |
+| **Total** | **14,5 h** | **13,5 h** | **−1,0 h** | **Desviación total: −6,9%** |
 
-**Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global es favorable: −1 hora sobre la estimación.
+**Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
 
 ---
 
@@ -147,7 +150,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#3](https://github.com/grisllo/NeuroScaleApp/issues/3) | `6d677db` | CU-04: Completar escala GCS; CU-05: Ver resultado interpretado |
 | [#4](https://github.com/grisllo/NeuroScaleApp/issues/4) | `6d677db` | CU-06: Guardar evaluación con descripción de caso |
 | [#5](https://github.com/grisllo/NeuroScaleApp/issues/5) | `a127711` | CU-07: Datos persistidos en servidor con aislamiento por usuario (RLS) |
-| [#6](https://github.com/grisllo/NeuroScaleApp/issues/6) | pendiente | CU-08: Ver historial de evaluaciones propias |
+| [#6](https://github.com/grisllo/NeuroScaleApp/issues/6) | `4c1706a` | CU-08: Ver historial de evaluaciones propias; CU-08b: Borrar evaluación |
 | [#7](https://github.com/grisllo/NeuroScaleApp/issues/7) | pendiente | CU-09: Filtrar historial por escala y fecha |
 | [#8](https://github.com/grisllo/NeuroScaleApp/issues/8) | pendiente | CU-10: Ver evolución temporal de una escala |
 | [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | pendiente | CU-11: Completar escala mRS |

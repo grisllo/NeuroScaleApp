@@ -76,10 +76,18 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 - Ruta `/history` con UI real (reemplaza `_PlaceholderScreen`).
 - Paginación scroll infinito.
 
+**Progreso de subfases**:
+- ✅ 2A.1 — Refactor ResultScreen + feature History básica (2026-04-27) — commit `4c1706a`
+- 🚧 2A.2 — Filtros, búsqueda y paginación
+- 📅 2A.3 — Gráficos fl_chart
+- 📅 2A.4 — mRS 0-6
+- 📅 2A.5 — Barthel Index
+- 📅 2A.6 — ABCD2
+
 **Decisiones de diseño para Fase 2A**:
 - **mRS 0-6** (no 0-5): el estándar clínico actual incluye el grado 6 (fallecido). Diverge del spec original.
 - **ABCD2 añadida a esta fase**: complejidad similar a Barthel (5 ítems con pesos directos, sin lógica condicional).
-- **GoRouter extras codec pendiente**: warning de `ScaleResult` sin codec se corrige en el refactor de `ResultScreen` (subfase 2A.1).
+- **GoRouter extras codec resuelto**: `scaleType` ya pasa como tercer elemento del extra tuple en subfase 2A.1.
 
 ---
 
