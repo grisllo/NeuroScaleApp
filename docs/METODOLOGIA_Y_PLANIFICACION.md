@@ -125,7 +125,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2A.3: Gráficos evolución fl_chart | `6cde524` | 2026-04-27 | ~2,5 h |
 | Fase 2A.4: mRS 0-6 | `2e10959` | 2026-04-27 | ~1,5 h |
 | Fase 2A.5: Barthel Index 0-100 | `7ced22c` | 2026-04-27 | ~2,0 h |
-| **Total acumulado (real)** | | | **~21,5 h** |
+| Fase 2A.6: ABCD2 + migración SQL | `902594c` | 2026-04-27 | ~1,5 h |
+| **Total acumulado Fase 2A (real)** | | | **~23,0 h** |
 
 ### 3.3 Análisis de desviaciones (Fases 0, 1 y 2A parcial)
 
@@ -143,7 +144,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2A.3: Gráficos fl_chart | 2,5 h | 2,5 h | 0,0 h | Estimación precisa; incompatibilidad fl_chart 0.71→0.68 por Flutter 3.24 añadió ~20 min de diagnóstico |
 | Fase 2A.4: mRS 0-6 | 1,5 h | 1,5 h | 0,0 h | create-scale skill ejecutó el patrón directamente; 0 correcciones en analyze |
 | Fase 2A.5: Barthel Index | 2,0 h | 2,0 h | 0,0 h | Validación por conjunto (no rango) añadió complejidad de tests; import duplicado requirió fix menor |
-| **Total** | **22,5 h** | **21,5 h** | **−1,0 h** | **Desviación total: −4,4%** |
+| Fase 2A.6: ABCD2 + migración | 1,5 h | 1,5 h | 0,0 h | Patrón idéntico a Barthel; migración via MCP directa sin incidencias |
+| **Total Fase 2A completa** | **24,0 h** | **23,0 h** | **−1,0 h** | **Desviación total: −4,2%** |
 
 **Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
 
@@ -163,7 +165,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#8](https://github.com/grisllo/NeuroScaleApp/issues/8) | `6cde524` | CU-10: Ver evolución temporal de una escala (LineChart normalizado) |
 | [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | `2e10959` | CU-11: Completar escala mRS (grados 0-6, incluye fallecido) |
 | [#10](https://github.com/grisllo/NeuroScaleApp/issues/10) | `7ced22c` | CU-12: Completar Barthel Index (10 ítems AVD, validación por conjunto) |
-| [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | pendiente | CU-13: Completar ABCD2 (riesgo post-AIT) |
+| [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | `902594c` | CU-13: Completar ABCD2 (riesgo post-AIT, 0-7, 5 ítems) |
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | pendiente | CU-14: Completar NIHSS |
 | [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | pendiente | CU-15: Algoritmos clínicos; CU-16: Modo offline |
 

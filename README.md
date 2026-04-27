@@ -26,15 +26,15 @@ gantt
     Migración Supabase + smoke test    :done, f1d, 2026-04-27, 1d
 
     section Fase 2A · Historial + Escalas
-    Refactor + History básica          :active, f2a1, 2026-04-27, 4d
-    Filtros + búsqueda + paginación    :f2a2, after f2a1, 3d
-    Gráficos fl_chart                  :f2a3, after f2a2, 3d
-    mRS 0-6                            :f2a4, after f2a1, 2d
-    Barthel Index 0-100                :f2a5, after f2a4, 2d
-    ABCD2 riesgo post-AIT              :f2a6, after f2a5, 2d
+    Refactor + History básica          :done, f2a1, 2026-04-27, 1d
+    Filtros + búsqueda + paginación    :done, f2a2, after f2a1, 1d
+    Gráficos fl_chart                  :done, f2a3, after f2a2, 1d
+    mRS 0-6                            :done, f2a4, after f2a1, 1d
+    Barthel Index 0-100                :done, f2a5, after f2a4, 1d
+    ABCD2 riesgo post-AIT              :done, f2a6, 2026-04-27, 1d
 
     section Fase 2B · NIHSS
-    NIHSS 15 ítems condicionales       :f2b,  2026-05-12, 10d
+    NIHSS 15 ítems condicionales       :active, f2b, 2026-04-27, 10d
 
     section Fase 3 · Algoritmos + Offline
     Algoritmos + Offline + Perfil      :f3,   2026-05-25, 21d

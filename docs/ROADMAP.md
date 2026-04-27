@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 2A** — iniciada 2026-04-27.
+**Fase activa: Fase 2B** — iniciada 2026-04-27.
 
 ---
 
@@ -63,7 +63,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 2A — Historial + mRS + Barthel + ABCD2 🚧 En curso
+### Fase 2A — Historial + mRS + Barthel + ABCD2 ✅ Completada (2026-04-27)
 
 **Objetivo**: el usuario puede ver su historial de evaluaciones, filtrar y ver gráficos de evolución. Se añaden tres escalas sencillas.
 
@@ -82,7 +82,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 - ✅ 2A.3 — Gráficos de evolución fl_chart (2026-04-27) — commit `6cde524`
 - ✅ 2A.4 — mRS 0-6 (2026-04-27) — commit `2e10959`
 - ✅ 2A.5 — Barthel Index 0-100 (2026-04-27) — commit `7ced22c`
-- 🚧 2A.6 — ABCD2
+- ✅ 2A.6 — ABCD2 riesgo post-AIT (2026-04-27) — commit `902594c`
 - 📅 2A.3 — Gráficos fl_chart
 - 📅 2A.4 — mRS 0-6
 - 📅 2A.5 — Barthel Index
@@ -95,7 +95,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 2B — NIHSS aislada 📅 Planificada
+### Fase 2B — NIHSS aislada 🚧 En curso
 
 **Objetivo**: añadir la escala NIHSS con su lógica condicional compleja.
 
