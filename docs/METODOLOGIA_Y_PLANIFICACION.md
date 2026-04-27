@@ -1,0 +1,169 @@
+# NeuroScale App — Metodología y Planificación
+
+> Documento generado para la presentación del proyecto en clase.  
+> Datos contrastables con el repositorio Git: https://github.com/grisllo/NeuroScaleApp
+
+---
+
+## 1. Descripción del proyecto
+
+**NeuroScale App** es una aplicación multiplataforma (Android, iOS, web) para profesionales de la salud y estudiantes que permite aplicar escalas neurológicas estandarizadas (GCS, NIHSS, Rankin/mRS, Barthel), calcular puntuaciones, interpretar resultados clínicos y registrar evaluaciones de forma anonimizada.
+
+**Stack tecnológico:**
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | Flutter 3.x (Dart), Material 3 |
+| Estado | Riverpod (`AsyncNotifier`/`Notifier`) |
+| Navegación | go_router (rutas declarativas, auth guard) |
+| Backend | Supabase (Auth + PostgreSQL + RLS + Storage) |
+| Internacionalización | intl + flutter_localizations (ARB files) |
+| Testing | flutter_test, mockito |
+| CI/CD | GitHub Actions (`flutter analyze` + `flutter test`) |
+| Error tracking | Sentry (condicional, no bloquea sin clave) |
+
+---
+
+## 2. Metodología
+
+### 2.1 Enfoque adoptado
+
+**Desarrollo iterativo por fases con Clean Architecture y TDD obligatorio en dominio clínico.**
+
+El proyecto se divide en fases de complejidad creciente, cada una con entregables definidos, criterios de aceptación verificables y commit(s) de cierre trazables en git. Dentro de cada fase, la unidad mínima es la subfase, que sigue el ciclo:
+
+```
+Diseño → Aprobación → Implementación → Tests → flutter analyze → Commit
+```
+
+No se escribe código sin aprobación previa del diseño. Esto evita retrabajo estructural y mantiene la coherencia arquitectónica a medida que el proyecto crece.
+
+### 2.2 Arquitectura: Feature-first con Clean Architecture
+
+```
+lib/
+├── core/              infraestructura compartida (theme, routing, env, errors)
+├── features/
+│   ├── auth/          data/ → domain/ → presentation/
+│   ├── scales/
+│   │   ├── shared/    entidades base (ScaleItem, ScaleResult, Severity)
+│   │   ├── gcs/       calculadora + pantalla + tests
+│   │   ├── rankin/    (Fase 2A)
+│   │   ├── barthel/   (Fase 2A)
+│   │   ├── abcd2/     (Fase 2A)
+│   │   └── nihss/     (Fase 2B)
+│   ├── evaluations/   persistencia de evaluaciones completadas
+│   └── history/       listado + gráficos (Fase 2A)
+└── l10n/              app_es.arb → generated/
+```
+
+**Flujo de datos** (nunca saltado): `UI → Provider → UseCase → Repository → DataSource → Supabase`
+
+### 2.3 Justificación de decisiones clave
+
+| Decisión | Alternativa descartada | Justificación |
+|---|---|---|
+| Feature-first sobre layer-first | Directorios `data/`, `domain/`, `presentation/` en raíz | Con 6+ features la cohesión por dominio escala mejor; cambios en una feature no tocan otras |
+| TDD obligatorio en calculadoras | Tests opcionales o post-implementación | Contexto médico: un cálculo erróneo en GCS puede tener consecuencias clínicas reales. Funciones puras sin dependencias → tests triviales y exhaustivos |
+| Supabase + RLS | Firebase, backend propio | Auth + PostgreSQL + RLS en un servicio; free tier suficiente para MVP; RLS garantiza aislamiento de datos por usuario incluso ante bugs en el frontend |
+| i18n desde el inicio | Añadir después del MVP | En Flutter, añadir i18n post-hoc requiere tocar todos los widgets. Desde el inicio el coste es ~1 día; después, semanas |
+| No `Either<L,R>` en MVP | fpdart / dartz | Simplifica el código sin perder correctitud; se puede añadir en refactor si la escala del proyecto lo exige |
+| Plan → aprobación → implementación | Implementación directa | Reduce retrabajo; permite detectar problemas de diseño antes de escribir código |
+| `env/dev.json` gitignoreado | Variables de entorno en CI | Secretos fuera del repo; `--dart-define-from-file` funciona en web/CI sin dependencias adicionales |
+
+### 2.4 Control de calidad
+
+- **Linting estricto**: `analysis_options.yaml` con reglas `flutter_lints` + `riverpod_lint`. El linter bloquea imports no relativos, strings hardcodeadas y patrones Riverpod incorrectos.
+- **CI automático**: cada push ejecuta `dart format --set-exit-if-changed`, `flutter analyze` y `flutter test`. Un fallo bloquea el merge.
+- **Cobertura de tests en dominio**: cada calculadora de escala cubre todos los umbrales clínicos y casos inválidos (inputs fuera de rango, mapas vacíos).
+
+---
+
+## 3. Planificación
+
+### 3.1 Planificación inicial (estimación previa)
+
+Estimaciones realizadas antes de iniciar cada fase, basadas en complejidad percibida.
+
+| Tarea | Fase | Horas estimadas |
+|---|---|---|
+| Diseño arquitectónico y plan inicial | — | 1,0 h |
+| Fase 0: Scaffold Flutter + CI + i18n | 0 | 2,0 h |
+| Fase 1: Auth (login/register/disclaimer/guard) | 1 | 3,0 h |
+| Fase 1: GCS (calculadora + pantalla + tests) | 1 | 2,0 h |
+| Fase 1: Evaluations (guardado + RLS) | 1 | 2,0 h |
+| Fase 1: Migración Supabase + smoke test E2E | 1 | 1,0 h |
+| GitHub setup + conexión remoto | — | 0,5 h |
+| **Total Fase 0 + Fase 1** | | **11,5 h** |
+| Fase 2A.1: Refactor + History básica | 2A | 3,0 h |
+| Fase 2A.2: Filtros + búsqueda + paginación | 2A | 2,0 h |
+| Fase 2A.3: Gráficos fl_chart | 2A | 2,5 h |
+| Fase 2A.4: mRS 0-6 | 2A | 1,5 h |
+| Fase 2A.5: Barthel Index | 2A | 2,0 h |
+| Fase 2A.6: ABCD2 | 2A | 1,5 h |
+| **Total Fase 2A** | | **12,5 h** |
+| Fase 2B: NIHSS (15 ítems, lógica condicional) | 2B | 6,0 h |
+| Fase 3: Algoritmos + Offline + Perfil | 3 | 10,0 h |
+| **TOTAL PROYECTO (estimado)** | | **40,0 h** |
+
+### 3.2 Planificación real (tiempo dedicado — fases completadas)
+
+Reconstruida a partir de commits git y sesiones de trabajo documentadas.
+
+| Tarea | Commit(s) | Fecha | Horas reales |
+|---|---|---|---|
+| Diseño arquitectónico y plan inicial | — | 2026-04-25/26 | ~2,0 h |
+| Fase 0: Scaffold (104 archivos, +3.157 líneas) | `94193df` | 2026-04-26 15:43 | ~1,5 h |
+| Fase 1: Auth completa | `6d677db` | 2026-04-26 15:43→17:08 | ~2,0 h |
+| Fase 1: GCS + entidades base + 124 líneas test | `6d677db` | 2026-04-26 | ~1,5 h |
+| Fase 1: Evaluations + ResultScreen + disclaimer | `6d677db` | 2026-04-26 | ~1,0 h |
+| Fase 1: Migración Supabase + E2E smoke test | `a127711` | 2026-04-27 13:00 | ~1,5 h |
+| GitHub setup + issues + documentación | — | 2026-04-27 | ~1,0 h |
+| **Total Fase 0 + Fase 1 (real)** | | | **~10,5 h** |
+
+### 3.3 Análisis de desviaciones (Fases 0 y 1)
+
+| Tarea | Estimado | Real | Desviación | Causa |
+|---|---|---|---|---|
+| Diseño arquitectónico | 1,0 h | 2,0 h | +1,0 h | Se decidieron más capas de las previstas inicialmente (errores, extensions, providers de Supabase) |
+| Fase 0 scaffold | 2,0 h | 1,5 h | −0,5 h | Automatización con Claude Code más eficiente de lo esperado |
+| Fase 1 Auth | 3,0 h | 2,0 h | −1,0 h | Clean Architecture bien definida → implementación directa sin dudas |
+| Fase 1 GCS | 2,0 h | 1,5 h | −0,5 h | Función pura + entidades base reutilizables simplificaron el trabajo |
+| Fase 1 Evaluations | 2,0 h | 1,0 h | −1,0 h | El repositorio y datasource siguieron el mismo patrón de auth |
+| Fase 1 Supabase | 1,0 h | 1,5 h | +0,5 h | Problemas de autenticación MCP en sesión anterior; requirió nueva sesión |
+| GitHub setup | 0,5 h | 1,0 h | +0,5 h | gh CLI no estaba en PATH; configuración de credenciales HTTPS |
+| **Total** | **11,5 h** | **10,5 h** | **−1,0 h** | **Desviación total: −8,7%** |
+
+**Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global es favorable: −1 hora sobre la estimación.
+
+---
+
+## 4. Trazabilidad Git — Issues — Casos de uso
+
+| Issue GitHub | Commit(s) | Caso de uso cubierto |
+|---|---|---|
+| [#1](https://github.com/grisllo/NeuroScaleApp/issues/1) | `94193df` | CU-00: Arrancar la aplicación sin credenciales |
+| [#2](https://github.com/grisllo/NeuroScaleApp/issues/2) | `6d677db` | CU-01: Registrarse; CU-02: Iniciar sesión; CU-03: Ver disclaimer |
+| [#3](https://github.com/grisllo/NeuroScaleApp/issues/3) | `6d677db` | CU-04: Completar escala GCS; CU-05: Ver resultado interpretado |
+| [#4](https://github.com/grisllo/NeuroScaleApp/issues/4) | `6d677db` | CU-06: Guardar evaluación con descripción de caso |
+| [#5](https://github.com/grisllo/NeuroScaleApp/issues/5) | `a127711` | CU-07: Datos persistidos en servidor con aislamiento por usuario (RLS) |
+| [#6](https://github.com/grisllo/NeuroScaleApp/issues/6) | pendiente | CU-08: Ver historial de evaluaciones propias |
+| [#7](https://github.com/grisllo/NeuroScaleApp/issues/7) | pendiente | CU-09: Filtrar historial por escala y fecha |
+| [#8](https://github.com/grisllo/NeuroScaleApp/issues/8) | pendiente | CU-10: Ver evolución temporal de una escala |
+| [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | pendiente | CU-11: Completar escala mRS |
+| [#10](https://github.com/grisllo/NeuroScaleApp/issues/10) | pendiente | CU-12: Completar Barthel Index |
+| [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | pendiente | CU-13: Completar ABCD2 (riesgo post-AIT) |
+| [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | pendiente | CU-14: Completar NIHSS |
+| [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | pendiente | CU-15: Algoritmos clínicos; CU-16: Modo offline |
+
+---
+
+## 5. Referencias
+
+- Repositorio: https://github.com/grisllo/NeuroScaleApp
+- Issues y milestones: https://github.com/grisllo/NeuroScaleApp/issues
+- Milestones (Gantt por fases): https://github.com/grisllo/NeuroScaleApp/milestones
+- `docs/ROADMAP.md` — fases, decisiones de diseño y criterios de aceptación
+- `CLAUDE.md` — stack, comandos, convenciones del proyecto
+- `supabase/migrations/` — migraciones SQL numeradas y versionadas
+- `.github/workflows/ci.yaml` — pipeline CI con format, analyze y test
