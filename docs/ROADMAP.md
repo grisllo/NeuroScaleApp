@@ -78,7 +78,8 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 **Progreso de subfases**:
 - ✅ 2A.1 — Refactor ResultScreen + feature History básica (2026-04-27) — commit `4c1706a`
-- 🚧 2A.2 — Filtros, búsqueda y paginación
+- ✅ 2A.2 — Filtros, búsqueda y paginación (2026-04-27) — commit `c822d01`
+- 🚧 2A.3 — Gráficos fl_chart
 - 📅 2A.3 — Gráficos fl_chart
 - 📅 2A.4 — mRS 0-6
 - 📅 2A.5 — Barthel Index

@@ -121,7 +121,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | GitHub setup + issues + documentación | — | 2026-04-27 | ~1,0 h |
 | **Total Fase 0 + Fase 1 (real)** | | | **~10,5 h** |
 | Fase 2A.1: Refactor ResultScreen + History básica | `4c1706a` | 2026-04-27 | ~3,0 h |
-| **Total acumulado (real)** | | | **~13,5 h** |
+| Fase 2A.2: Filtros, búsqueda y paginación | `c822d01` | 2026-04-27 | ~2,0 h |
+| **Total acumulado (real)** | | | **~15,5 h** |
 
 ### 3.3 Análisis de desviaciones (Fases 0, 1 y 2A parcial)
 
@@ -135,7 +136,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 1 Supabase | 1,0 h | 1,5 h | +0,5 h | Problemas de autenticación MCP en sesión anterior; requirió nueva sesión |
 | GitHub setup | 0,5 h | 1,0 h | +0,5 h | gh CLI no estaba en PATH; configuración de credenciales HTTPS |
 | Fase 2A.1: Refactor + History | 3,0 h | 3,0 h | 0,0 h | En línea con la estimación; la skill phase-close añadió overhead mínimo |
-| **Total** | **14,5 h** | **13,5 h** | **−1,0 h** | **Desviación total: −6,9%** |
+| Fase 2A.2: Filtros + búsqueda + paginación | 2,0 h | 2,0 h | 0,0 h | Estimación precisa; el patrón de named params en mocktail añadió ~15 min recuperados en el debounce |
+| **Total** | **16,5 h** | **15,5 h** | **−1,0 h** | **Desviación total: −6,1%** |
 
 **Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
 
@@ -151,7 +153,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#4](https://github.com/grisllo/NeuroScaleApp/issues/4) | `6d677db` | CU-06: Guardar evaluación con descripción de caso |
 | [#5](https://github.com/grisllo/NeuroScaleApp/issues/5) | `a127711` | CU-07: Datos persistidos en servidor con aislamiento por usuario (RLS) |
 | [#6](https://github.com/grisllo/NeuroScaleApp/issues/6) | `4c1706a` | CU-08: Ver historial de evaluaciones propias; CU-08b: Borrar evaluación |
-| [#7](https://github.com/grisllo/NeuroScaleApp/issues/7) | pendiente | CU-09: Filtrar historial por escala y fecha |
+| [#7](https://github.com/grisllo/NeuroScaleApp/issues/7) | `c822d01` | CU-09: Filtrar historial por escala y fecha; CU-09b: Buscar por caso; CU-09c: Paginación |
 | [#8](https://github.com/grisllo/NeuroScaleApp/issues/8) | pendiente | CU-10: Ver evolución temporal de una escala |
 | [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | pendiente | CU-11: Completar escala mRS |
 | [#10](https://github.com/grisllo/NeuroScaleApp/issues/10) | pendiente | CU-12: Completar Barthel Index |
