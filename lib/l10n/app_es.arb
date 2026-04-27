@@ -169,6 +169,36 @@
   "evolutionEmpty": "Necesitas al menos 2 evaluaciones de la misma escala para ver su evolución.",
   "@evolutionEmpty": { "description": "Estado vacío de la pestaña de evolución" },
 
+  "rankinTitle": "mRS (Modified Rankin Scale)",
+  "@rankinTitle": { "description": "Título de la escala mRS" },
+
+  "rankinSubtitle": "Escala de discapacidad neurológica post-ictus",
+  "@rankinSubtitle": { "description": "Subtítulo de la escala mRS" },
+
+  "rankinScoreLabel": "Grado de discapacidad",
+  "@rankinScoreLabel": { "description": "Etiqueta del ítem de la escala mRS" },
+
+  "rankinLevel0": "Sin síntomas",
+  "@rankinLevel0": { "description": "mRS grado 0" },
+
+  "rankinLevel1": "Sin discapacidad significativa — realiza todas las actividades habituales",
+  "@rankinLevel1": { "description": "mRS grado 1" },
+
+  "rankinLevel2": "Discapacidad leve — incapaz de realizar algunas actividades previas, pero independiente",
+  "@rankinLevel2": { "description": "mRS grado 2" },
+
+  "rankinLevel3": "Discapacidad moderada — requiere ayuda, pero camina sin asistencia",
+  "@rankinLevel3": { "description": "mRS grado 3" },
+
+  "rankinLevel4": "Discapacidad moderadamente grave — incapaz de caminar y de atender necesidades sin ayuda",
+  "@rankinLevel4": { "description": "mRS grado 4" },
+
+  "rankinLevel5": "Discapacidad grave — postrado en cama, requiere cuidados constantes",
+  "@rankinLevel5": { "description": "mRS grado 5" },
+
+  "rankinLevel6": "Fallecido",
+  "@rankinLevel6": { "description": "mRS grado 6" },
+
   "evolutionTooltipScore": "{score}/{max} — {interpretation}",
   "@evolutionTooltipScore": {
     "description": "Texto del tooltip en el gráfico de evolución",
