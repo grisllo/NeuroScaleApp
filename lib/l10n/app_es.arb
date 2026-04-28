@@ -265,6 +265,12 @@
   "rankinLevel6": "Fallecido",
   "@rankinLevel6": { "description": "mRS grado 6" },
 
+  "nihssTitle": "NIHSS",
+  "@nihssTitle": { "description": "Título de la escala NIHSS" },
+
+  "nihssSubtitle": "National Institutes of Health Stroke Scale",
+  "@nihssSubtitle": { "description": "Subtítulo de la escala NIHSS" },
+
   "evolutionTooltipScore": "{score}/{max} — {interpretation}",
   "@evolutionTooltipScore": {
     "description": "Texto del tooltip en el gráfico de evolución",

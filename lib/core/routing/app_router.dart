@@ -14,6 +14,7 @@ import '../../features/history/presentation/screens/history_screen.dart';
 import '../../features/scales/abcd2/presentation/screens/abcd2_scale_screen.dart';
 import '../../features/scales/barthel/presentation/screens/barthel_scale_screen.dart';
 import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
+import '../../features/scales/nihss/presentation/screens/nihss_scale_screen.dart';
 import '../../features/scales/rankin/presentation/screens/rankin_scale_screen.dart';
 import '../../features/scales/shared/domain/entities/scale_result.dart';
 
@@ -49,6 +50,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/scales/gcs',
         name: 'gcs',
         builder: (_, __) => const GcsScaleScreen(),
+      ),
+      GoRoute(
+        path: '/scales/nihss',
+        name: 'nihss',
+        builder: (_, __) => const NihssScaleScreen(),
       ),
       GoRoute(
         path: '/scales/rankin',
@@ -167,6 +173,15 @@ class HomeScreen extends ConsumerWidget {
               subtitle: const Text('Evaluación del nivel de consciencia'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.goNamed('gcs'),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Card(
+            child: ListTile(
+              title: const Text('NIHSS'),
+              subtitle: const Text('Evaluación de déficit neurológico agudo'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.goNamed('nihss'),
             ),
           ),
           const SizedBox(height: 8),
