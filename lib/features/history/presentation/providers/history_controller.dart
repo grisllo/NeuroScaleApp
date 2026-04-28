@@ -43,8 +43,14 @@ class HistoryController extends AsyncNotifier<List<Evaluation>> {
   bool _hasMore = true;
   bool _isLoadingMore = false;
 
+  // Pagination/filter metadata kept as private state with read-only getters.
+  // Promoting to AsyncValue<HistoryState> would inflate the type and require
+  // widening every consumer in history_screen.dart for limited gain.
+  // ignore: avoid_public_notifier_properties
   HistoryFilter get filter => _filter;
+  // ignore: avoid_public_notifier_properties
   bool get hasMore => _hasMore;
+  // ignore: avoid_public_notifier_properties
   bool get isLoadingMore => _isLoadingMore;
 
   @override

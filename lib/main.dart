@@ -24,12 +24,12 @@ Future<void> main() async {
     );
   }
 
-  Widget rootWidget() => ProviderScope(
-        overrides: [
-          disclaimerAcceptedProvider.overrideWith((_) => disclaimerAccepted),
-        ],
-        child: const NeuroScaleApp(),
-      );
+  final root = ProviderScope(
+    overrides: [
+      disclaimerAcceptedProvider.overrideWith((_) => disclaimerAccepted),
+    ],
+    child: const NeuroScaleApp(),
+  );
 
   if (Env.hasSentry) {
     await SentryFlutter.init(
@@ -38,10 +38,10 @@ Future<void> main() async {
         options.tracesSampleRate = 0.2;
         options.environment = Env.flavor;
       },
-      appRunner: () => runApp(rootWidget()),
+      appRunner: () => runApp(root),
     );
   } else {
-    runApp(rootWidget());
+    runApp(root);
   }
 }
 
