@@ -42,6 +42,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Gradle build directories and caches (intermediates, .gradle cache)
+android/app/build/
+android/build/
+android/.gradle/
+
 # Environment files (keep .example.json variants tracked)
 env/*.json
 !env/*.example.json
