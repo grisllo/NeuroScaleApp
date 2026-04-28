@@ -239,14 +239,18 @@ void main() {
       final incomplete = Map<String, int>.from(_allZero())
         ..remove(nihssKey1aLoc);
       expect(
-          () => calculateNihss(incomplete), throwsA(isA<ValidationFailure>()));
+        () => calculateNihss(incomplete),
+        throwsA(isA<ValidationFailure>()),
+      );
     });
 
     test('falta 11 (negligencia) → ValidationFailure', () {
       final incomplete = Map<String, int>.from(_allZero())
         ..remove(nihssKey11Neglect);
       expect(
-          () => calculateNihss(incomplete), throwsA(isA<ValidationFailure>()));
+        () => calculateNihss(incomplete),
+        throwsA(isA<ValidationFailure>()),
+      );
     });
   });
 

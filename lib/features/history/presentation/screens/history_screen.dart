@@ -205,7 +205,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                 return const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 16),
                                   child: Center(
-                                      child: CircularProgressIndicator()),
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 );
                               }
                               return _EvaluationCard(

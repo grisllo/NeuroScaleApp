@@ -48,7 +48,7 @@ Map<String, int> _withTotal(int total) {
         ...base,
         barthelKeyTransfer: 15,
         barthelKeyMobility: 5,
-        barthelKeyBathing: 1 == 0 ? 0 : 5
+        barthelKeyBathing: 1 == 0 ? 0 : 5,
       };
     case 60:
       return {

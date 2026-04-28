@@ -91,7 +91,8 @@ int _validated(Map<String, int> answers, String key, int min, int max) {
   final value = answers[key];
   if (value == null) {
     throw ValidationFailure(
-        'El ítem "$key" es obligatorio en la escala NIHSS.');
+      'El ítem "$key" es obligatorio en la escala NIHSS.',
+    );
   }
   if (value == nihssUntestable && _kAllowsUntestable.contains(key)) {
     return value;

@@ -51,7 +51,8 @@ int _validated(Map<String, int> answers, String key, Set<int> allowed) {
   final value = answers[key];
   if (value == null) {
     throw ValidationFailure(
-        'El ítem "$key" es obligatorio en la escala ABCD2.');
+      'El ítem "$key" es obligatorio en la escala ABCD2.',
+    );
   }
   if (!allowed.contains(value)) {
     throw ValidationFailure(

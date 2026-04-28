@@ -58,7 +58,8 @@ int _validated(Map<String, int> answers, String key, Set<int> allowed) {
   final value = answers[key];
   if (value == null) {
     throw ValidationFailure(
-        'El ítem "$key" es obligatorio en el Barthel Index.');
+      'El ítem "$key" es obligatorio en el Barthel Index.',
+    );
   }
   if (!allowed.contains(value)) {
     throw ValidationFailure(
