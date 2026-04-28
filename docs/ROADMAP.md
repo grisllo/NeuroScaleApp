@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 2B** — iniciada 2026-04-27.
+**Fase activa: Fase 3** — Fase 2B completada 2026-04-28.
 
 ---
 
@@ -95,15 +95,18 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 2B — NIHSS aislada 🚧 En curso
+### Fase 2B — NIHSS aislada ✅ Completada (2026-04-28)
 
-**Objetivo**: añadir la escala NIHSS con su lógica condicional compleja.
+**Objetivo**: añadir la escala NIHSS con su lógica condicional.
 
-**Nota de diseño**: NIHSS se separa de Fase 2A por su complejidad. Tiene 15 ítems con reglas condicionales (paciente intubado → ítem 9 no aplica; comatoso bloquea ítems de nivel superior, etc.). Requiere:
-- Reglas de bloqueo entre ítems.
-- UI dinámica que muestra/oculta ítems según respuestas anteriores.
-- Tests exhaustivos por ítem Y por combinaciones de reglas.
-- Validación de combinaciones imposibles.
+**Entregables completados**:
+- 2B.1: Dominio NIHSS — `nihss_calculator.dart` función pura, `nihss_definition.dart` 15 ítems. Soporte Untestable (UN=9) en 6 ítems (motores, ataxia, disartria): excluido del total, sentinel registrado en `itemScores`. Commit `70d2a59`.
+- 2B.2: UI NIHSS — pantalla con 15 cards, opción UN en gris/cursiva, chip "UN", banner advisory al detectar coma (1a=3). Commit `f94c775`.
+- `ScaleItem` extendido con campo `untestableValue` (retrocompatible).
+- 27 tests: fronteras 0/1/4/5/15/16/20/21/42, UN combinado, validación por ítem, 9 en ítem no permitido.
+- Total tests: 81 → 108.
+
+**Decisión de diseño clave** (revisada durante implementación): el plan original preveía un motor de reglas de bloqueo entre ítems. La revisión del protocolo oficial NIH/AHA mostró que NIHSS no tiene bloqueo inter-ítem — solo un código Untestable (9) por ítem donde aplica. Esto simplificó el dominio y la UI sin perder corrección clínica.
 
 ---
 

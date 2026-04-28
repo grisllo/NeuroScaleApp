@@ -127,8 +127,11 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2A.5: Barthel Index 0-100 | `7ced22c` | 2026-04-27 | ~2,0 h |
 | Fase 2A.6: ABCD2 + migración SQL | `902594c` | 2026-04-27 | ~1,5 h |
 | **Total acumulado Fase 2A (real)** | | | **~23,0 h** |
+| Fase 2B.1: NIHSS dominio + UN=9 + 27 tests | `70d2a59` | 2026-04-28 | ~3,0 h |
+| Fase 2B.2: NIHSS pantalla + advisory coma + wiring | `f94c775` | 2026-04-28 | ~2,0 h |
+| **Total acumulado Fase 2B (real)** | | | **~28,0 h** |
 
-### 3.3 Análisis de desviaciones (Fases 0, 1 y 2A parcial)
+### 3.3 Análisis de desviaciones (Fases 0, 1, 2A y 2B)
 
 | Tarea | Estimado | Real | Desviación | Causa |
 |---|---|---|---|---|
@@ -146,6 +149,9 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2A.5: Barthel Index | 2,0 h | 2,0 h | 0,0 h | Validación por conjunto (no rango) añadió complejidad de tests; import duplicado requirió fix menor |
 | Fase 2A.6: ABCD2 + migración | 1,5 h | 1,5 h | 0,0 h | Patrón idéntico a Barthel; migración via MCP directa sin incidencias |
 | **Total Fase 2A completa** | **24,0 h** | **23,0 h** | **−1,0 h** | **Desviación total: −4,2%** |
+| Fase 2B: NIHSS (dominio + UI) | 6,0 h | 5,0 h | −1,0 h | Lógica condicional NIHSS resultó ser UN=9 por ítem (sin motor de reglas inter-ítem); simplificó dominio y UI. CI debugging/higiene git añadió ~1h no prevista que compensó parte del ahorro |
+| **Total Fase 2B completa** | **6,0 h** | **5,0 h** | **−1,0 h** | **Desviación: −16,7%** |
+| **TOTAL ACUMULADO Fases 0-2B** | **40,0 h** | **28,0 h** | **−12,0 h** | **Desviación acumulada: −30%** |
 
 **Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
 
@@ -166,6 +172,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#9](https://github.com/grisllo/NeuroScaleApp/issues/9) | `2e10959` | CU-11: Completar escala mRS (grados 0-6, incluye fallecido) |
 | [#10](https://github.com/grisllo/NeuroScaleApp/issues/10) | `7ced22c` | CU-12: Completar Barthel Index (10 ítems AVD, validación por conjunto) |
 | [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | `902594c` | CU-13: Completar ABCD2 (riesgo post-AIT, 0-7, 5 ítems) |
+| [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | `70d2a59`, `f94c775` | CU-14: Completar NIHSS (15 ítems, Untestable UN=9, advisory coma) |
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | pendiente | CU-14: Completar NIHSS |
 | [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | pendiente | CU-15: Algoritmos clínicos; CU-16: Modo offline |
 

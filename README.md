@@ -34,10 +34,10 @@ gantt
     ABCD2 riesgo post-AIT              :done, f2a6, 2026-04-27, 1d
 
     section Fase 2B · NIHSS
-    NIHSS 15 ítems condicionales       :active, f2b, 2026-04-27, 10d
+    NIHSS 15 ítems condicionales       :done, f2b, 2026-04-28, 1d
 
     section Fase 3 · Algoritmos + Offline
-    Algoritmos + Offline + Perfil      :f3,   2026-05-25, 21d
+    Algoritmos + Offline + Perfil      :active, f3, 2026-04-29, 21d
 ```
 
 ---
