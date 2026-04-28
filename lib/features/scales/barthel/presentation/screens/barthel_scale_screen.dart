@@ -63,7 +63,8 @@ class BarthelScaleScreen extends ConsumerWidget {
   ) {
     final result = calculateBarthel(answers);
     ref.read(barthelAnswersProvider.notifier).reset();
-    context.go('/result', extra: (result, _definition.displayName, 'barthel'));
+    context
+        .push('/result', extra: (result, _definition.displayName, 'barthel'));
   }
 }
 

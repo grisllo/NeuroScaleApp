@@ -81,6 +81,6 @@ class RankinScaleScreen extends ConsumerWidget {
   ) {
     final result = calculateRankin(answers);
     ref.read(rankinAnswersProvider.notifier).reset();
-    context.go('/result', extra: (result, _definition.displayName, 'rankin'));
+    context.push('/result', extra: (result, _definition.displayName, 'rankin'));
   }
 }

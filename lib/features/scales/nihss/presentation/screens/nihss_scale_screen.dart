@@ -111,7 +111,7 @@ class NihssScaleScreen extends ConsumerWidget {
   ) {
     final result = calculateNihss(answers);
     ref.read(nihssAnswersProvider.notifier).reset();
-    context.go('/result', extra: (result, _definition.displayName, 'nihss'));
+    context.push('/result', extra: (result, _definition.displayName, 'nihss'));
   }
 }
 

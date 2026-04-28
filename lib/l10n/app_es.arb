@@ -265,6 +265,12 @@
   "rankinLevel6": "Fallecido",
   "@rankinLevel6": { "description": "mRS grado 6" },
 
+  "tabHome": "Inicio",
+  "@tabHome": { "description": "Etiqueta del tab de inicio (escalas)" },
+
+  "tabPatients": "Pacientes",
+  "@tabPatients": { "description": "Etiqueta del tab de pacientes" },
+
   "nihssTitle": "NIHSS",
   "@nihssTitle": { "description": "Título de la escala NIHSS" },
 

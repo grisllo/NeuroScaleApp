@@ -4,13 +4,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/env/env.dart';
 import '../../core/providers/disclaimer_provider.dart';
-import '../../features/auth/presentation/providers/auth_controller.dart';
+import '../../core/routing/app_shell.dart';
 import '../../features/auth/presentation/providers/session_provider.dart';
 import '../../features/auth/presentation/screens/disclaimer_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/evaluations/presentation/screens/result_screen.dart';
-import '../../features/history/presentation/screens/history_screen.dart';
+import '../../features/home/presentation/screens/scales_tab_screen.dart';
+import '../../features/patients/presentation/screens/patients_tab_screen.dart';
 import '../../features/scales/abcd2/presentation/screens/abcd2_scale_screen.dart';
 import '../../features/scales/barthel/presentation/screens/barthel_scale_screen.dart';
 import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
@@ -26,6 +27,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: notifier,
     redirect: (_, state) => notifier.redirect(state),
     routes: [
+      // ── Auth routes (no shell) ─────────────────────────────────────────
       GoRoute(
         path: '/disclaimer',
         name: 'disclaimer',
@@ -41,11 +43,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'register',
         builder: (_, __) => const RegisterScreen(),
       ),
-      GoRoute(
-        path: '/',
-        name: 'home',
-        builder: (_, __) => const HomeScreen(),
-      ),
+
+      // ── Scale screens (fullscreen, no shell, pushed from ScalesTab) ────
       GoRoute(
         path: '/scales/gcs',
         name: 'gcs',
@@ -62,15 +61,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, __) => const RankinScaleScreen(),
       ),
       GoRoute(
-        path: '/scales/abcd2',
-        name: 'abcd2',
-        builder: (_, __) => const Abcd2ScaleScreen(),
-      ),
-      GoRoute(
         path: '/scales/barthel',
         name: 'barthel',
         builder: (_, __) => const BarthelScaleScreen(),
       ),
+      GoRoute(
+        path: '/scales/abcd2',
+        name: 'abcd2',
+        builder: (_, __) => const Abcd2ScaleScreen(),
+      ),
+
+      // ── Result (fullscreen, no shell) ─────────────────────────────────
       GoRoute(
         path: '/result',
         name: 'result',
@@ -83,10 +84,33 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-      GoRoute(
-        path: '/history',
-        name: 'history',
-        builder: (_, __) => const HistoryScreen(),
+
+      // ── Shell with bottom navigation ──────────────────────────────────
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AppShell(navigationShell: navigationShell),
+        branches: [
+          // Branch 0 — Inicio (escalas)
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/',
+                name: 'home',
+                builder: (_, __) => const ScalesTabScreen(),
+              ),
+            ],
+          ),
+          // Branch 1 — Pacientes
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/patients',
+                name: 'patients',
+                builder: (_, __) => const PatientsTabScreen(),
+              ),
+            ],
+          ),
+        ],
       ),
     ],
     errorBuilder: (_, state) => Scaffold(
@@ -125,104 +149,5 @@ class _RouterNotifier extends ChangeNotifier {
       return '/';
     }
     return null;
-  }
-}
-
-// ── Home screen ────────────────────────────────────────────────────────────
-
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(sessionProvider).asData?.value;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('NeuroScale'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
-            onPressed: () =>
-                ref.read(authControllerProvider.notifier).signOut(),
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          if (session != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Text(
-                session.email,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              ),
-            ),
-          Text(
-            'Escalas neurológicas',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          const SizedBox(height: 12),
-          Card(
-            child: ListTile(
-              title: const Text('Glasgow Coma Scale'),
-              subtitle: const Text('Evaluación del nivel de consciencia'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.goNamed('gcs'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              title: const Text('NIHSS'),
-              subtitle: const Text('Evaluación de déficit neurológico agudo'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.goNamed('nihss'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              title: const Text('ABCD2'),
-              subtitle: const Text('Riesgo de ictus tras AIT'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.goNamed('abcd2'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              title: const Text('Barthel Index'),
-              subtitle: const Text('Índice de actividades de la vida diaria'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.goNamed('barthel'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              title: const Text('mRS (Modified Rankin Scale)'),
-              subtitle:
-                  const Text('Escala de discapacidad neurológica post-ictus'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.goNamed('rankin'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              title: const Text('Historial'),
-              subtitle: const Text('Evaluaciones guardadas'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.goNamed('history'),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

@@ -78,7 +78,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
   ) {
     final result = calculateAbcd2(answers);
     ref.read(abcd2AnswersProvider.notifier).reset();
-    context.go('/result', extra: (result, _definition.displayName, 'abcd2'));
+    context.push('/result', extra: (result, _definition.displayName, 'abcd2'));
   }
 }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:neuroscale_app/core/providers/disclaimer_provider.dart';
+import 'package:neuroscale_app/features/auth/domain/entities/app_user.dart';
+import 'package:neuroscale_app/features/auth/presentation/providers/session_provider.dart';
 import 'package:neuroscale_app/main.dart';
 
 void main() {
@@ -37,5 +39,28 @@ void main() {
 
     expect(find.byType(MaterialApp), findsOneWidget);
     expect(find.text('Iniciar sesión'), findsWidgets);
+  });
+
+  testWidgets('App shows bottom navigation shell when logged in',
+      (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          disclaimerAcceptedProvider.overrideWith((_) => true),
+          sessionProvider.overrideWith(
+            (_) => Stream.value(
+              AppUser(id: 'test-id', email: 'test@test.com'),
+            ),
+          ),
+        ],
+        child: const NeuroScaleApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(NavigationBar), findsOneWidget);
+    // Both tab labels are visible
+    expect(find.text('Inicio'), findsWidgets);
+    expect(find.text('Pacientes'), findsOneWidget);
   });
 }
