@@ -29,6 +29,11 @@ jobs:
       - name: Generate localizations
         run: flutter gen-l10n
 
+      - name: Canonicalize generated l10n format
+        # `flutter gen-l10n` emits files that are not always dart-format-canonical.
+        # Format them in place so the next step does not flag generator artifacts.
+        run: dart format lib/l10n/generated
+
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
