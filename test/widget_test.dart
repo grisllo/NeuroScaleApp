@@ -49,7 +49,7 @@ void main() {
           disclaimerAcceptedProvider.overrideWith((_) => true),
           sessionProvider.overrideWith(
             (_) => Stream.value(
-              AppUser(id: 'test-id', email: 'test@test.com'),
+              const AppUser(id: 'test-id', email: 'test@test.com'),
             ),
           ),
         ],
