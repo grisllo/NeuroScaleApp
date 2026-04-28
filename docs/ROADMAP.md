@@ -12,7 +12,9 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 3** — Fase 2B completada 2026-04-28.
+**Fase activa: Fase 3 (nueva)** — Fase 2B completada 2026-04-28. Subfase 3.1 completada 2026-04-28.
+
+**Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 cubre la reformulación UX + modelo de Pacientes, que era trabajo necesario antes de añadir algoritmos.
 
 ---
 
@@ -110,16 +112,46 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 3 — Algoritmos + Offline + Perfil 📅 Planificada (alcance flexible)
+### Fase 3 — UX shell + Modelo de Pacientes 🚧 En curso
+
+**Objetivo**: reformulación de la experiencia de usuario + introducción del concepto de paciente anonimizado.
+
+**Motivación**: la IA original mezcla escalas e historial en la misma pantalla, la navegación no tiene tabs persistentes, y la evolución agrupa por tipo de escala en lugar de por paciente — problemas detectados en uso real.
+
+**Subfases**:
+
+#### 3.1 — Shell de navegación + back buttons + polish M3 ✅ Completada (2026-04-28)
+- `StatefulShellRoute.indexedStack` con 2 tabs (Inicio, Pacientes).
+- `NavigationBar` Material 3 siempre visible.
+- `ScalesTabScreen`: tarjeta Historial eliminada, iconos médicos por escala, `pushNamed` para back.
+- `PatientsTabScreen`: placeholder.
+- `usePathUrlStrategy()` en `main.dart`.
+- Commit `6ddfe80`. Tests: 108 → 109.
+
+#### 3.2 — Modelo de pacientes (BD + feature + integración save) 📅 Pendiente
+- Migración `0003_add_patients.sql`: tabla `patients` + RLS + FK nullable desde `evaluations`.
+- Feature `lib/features/patients/` completa (domain/data/presentation).
+- ResultScreen: patient picker en el dialog de save.
+- Issue #14.
+
+#### 3.3 — Patient detail con evolución + cleanup de `history/` 📅 Pendiente
+- `PatientDetailScreen` con tabs Evaluaciones / Evolución.
+- LineChart por paciente (reusa lógica de `evolution_tab.dart`).
+- Eliminar feature `lib/features/history/`.
+- Issue #14 (mismo issue que 3.2, cierra la fase).
+
+---
+
+### Fase 4 — Algoritmos + Offline + Perfil 📅 Planificada (antes Fase 3)
 
 **Objetivo**: completar la propuesta de valor original con algoritmos clínicos y resiliencia offline.
 
-**Entregables candidatos** (se priorizan según feedback de usuarios reales de Fase 1):
+**Entregables candidatos** (se priorizan según feedback de usuarios reales):
 - Algoritmos diagnósticos/terapéuticos: árbol decisional con la misma separación lógica/UI que las escalas.
 - Modo offline: datasource local (`drift`) detrás del repositorio existente — UI sin cambios.
 - Multilenguaje: añadir `app_en.arb` (las strings ya están externalizadas desde Fase 0).
 - Pantalla de perfil de usuario.
-- Tabla `patients` (si el feedback de Fase 1 demuestra necesidad real — evitar añadir PII sin demanda probada).
+- Issue #13.
 
 ---
 
