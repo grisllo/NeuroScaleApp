@@ -35,8 +35,9 @@ class BarthelScaleScreen extends ConsumerWidget {
             (item) => _BarthelItemCard(
               item: item,
               selectedValue: answers[item.key],
-              onChanged: (value) =>
-                  ref.read(barthelAnswersProvider.notifier).setAnswer(item.key, value),
+              onChanged: (value) => ref
+                  .read(barthelAnswersProvider.notifier)
+                  .setAnswer(item.key, value),
             ),
           ),
           const SizedBox(height: 24),

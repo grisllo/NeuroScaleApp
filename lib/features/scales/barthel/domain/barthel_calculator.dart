@@ -3,29 +3,29 @@ import '../../shared/domain/entities/scale_result.dart';
 import '../../shared/domain/entities/severity.dart';
 
 // Item keys
-const String barthelKeyFeeding    = 'feeding';
-const String barthelKeyBathing    = 'bathing';
-const String barthelKeyGrooming   = 'grooming';
-const String barthelKeyDressing   = 'dressing';
-const String barthelKeyBowels     = 'bowels';
-const String barthelKeyBladder    = 'bladder';
-const String barthelKeyToiletUse  = 'toilet_use';
-const String barthelKeyTransfer   = 'transfer';
-const String barthelKeyMobility   = 'mobility';
-const String barthelKeyStairs     = 'stairs';
+const String barthelKeyFeeding = 'feeding';
+const String barthelKeyBathing = 'bathing';
+const String barthelKeyGrooming = 'grooming';
+const String barthelKeyDressing = 'dressing';
+const String barthelKeyBowels = 'bowels';
+const String barthelKeyBladder = 'bladder';
+const String barthelKeyToiletUse = 'toilet_use';
+const String barthelKeyTransfer = 'transfer';
+const String barthelKeyMobility = 'mobility';
+const String barthelKeyStairs = 'stairs';
 
 // Allowed values per item — must be validated against this set
 const _kAllowed = {
-  barthelKeyFeeding:   {0, 5, 10},
-  barthelKeyBathing:   {0, 5},
-  barthelKeyGrooming:  {0, 5},
-  barthelKeyDressing:  {0, 5, 10},
-  barthelKeyBowels:    {0, 5, 10},
-  barthelKeyBladder:   {0, 5, 10},
+  barthelKeyFeeding: {0, 5, 10},
+  barthelKeyBathing: {0, 5},
+  barthelKeyGrooming: {0, 5},
+  barthelKeyDressing: {0, 5, 10},
+  barthelKeyBowels: {0, 5, 10},
+  barthelKeyBladder: {0, 5, 10},
   barthelKeyToiletUse: {0, 5, 10},
-  barthelKeyTransfer:  {0, 5, 10, 15},
-  barthelKeyMobility:  {0, 5, 10, 15},
-  barthelKeyStairs:    {0, 5, 10},
+  barthelKeyTransfer: {0, 5, 10, 15},
+  barthelKeyMobility: {0, 5, 10, 15},
+  barthelKeyStairs: {0, 5, 10},
 };
 
 /// Pure function — no Flutter or Supabase imports.
@@ -57,7 +57,8 @@ ScaleResult calculateBarthel(Map<String, int> answers) {
 int _validated(Map<String, int> answers, String key, Set<int> allowed) {
   final value = answers[key];
   if (value == null) {
-    throw ValidationFailure('El ítem "$key" es obligatorio en el Barthel Index.');
+    throw ValidationFailure(
+        'El ítem "$key" es obligatorio en el Barthel Index.');
   }
   if (!allowed.contains(value)) {
     throw ValidationFailure(

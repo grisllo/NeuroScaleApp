@@ -24,11 +24,26 @@ class RankinDefinition extends ScaleDefinition {
           max: 6,
           options: [
             (0, 'Sin síntomas'),
-            (1, 'Sin discapacidad significativa — realiza todas las actividades habituales'),
-            (2, 'Discapacidad leve — incapaz de realizar algunas actividades previas, pero independiente'),
-            (3, 'Discapacidad moderada — requiere ayuda, pero camina sin asistencia'),
-            (4, 'Discapacidad moderadamente grave — incapaz de caminar y de atender necesidades sin ayuda'),
-            (5, 'Discapacidad grave — postrado en cama, incontinente, requiere cuidados de enfermería constantes'),
+            (
+              1,
+              'Sin discapacidad significativa — realiza todas las actividades habituales'
+            ),
+            (
+              2,
+              'Discapacidad leve — incapaz de realizar algunas actividades previas, pero independiente'
+            ),
+            (
+              3,
+              'Discapacidad moderada — requiere ayuda, pero camina sin asistencia'
+            ),
+            (
+              4,
+              'Discapacidad moderadamente grave — incapaz de caminar y de atender necesidades sin ayuda'
+            ),
+            (
+              5,
+              'Discapacidad grave — postrado en cama, incontinente, requiere cuidados de enfermería constantes'
+            ),
             (6, 'Fallecido'),
           ],
         ),

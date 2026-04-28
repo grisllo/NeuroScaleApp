@@ -50,8 +50,9 @@ class Abcd2ScaleScreen extends ConsumerWidget {
             (item) => _Abcd2ItemCard(
               item: item,
               selectedValue: answers[item.key],
-              onChanged: (value) =>
-                  ref.read(abcd2AnswersProvider.notifier).setAnswer(item.key, value),
+              onChanged: (value) => ref
+                  .read(abcd2AnswersProvider.notifier)
+                  .setAnswer(item.key, value),
             ),
           ),
           const SizedBox(height: 24),

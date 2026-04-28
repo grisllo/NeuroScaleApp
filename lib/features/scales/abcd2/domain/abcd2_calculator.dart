@@ -3,16 +3,16 @@ import '../../shared/domain/entities/scale_result.dart';
 import '../../shared/domain/entities/severity.dart';
 
 // Item keys
-const String abcd2KeyAge      = 'age';
-const String abcd2KeyBp       = 'bp';
+const String abcd2KeyAge = 'age';
+const String abcd2KeyBp = 'bp';
 const String abcd2KeyClinical = 'clinical';
 const String abcd2KeyDuration = 'duration';
 const String abcd2KeyDiabetes = 'diabetes';
 
 // Allowed values per item
 const _kAllowed = {
-  abcd2KeyAge:      {0, 1},
-  abcd2KeyBp:       {0, 1},
+  abcd2KeyAge: {0, 1},
+  abcd2KeyBp: {0, 1},
   abcd2KeyClinical: {0, 1, 2},
   abcd2KeyDuration: {0, 1, 2},
   abcd2KeyDiabetes: {0, 1},
@@ -50,7 +50,8 @@ ScaleResult calculateAbcd2(Map<String, int> answers) {
 int _validated(Map<String, int> answers, String key, Set<int> allowed) {
   final value = answers[key];
   if (value == null) {
-    throw ValidationFailure('El ítem "$key" es obligatorio en la escala ABCD2.');
+    throw ValidationFailure(
+        'El ítem "$key" es obligatorio en la escala ABCD2.');
   }
   if (!allowed.contains(value)) {
     throw ValidationFailure(

@@ -35,14 +35,12 @@ class EvolutionTab extends StatelessWidget {
     for (final e in evaluations) {
       grouped.putIfAbsent(e.scaleType, () => []).add(e);
     }
-    final chartable = grouped.entries
-        .where((e) => e.value.length >= 2)
-        .map((e) {
-          final sorted = List<Evaluation>.from(e.value)
-            ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
-          return MapEntry(e.key, sorted);
-        })
-        .toList();
+    final chartable =
+        grouped.entries.where((e) => e.value.length >= 2).map((e) {
+      final sorted = List<Evaluation>.from(e.value)
+        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+      return MapEntry(e.key, sorted);
+    }).toList();
 
     if (chartable.isEmpty) {
       return Center(
@@ -81,7 +79,8 @@ class _ScaleChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _kScaleColors[scaleType] ?? Theme.of(context).colorScheme.primary;
+    final color =
+        _kScaleColors[scaleType] ?? Theme.of(context).colorScheme.primary;
     final maxScore = _kMaxScores[scaleType] ?? 1;
 
     final spots = evaluations.asMap().entries.map((entry) {
@@ -104,7 +103,8 @@ class _ScaleChart extends StatelessWidget {
                 Container(
                   width: 12,
                   height: 12,
-                  decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                  decoration:
+                      BoxDecoration(color: color, shape: BoxShape.circle),
                 ),
                 const SizedBox(width: 8),
                 Text(

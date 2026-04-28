@@ -202,7 +202,10 @@ class NihssDefinition extends ScaleDefinition {
           max: 2,
           options: [
             (0, 'Normal'),
-            (1, 'Inatención a una modalidad (visual, táctil, auditiva o espacial)'),
+            (
+              1,
+              'Inatención a una modalidad (visual, táctil, auditiva o espacial)'
+            ),
             (2, 'Hemi-inatención profunda a más de una modalidad'),
           ],
         ),

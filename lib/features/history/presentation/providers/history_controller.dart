@@ -27,8 +27,9 @@ class HistoryFilter {
   }) =>
       HistoryFilter(
         scales: scales ?? this.scales,
-        dateRange:
-            dateRange == _sentinel ? this.dateRange : dateRange as DateTimeRange?,
+        dateRange: dateRange == _sentinel
+            ? this.dateRange
+            : dateRange as DateTimeRange?,
         searchQuery: searchQuery ?? this.searchQuery,
       );
 

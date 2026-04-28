@@ -32,13 +32,11 @@ class EvaluationDetailScreen extends ConsumerWidget {
                     children: [
                       Text(
                         '${evaluation.totalScore}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: severityColor,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.displayLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: severityColor,
+                                ),
                       ),
                       const SizedBox(height: 8),
                       Chip(
@@ -82,8 +80,7 @@ class EvaluationDetailScreen extends ConsumerWidget {
                         Text(e.key.toUpperCase()),
                         Text(
                           '${e.value}',
-                          style:
-                              const TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -106,8 +103,7 @@ class EvaluationDetailScreen extends ConsumerWidget {
           ),
           Container(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: SafeArea(
               top: false,
               child: Row(
@@ -122,12 +118,10 @@ class EvaluationDetailScreen extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       l10n.disclaimerBody,
-                      style:
-                          Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                              ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                   ),
                 ],
@@ -178,7 +172,10 @@ class EvaluationDetailScreen extends ConsumerWidget {
 
   Severity _severityFromInterpretation(String interpretation) {
     final lower = interpretation.toLowerCase();
-    if (lower.contains('grave') || lower.contains('total') || lower.contains('fallecido') || lower.contains('alto')) {
+    if (lower.contains('grave') ||
+        lower.contains('total') ||
+        lower.contains('fallecido') ||
+        lower.contains('alto')) {
       return Severity.severe;
     }
     if (lower.contains('moderado') || lower.contains('moderada')) {

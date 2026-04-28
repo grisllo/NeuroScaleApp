@@ -198,14 +198,14 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         : ListView.builder(
                             controller: _scrollController,
                             padding: const EdgeInsets.all(16),
-                            itemCount: evaluations.length +
-                                (notifier.hasMore ? 1 : 0),
+                            itemCount:
+                                evaluations.length + (notifier.hasMore ? 1 : 0),
                             itemBuilder: (_, i) {
                               if (i == evaluations.length) {
                                 return const Padding(
                                   padding: EdgeInsets.symmetric(vertical: 16),
-                                  child:
-                                      Center(child: CircularProgressIndicator()),
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
                                 );
                               }
                               return _EvaluationCard(
@@ -331,8 +331,7 @@ class _EvaluationCard extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: severityColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(12),

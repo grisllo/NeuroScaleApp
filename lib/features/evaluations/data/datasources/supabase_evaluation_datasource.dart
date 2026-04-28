@@ -28,10 +28,7 @@ class SupabaseEvaluationDatasource {
     int pageSize = 20,
   }) async {
     try {
-      var query = _client
-          .from('evaluations')
-          .select()
-          .eq('user_id', userId);
+      var query = _client.from('evaluations').select().eq('user_id', userId);
 
       if (scales.isNotEmpty) {
         query = query.inFilter('scale_type', scales.toList());
@@ -41,7 +38,8 @@ class SupabaseEvaluationDatasource {
       }
       if (dateTo != null) {
         // Include the full end day
-        final endOfDay = DateTime(dateTo.year, dateTo.month, dateTo.day, 23, 59, 59);
+        final endOfDay =
+            DateTime(dateTo.year, dateTo.month, dateTo.day, 23, 59, 59);
         query = query.lte('created_at', endOfDay.toIso8601String());
       }
       if (searchQuery.isNotEmpty) {

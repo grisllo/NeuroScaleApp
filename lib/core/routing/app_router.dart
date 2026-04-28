@@ -191,7 +191,8 @@ class HomeScreen extends ConsumerWidget {
           Card(
             child: ListTile(
               title: const Text('mRS (Modified Rankin Scale)'),
-              subtitle: const Text('Escala de discapacidad neurológica post-ictus'),
+              subtitle:
+                  const Text('Escala de discapacidad neurológica post-ictus'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.goNamed('rankin'),
             ),
@@ -210,4 +211,3 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
-

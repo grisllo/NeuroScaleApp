@@ -89,7 +89,10 @@ class BarthelDefinition extends ScaleDefinition {
           options: [
             (0, 'Dependiente'),
             (5, 'Necesita alguna ayuda pero puede hacer algo solo'),
-            (10, 'Independiente — ir al WC, bajarse ropa, limpiarse y vestirse'),
+            (
+              10,
+              'Independiente — ir al WC, bajarse ropa, limpiarse y vestirse'
+            ),
           ],
         ),
         ScaleItem(
