@@ -81,6 +81,11 @@ The implementation roadmap lives at `~/.claude/plans/wild-imagining-creek.md` (a
 | --- | --- | --- |
 | `create-scale` | `/create-scale` | Scaffold a new neurological scale (calculator, screen, ARB strings, boundary tests) |
 | `phase-close` | `/phase-close` | End-of-subfase checklist: analyze → test → update docs → close GitHub issue → commit → push |
+| `flutter-setup-declarative-routing` | `/flutter-setup-declarative-routing` | StatefulShellRoute + bottom nav + deep linking patterns (go_router) |
+| `flutter-apply-architecture-best-practices` | `/flutter-apply-architecture-best-practices` | Validate feature structure (UI/Domain/Data layers, Repository pattern) |
+| `flutter-build-responsive-layout` | `/flutter-build-responsive-layout` | LayoutBuilder + MediaQuery patterns for adaptive layouts (mobile + web) |
+| `ui-ux-pro-max` | `/ui-ux-pro-max` | UX/UI review: accessibility, touch targets, navigation, animation, forms |
+| `supabase-postgres-best-practices` | `/supabase-postgres-best-practices` | RLS, schema design, index strategy, FK conventions for Supabase |
 
 `phase-close` asks for: subfase ID, GitHub issue number, real hours spent, and whether it closes a full phase.
 

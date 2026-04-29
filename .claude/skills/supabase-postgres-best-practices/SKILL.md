@@ -1,0 +1,72 @@
+---
+name: supabase-postgres-best-practices
+description: Postgres performance optimization and best practices from Supabase. Use this skill when writing, reviewing, or optimizing Postgres queries, schema designs, or database configurations.
+license: MIT
+metadata:
+  author: supabase
+  version: "1.1.1"
+  organization: Supabase
+  date: January 2026
+  abstract: Comprehensive Postgres performance optimization guide for developers using Supabase and Postgres. Contains performance rules across 8 categories, prioritized by impact from critical (query performance, connection management) to incremental (advanced features). Each rule includes detailed explanations, incorrect vs. correct SQL examples, query plan analysis, and specific performance metrics to guide automated optimization and code generation.
+---
+
+# Supabase Postgres Best Practices
+
+Comprehensive performance optimization guide for Postgres, maintained by Supabase. Contains rules across 8 categories, prioritized by impact to guide automated query optimization and schema design.
+
+## When to Apply
+
+Reference these guidelines when:
+- Writing SQL queries or designing schemas
+- Implementing indexes or query optimization
+- Reviewing database performance issues
+- Configuring connection pooling or scaling
+- Optimizing for Postgres-specific features
+- Working with Row-Level Security (RLS)
+
+## Rule Categories by Priority
+
+| Priority | Category | Impact | Prefix |
+|----------|----------|--------|--------|
+| 1 | Query Performance | CRITICAL | `query-` |
+| 2 | Connection Management | CRITICAL | `conn-` |
+| 3 | Security & RLS | CRITICAL | `security-` |
+| 4 | Schema Design | HIGH | `schema-` |
+| 5 | Concurrency & Locking | MEDIUM-HIGH | `lock-` |
+| 6 | Data Access Patterns | MEDIUM | `data-` |
+| 7 | Monitoring & Diagnostics | LOW-MEDIUM | `monitor-` |
+| 8 | Advanced Features | LOW | `advanced-` |
+
+## Key Rules (Applied to NeuroScale App)
+
+### Query Performance (CRITICAL)
+- Always create indexes for foreign keys and columns used in WHERE clauses.
+- Composite indexes: order columns by selectivity (most selective first).
+- For pagination: use keyset pagination (`WHERE created_at < $cursor`) over OFFSET for large tables.
+- Avoid `SELECT *` in production queries; select only needed columns.
+
+### Security & RLS (CRITICAL)
+- Enable RLS on every table that contains user data.
+- Pattern: `auth.uid() = user_id` for ownership-based policies.
+- Four policies per table: `select_own`, `insert_own`, `update_own`, `delete_own`.
+- Use `SECURITY DEFINER` functions sparingly; prefer RLS policies.
+- FK to `auth.users(id) ON DELETE CASCADE` — users deleting their account cascades cleanly.
+
+### Schema Design (HIGH)
+- Use `uuid` primary keys with `gen_random_uuid()` default.
+- Always include `created_at timestamptz NOT NULL DEFAULT now()` and `updated_at timestamptz NOT NULL DEFAULT now()`.
+- Automate `updated_at` with a `BEFORE UPDATE` trigger using a shared function.
+- For enum-like fields: use Postgres `CREATE TYPE ... AS ENUM` for type safety.
+- Adding new enum values: `ALTER TYPE scale_type ADD VALUE IF NOT EXISTS 'new_value'` (idempotent for CI).
+- Nullable FK for optional relationships: `references patients(id) ON DELETE SET NULL`.
+
+### Connection Management (CRITICAL)
+- Use Supabase's built-in connection pooler (PgBouncer) in transaction mode for serverless/edge deployments.
+- Do not hold long-lived connections from client SDKs in mobile apps.
+
+## References
+
+- https://www.postgresql.org/docs/current/
+- https://supabase.com/docs
+- https://supabase.com/docs/guides/database/overview
+- https://supabase.com/docs/guides/auth/row-level-security
