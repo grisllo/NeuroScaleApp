@@ -181,18 +181,49 @@ class _EvaluationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasNotes = eval.caseDescription.trim().isNotEmpty;
     return Card(
-      child: ListTile(
-        leading: Chip(
-          label: Text(eval.scaleType.toUpperCase()),
-          padding: EdgeInsets.zero,
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Chip(
+                label: Text(eval.scaleType.toUpperCase()),
+                padding: EdgeInsets.zero,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${eval.totalScore} — ${eval.interpretation}',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _formatDate(eval.createdAt),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                  if (hasNotes) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      eval.caseDescription,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
         ),
-        title: Text(
-          '${eval.totalScore} — ${eval.interpretation}',
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        subtitle: Text(_formatDate(eval.createdAt)),
       ),
     );
   }
