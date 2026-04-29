@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart' hide Evaluation;
 import 'package:mocktail/mocktail.dart';
-import 'package:neuroscale_app/core/errors/failures.dart';
 import 'package:neuroscale_app/features/evaluations/domain/entities/evaluation.dart';
 import 'package:neuroscale_app/features/evaluations/domain/repositories/evaluation_repository.dart';
 import 'package:neuroscale_app/features/evaluations/domain/usecases/save_evaluation_usecase.dart';
@@ -30,7 +29,10 @@ void main() {
     );
   });
 
-  Evaluation validEvaluation({String description = 'Varón, 65 años, TCE'}) =>
+  Evaluation buildEvaluation({
+    String description = 'Notas de la evaluación',
+    String? patientId,
+  }) =>
       Evaluation(
         id: 'eval-1',
         userId: 'user-1',
@@ -42,39 +44,41 @@ void main() {
         detailedScores: const {'eye': 4, 'verbal': 5, 'motor': 6},
         createdAt: DateTime(2026),
         updatedAt: DateTime(2026),
+        patientId: patientId,
       );
 
   test('llama al repositorio con evaluación válida', () async {
     when(() => mockRepo.save(any())).thenAnswer((_) async {});
 
-    await useCase(validEvaluation());
+    await useCase(buildEvaluation());
 
     verify(() => mockRepo.save(any())).called(1);
   });
 
-  test('lanza ValidationFailure si caseDescription está vacío', () {
-    expect(
-      () => useCase(validEvaluation(description: '')),
-      throwsA(isA<ValidationFailure>()),
-    );
-    verifyNever(() => mockRepo.save(any()));
-  });
-
-  test('lanza ValidationFailure si caseDescription solo tiene espacios', () {
-    expect(
-      () => useCase(validEvaluation(description: '   ')),
-      throwsA(isA<ValidationFailure>()),
-    );
-    verifyNever(() => mockRepo.save(any()));
-  });
-
-  test('no lanza si la descripción tiene al menos un carácter no blanco',
+  test('acepta caseDescription vacío (ahora opcional desde Fase 3.2)',
       () async {
     when(() => mockRepo.save(any())).thenAnswer((_) async {});
 
     await expectLater(
-      useCase(validEvaluation(description: 'x')),
+      useCase(buildEvaluation(description: '')),
       completes,
     );
+    verify(() => mockRepo.save(any())).called(1);
+  });
+
+  test('acepta evaluación con patientId asignado', () async {
+    when(() => mockRepo.save(any())).thenAnswer((_) async {});
+
+    await useCase(buildEvaluation(patientId: 'patient-uuid'));
+
+    verify(() => mockRepo.save(any())).called(1);
+  });
+
+  test('acepta evaluación sin patientId (legacy / sin asignar)', () async {
+    when(() => mockRepo.save(any())).thenAnswer((_) async {});
+
+    await useCase(buildEvaluation(patientId: null));
+
+    verify(() => mockRepo.save(any())).called(1);
   });
 }

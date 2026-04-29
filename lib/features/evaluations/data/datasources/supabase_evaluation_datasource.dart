@@ -26,6 +26,7 @@ class SupabaseEvaluationDatasource {
     String searchQuery = '',
     int page = 0,
     int pageSize = 20,
+    String? patientId,
   }) async {
     try {
       var query = _client.from('evaluations').select().eq('user_id', userId);
@@ -44,6 +45,13 @@ class SupabaseEvaluationDatasource {
       }
       if (searchQuery.isNotEmpty) {
         query = query.ilike('case_description', '%$searchQuery%');
+      }
+      if (patientId != null) {
+        if (patientId.isEmpty) {
+          query = query.isFilter('patient_id', null);
+        } else {
+          query = query.eq('patient_id', patientId);
+        }
       }
 
       final rows = await query

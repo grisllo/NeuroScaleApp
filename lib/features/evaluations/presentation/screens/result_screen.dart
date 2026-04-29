@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
+import '../../../../features/patients/domain/entities/patient.dart';
+import '../../../../features/patients/presentation/providers/patients_controller.dart';
 import '../../../../features/scales/shared/domain/entities/scale_result.dart';
 import '../../../../features/scales/shared/domain/entities/severity.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -86,7 +88,7 @@ class ResultScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 24),
                 FilledButton.icon(
-                  onPressed: () => _showSaveDialog(context, ref),
+                  onPressed: () => _openSaveDialog(context, ref),
                   icon: const Icon(Icons.save_outlined),
                   label: Text(l10n.resultSaveButton),
                 ),
@@ -126,113 +128,19 @@ class ResultScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _showSaveDialog(BuildContext context, WidgetRef ref) async {
+  Future<void> _openSaveDialog(BuildContext context, WidgetRef ref) async {
     final session = ref.read(sessionProvider).asData?.value;
     if (session == null) {
       if (context.mounted) context.go('/login');
       return;
     }
-    final l10n = context.l10n;
-    final controller = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-
     await showDialog<void>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.saveDialogTitle),
-        content: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller: controller,
-                minLines: 2,
-                maxLines: 4,
-                decoration: InputDecoration(
-                  labelText: l10n.caseDescriptionLabel,
-                  hintText: l10n.caseDescriptionHint,
-                ),
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? l10n.fieldRequiredError
-                    : null,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.caseDescriptionWarning,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(ctx).colorScheme.error,
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(l10n.cancelButton),
-          ),
-          Consumer(
-            builder: (ctx, ref, _) {
-              final saveState = ref.watch(saveEvaluationControllerProvider);
-              return FilledButton(
-                onPressed: saveState.isLoading
-                    ? null
-                    : () => _save(
-                          ctx,
-                          ref,
-                          session.id,
-                          controller.text,
-                          formKey,
-                          l10n,
-                        ),
-                child: saveState.isLoading
-                    ? const SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l10n.saveButton),
-              );
-            },
-          ),
-        ],
+      builder: (_) => _SaveEvaluationDialog(
+        result: result,
+        scaleType: scaleType,
+        userId: session.id,
       ),
-    );
-    controller.dispose();
-  }
-
-  Future<void> _save(
-    BuildContext ctx,
-    WidgetRef ref,
-    String userId,
-    String description,
-    GlobalKey<FormState> formKey,
-    AppLocalizations l10n,
-  ) async {
-    if (!formKey.currentState!.validate()) return;
-
-    final evaluation = Evaluation(
-      id: '',
-      userId: userId,
-      scaleType: scaleType,
-      scaleVersion: 1,
-      caseDescription: description.trim(),
-      totalScore: result.totalScore,
-      interpretation: result.interpretation,
-      detailedScores: Map<String, dynamic>.from(result.itemScores),
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-
-    await ref.read(saveEvaluationControllerProvider.notifier).save(evaluation);
-
-    if (!ctx.mounted) return;
-    Navigator.of(ctx).pop();
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text(l10n.saveSuccessMessage)),
     );
   }
 
@@ -243,4 +151,209 @@ class ResultScreen extends ConsumerWidget {
         Severity.severe => Colors.red.shade700,
         Severity.none => Theme.of(context).colorScheme.secondary,
       };
+}
+
+/// Sentinel value for the "+ Nuevo paciente" entry in the picker.
+const String _kNewPatientSentinel = '__new_patient__';
+
+class _SaveEvaluationDialog extends ConsumerStatefulWidget {
+  const _SaveEvaluationDialog({
+    required this.result,
+    required this.scaleType,
+    required this.userId,
+  });
+
+  final ScaleResult result;
+  final String scaleType;
+  final String userId;
+
+  @override
+  ConsumerState<_SaveEvaluationDialog> createState() =>
+      _SaveEvaluationDialogState();
+}
+
+class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _newAliasController = TextEditingController();
+  final _notesController = TextEditingController();
+  String? _selectedValue; // null = "Sin asignar"; patient.id; or sentinel
+  bool _busy = false;
+  String? _errorMessage;
+
+  bool get _isCreatingNew => _selectedValue == _kNewPatientSentinel;
+
+  @override
+  void dispose() {
+    _newAliasController.dispose();
+    _notesController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() {
+      _busy = true;
+      _errorMessage = null;
+    });
+    try {
+      String? finalPatientId;
+      if (_isCreatingNew) {
+        final created = await ref
+            .read(patientsControllerProvider.notifier)
+            .create(alias: _newAliasController.text.trim());
+        finalPatientId = created.id;
+      } else {
+        finalPatientId = _selectedValue; // null or existing patient id
+      }
+
+      final evaluation = Evaluation(
+        id: '',
+        userId: widget.userId,
+        scaleType: widget.scaleType,
+        scaleVersion: 1,
+        caseDescription: _notesController.text.trim(),
+        totalScore: widget.result.totalScore,
+        interpretation: widget.result.interpretation,
+        detailedScores: Map<String, dynamic>.from(widget.result.itemScores),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        patientId: finalPatientId,
+      );
+
+      await ref
+          .read(saveEvaluationControllerProvider.notifier)
+          .save(evaluation);
+
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.saveSuccessMessage)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _busy = false;
+        _errorMessage = e.toString();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final patientsAsync = ref.watch(patientsControllerProvider);
+
+    return AlertDialog(
+      title: Text(l10n.saveDialogTitle),
+      content: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              patientsAsync.when(
+                loading: () => const SizedBox(
+                  height: 56,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (e, _) => Text(
+                  e.toString(),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+                data: (patients) => _buildPatientPicker(patients, l10n: l10n),
+              ),
+              if (_isCreatingNew) ...[
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _newAliasController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: l10n.newPatientAliasLabel,
+                    hintText: l10n.newPatientAliasHint,
+                  ),
+                  validator: (v) =>
+                      _isCreatingNew && (v == null || v.trim().isEmpty)
+                          ? l10n.patientAliasRequired
+                          : null,
+                ),
+              ],
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _notesController,
+                minLines: 2,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  labelText: l10n.evaluationNotesLabel,
+                  hintText: l10n.caseDescriptionHint,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l10n.caseDescriptionWarning,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+              if (_errorMessage != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  _errorMessage!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _busy ? null : () => Navigator.of(context).pop(),
+          child: Text(l10n.cancelButton),
+        ),
+        FilledButton(
+          onPressed: _busy ? null : _save,
+          child: _busy
+              ? const SizedBox(
+                  height: 16,
+                  width: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Text(l10n.saveButton),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPatientPicker(
+    List<Patient> patients, {
+    required AppLocalizations l10n,
+  }) {
+    return DropdownButtonFormField<String?>(
+      value: _selectedValue,
+      decoration: InputDecoration(labelText: l10n.patientPickerLabel),
+      items: [
+        DropdownMenuItem<String?>(
+          value: null,
+          child: Text(l10n.patientUnassigned),
+        ),
+        for (final p in patients)
+          DropdownMenuItem<String?>(value: p.id, child: Text(p.alias)),
+        DropdownMenuItem<String?>(
+          value: _kNewPatientSentinel,
+          child: Row(
+            children: [
+              const Icon(Icons.add, size: 18),
+              const SizedBox(width: 8),
+              Text(l10n.patientNewButton),
+            ],
+          ),
+        ),
+      ],
+      onChanged: (value) {
+        setState(() => _selectedValue = value);
+      },
+    );
+  }
 }

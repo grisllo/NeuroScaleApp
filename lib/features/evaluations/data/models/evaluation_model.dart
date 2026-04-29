@@ -12,6 +12,7 @@ class EvaluationModel extends Evaluation {
     required super.detailedScores,
     required super.createdAt,
     required super.updatedAt,
+    super.patientId,
   });
 
   factory EvaluationModel.fromEntity(Evaluation e) => EvaluationModel(
@@ -25,6 +26,7 @@ class EvaluationModel extends Evaluation {
         detailedScores: e.detailedScores,
         createdAt: e.createdAt,
         updatedAt: e.updatedAt,
+        patientId: e.patientId,
       );
 
   factory EvaluationModel.fromJson(Map<String, dynamic> json) =>
@@ -40,9 +42,11 @@ class EvaluationModel extends Evaluation {
             Map<String, dynamic>.from(json['detailed_scores'] as Map),
         createdAt: DateTime.parse(json['created_at'] as String),
         updatedAt: DateTime.parse(json['updated_at'] as String),
+        patientId: json['patient_id'] as String?,
       );
 
   /// Only includes columns managed by the app — Supabase generates id/timestamps.
+  /// patient_id is included even when null (Supabase accepts null FK).
   Map<String, dynamic> toJson() => {
         'user_id': userId,
         'scale_type': scaleType,
@@ -51,5 +55,6 @@ class EvaluationModel extends Evaluation {
         'total_score': totalScore,
         'interpretation': interpretation,
         'detailed_scores': detailedScores,
+        'patient_id': patientId,
       };
 }

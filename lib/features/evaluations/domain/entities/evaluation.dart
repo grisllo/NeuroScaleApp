@@ -10,6 +10,7 @@ class Evaluation {
     required this.detailedScores,
     required this.createdAt,
     required this.updatedAt,
+    this.patientId,
   });
 
   final String id;
@@ -22,4 +23,7 @@ class Evaluation {
   final Map<String, dynamic> detailedScores;
   final DateTime createdAt;
   final DateTime updatedAt;
+
+  /// Optional FK to patients.id. Null means "Sin paciente asignado".
+  final String? patientId;
 }

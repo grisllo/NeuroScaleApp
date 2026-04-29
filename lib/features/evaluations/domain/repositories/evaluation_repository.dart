@@ -10,6 +10,12 @@ abstract class EvaluationRepository {
     String searchQuery,
     int page,
     int pageSize,
+
+    /// When non-null:
+    ///   - empty string '' → filter to evaluations with patient_id IS NULL.
+    ///   - non-empty string → filter to evaluations.patient_id = patientId.
+    /// When null → no filter (returns all).
+    String? patientId,
   });
   Future<void> delete(String id);
 }

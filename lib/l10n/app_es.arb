@@ -271,6 +271,80 @@
   "tabPatients": "Pacientes",
   "@tabPatients": { "description": "Etiqueta del tab de pacientes" },
 
+  "patientsTitle": "Pacientes",
+  "@patientsTitle": { "description": "Título de la pantalla de pacientes" },
+
+  "patientsSearchHint": "Buscar por alias…",
+  "@patientsSearchHint": { "description": "Placeholder del buscador de pacientes" },
+
+  "patientsEmptyTitle": "Aún no tienes pacientes",
+  "@patientsEmptyTitle": { "description": "Empty state — sin pacientes" },
+
+  "patientsEmptySubtitle": "Crea un paciente anonimizado para registrar evaluaciones y ver su evolución temporal.",
+  "@patientsEmptySubtitle": { "description": "Subtítulo del empty state de pacientes" },
+
+  "patientsSearchEmpty": "No se encontraron pacientes",
+  "@patientsSearchEmpty": { "description": "Empty state — búsqueda sin resultados" },
+
+  "patientNewButton": "Nuevo paciente",
+  "@patientNewButton": { "description": "Botón para crear paciente" },
+
+  "patientNotFound": "Paciente no encontrado",
+  "@patientNotFound": { "description": "Mensaje cuando el paciente no existe" },
+
+  "patientNoEvaluations": "Aún no hay evaluaciones para este paciente.",
+  "@patientNoEvaluations": { "description": "Empty state de evaluaciones de un paciente" },
+
+  "patientCreateTitle": "Nuevo paciente",
+  "@patientCreateTitle": { "description": "Título del dialog de crear paciente" },
+
+  "patientEditTitle": "Editar paciente",
+  "@patientEditTitle": { "description": "Título del dialog de editar paciente" },
+
+  "patientAliasLabel": "Alias del paciente",
+  "@patientAliasLabel": { "description": "Label del campo alias" },
+
+  "patientAliasHint": "Ej: P-001, Caso A",
+  "@patientAliasHint": { "description": "Hint del campo alias" },
+
+  "patientNotesLabel": "Notas (opcional)",
+  "@patientNotesLabel": { "description": "Label del campo notas del paciente" },
+
+  "patientNotesHint": "Ej: ictus isquémico, MCA derecha",
+  "@patientNotesHint": { "description": "Hint del campo notas" },
+
+  "patientAliasRequired": "El alias es obligatorio",
+  "@patientAliasRequired": { "description": "Error al guardar paciente sin alias" },
+
+  "patientCreateButton": "Crear",
+  "@patientCreateButton": { "description": "Botón de crear en dialog paciente" },
+
+  "patientUnassigned": "Sin asignar",
+  "@patientUnassigned": { "description": "Opción del picker para evaluación sin paciente" },
+
+  "patientPickerLabel": "Paciente",
+  "@patientPickerLabel": { "description": "Label del dropdown selector de paciente" },
+
+  "newPatientAliasLabel": "Alias del nuevo paciente",
+  "@newPatientAliasLabel": { "description": "Label inline cuando se crea paciente desde el save dialog" },
+
+  "newPatientAliasHint": "Ej: P-001",
+  "@newPatientAliasHint": { "description": "Hint inline del nuevo paciente" },
+
+  "evaluationNotesLabel": "Notas de esta evaluación (opcional)",
+  "@evaluationNotesLabel": { "description": "Label del campo de notas en el save dialog (antes case_description)" },
+
+  "evaluationsHeader": "Evaluaciones",
+  "@evaluationsHeader": { "description": "Header de la lista de evaluaciones en el detalle de paciente" },
+
+  "patientCreatedOn": "Creado el {date}",
+  "@patientCreatedOn": {
+    "description": "Fecha de creación del paciente",
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
   "nihssTitle": "NIHSS",
   "@nihssTitle": { "description": "Título de la escala NIHSS" },
 

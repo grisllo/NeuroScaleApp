@@ -28,6 +28,7 @@ class EvaluationRepositoryImpl implements EvaluationRepository {
     String searchQuery = '',
     int page = 0,
     int pageSize = 20,
+    String? patientId,
   }) async {
     try {
       return await _datasource.fetchAll(
@@ -38,6 +39,7 @@ class EvaluationRepositoryImpl implements EvaluationRepository {
         searchQuery: searchQuery,
         page: page,
         pageSize: pageSize,
+        patientId: patientId,
       );
     } on AppException catch (e) {
       throw UnexpectedFailure(e.message);

@@ -11,6 +11,7 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/evaluations/presentation/screens/result_screen.dart';
 import '../../features/home/presentation/screens/scales_tab_screen.dart';
+import '../../features/patients/presentation/screens/patient_detail_screen.dart';
 import '../../features/patients/presentation/screens/patients_tab_screen.dart';
 import '../../features/scales/abcd2/presentation/screens/abcd2_scale_screen.dart';
 import '../../features/scales/barthel/presentation/screens/barthel_scale_screen.dart';
@@ -107,6 +108,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: '/patients',
                 name: 'patients',
                 builder: (_, __) => const PatientsTabScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: 'patient-detail',
+                    builder: (_, state) => PatientDetailScreen(
+                      patientId: state.pathParameters['id']!,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

@@ -1,4 +1,3 @@
-import '../../../../core/errors/failures.dart';
 import '../entities/evaluation.dart';
 import '../repositories/evaluation_repository.dart';
 
@@ -7,12 +6,7 @@ class SaveEvaluationUseCase {
 
   final EvaluationRepository _repository;
 
-  Future<void> call(Evaluation evaluation) {
-    if (evaluation.caseDescription.trim().isEmpty) {
-      throw const ValidationFailure(
-        'La descripción del caso no puede estar vacía.',
-      );
-    }
-    return _repository.save(evaluation);
-  }
+  /// case_description is now optional — patient_id (when set) provides the
+  /// primary identification of the evaluation. Both can be null/empty.
+  Future<void> call(Evaluation evaluation) => _repository.save(evaluation);
 }

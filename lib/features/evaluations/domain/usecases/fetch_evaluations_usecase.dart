@@ -14,6 +14,7 @@ class FetchEvaluationsUseCase {
     String searchQuery = '',
     int page = 0,
     int pageSize = 20,
+    String? patientId,
   }) =>
       _repository.fetchAll(
         userId,
@@ -23,5 +24,6 @@ class FetchEvaluationsUseCase {
         searchQuery: searchQuery,
         page: page,
         pageSize: pageSize,
+        patientId: patientId,
       );
 }
