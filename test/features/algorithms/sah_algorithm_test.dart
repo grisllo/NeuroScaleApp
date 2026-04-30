@@ -22,7 +22,8 @@ void main() {
             expect(
               sahAlgorithm.nodes.containsKey(opt.nextNodeId),
               isTrue,
-              reason: 'nextNodeId "${opt.nextNodeId}" missing from node "${node.id}"',
+              reason:
+                  'nextNodeId "${opt.nextNodeId}" missing from node "${node.id}"',
             );
           }
         }
@@ -78,7 +79,11 @@ void main() {
     test('all results have exactly 3 recommendations', () {
       final results = sahAlgorithm.nodes.values.whereType<ResultNode>();
       for (final r in results) {
-        expect(r.recommendationKeys.length, 3, reason: '${r.id} should have 3 recs');
+        expect(
+          r.recommendationKeys.length,
+          3,
+          reason: '${r.id} should have 3 recs',
+        );
       }
     });
 

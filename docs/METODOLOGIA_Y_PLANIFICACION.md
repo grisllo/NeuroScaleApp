@@ -155,12 +155,16 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 3: UX shell + Patients (3 subfases) | 10,5 h | 11,0 h | +0,5 h | Diseño con Opus amplió el scope (skills, patient picker, ARB completo). Sesión de CI debugging en 3.1 añadió overhead. La implementación de fl_chart fue literalmente un rename de EvolutionTab, por lo que 3.3 fue muy rápida. Balance: prácticamente en estimación. |
 | **Total Fase 3 completa** | **10,5 h** | **11,0 h** | **+0,5 h** | **Desviación: +4,8%** |
 | **TOTAL ACUMULADO Fases 0-3** | **50,5 h** | **39,0 h** | **−11,5 h** | **Desviación acumulada: −22,8%** |
+| Fase 4.1: Algoritmos clínicos | 4,0 h | 1,5 h | −2,5 h | Sealed classes Dart 3 + travesía pura simplificaron dominio. Extension method para lookup l10n sin infraestructura adicional. |
+| **TOTAL ACUMULADO Fases 0-4.1** | **50,5 h** | **40,5 h** | **−10,0 h** | **Desviación acumulada: −19,8%** |
 | Fase 3.1: UX shell + back buttons + polish M3 | `6ddfe80` | 2026-04-28 | ~3,5 h |
 | Fase 3.2: Modelo pacientes + CRUD + save flow | `c8e6845` | 2026-04-29 | ~5,5 h |
 | Fase 3.3: Evolution chart + cleanup history | `fb55092` | 2026-04-30 | ~2,0 h |
 | **Total acumulado Fase 3 (real)** | | | **~39,0 h** |
+| Fase 4.1: Algoritmos clínicos (dominio + UI) | `884ff0c`, `01846f7` | 2026-04-30 | ~1,5 h |
+| **Total acumulado Fase 4.1 (real)** | | | **~40,5 h** |
 
-**Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
+**Conclusión de desviaciones (actualizada a Fase 4.1)**: La planificación inicial fue ligeramente pesimista en las tareas de implementación. El balance global acumulado es favorable: −10,0 h sobre la estimación (−19,8%). La arquitectura bien definida y el uso de sealed classes Dart 3 aceleran consistentemente la implementación del dominio.
 
 ---
 
@@ -181,8 +185,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | `902594c` | CU-13: Completar ABCD2 (riesgo post-AIT, 0-7, 5 ítems) |
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | `70d2a59`, `f94c775` | CU-14: Completar NIHSS (15 ítems, Untestable UN=9, advisory coma) |
 | [#14](https://github.com/grisllo/NeuroScaleApp/issues/14) | `6ddfe80`, `c8e6845`, `fb55092` | CU-15: NavigationBar shell + Pacientes (CRUD + evolución por paciente) |
-| [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | pendiente | CU-14: Completar NIHSS |
-| [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | pendiente | CU-15: Algoritmos clínicos; CU-16: Modo offline |
+| [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | `884ff0c`, `01846f7` | CU-16: Algoritmos clínicos (tPA, HTA ictus, HSA Hunt-Hess/Fisher); árbol de decisión paso a paso |
 
 ---
 

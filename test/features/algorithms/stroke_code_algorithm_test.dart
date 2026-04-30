@@ -22,7 +22,8 @@ void main() {
             expect(
               strokeCodeAlgorithm.nodes.containsKey(opt.nextNodeId),
               isTrue,
-              reason: 'nextNodeId "${opt.nextNodeId}" missing from node "${node.id}"',
+              reason:
+                  'nextNodeId "${opt.nextNodeId}" missing from node "${node.id}"',
             );
           }
         }

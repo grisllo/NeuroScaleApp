@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 4** — Fase 3 completada 2026-04-30.
+**Fase activa: Fase 4** — Fase 3 completada 2026-04-30. Subfase 4.1 (Algoritmos) completada 2026-04-30.
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
@@ -129,38 +129,28 @@ Commit `c8e6845`. Tests: 109 → 118. Migración `0003_add_patients.sql` aplicad
 #### 3.3 — Patient detail con evolución + cleanup de `history/` ✅ Completada (2026-04-30)
 Commit `fb55092`. Feature `history/` eliminada. `PatientEvolutionChart` con LineChart por escala.
 
-
-- `StatefulShellRoute.indexedStack` con 2 tabs (Inicio, Pacientes).
-- `NavigationBar` Material 3 siempre visible.
-- `ScalesTabScreen`: tarjeta Historial eliminada, iconos médicos por escala, `pushNamed` para back.
-- `PatientsTabScreen`: placeholder.
-- `usePathUrlStrategy()` en `main.dart`.
-- Commit `6ddfe80`. Tests: 108 → 109.
-
-#### 3.2 — Modelo de pacientes (BD + feature + integración save) 📅 Pendiente
-- Migración `0003_add_patients.sql`: tabla `patients` + RLS + FK nullable desde `evaluations`.
-- Feature `lib/features/patients/` completa (domain/data/presentation).
-- ResultScreen: patient picker en el dialog de save.
-- Issue #14.
-
-#### 3.3 — Patient detail con evolución + cleanup de `history/` 📅 Pendiente
-- `PatientDetailScreen` con tabs Evaluaciones / Evolución.
-- LineChart por paciente (reusa lógica de `evolution_tab.dart`).
-- Eliminar feature `lib/features/history/`.
-- Issue #14 (mismo issue que 3.2, cierra la fase).
-
 ---
 
-### Fase 4 — Algoritmos + Offline + Perfil 📅 Planificada (antes Fase 3)
+### Fase 4 — Algoritmos + Offline + Perfil 🚧 En curso
 
 **Objetivo**: completar la propuesta de valor original con algoritmos clínicos y resiliencia offline.
 
-**Entregables candidatos** (se priorizan según feedback de usuarios reales):
-- Algoritmos diagnósticos/terapéuticos: árbol decisional con la misma separación lógica/UI que las escalas.
-- Modo offline: datasource local (`drift`) detrás del repositorio existente — UI sin cambios.
-- Multilenguaje: añadir `app_en.arb` (las strings ya están externalizadas desde Fase 0).
-- Pantalla de perfil de usuario.
-- Issue #13.
+**Subfases**:
+
+#### 4.1 — Algoritmos clínicos (dominio + UI) ✅ Completada (2026-04-30)
+Commits `884ff0c` (dominio + 47 tests) + `01846f7` (UI: tab Algoritmos + pantalla paso a paso).
+Tests: 118 → 165. Tres algoritmos: Código Ictus tPA, HTA en Ictus Agudo, HSA Hunt-Hess/Fisher.
+
+#### 4.2 — Modo offline 📅 Pendiente
+Datasource local con `drift`, repositorio dual local-first, sin cambios en la UI.
+
+#### 4.3 — Multilenguaje (EN) 📅 Pendiente
+Traducir `app_es.arb` → `app_en.arb`, selector de idioma en perfil.
+
+#### 4.4 — Pantalla de perfil 📅 Pendiente
+Email (solo lectura desde Auth), selector de idioma, botón logout.
+
+Issue #13.
 
 ---
 

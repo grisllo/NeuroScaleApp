@@ -22,7 +22,8 @@ void main() {
             expect(
               htaIctusAlgorithm.nodes.containsKey(opt.nextNodeId),
               isTrue,
-              reason: 'nextNodeId "${opt.nextNodeId}" missing from node "${node.id}"',
+              reason:
+                  'nextNodeId "${opt.nextNodeId}" missing from node "${node.id}"',
             );
           }
         }
@@ -53,7 +54,8 @@ void main() {
     });
 
     // Ischemic + no reperfusion + BP > 220/120
-    test('ischemic + no reperfusion + BP > 220/120 → r_ischemic_treat (high)', () {
+    test('ischemic + no reperfusion + BP > 220/120 → r_ischemic_treat (high)',
+        () {
       final r = _traverse(['ischemic', 'no', 'yes']);
       expect(r.id, 'r_ischemic_treat');
       expect(r.urgency, AlgorithmUrgency.high);
@@ -99,7 +101,11 @@ void main() {
     test('all results have exactly 3 recommendations', () {
       final results = htaIctusAlgorithm.nodes.values.whereType<ResultNode>();
       for (final r in results) {
-        expect(r.recommendationKeys.length, 3, reason: '${r.id} should have 3 recs');
+        expect(
+          r.recommendationKeys.length,
+          3,
+          reason: '${r.id} should have 3 recs',
+        );
       }
     });
   });
