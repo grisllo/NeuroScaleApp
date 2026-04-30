@@ -2,9 +2,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
-import '../../../../features/evaluations/domain/entities/evaluation.dart';
+import '../../../evaluations/domain/entities/evaluation.dart';
 
-// Max scores per scale — used for normalization and tooltip
+// Max scores per scale — normalization to 0-100% for uniform Y axis.
+// Skill: fl-chart-patterns §1 Score normalization.
 const _kMaxScores = {
   'gcs': 15,
   'rankin': 6,
@@ -21,8 +22,10 @@ const _kScaleColors = {
   'nihss': Color(0xFFC62828),
 };
 
-class EvolutionTab extends StatelessWidget {
-  const EvolutionTab({super.key, required this.evaluations});
+/// Shows one LineChart per scale type that has ≥2 evaluations for this patient.
+/// Adapts EvolutionTab (history feature) to per-patient scope.
+class PatientEvolutionChart extends StatelessWidget {
+  const PatientEvolutionChart({super.key, required this.evaluations});
 
   final List<Evaluation> evaluations;
 
@@ -30,7 +33,6 @@ class EvolutionTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    // Group by scale, sort oldest → newest, keep only scales with ≥ 2
     final grouped = <String, List<Evaluation>>{};
     for (final e in evaluations) {
       grouped.putIfAbsent(e.scaleType, () => []).add(e);
@@ -88,7 +90,6 @@ class _ScaleChart extends StatelessWidget {
       return FlSpot(entry.key.toDouble(), normalized.clamp(0, 100));
     }).toList();
 
-    // Show one label every N to avoid crowding
     final labelStep = (evaluations.length / 5).ceil().clamp(1, 999);
 
     return Card(

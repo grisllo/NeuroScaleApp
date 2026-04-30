@@ -7,9 +7,10 @@ import '../../domain/entities/patient.dart';
 import '../providers/patient_provider.dart';
 import '../providers/patients_controller.dart';
 import '../widgets/patient_edit_dialog.dart';
+import '../widgets/patient_evolution_chart.dart';
 
-/// Detail screen for a single patient. Shows header + evaluations list.
-/// Evolution chart is delivered in subfase 3.3.
+/// Detail screen for a single patient.
+/// Shows header + tabs: Evaluaciones / Evolución.
 class PatientDetailScreen extends ConsumerWidget {
   const PatientDetailScreen({super.key, required this.patientId});
 
@@ -21,79 +22,104 @@ class PatientDetailScreen extends ConsumerWidget {
     final patientAsync = ref.watch(_patientByIdProvider(patientId));
     final evaluationsAsync = ref.watch(patientEvaluationsProvider(patientId));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: patientAsync.maybeWhen(
-          data: (p) => Text(p?.alias ?? l10n.patientsTitle),
-          orElse: () => Text(l10n.patientsTitle),
-        ),
-        actions: [
-          patientAsync.maybeWhen(
-            data: (p) => p != null
-                ? IconButton(
-                    icon: const Icon(Icons.edit_outlined),
-                    onPressed: () async {
-                      await PatientEditDialog.show(context, initial: p);
-                    },
-                  )
-                : const SizedBox.shrink(),
-            orElse: () => const SizedBox.shrink(),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: patientAsync.maybeWhen(
+            data: (p) => Text(p?.alias ?? l10n.patientsTitle),
+            orElse: () => Text(l10n.patientsTitle),
           ),
-        ],
-      ),
-      body: patientAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(e.toString()),
+          actions: [
+            patientAsync.maybeWhen(
+              data: (p) => p != null
+                  ? IconButton(
+                      icon: const Icon(Icons.edit_outlined),
+                      onPressed: () async {
+                        await PatientEditDialog.show(context, initial: p);
+                      },
+                    )
+                  : const SizedBox.shrink(),
+              orElse: () => const SizedBox.shrink(),
+            ),
+          ],
+          bottom: TabBar(
+            tabs: [
+              Tab(text: l10n.listTab),
+              Tab(text: l10n.evolutionTab),
+            ],
           ),
         ),
-        data: (patient) {
-          if (patient == null) {
-            return Center(child: Text(l10n.patientNotFound));
-          }
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              _PatientHeader(patient: patient),
-              const SizedBox(height: 16),
-              Text(
-                l10n.evaluationsHeader,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 8),
-              evaluationsAsync.when(
-                loading: () => const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                error: (e, _) => Padding(
-                  padding: const EdgeInsets.all(16),
+        body: patientAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(e.toString()),
+            ),
+          ),
+          data: (patient) {
+            if (patient == null) {
+              return Center(child: Text(l10n.patientNotFound));
+            }
+            return evaluationsAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
                   child: Text(e.toString()),
                 ),
-                data: (evals) => evals.isEmpty
-                    ? const _NoEvaluationsCard()
-                    : Column(
-                        children:
-                            evals.map((e) => _EvaluationTile(eval: e)).toList(),
-                      ),
               ),
-            ],
-          );
-        },
+              data: (evals) => TabBarView(
+                children: [
+                  _EvaluationsTab(patient: patient, evaluations: evals),
+                  PatientEvolutionChart(evaluations: evals),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-/// Provider para obtener un paciente por id (autoDispose).
 final _patientByIdProvider =
     FutureProvider.autoDispose.family<Patient?, String>(
   (ref, id) => ref.watch(patientRepositoryProvider).findById(id),
 );
+
+class _EvaluationsTab extends StatelessWidget {
+  const _EvaluationsTab({
+    required this.patient,
+    required this.evaluations,
+  });
+
+  final Patient patient;
+  final List<Evaluation> evaluations;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        _PatientHeader(patient: patient),
+        const SizedBox(height: 16),
+        Text(
+          context.l10n.evaluationsHeader,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 8),
+        if (evaluations.isEmpty)
+          const _NoEvaluationsCard()
+        else
+          ...evaluations.map((e) => _EvaluationTile(eval: e)),
+      ],
+    );
+  }
+}
 
 class _PatientHeader extends StatelessWidget {
   const _PatientHeader({required this.patient});
@@ -156,13 +182,12 @@ class _NoEvaluationsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Center(
           child: Text(
-            l10n.patientNoEvaluations,
+            context.l10n.patientNoEvaluations,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
