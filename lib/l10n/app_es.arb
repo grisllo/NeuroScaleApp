@@ -359,5 +359,410 @@
       "max": { "type": "int" },
       "interpretation": { "type": "String" }
     }
-  }
+  },
+
+  "tabAlgorithms": "Algoritmos",
+  "@tabAlgorithms": { "description": "Etiqueta del tab de algoritmos clínicos" },
+
+  "algorithmsTitle": "Algoritmos clínicos",
+  "@algorithmsTitle": { "description": "Título de la pantalla de lista de algoritmos" },
+
+  "algorithmsSubtitle": "Guías de decisión interactivas",
+  "@algorithmsSubtitle": { "description": "Subtítulo de la pantalla de lista de algoritmos" },
+
+  "algorithmUrgencyInfo": "Informativo",
+  "@algorithmUrgencyInfo": { "description": "Etiqueta de urgencia informativa" },
+
+  "algorithmUrgencyLow": "Prioridad baja",
+  "@algorithmUrgencyLow": { "description": "Etiqueta de urgencia baja" },
+
+  "algorithmUrgencyModerate": "Prioridad moderada",
+  "@algorithmUrgencyModerate": { "description": "Etiqueta de urgencia moderada" },
+
+  "algorithmUrgencyHigh": "Prioridad alta",
+  "@algorithmUrgencyHigh": { "description": "Etiqueta de urgencia alta" },
+
+  "algorithmUrgencyCritical": "URGENTE — acción inmediata",
+  "@algorithmUrgencyCritical": { "description": "Etiqueta de urgencia crítica" },
+
+  "algorithmNextButton": "Siguiente",
+  "@algorithmNextButton": { "description": "Botón para avanzar en el algoritmo" },
+
+  "algorithmBackButton": "Atrás",
+  "@algorithmBackButton": { "description": "Botón para retroceder en el algoritmo" },
+
+  "algorithmRestartButton": "Reiniciar",
+  "@algorithmRestartButton": { "description": "Botón para reiniciar el algoritmo" },
+
+  "algorithmResultTitle": "Recomendación",
+  "@algorithmResultTitle": { "description": "Título de la sección de resultado del algoritmo" },
+
+  "algorithmStepOf": "Paso {current} de {total}",
+  "@algorithmStepOf": {
+    "description": "Indicador de progreso en el algoritmo",
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "algoStrokeCodeTitle": "Código Ictus: Elegibilidad tPA",
+  "@algoStrokeCodeTitle": { "description": "Título del algoritmo Código Ictus" },
+
+  "algoStrokeCodeDescription": "Evaluación de candidatura para trombólisis IV en ictus isquémico agudo (guía AHA/ASA).",
+  "@algoStrokeCodeDescription": { "description": "Descripción del algoritmo Código Ictus" },
+
+  "algoStrokeCodeQWindow": "¿El inicio de los síntomas fue hace < 4,5 horas o el paciente despertó sin síntomas previos?",
+  "@algoStrokeCodeQWindow": { "description": "Pregunta sobre ventana temporal en Código Ictus" },
+
+  "algoStrokeCodeQWindowHint": "Contar desde el último momento conocido asintomático.",
+  "@algoStrokeCodeQWindowHint": { "description": "Aclaración sobre la ventana temporal" },
+
+  "algoStrokeCodeQWindowYes": "Sí, dentro de ventana",
+  "@algoStrokeCodeQWindowYes": { "description": "Opción afirmativa ventana temporal" },
+
+  "algoStrokeCodeQWindowNo": "No, han pasado > 4,5 h",
+  "@algoStrokeCodeQWindowNo": { "description": "Opción negativa ventana temporal" },
+
+  "algoStrokeCodeQCt": "¿Se ha realizado TC craneal urgente y se ha excluido hemorragia intracraneal?",
+  "@algoStrokeCodeQCt": { "description": "Pregunta sobre TC en Código Ictus" },
+
+  "algoStrokeCodeQCtYes": "Sí, TC sin hemorragia",
+  "@algoStrokeCodeQCtYes": { "description": "TC realizado y negativo para hemorragia" },
+
+  "algoStrokeCodeQCtNo": "No / pendiente de TC",
+  "@algoStrokeCodeQCtNo": { "description": "TC no realizado aún" },
+
+  "algoStrokeCodeQNihss": "¿El paciente presenta un déficit neurológico discapacitante (NIHSS ≥ 4 o síntoma focal significativo)?",
+  "@algoStrokeCodeQNihss": { "description": "Pregunta sobre déficit neurológico en Código Ictus" },
+
+  "algoStrokeCodeQNihssYes": "Sí, déficit discapacitante",
+  "@algoStrokeCodeQNihssYes": { "description": "NIHSS ≥ 4 o déficit significativo" },
+
+  "algoStrokeCodeQNihssNo": "No, síntomas mínimos",
+  "@algoStrokeCodeQNihssNo": { "description": "NIHSS < 4 o síntomas que se resuelven" },
+
+  "algoStrokeCodeQContraindications": "¿Existe alguna contraindicación absoluta para el tPA?",
+  "@algoStrokeCodeQContraindications": { "description": "Pregunta sobre contraindicaciones absolutas" },
+
+  "algoStrokeCodeQContraindicationsHint": "Cirugía mayor < 14 días · TCE grave < 3 meses · Hemorragia activa · Plaquetas < 100.000 · INR > 1,7 · Glucemia < 50 mg/dL",
+  "@algoStrokeCodeQContraindicationsHint": { "description": "Lista de contraindicaciones absolutas al tPA" },
+
+  "algoStrokeCodeQContraindicationsYes": "Sí, existe contraindicación",
+  "@algoStrokeCodeQContraindicationsYes": { "description": "Existe al menos una contraindicación absoluta" },
+
+  "algoStrokeCodeQContraindicationsNo": "No, sin contraindicaciones absolutas",
+  "@algoStrokeCodeQContraindicationsNo": { "description": "Sin contraindicaciones absolutas" },
+
+  "algoStrokeCodeQBp": "¿La PA es ≤ 185/110 mmHg (o controlable con medidas simples)?",
+  "@algoStrokeCodeQBp": { "description": "Pregunta sobre PA en Código Ictus" },
+
+  "algoStrokeCodeQBpYes": "Sí, PA controlada",
+  "@algoStrokeCodeQBpYes": { "description": "PA ≤ 185/110 mmHg" },
+
+  "algoStrokeCodeQBpNo": "No, PA > 185/110 mmHg",
+  "@algoStrokeCodeQBpNo": { "description": "PA elevada no controlada" },
+
+  "algoStrokeCodeQWindow3h": "¿Los síntomas comenzaron hace < 3 horas?",
+  "@algoStrokeCodeQWindow3h": { "description": "Pregunta diferenciando ventana < 3 h vs 3-4,5 h" },
+
+  "algoStrokeCodeQWindow3hYes": "Sí, < 3 h",
+  "@algoStrokeCodeQWindow3hYes": { "description": "Menos de 3 horas de inicio" },
+
+  "algoStrokeCodeQWindow3hNo": "No, entre 3 y 4,5 h",
+  "@algoStrokeCodeQWindow3hNo": { "description": "Entre 3 y 4,5 horas de inicio" },
+
+  "algoStrokeCodeQRelativeCi": "¿Presenta alguna contraindicación relativa para la ventana 3-4,5 h?",
+  "@algoStrokeCodeQRelativeCi": { "description": "Pregunta sobre contraindicaciones relativas (ventana extendida)" },
+
+  "algoStrokeCodeQRelativeCiHint": "Edad > 80 + ACV previo + DM2 · NIHSS > 25 · Anticoagulación oral en rango terapéutico",
+  "@algoStrokeCodeQRelativeCiHint": { "description": "Lista de contraindicaciones relativas para ventana 3-4,5 h" },
+
+  "algoStrokeCodeQRelativeCiYes": "Sí, contraindicación relativa",
+  "@algoStrokeCodeQRelativeCiYes": { "description": "Presenta contraindicación relativa" },
+
+  "algoStrokeCodeQRelativeCiNo": "No, sin contraindicaciones relativas",
+  "@algoStrokeCodeQRelativeCiNo": { "description": "Sin contraindicaciones relativas" },
+
+  "algoStrokeCodeROutOfWindowTitle": "Fuera de ventana terapéutica",
+  "@algoStrokeCodeROutOfWindowTitle": { "description": "Título: inicio > 4,5 h" },
+  "algoStrokeCodeROutOfWindowRec1": "El inicio de síntomas supera las 4,5 h: el tPA IV no está indicado.",
+  "@algoStrokeCodeROutOfWindowRec1": { "description": "" },
+  "algoStrokeCodeROutOfWindowRec2": "Valorar trombectomía mecánica según imagen (ASPECTS, penumbra) si hay oclusión de gran vaso.",
+  "@algoStrokeCodeROutOfWindowRec2": { "description": "" },
+  "algoStrokeCodeROutOfWindowRec3": "Consultar neurorradiología intervencionista urgente si NIHSS ≥ 6.",
+  "@algoStrokeCodeROutOfWindowRec3": { "description": "" },
+
+  "algoStrokeCodeRCtFirstTitle": "TC craneal urgente antes de continuar",
+  "@algoStrokeCodeRCtFirstTitle": { "description": "Título: TC no realizado" },
+  "algoStrokeCodeRCtFirstRec1": "No administrar tPA sin TC que excluya hemorragia intracraneal.",
+  "@algoStrokeCodeRCtFirstRec1": { "description": "" },
+  "algoStrokeCodeRCtFirstRec2": "Solicitar TC craneal sin contraste de forma urgente.",
+  "@algoStrokeCodeRCtFirstRec2": { "description": "" },
+  "algoStrokeCodeRCtFirstRec3": "Activar código ictus si no está ya en marcha.",
+  "@algoStrokeCodeRCtFirstRec3": { "description": "" },
+
+  "algoStrokeCodeRMinorDeficitTitle": "Déficit mínimo o en resolución",
+  "@algoStrokeCodeRMinorDeficitTitle": { "description": "Título: NIHSS < 4" },
+  "algoStrokeCodeRMinorDeficitRec1": "NIHSS < 4 con síntomas no discapacitantes: el beneficio del tPA es incierto.",
+  "@algoStrokeCodeRMinorDeficitRec1": { "description": "" },
+  "algoStrokeCodeRMinorDeficitRec2": "Individualizar: afasia aislada o hemianopsia pueden ser indicaciones relativas.",
+  "@algoStrokeCodeRMinorDeficitRec2": { "description": "" },
+  "algoStrokeCodeRMinorDeficitRec3": "Valorar con el equipo de neurología/ictus.",
+  "@algoStrokeCodeRMinorDeficitRec3": { "description": "" },
+
+  "algoStrokeCodeRAbsoluteCiTitle": "Contraindicación absoluta — no candidato",
+  "@algoStrokeCodeRAbsoluteCiTitle": { "description": "Título: contraindicación absoluta" },
+  "algoStrokeCodeRAbsoluteCiRec1": "Existe al menos una contraindicación absoluta para el tPA IV.",
+  "@algoStrokeCodeRAbsoluteCiRec1": { "description": "" },
+  "algoStrokeCodeRAbsoluteCiRec2": "Documentar la contraindicación específica en la historia clínica.",
+  "@algoStrokeCodeRAbsoluteCiRec2": { "description": "" },
+  "algoStrokeCodeRAbsoluteCiRec3": "Valorar trombectomía mecánica si hay oclusión de gran vaso.",
+  "@algoStrokeCodeRAbsoluteCiRec3": { "description": "" },
+
+  "algoStrokeCodeRTreatBpTitle": "Tratar PA y reevaluar en 15 min",
+  "@algoStrokeCodeRTreatBpTitle": { "description": "Título: PA fuera de rango" },
+  "algoStrokeCodeRTreatBpRec1": "PA > 185/110 mmHg: labetalol 10 mg IV o nicardipino en perfusión.",
+  "@algoStrokeCodeRTreatBpRec1": { "description": "" },
+  "algoStrokeCodeRTreatBpRec2": "Reevaluar PA a los 15 min. Si ≤ 185/110, retomar el algoritmo.",
+  "@algoStrokeCodeRTreatBpRec2": { "description": "" },
+  "algoStrokeCodeRTreatBpRec3": "Si la PA no se controla, el tPA está contraindicado.",
+  "@algoStrokeCodeRTreatBpRec3": { "description": "" },
+
+  "algoStrokeCodeRCandidate3hTitle": "CANDIDATO — tPA IV (ventana < 3 h)",
+  "@algoStrokeCodeRCandidate3hTitle": { "description": "Título: candidato tPA ventana < 3 h" },
+  "algoStrokeCodeRCandidate3hRec1": "Activar protocolo de trombólisis IV inmediatamente.",
+  "@algoStrokeCodeRCandidate3hRec1": { "description": "" },
+  "algoStrokeCodeRCandidate3hRec2": "Dosis: alteplasa 0,9 mg/kg (máx 90 mg) — 10% en bolo IV; 90% en perfusión de 60 min.",
+  "@algoStrokeCodeRCandidate3hRec2": { "description": "" },
+  "algoStrokeCodeRCandidate3hRec3": "Monitorización neurológica estricta. Control PA cada 15 min durante 2 h.",
+  "@algoStrokeCodeRCandidate3hRec3": { "description": "" },
+
+  "algoStrokeCodeRRelativeCiTitle": "Contraindicación relativa — ventana 3-4,5 h",
+  "@algoStrokeCodeRRelativeCiTitle": { "description": "Título: contraindicación relativa ventana extendida" },
+  "algoStrokeCodeRRelativeCiRec1": "Existe al menos una contraindicación relativa para la ventana extendida.",
+  "@algoStrokeCodeRRelativeCiRec1": { "description": "" },
+  "algoStrokeCodeRRelativeCiRec2": "Decisión individualizada con el equipo de ictus: valorar riesgo/beneficio.",
+  "@algoStrokeCodeRRelativeCiRec2": { "description": "" },
+  "algoStrokeCodeRRelativeCiRec3": "Considerar trombectomía mecánica si hay oclusión de gran vaso.",
+  "@algoStrokeCodeRRelativeCiRec3": { "description": "" },
+
+  "algoStrokeCodeRCandidate4hTitle": "CANDIDATO — tPA IV (ventana 3-4,5 h)",
+  "@algoStrokeCodeRCandidate4hTitle": { "description": "Título: candidato tPA ventana extendida" },
+  "algoStrokeCodeRCandidate4hRec1": "Sin contraindicaciones relativas: candidato en ventana extendida.",
+  "@algoStrokeCodeRCandidate4hRec1": { "description": "" },
+  "algoStrokeCodeRCandidate4hRec2": "Dosis: alteplasa 0,9 mg/kg (máx 90 mg) — 10% en bolo IV; 90% en perfusión de 60 min.",
+  "@algoStrokeCodeRCandidate4hRec2": { "description": "" },
+  "algoStrokeCodeRCandidate4hRec3": "Monitorización neurológica estricta. Control PA cada 15 min durante 2 h.",
+  "@algoStrokeCodeRCandidate4hRec3": { "description": "" },
+
+  "algoHtaIctusTitle": "Manejo HTA en Ictus Agudo",
+  "@algoHtaIctusTitle": { "description": "Título del algoritmo HTA en ictus agudo" },
+
+  "algoHtaIctusDescription": "Objetivos de tensión arterial según tipo de ictus y situación clínica (guía AHA/ASA).",
+  "@algoHtaIctusDescription": { "description": "Descripción del algoritmo HTA en ictus" },
+
+  "algoHtaIctusQType": "¿Qué tipo de ictus se ha confirmado por neuroimagen?",
+  "@algoHtaIctusQType": { "description": "Pregunta sobre tipo de ictus" },
+
+  "algoHtaIctusQTypeIschemic": "Ictus isquémico",
+  "@algoHtaIctusQTypeIschemic": { "description": "Ictus isquémico" },
+
+  "algoHtaIctusQTypeHemorrhagic": "Hemorragia intracerebral (HIC)",
+  "@algoHtaIctusQTypeHemorrhagic": { "description": "Hemorragia intracerebral" },
+
+  "algoHtaIctusQTypeSah": "Hemorragia subaracnoidea (HSA)",
+  "@algoHtaIctusQTypeSah": { "description": "Hemorragia subaracnoidea" },
+
+  "algoHtaIctusQTypeUnknown": "Tipo desconocido (sin neuroimagen)",
+  "@algoHtaIctusQTypeUnknown": { "description": "Sin diagnóstico por imagen" },
+
+  "algoHtaIctusQReperfusion": "¿El paciente es candidato o ya ha recibido terapia de reperfusión (tPA IV / trombectomía)?",
+  "@algoHtaIctusQReperfusion": { "description": "Pregunta sobre terapia de reperfusión" },
+
+  "algoHtaIctusQReperfusionYes": "Sí, con reperfusión",
+  "@algoHtaIctusQReperfusionYes": { "description": "Recibe o recibirá tPA / trombectomía" },
+
+  "algoHtaIctusQReperfusionNo": "No, sin reperfusión",
+  "@algoHtaIctusQReperfusionNo": { "description": "No candidato a reperfusión" },
+
+  "algoHtaIctusQIschemicBp": "¿La PA supera 220/120 mmHg de forma sostenida?",
+  "@algoHtaIctusQIschemicBp": { "description": "Umbral de PA en ictus isquémico sin reperfusión" },
+
+  "algoHtaIctusQIschemicBpYes": "Sí, > 220/120 mmHg",
+  "@algoHtaIctusQIschemicBpYes": { "description": "PA muy elevada en ictus isquémico" },
+
+  "algoHtaIctusQIschemicBpNo": "No, ≤ 220/120 mmHg",
+  "@algoHtaIctusQIschemicBpNo": { "description": "PA en rango tolerable en ictus isquémico" },
+
+  "algoHtaIctusQIchSbp": "¿La PAS es > 150 mmHg?",
+  "@algoHtaIctusQIchSbp": { "description": "Umbral de PAS en hemorragia intracerebral" },
+
+  "algoHtaIctusQIchSbpYes": "Sí, PAS > 150 mmHg",
+  "@algoHtaIctusQIchSbpYes": { "description": "PAS elevada en HIC" },
+
+  "algoHtaIctusQIchSbpNo": "No, PAS ≤ 150 mmHg",
+  "@algoHtaIctusQIchSbpNo": { "description": "PAS en rango en HIC" },
+
+  "algoHtaIctusQSahVasospasm": "¿Hay vasoespasmo documentado por Doppler transcraneal o alta sospecha clínica?",
+  "@algoHtaIctusQSahVasospasm": { "description": "Pregunta sobre vasoespasmo en HSA" },
+
+  "algoHtaIctusQSahVasospasmYes": "Sí, vasoespasmo documentado/sospechado",
+  "@algoHtaIctusQSahVasospasmYes": { "description": "Vasoespasmo presente en HSA" },
+
+  "algoHtaIctusQSahVasospasmNo": "No, sin datos de vasoespasmo",
+  "@algoHtaIctusQSahVasospasmNo": { "description": "Sin vasoespasmo en HSA" },
+
+  "algoHtaIctusRUnknownTypeTitle": "Tipo de ictus desconocido — TC urgente",
+  "@algoHtaIctusRUnknownTypeTitle": { "description": "Título: tipo de ictus sin confirmar" },
+  "algoHtaIctusRUnknownTypeRec1": "No iniciar tratamiento antihipertensivo agresivo hasta disponer de neuroimagen.",
+  "@algoHtaIctusRUnknownTypeRec1": { "description": "" },
+  "algoHtaIctusRUnknownTypeRec2": "Solicitar TC craneal urgente para diferenciar ictus isquémico de hemorrágico.",
+  "@algoHtaIctusRUnknownTypeRec2": { "description": "" },
+  "algoHtaIctusRUnknownTypeRec3": "Tratar solo si PA > 220/130 mmHg con repercusión orgánica aguda.",
+  "@algoHtaIctusRUnknownTypeRec3": { "description": "" },
+
+  "algoHtaIctusRReperfusionTargetTitle": "Objetivo: PA < 185/110 (pre) / < 180/105 (post-tPA)",
+  "@algoHtaIctusRReperfusionTargetTitle": { "description": "Título: objetivos PA con reperfusión" },
+  "algoHtaIctusRReperfusionTargetRec1": "Pre-tPA: mantener PA ≤ 185/110 mmHg antes de la infusión.",
+  "@algoHtaIctusRReperfusionTargetRec1": { "description": "" },
+  "algoHtaIctusRReperfusionTargetRec2": "Post-tPA (primeras 24 h): objetivo estricto PA < 180/105 mmHg.",
+  "@algoHtaIctusRReperfusionTargetRec2": { "description": "" },
+  "algoHtaIctusRReperfusionTargetRec3": "Fármacos: labetalol IV, nicardipino IV o clevidipino. Controlar cada 15 min.",
+  "@algoHtaIctusRReperfusionTargetRec3": { "description": "" },
+
+  "algoHtaIctusRIschemicTreatTitle": "Reducción cautelosa de PA — máx 15% en 24 h",
+  "@algoHtaIctusRIschemicTreatTitle": { "description": "Título: tratar PA en ictus isquémico sin reperfusión" },
+  "algoHtaIctusRIschemicTreatRec1": "Tratar solo si PA > 220/120 mmHg sostenida o con repercusión orgánica.",
+  "@algoHtaIctusRIschemicTreatRec1": { "description": "" },
+  "algoHtaIctusRIschemicTreatRec2": "Reducción ≤ 15% en las primeras 24 h para evitar hipoperfusión de la penumbra.",
+  "@algoHtaIctusRIschemicTreatRec2": { "description": "" },
+  "algoHtaIctusRIschemicTreatRec3": "Fármacos: labetalol IV, nicardipino IV. Evitar nitroprusiato (aumenta PIC).",
+  "@algoHtaIctusRIschemicTreatRec3": { "description": "" },
+
+  "algoHtaIctusRIschemicObserveTitle": "No tratar — riesgo de hipoperfusión",
+  "@algoHtaIctusRIschemicObserveTitle": { "description": "Título: PA tolerable en ictus isquémico" },
+  "algoHtaIctusRIschemicObserveRec1": "PA ≤ 220/120 mmHg: no se recomienda tratamiento antihipertensivo activo.",
+  "@algoHtaIctusRIschemicObserveRec1": { "description": "" },
+  "algoHtaIctusRIschemicObserveRec2": "La hipertensión en ictus agudo suele ser una respuesta fisiológica compensadora.",
+  "@algoHtaIctusRIschemicObserveRec2": { "description": "" },
+  "algoHtaIctusRIschemicObserveRec3": "Monitorizar PA y revisar si supera el umbral de tratamiento.",
+  "@algoHtaIctusRIschemicObserveRec3": { "description": "" },
+
+  "algoHtaIctusRIchTreatTitle": "Objetivo: PAS 130-150 mmHg",
+  "@algoHtaIctusRIchTreatTitle": { "description": "Título: tratar PAS en HIC" },
+  "algoHtaIctusRIchTreatRec1": "Tratar activamente PAS > 150 mmHg en HIC aguda (evidencia INTERACT2, ATACH-2).",
+  "@algoHtaIctusRIchTreatRec1": { "description": "" },
+  "algoHtaIctusRIchTreatRec2": "Objetivo: PAS 130-150 mmHg. Evitar descensos < 130 mmHg (riesgo de isquemia).",
+  "@algoHtaIctusRIchTreatRec2": { "description": "" },
+  "algoHtaIctusRIchTreatRec3": "Fármacos: nicardipino IV, labetalol IV o urapidilo. Monitorizar nivel de consciencia.",
+  "@algoHtaIctusRIchTreatRec3": { "description": "" },
+
+  "algoHtaIctusRIchObserveTitle": "No tratar — vigilar hipotensión",
+  "@algoHtaIctusRIchObserveTitle": { "description": "Título: PAS tolerable en HIC" },
+  "algoHtaIctusRIchObserveRec1": "PAS ≤ 150 mmHg: no requiere tratamiento antihipertensivo.",
+  "@algoHtaIctusRIchObserveRec1": { "description": "" },
+  "algoHtaIctusRIchObserveRec2": "Vigilar hipotensión (PAS < 110 mmHg), que puede empeorar el hematoma.",
+  "@algoHtaIctusRIchObserveRec2": { "description": "" },
+  "algoHtaIctusRIchObserveRec3": "Monitorizar PA horaria y nivel de consciencia.",
+  "@algoHtaIctusRIchObserveRec3": { "description": "" },
+
+  "algoHtaIctusRSahVasospasmTitle": "Vasoespasmo — PA permisiva, evitar hipotensión",
+  "@algoHtaIctusRSahVasospasmTitle": { "description": "Título: vasoespasmo en HSA" },
+  "algoHtaIctusRSahVasospasmRec1": "En vasoespasmo: mantener PA en rango normotenso o leve hipertensión inducida.",
+  "@algoHtaIctusRSahVasospasmRec1": { "description": "" },
+  "algoHtaIctusRSahVasospasmRec2": "Valorar triple H (hipervolemia, hemodilución, hipertensión) si hay isquemia tardía.",
+  "@algoHtaIctusRSahVasospasmRec2": { "description": "" },
+  "algoHtaIctusRSahVasospasmRec3": "Nimodipino oral 60 mg/4 h durante 21 días en toda HSA.",
+  "@algoHtaIctusRSahVasospasmRec3": { "description": "" },
+
+  "algoHtaIctusRSahNoVasospasmTitle": "Sin vasoespasmo — objetivo PA < 160/90",
+  "@algoHtaIctusRSahNoVasospasmTitle": { "description": "Título: sin vasoespasmo en HSA" },
+  "algoHtaIctusRSahNoVasospasmRec1": "Si PA > 160/90 mmHg, valorar tratamiento antihipertensivo suave.",
+  "@algoHtaIctusRSahNoVasospasmRec1": { "description": "" },
+  "algoHtaIctusRSahNoVasospasmRec2": "Evitar hipotensión: aumenta el riesgo de isquemia tardía por vasoespasmo.",
+  "@algoHtaIctusRSahNoVasospasmRec2": { "description": "" },
+  "algoHtaIctusRSahNoVasospasmRec3": "Nimodipino oral 60 mg/4 h durante 21 días, independientemente de la PA.",
+  "@algoHtaIctusRSahNoVasospasmRec3": { "description": "" },
+
+  "algoSahTitle": "Hemorragia Subaracnoidea",
+  "@algoSahTitle": { "description": "Título del algoritmo HSA (Hunt-Hess + Fisher)" },
+
+  "algoSahDescription": "Clasificación clínica Hunt-Hess y TC Fisher para guiar el manejo inicial.",
+  "@algoSahDescription": { "description": "Descripción del algoritmo HSA" },
+
+  "algoSahQConsciousness": "¿Cuál es el nivel de consciencia del paciente?",
+  "@algoSahQConsciousness": { "description": "Pregunta sobre consciencia en HSA" },
+
+  "algoSahQConsciousnessAlert": "Alerta — consciencia normal",
+  "@algoSahQConsciousnessAlert": { "description": "Paciente alerta en HSA" },
+
+  "algoSahQConsciousnessDrowsy": "Somnoliento o confuso (despertable)",
+  "@algoSahQConsciousnessDrowsy": { "description": "Paciente somnoliento/confuso en HSA" },
+
+  "algoSahQConsciousnessStupor": "Estupor, coma o rigidez de descerebración",
+  "@algoSahQConsciousnessStupor": { "description": "Paciente en estupor/coma en HSA" },
+
+  "algoSahQFocalDeficit": "¿Presenta déficit neurológico focal o paresia de pares craneales?",
+  "@algoSahQFocalDeficit": { "description": "Pregunta sobre déficit focal en HSA (diferencia HH I de HH II)" },
+
+  "algoSahQFocalDeficitNo": "No — sin déficit focal",
+  "@algoSahQFocalDeficitNo": { "description": "Sin déficit focal en HSA" },
+
+  "algoSahQFocalDeficitYes": "Sí — déficit focal presente",
+  "@algoSahQFocalDeficitYes": { "description": "Déficit focal en HSA" },
+
+  "algoSahQCtSah": "¿Qué muestra la TC craneal respecto a la distribución del sangrado?",
+  "@algoSahQCtSah": { "description": "Pregunta sobre Fisher en TC de HSA" },
+
+  "algoSahQCtSahFisher12": "Sin hemorragia visible o sangre difusa fina (Fisher 1-2)",
+  "@algoSahQCtSahFisher12": { "description": "Fisher grado 1-2 en TC de HSA" },
+
+  "algoSahQCtSahFisher34": "Coágulo localizado, capas ≥ 1 mm o hematoma intraventricular (Fisher 3-4)",
+  "@algoSahQCtSahFisher34": { "description": "Fisher grado 3-4 en TC de HSA" },
+
+  "algoSahRHh1Fisher12Title": "Hunt-Hess I · Fisher 1-2 — riesgo bajo de vasoespasmo",
+  "@algoSahRHh1Fisher12Title": { "description": "Título: HH I, Fisher 1-2" },
+  "algoSahRHh1Fisher12Rec1": "Riesgo bajo de vasoespasmo sintomático. Pronóstico favorable.",
+  "@algoSahRHh1Fisher12Rec1": { "description": "" },
+  "algoSahRHh1Fisher12Rec2": "Iniciar nimodipino 60 mg/4 h durante 21 días. Reposo en cama.",
+  "@algoSahRHh1Fisher12Rec2": { "description": "" },
+  "algoSahRHh1Fisher12Rec3": "Angio-TC o arteriografía urgente para localizar el aneurisma. Neurocirugía programada.",
+  "@algoSahRHh1Fisher12Rec3": { "description": "" },
+
+  "algoSahRHh1Fisher34Title": "Hunt-Hess I · Fisher 3-4 — alto riesgo de vasoespasmo",
+  "@algoSahRHh1Fisher34Title": { "description": "Título: HH I, Fisher 3-4" },
+  "algoSahRHh1Fisher34Rec1": "Fisher 3-4: riesgo elevado de vasoespasmo tardío (días 4-14 tras el sangrado).",
+  "@algoSahRHh1Fisher34Rec1": { "description": "" },
+  "algoSahRHh1Fisher34Rec2": "Iniciar nimodipino 60 mg/4 h. Monitorización neurológica estrecha.",
+  "@algoSahRHh1Fisher34Rec2": { "description": "" },
+  "algoSahRHh1Fisher34Rec3": "Arteriografía urgente. Valorar tratamiento endovascular precoz del aneurisma.",
+  "@algoSahRHh1Fisher34Rec3": { "description": "" },
+
+  "algoSahRHh2Title": "Hunt-Hess II — riesgo moderado",
+  "@algoSahRHh2Title": { "description": "Título: Hunt-Hess grado II" },
+  "algoSahRHh2Rec1": "Ingreso en unidad de neurología o neurocirugía. Monitorización continua.",
+  "@algoSahRHh2Rec1": { "description": "" },
+  "algoSahRHh2Rec2": "Nimodipino 60 mg/4 h durante 21 días. Control estricto de PA.",
+  "@algoSahRHh2Rec2": { "description": "" },
+  "algoSahRHh2Rec3": "Arteriografía urgente para tratamiento del aneurisma (coiling endovascular de elección).",
+  "@algoSahRHh2Rec3": { "description": "" },
+
+  "algoSahRHh3Title": "Hunt-Hess III — riesgo alto",
+  "@algoSahRHh3Title": { "description": "Título: Hunt-Hess grado III" },
+  "algoSahRHh3Rec1": "Ingreso en UCI. Monitorización neurológica y hemodinámica continua.",
+  "@algoSahRHh3Rec1": { "description": "" },
+  "algoSahRHh3Rec2": "Nimodipino 60 mg/4 h. Valorar monitorización de PIC si deterioro.",
+  "@algoSahRHh3Rec2": { "description": "" },
+  "algoSahRHh3Rec3": "Arteriografía y tratamiento urgente del aneurisma.",
+  "@algoSahRHh3Rec3": { "description": "" },
+
+  "algoSahRHh45Title": "Hunt-Hess IV-V — pronóstico grave",
+  "@algoSahRHh45Title": { "description": "Título: Hunt-Hess grado IV-V" },
+  "algoSahRHh45Rec1": "Ingreso urgente en UCI. Soporte vital avanzado. Valorar ventilación mecánica.",
+  "@algoSahRHh45Rec1": { "description": "" },
+  "algoSahRHh45Rec2": "Consulta urgente con neurocirugía e intensivismo.",
+  "@algoSahRHh45Rec2": { "description": "" },
+  "algoSahRHh45Rec3": "Pronóstico reservado. Información a la familia y valoración pronóstica precoz.",
+  "@algoSahRHh45Rec3": { "description": "" }
 }
