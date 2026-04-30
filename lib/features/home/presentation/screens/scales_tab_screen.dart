@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../features/auth/presentation/providers/auth_controller.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 
 class ScalesTabScreen extends ConsumerWidget {
@@ -15,14 +14,6 @@ class ScalesTabScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('NeuroScale'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
-            onPressed: () =>
-                ref.read(authControllerProvider.notifier).signOut(),
-          ),
-        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

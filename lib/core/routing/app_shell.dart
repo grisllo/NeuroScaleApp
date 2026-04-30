@@ -43,6 +43,11 @@ class AppShell extends StatelessWidget {
             selectedIcon: const Icon(Icons.alt_route_rounded),
             label: l10n.tabAlgorithms,
           ),
+          NavigationDestination(
+            icon: const Icon(Icons.person_outline_rounded),
+            selectedIcon: const Icon(Icons.person_rounded),
+            label: l10n.tabProfile,
+          ),
         ],
       ),
     );

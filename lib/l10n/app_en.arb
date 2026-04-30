@@ -764,5 +764,23 @@
   "algoSahRHh45Rec2": "Urgent consultation with neurosurgery and intensive care.",
   "@algoSahRHh45Rec2": { "description": "" },
   "algoSahRHh45Rec3": "Guarded prognosis. Early family communication and prognostic assessment.",
-  "@algoSahRHh45Rec3": { "description": "" }
+  "@algoSahRHh45Rec3": { "description": "" },
+
+  "tabProfile": "Profile",
+  "@tabProfile": { "description": "Profile tab label" },
+
+  "profileTitle": "My profile",
+  "@profileTitle": { "description": "Profile screen title" },
+
+  "profileEmailLabel": "Email",
+  "@profileEmailLabel": { "description": "Email field label in profile" },
+
+  "profileLanguageLabel": "Language",
+  "@profileLanguageLabel": { "description": "Language selector label" },
+
+  "profileLanguageEs": "Español",
+  "@profileLanguageEs": { "description": "Spanish option in language selector" },
+
+  "profileLanguageEn": "English",
+  "@profileLanguageEn": { "description": "English option in language selector" }
 }

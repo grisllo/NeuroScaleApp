@@ -16,6 +16,7 @@ import '../../features/evaluations/presentation/screens/result_screen.dart';
 import '../../features/home/presentation/screens/scales_tab_screen.dart';
 import '../../features/patients/presentation/screens/patient_detail_screen.dart';
 import '../../features/patients/presentation/screens/patients_tab_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/scales/abcd2/presentation/screens/abcd2_scale_screen.dart';
 import '../../features/scales/barthel/presentation/screens/barthel_scale_screen.dart';
 import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
@@ -141,6 +142,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: '/algorithms',
                 name: 'algorithms',
                 builder: (_, __) => const AlgorithmsTabScreen(),
+              ),
+            ],
+          ),
+          // Branch 3 — Perfil
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                name: 'profile',
+                builder: (_, __) => const ProfileScreen(),
               ),
             ],
           ),
