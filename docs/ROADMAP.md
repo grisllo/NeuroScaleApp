@@ -12,9 +12,9 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 3 (nueva)** — Fase 2B completada 2026-04-28. Subfase 3.1 completada 2026-04-28.
+**Fase activa: Fase 4** — Fase 3 completada 2026-04-30.
 
-**Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 cubre la reformulación UX + modelo de Pacientes, que era trabajo necesario antes de añadir algoritmos.
+**Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
 ---
 
@@ -112,7 +112,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ---
 
-### Fase 3 — UX shell + Modelo de Pacientes 🚧 En curso
+### Fase 3 — UX shell + Modelo de Pacientes ✅ Completada (2026-04-30)
 
 **Objetivo**: reformulación de la experiencia de usuario + introducción del concepto de paciente anonimizado.
 
@@ -121,6 +121,15 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 **Subfases**:
 
 #### 3.1 — Shell de navegación + back buttons + polish M3 ✅ Completada (2026-04-28)
+Commit `6ddfe80`. Tests: 108 → 109.
+
+#### 3.2 — Modelo de pacientes (BD + feature + integración save) ✅ Completada (2026-04-29)
+Commit `c8e6845`. Tests: 109 → 118. Migración `0003_add_patients.sql` aplicada.
+
+#### 3.3 — Patient detail con evolución + cleanup de `history/` ✅ Completada (2026-04-30)
+Commit `fb55092`. Feature `history/` eliminada. `PatientEvolutionChart` con LineChart por escala.
+
+
 - `StatefulShellRoute.indexedStack` con 2 tabs (Inicio, Pacientes).
 - `NavigationBar` Material 3 siempre visible.
 - `ScalesTabScreen`: tarjeta Historial eliminada, iconos médicos por escala, `pushNamed` para back.

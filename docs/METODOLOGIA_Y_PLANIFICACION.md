@@ -131,7 +131,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2B.2: NIHSS pantalla + advisory coma + wiring | `f94c775` | 2026-04-28 | ~2,0 h |
 | **Total acumulado Fase 2B (real)** | | | **~28,0 h** |
 
-### 3.3 Análisis de desviaciones (Fases 0, 1, 2A y 2B)
+### 3.3 Análisis de desviaciones (Fases 0, 1, 2A, 2B y 3)
 
 | Tarea | Estimado | Real | Desviación | Causa |
 |---|---|---|---|---|
@@ -152,6 +152,13 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 2B: NIHSS (dominio + UI) | 6,0 h | 5,0 h | −1,0 h | Lógica condicional NIHSS resultó ser UN=9 por ítem (sin motor de reglas inter-ítem); simplificó dominio y UI. CI debugging/higiene git añadió ~1h no prevista que compensó parte del ahorro |
 | **Total Fase 2B completa** | **6,0 h** | **5,0 h** | **−1,0 h** | **Desviación: −16,7%** |
 | **TOTAL ACUMULADO Fases 0-2B** | **40,0 h** | **28,0 h** | **−12,0 h** | **Desviación acumulada: −30%** |
+| Fase 3: UX shell + Patients (3 subfases) | 10,5 h | 11,0 h | +0,5 h | Diseño con Opus amplió el scope (skills, patient picker, ARB completo). Sesión de CI debugging en 3.1 añadió overhead. La implementación de fl_chart fue literalmente un rename de EvolutionTab, por lo que 3.3 fue muy rápida. Balance: prácticamente en estimación. |
+| **Total Fase 3 completa** | **10,5 h** | **11,0 h** | **+0,5 h** | **Desviación: +4,8%** |
+| **TOTAL ACUMULADO Fases 0-3** | **50,5 h** | **39,0 h** | **−11,5 h** | **Desviación acumulada: −22,8%** |
+| Fase 3.1: UX shell + back buttons + polish M3 | `6ddfe80` | 2026-04-28 | ~3,5 h |
+| Fase 3.2: Modelo pacientes + CRUD + save flow | `c8e6845` | 2026-04-29 | ~5,5 h |
+| Fase 3.3: Evolution chart + cleanup history | `fb55092` | 2026-04-30 | ~2,0 h |
+| **Total acumulado Fase 3 (real)** | | | **~39,0 h** |
 
 **Conclusión de desviaciones**: La planificación inicial fue ligeramente pesimista en las tareas de implementación (la arquitectura bien definida agilizó el desarrollo) y optimista en las tareas de infraestructura (configuración de herramientas externas). El balance global acumulado es favorable: −1 hora sobre la estimación.
 
@@ -173,6 +180,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#10](https://github.com/grisllo/NeuroScaleApp/issues/10) | `7ced22c` | CU-12: Completar Barthel Index (10 ítems AVD, validación por conjunto) |
 | [#11](https://github.com/grisllo/NeuroScaleApp/issues/11) | `902594c` | CU-13: Completar ABCD2 (riesgo post-AIT, 0-7, 5 ítems) |
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | `70d2a59`, `f94c775` | CU-14: Completar NIHSS (15 ítems, Untestable UN=9, advisory coma) |
+| [#14](https://github.com/grisllo/NeuroScaleApp/issues/14) | `6ddfe80`, `c8e6845`, `fb55092` | CU-15: NavigationBar shell + Pacientes (CRUD + evolución por paciente) |
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | pendiente | CU-14: Completar NIHSS |
 | [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | pendiente | CU-15: Algoritmos clínicos; CU-16: Modo offline |
 

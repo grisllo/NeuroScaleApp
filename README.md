@@ -38,11 +38,11 @@ gantt
 
     section Fase 3 · UX + Pacientes
     3.1 Shell navegación + back         :done, f3a, 2026-04-28, 1d
-    3.2 Modelo pacientes BD + CRUD      :active, f3b, 2026-04-29, 2d
-    3.3 Patient detail + cleanup        :f3c, after f3b, 1d
+    3.2 Modelo pacientes BD + CRUD      :done, f3b, 2026-04-29, 1d
+    3.3 Patient detail + cleanup        :done, f3c, 2026-04-30, 1d
 
     section Fase 4 · Algoritmos + Offline
-    Algoritmos + Offline + Perfil      :f4, 2026-05-05, 21d
+    Algoritmos + Offline + Perfil      :active, f4, 2026-05-01, 21d
 ```
 
 ---
