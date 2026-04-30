@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../core/env/env.dart';
 import '../../core/providers/disclaimer_provider.dart';
 import '../../core/routing/app_shell.dart';
+import '../../features/algorithms/domain/algorithms/algorithms_registry.dart';
+import '../../features/algorithms/presentation/screens/algorithm_screen.dart';
+import '../../features/algorithms/presentation/screens/algorithms_tab_screen.dart';
 import '../../features/auth/presentation/providers/session_provider.dart';
 import '../../features/auth/presentation/screens/disclaimer_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
@@ -72,6 +75,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, __) => const Abcd2ScaleScreen(),
       ),
 
+      // ── Algorithm execution (fullscreen, no shell) ───────────────────
+      GoRoute(
+        path: '/algorithms/:id',
+        name: 'algorithm',
+        builder: (_, state) {
+          final id = state.pathParameters['id']!;
+          final definition = kAlgorithms.firstWhere((a) => a.id == id);
+          return AlgorithmScreen(definition: definition);
+        },
+      ),
+
       // ── Result (fullscreen, no shell) ─────────────────────────────────
       GoRoute(
         path: '/result',
@@ -117,6 +131,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     ),
                   ),
                 ],
+              ),
+            ],
+          ),
+          // Branch 2 — Algoritmos
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/algorithms',
+                name: 'algorithms',
+                builder: (_, __) => const AlgorithmsTabScreen(),
               ),
             ],
           ),

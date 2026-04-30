@@ -38,6 +38,11 @@ class AppShell extends StatelessWidget {
             selectedIcon: const Icon(Icons.people_rounded),
             label: l10n.tabPatients,
           ),
+          NavigationDestination(
+            icon: const Icon(Icons.alt_route_outlined),
+            selectedIcon: const Icon(Icons.alt_route_rounded),
+            label: l10n.tabAlgorithms,
+          ),
         ],
       ),
     );
