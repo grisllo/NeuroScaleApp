@@ -1,0 +1,768 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "NeuroScale",
+  "@appTitle": { "description": "Application title" },
+
+  "disclaimerTitle": "Medical Notice",
+  "@disclaimerTitle": { "description": "Medical disclaimer title" },
+
+  "disclaimerBody": "This application is a support and learning tool. It does not replace professional clinical judgment. Results must be interpreted by a qualified professional.",
+  "@disclaimerBody": { "description": "Medical disclaimer body text" },
+
+  "disclaimerAcceptButton": "Understood, continue",
+  "@disclaimerAcceptButton": { "description": "Disclaimer acceptance button" },
+
+  "loginTitle": "Sign in",
+  "@loginTitle": { "description": "Login screen title" },
+
+  "registerTitle": "Create account",
+  "@registerTitle": { "description": "Register screen title" },
+
+  "emailLabel": "Email",
+  "@emailLabel": { "description": "Email field label" },
+
+  "emailHint": "example@email.com",
+  "@emailHint": { "description": "Email field placeholder" },
+
+  "passwordLabel": "Password",
+  "@passwordLabel": { "description": "Password field label" },
+
+  "passwordHint": "At least 6 characters",
+  "@passwordHint": { "description": "Password field placeholder" },
+
+  "confirmPasswordLabel": "Confirm password",
+  "@confirmPasswordLabel": { "description": "Confirm password field label" },
+
+  "loginButton": "Sign in",
+  "@loginButton": { "description": "Login button" },
+
+  "registerButton": "Create account",
+  "@registerButton": { "description": "Register button" },
+
+  "loginLinkText": "Already have an account? Sign in",
+  "@loginLinkText": { "description": "Link to login from register" },
+
+  "registerLinkText": "No account? Register",
+  "@registerLinkText": { "description": "Link to register from login" },
+
+  "fieldRequiredError": "This field is required",
+  "@fieldRequiredError": { "description": "Required field error" },
+
+  "emailInvalidError": "Enter a valid email address",
+  "@emailInvalidError": { "description": "Invalid email format error" },
+
+  "passwordMismatchError": "Passwords do not match",
+  "@passwordMismatchError": { "description": "Password mismatch error" },
+
+  "passwordTooShortError": "Password must be at least 6 characters",
+  "@passwordTooShortError": { "description": "Password too short error" },
+
+  "gcsTitle": "Glasgow Coma Scale",
+  "@gcsTitle": { "description": "GCS scale title" },
+
+  "gcsSubtitle": "Consciousness level assessment",
+  "@gcsSubtitle": { "description": "GCS scale subtitle" },
+
+  "gcsEyeLabel": "Eye response",
+  "@gcsEyeLabel": { "description": "GCS eye item label" },
+
+  "gcsVerbalLabel": "Verbal response",
+  "@gcsVerbalLabel": { "description": "GCS verbal item label" },
+
+  "gcsMotorLabel": "Motor response",
+  "@gcsMotorLabel": { "description": "GCS motor item label" },
+
+  "gcsCalculateButton": "Calculate score",
+  "@gcsCalculateButton": { "description": "GCS calculate button" },
+
+  "gcsResultTitle": "GCS Result",
+  "@gcsResultTitle": { "description": "GCS result screen title" },
+
+  "severityNone": "No symptoms",
+  "@severityNone": { "description": "Severity label: none" },
+
+  "severityMild": "Mild",
+  "@severityMild": { "description": "Severity label: mild" },
+
+  "severityModerate": "Moderate",
+  "@severityModerate": { "description": "Severity label: moderate" },
+
+  "severitySevere": "Severe",
+  "@severitySevere": { "description": "Severity label: severe" },
+
+  "resultSaveButton": "Save assessment",
+  "@resultSaveButton": { "description": "Save assessment button" },
+
+  "saveDialogTitle": "Save assessment",
+  "@saveDialogTitle": { "description": "Save dialog title" },
+
+  "caseDescriptionLabel": "Case description",
+  "@caseDescriptionLabel": { "description": "Case description field label" },
+
+  "caseDescriptionHint": "E.g.: male, 65 years, TBI from fall. No identifying data.",
+  "@caseDescriptionHint": { "description": "Case description placeholder" },
+
+  "caseDescriptionWarning": "⚠ Do not include patient identifying data (name, ID, date of birth…)",
+  "@caseDescriptionWarning": { "description": "Anti-PII warning in save dialog" },
+
+  "saveButton": "Save",
+  "@saveButton": { "description": "Generic save button" },
+
+  "cancelButton": "Cancel",
+  "@cancelButton": { "description": "Generic cancel button" },
+
+  "saveSuccessMessage": "Assessment saved successfully",
+  "@saveSuccessMessage": { "description": "Assessment save success message" },
+
+  "saveErrorMessage": "Error saving. Please try again.",
+  "@saveErrorMessage": { "description": "Assessment save error message" },
+
+  "signOutButton": "Sign out",
+  "@signOutButton": { "description": "Sign out button" },
+
+  "genericErrorMessage": "An unexpected error occurred",
+  "@genericErrorMessage": { "description": "Generic error message" },
+
+  "retryButton": "Retry",
+  "@retryButton": { "description": "Retry button" },
+
+  "historyTitle": "History",
+  "@historyTitle": { "description": "History screen title" },
+
+  "historyEmpty": "No assessments saved yet.",
+  "@historyEmpty": { "description": "History empty state message" },
+
+  "historyEmptyAction": "Go to home",
+  "@historyEmptyAction": { "description": "History empty state CTA" },
+
+  "deleteEvaluationButton": "Delete assessment",
+  "@deleteEvaluationButton": { "description": "Delete assessment button" },
+
+  "deleteConfirmTitle": "Delete assessment?",
+  "@deleteConfirmTitle": { "description": "Delete confirmation dialog title" },
+
+  "deleteConfirmBody": "This action cannot be undone.",
+  "@deleteConfirmBody": { "description": "Delete confirmation dialog body" },
+
+  "deleteSuccessMessage": "Assessment deleted successfully",
+  "@deleteSuccessMessage": { "description": "Delete success message" },
+
+  "filterByScale": "Filter by scale",
+  "@filterByScale": { "description": "Scale filter tooltip in history" },
+
+  "filterByDate": "Filter by date",
+  "@filterByDate": { "description": "Date filter button in history" },
+
+  "searchHint": "Search in case description…",
+  "@searchHint": { "description": "Search field placeholder in history" },
+
+  "loadingMore": "Loading more…",
+  "@loadingMore": { "description": "Loading more evaluations indicator" },
+
+  "listTab": "List",
+  "@listTab": { "description": "List tab label in history" },
+
+  "evolutionTab": "Evolution",
+  "@evolutionTab": { "description": "Evolution tab label in history" },
+
+  "evolutionEmpty": "You need at least 2 assessments of the same scale to view its evolution.",
+  "@evolutionEmpty": { "description": "Evolution tab empty state" },
+
+  "abcd2Title": "ABCD2",
+  "@abcd2Title": { "description": "ABCD2 scale title" },
+
+  "abcd2Subtitle": "Stroke risk stratification after TIA",
+  "@abcd2Subtitle": { "description": "ABCD2 scale subtitle" },
+
+  "abcd2AgeLabel": "Age",
+  "@abcd2AgeLabel": { "description": "ABCD2 age item" },
+
+  "abcd2BpLabel": "Blood pressure",
+  "@abcd2BpLabel": { "description": "ABCD2 blood pressure item" },
+
+  "abcd2ClinicalLabel": "TIA clinical features",
+  "@abcd2ClinicalLabel": { "description": "ABCD2 clinical item" },
+
+  "abcd2DurationLabel": "Duration of symptoms",
+  "@abcd2DurationLabel": { "description": "ABCD2 duration item" },
+
+  "abcd2DiabetesLabel": "Diabetes mellitus",
+  "@abcd2DiabetesLabel": { "description": "ABCD2 diabetes item" },
+
+  "abcd2RiskLow": "Low risk (~1.0%)",
+  "@abcd2RiskLow": { "description": "ABCD2 low risk interpretation" },
+
+  "abcd2RiskModerate": "Moderate risk (~4.1%)",
+  "@abcd2RiskModerate": { "description": "ABCD2 moderate risk interpretation" },
+
+  "abcd2RiskHigh": "High risk (~8.1%)",
+  "@abcd2RiskHigh": { "description": "ABCD2 high risk interpretation" },
+
+  "barthelTitle": "Barthel Index",
+  "@barthelTitle": { "description": "Barthel Index title" },
+
+  "barthelSubtitle": "Activities of daily living index (ADL)",
+  "@barthelSubtitle": { "description": "Barthel Index subtitle" },
+
+  "barthelItemFeeding": "Feeding",
+  "@barthelItemFeeding": { "description": "Barthel feeding item" },
+
+  "barthelItemBathing": "Bathing",
+  "@barthelItemBathing": { "description": "Barthel bathing item" },
+
+  "barthelItemGrooming": "Grooming",
+  "@barthelItemGrooming": { "description": "Barthel grooming item" },
+
+  "barthelItemDressing": "Dressing",
+  "@barthelItemDressing": { "description": "Barthel dressing item" },
+
+  "barthelItemBowels": "Bowel management",
+  "@barthelItemBowels": { "description": "Barthel bowels item" },
+
+  "barthelItemBladder": "Bladder management",
+  "@barthelItemBladder": { "description": "Barthel bladder item" },
+
+  "barthelItemToiletUse": "Toilet use",
+  "@barthelItemToiletUse": { "description": "Barthel toilet use item" },
+
+  "barthelItemTransfer": "Chair-bed transfer",
+  "@barthelItemTransfer": { "description": "Barthel transfer item" },
+
+  "barthelItemMobility": "Ambulation",
+  "@barthelItemMobility": { "description": "Barthel mobility item" },
+
+  "barthelItemStairs": "Stair climbing",
+  "@barthelItemStairs": { "description": "Barthel stairs item" },
+
+  "rankinTitle": "mRS (Modified Rankin Scale)",
+  "@rankinTitle": { "description": "mRS scale title" },
+
+  "rankinSubtitle": "Neurological disability scale post-stroke",
+  "@rankinSubtitle": { "description": "mRS scale subtitle" },
+
+  "rankinScoreLabel": "Disability grade",
+  "@rankinScoreLabel": { "description": "mRS item label" },
+
+  "rankinLevel0": "No symptoms",
+  "@rankinLevel0": { "description": "mRS grade 0" },
+
+  "rankinLevel1": "No significant disability — able to carry out all usual activities",
+  "@rankinLevel1": { "description": "mRS grade 1" },
+
+  "rankinLevel2": "Slight disability — unable to carry out some previous activities, but independent",
+  "@rankinLevel2": { "description": "mRS grade 2" },
+
+  "rankinLevel3": "Moderate disability — requires some help, but walks without assistance",
+  "@rankinLevel3": { "description": "mRS grade 3" },
+
+  "rankinLevel4": "Moderately severe disability — unable to walk and attend to own needs without assistance",
+  "@rankinLevel4": { "description": "mRS grade 4" },
+
+  "rankinLevel5": "Severe disability — bedridden, requires constant nursing care",
+  "@rankinLevel5": { "description": "mRS grade 5" },
+
+  "rankinLevel6": "Deceased",
+  "@rankinLevel6": { "description": "mRS grade 6" },
+
+  "tabHome": "Home",
+  "@tabHome": { "description": "Home tab label" },
+
+  "tabPatients": "Patients",
+  "@tabPatients": { "description": "Patients tab label" },
+
+  "patientsTitle": "Patients",
+  "@patientsTitle": { "description": "Patients screen title" },
+
+  "patientsSearchHint": "Search by alias…",
+  "@patientsSearchHint": { "description": "Patients search field placeholder" },
+
+  "patientsEmptyTitle": "No patients yet",
+  "@patientsEmptyTitle": { "description": "Patients empty state title" },
+
+  "patientsEmptySubtitle": "Create an anonymized patient to record assessments and track their progress over time.",
+  "@patientsEmptySubtitle": { "description": "Patients empty state subtitle" },
+
+  "patientsSearchEmpty": "No patients found",
+  "@patientsSearchEmpty": { "description": "Patients search empty state" },
+
+  "patientNewButton": "New patient",
+  "@patientNewButton": { "description": "New patient button" },
+
+  "patientNotFound": "Patient not found",
+  "@patientNotFound": { "description": "Patient not found message" },
+
+  "patientNoEvaluations": "No assessments for this patient yet.",
+  "@patientNoEvaluations": { "description": "Patient evaluations empty state" },
+
+  "patientCreateTitle": "New patient",
+  "@patientCreateTitle": { "description": "Create patient dialog title" },
+
+  "patientEditTitle": "Edit patient",
+  "@patientEditTitle": { "description": "Edit patient dialog title" },
+
+  "patientAliasLabel": "Patient alias",
+  "@patientAliasLabel": { "description": "Alias field label" },
+
+  "patientAliasHint": "E.g.: P-001, Case A",
+  "@patientAliasHint": { "description": "Alias field hint" },
+
+  "patientNotesLabel": "Notes (optional)",
+  "@patientNotesLabel": { "description": "Patient notes field label" },
+
+  "patientNotesHint": "E.g.: ischemic stroke, right MCA",
+  "@patientNotesHint": { "description": "Patient notes field hint" },
+
+  "patientAliasRequired": "Alias is required",
+  "@patientAliasRequired": { "description": "Alias required error" },
+
+  "patientCreateButton": "Create",
+  "@patientCreateButton": { "description": "Create button in patient dialog" },
+
+  "patientUnassigned": "Unassigned",
+  "@patientUnassigned": { "description": "Unassigned option in patient picker" },
+
+  "patientPickerLabel": "Patient",
+  "@patientPickerLabel": { "description": "Patient picker dropdown label" },
+
+  "newPatientAliasLabel": "New patient alias",
+  "@newPatientAliasLabel": { "description": "Inline new patient alias label in save dialog" },
+
+  "newPatientAliasHint": "E.g.: P-001",
+  "@newPatientAliasHint": { "description": "Inline new patient alias hint" },
+
+  "evaluationNotesLabel": "Assessment notes (optional)",
+  "@evaluationNotesLabel": { "description": "Assessment notes field label in save dialog" },
+
+  "evaluationsHeader": "Assessments",
+  "@evaluationsHeader": { "description": "Assessments list header in patient detail" },
+
+  "patientCreatedOn": "Created on {date}",
+  "@patientCreatedOn": {
+    "description": "Patient creation date",
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "nihssTitle": "NIHSS",
+  "@nihssTitle": { "description": "NIHSS scale title" },
+
+  "nihssSubtitle": "National Institutes of Health Stroke Scale",
+  "@nihssSubtitle": { "description": "NIHSS scale subtitle" },
+
+  "evolutionTooltipScore": "{score}/{max} — {interpretation}",
+  "@evolutionTooltipScore": {
+    "description": "Evolution chart tooltip text",
+    "placeholders": {
+      "score": { "type": "int" },
+      "max": { "type": "int" },
+      "interpretation": { "type": "String" }
+    }
+  },
+
+  "tabAlgorithms": "Algorithms",
+  "@tabAlgorithms": { "description": "Algorithms tab label" },
+
+  "algorithmsTitle": "Clinical algorithms",
+  "@algorithmsTitle": { "description": "Algorithms list screen title" },
+
+  "algorithmsSubtitle": "Interactive decision guides",
+  "@algorithmsSubtitle": { "description": "Algorithms list screen subtitle" },
+
+  "algorithmUrgencyInfo": "Informational",
+  "@algorithmUrgencyInfo": { "description": "Informational urgency label" },
+
+  "algorithmUrgencyLow": "Low priority",
+  "@algorithmUrgencyLow": { "description": "Low urgency label" },
+
+  "algorithmUrgencyModerate": "Moderate priority",
+  "@algorithmUrgencyModerate": { "description": "Moderate urgency label" },
+
+  "algorithmUrgencyHigh": "High priority",
+  "@algorithmUrgencyHigh": { "description": "High urgency label" },
+
+  "algorithmUrgencyCritical": "URGENT — immediate action",
+  "@algorithmUrgencyCritical": { "description": "Critical urgency label" },
+
+  "algorithmNextButton": "Next",
+  "@algorithmNextButton": { "description": "Algorithm next button" },
+
+  "algorithmBackButton": "Back",
+  "@algorithmBackButton": { "description": "Algorithm back button" },
+
+  "algorithmRestartButton": "Restart",
+  "@algorithmRestartButton": { "description": "Algorithm restart button" },
+
+  "algorithmResultTitle": "Recommendation",
+  "@algorithmResultTitle": { "description": "Algorithm result section title" },
+
+  "algorithmStepOf": "Step {current} of {total}",
+  "@algorithmStepOf": {
+    "description": "Algorithm progress indicator",
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "algoStrokeCodeTitle": "Stroke Code: tPA Eligibility",
+  "@algoStrokeCodeTitle": { "description": "Stroke Code algorithm title" },
+
+  "algoStrokeCodeDescription": "Assessment of candidacy for IV thrombolysis in acute ischemic stroke (AHA/ASA guidelines).",
+  "@algoStrokeCodeDescription": { "description": "Stroke Code algorithm description" },
+
+  "algoStrokeCodeQWindow": "Did symptom onset occur < 4.5 hours ago, or did the patient wake up without prior symptoms?",
+  "@algoStrokeCodeQWindow": { "description": "Time window question" },
+
+  "algoStrokeCodeQWindowHint": "Count from the last known well time.",
+  "@algoStrokeCodeQWindowHint": { "description": "Time window clarification" },
+
+  "algoStrokeCodeQWindowYes": "Yes, within the time window",
+  "@algoStrokeCodeQWindowYes": { "description": "Time window yes option" },
+
+  "algoStrokeCodeQWindowNo": "No, more than 4.5 h have passed",
+  "@algoStrokeCodeQWindowNo": { "description": "Time window no option" },
+
+  "algoStrokeCodeQCt": "Has an urgent non-contrast CT been performed and intracranial hemorrhage excluded?",
+  "@algoStrokeCodeQCt": { "description": "CT question" },
+
+  "algoStrokeCodeQCtYes": "Yes, CT without hemorrhage",
+  "@algoStrokeCodeQCtYes": { "description": "CT done and negative" },
+
+  "algoStrokeCodeQCtNo": "No / CT pending",
+  "@algoStrokeCodeQCtNo": { "description": "CT not done yet" },
+
+  "algoStrokeCodeQNihss": "Does the patient have a disabling neurological deficit (NIHSS ≥ 4 or significant focal symptom)?",
+  "@algoStrokeCodeQNihss": { "description": "Neurological deficit question" },
+
+  "algoStrokeCodeQNihssYes": "Yes, disabling deficit",
+  "@algoStrokeCodeQNihssYes": { "description": "NIHSS ≥ 4 or significant deficit" },
+
+  "algoStrokeCodeQNihssNo": "No, minimal symptoms",
+  "@algoStrokeCodeQNihssNo": { "description": "NIHSS < 4 or resolving symptoms" },
+
+  "algoStrokeCodeQContraindications": "Is there any absolute contraindication to tPA?",
+  "@algoStrokeCodeQContraindications": { "description": "Absolute contraindications question" },
+
+  "algoStrokeCodeQContraindicationsHint": "Major surgery < 14 days · Severe head trauma < 3 months · Active bleeding · Platelets < 100,000 · INR > 1.7 · Blood glucose < 50 mg/dL",
+  "@algoStrokeCodeQContraindicationsHint": { "description": "Absolute contraindications list" },
+
+  "algoStrokeCodeQContraindicationsYes": "Yes, contraindication present",
+  "@algoStrokeCodeQContraindicationsYes": { "description": "Has absolute contraindication" },
+
+  "algoStrokeCodeQContraindicationsNo": "No, no absolute contraindications",
+  "@algoStrokeCodeQContraindicationsNo": { "description": "No absolute contraindications" },
+
+  "algoStrokeCodeQBp": "Is BP ≤ 185/110 mmHg (or controllable with simple measures)?",
+  "@algoStrokeCodeQBp": { "description": "BP question" },
+
+  "algoStrokeCodeQBpYes": "Yes, BP controlled",
+  "@algoStrokeCodeQBpYes": { "description": "BP ≤ 185/110 mmHg" },
+
+  "algoStrokeCodeQBpNo": "No, BP > 185/110 mmHg",
+  "@algoStrokeCodeQBpNo": { "description": "BP elevated uncontrolled" },
+
+  "algoStrokeCodeQWindow3h": "Did symptoms begin < 3 hours ago?",
+  "@algoStrokeCodeQWindow3h": { "description": "< 3h vs 3-4.5h question" },
+
+  "algoStrokeCodeQWindow3hYes": "Yes, < 3 h",
+  "@algoStrokeCodeQWindow3hYes": { "description": "Less than 3 hours" },
+
+  "algoStrokeCodeQWindow3hNo": "No, between 3 and 4.5 h",
+  "@algoStrokeCodeQWindow3hNo": { "description": "Between 3 and 4.5 hours" },
+
+  "algoStrokeCodeQRelativeCi": "Is there any relative contraindication for the 3-4.5 h window?",
+  "@algoStrokeCodeQRelativeCi": { "description": "Relative contraindications (extended window) question" },
+
+  "algoStrokeCodeQRelativeCiHint": "Age > 80 + prior stroke + diabetes · NIHSS > 25 · Oral anticoagulation within therapeutic range",
+  "@algoStrokeCodeQRelativeCiHint": { "description": "Relative contraindications list for 3-4.5 h" },
+
+  "algoStrokeCodeQRelativeCiYes": "Yes, relative contraindication",
+  "@algoStrokeCodeQRelativeCiYes": { "description": "Has relative contraindication" },
+
+  "algoStrokeCodeQRelativeCiNo": "No, no relative contraindications",
+  "@algoStrokeCodeQRelativeCiNo": { "description": "No relative contraindications" },
+
+  "algoStrokeCodeROutOfWindowTitle": "Outside therapeutic window",
+  "@algoStrokeCodeROutOfWindowTitle": { "description": "Result: onset > 4.5h" },
+  "algoStrokeCodeROutOfWindowRec1": "Symptom onset exceeds 4.5 h: IV tPA is not indicated.",
+  "@algoStrokeCodeROutOfWindowRec1": { "description": "" },
+  "algoStrokeCodeROutOfWindowRec2": "Consider mechanical thrombectomy based on imaging (ASPECTS, penumbra) if large vessel occlusion.",
+  "@algoStrokeCodeROutOfWindowRec2": { "description": "" },
+  "algoStrokeCodeROutOfWindowRec3": "Urgent consultation with interventional neuroradiology if NIHSS ≥ 6.",
+  "@algoStrokeCodeROutOfWindowRec3": { "description": "" },
+
+  "algoStrokeCodeRCtFirstTitle": "Urgent CT required before proceeding",
+  "@algoStrokeCodeRCtFirstTitle": { "description": "Result: CT not done" },
+  "algoStrokeCodeRCtFirstRec1": "Do not administer tPA without CT excluding intracranial hemorrhage.",
+  "@algoStrokeCodeRCtFirstRec1": { "description": "" },
+  "algoStrokeCodeRCtFirstRec2": "Order urgent non-contrast CT immediately.",
+  "@algoStrokeCodeRCtFirstRec2": { "description": "" },
+  "algoStrokeCodeRCtFirstRec3": "Activate stroke code if not already in progress.",
+  "@algoStrokeCodeRCtFirstRec3": { "description": "" },
+
+  "algoStrokeCodeRMinorDeficitTitle": "Minimal or resolving deficit",
+  "@algoStrokeCodeRMinorDeficitTitle": { "description": "Result: NIHSS < 4" },
+  "algoStrokeCodeRMinorDeficitRec1": "NIHSS < 4 with non-disabling symptoms: benefit of tPA is uncertain.",
+  "@algoStrokeCodeRMinorDeficitRec1": { "description": "" },
+  "algoStrokeCodeRMinorDeficitRec2": "Individualize: isolated aphasia or hemianopia may be relative indications.",
+  "@algoStrokeCodeRMinorDeficitRec2": { "description": "" },
+  "algoStrokeCodeRMinorDeficitRec3": "Consult with neurology/stroke team.",
+  "@algoStrokeCodeRMinorDeficitRec3": { "description": "" },
+
+  "algoStrokeCodeRAbsoluteCiTitle": "Absolute contraindication — not a candidate",
+  "@algoStrokeCodeRAbsoluteCiTitle": { "description": "Result: absolute contraindication" },
+  "algoStrokeCodeRAbsoluteCiRec1": "At least one absolute contraindication to IV tPA exists.",
+  "@algoStrokeCodeRAbsoluteCiRec1": { "description": "" },
+  "algoStrokeCodeRAbsoluteCiRec2": "Document the specific contraindication in the medical record.",
+  "@algoStrokeCodeRAbsoluteCiRec2": { "description": "" },
+  "algoStrokeCodeRAbsoluteCiRec3": "Consider mechanical thrombectomy if large vessel occlusion is present.",
+  "@algoStrokeCodeRAbsoluteCiRec3": { "description": "" },
+
+  "algoStrokeCodeRTreatBpTitle": "Treat BP and reassess in 15 min",
+  "@algoStrokeCodeRTreatBpTitle": { "description": "Result: BP out of range" },
+  "algoStrokeCodeRTreatBpRec1": "BP > 185/110 mmHg: labetalol 10 mg IV or nicardipine infusion.",
+  "@algoStrokeCodeRTreatBpRec1": { "description": "" },
+  "algoStrokeCodeRTreatBpRec2": "Reassess BP at 15 min. If ≤ 185/110, resume the algorithm.",
+  "@algoStrokeCodeRTreatBpRec2": { "description": "" },
+  "algoStrokeCodeRTreatBpRec3": "If BP cannot be controlled, tPA is contraindicated.",
+  "@algoStrokeCodeRTreatBpRec3": { "description": "" },
+
+  "algoStrokeCodeRCandidate3hTitle": "CANDIDATE — IV tPA (window < 3 h)",
+  "@algoStrokeCodeRCandidate3hTitle": { "description": "Result: tPA candidate < 3h" },
+  "algoStrokeCodeRCandidate3hRec1": "Activate IV thrombolysis protocol immediately.",
+  "@algoStrokeCodeRCandidate3hRec1": { "description": "" },
+  "algoStrokeCodeRCandidate3hRec2": "Dose: alteplase 0.9 mg/kg (max 90 mg) — 10% IV bolus; 90% over 60-min infusion.",
+  "@algoStrokeCodeRCandidate3hRec2": { "description": "" },
+  "algoStrokeCodeRCandidate3hRec3": "Strict neurological monitoring. BP check every 15 min for 2 h.",
+  "@algoStrokeCodeRCandidate3hRec3": { "description": "" },
+
+  "algoStrokeCodeRRelativeCiTitle": "Relative contraindication — 3-4.5 h window",
+  "@algoStrokeCodeRRelativeCiTitle": { "description": "Result: relative CI extended window" },
+  "algoStrokeCodeRRelativeCiRec1": "At least one relative contraindication for the extended window exists.",
+  "@algoStrokeCodeRRelativeCiRec1": { "description": "" },
+  "algoStrokeCodeRRelativeCiRec2": "Individualized decision with stroke team: risk/benefit must be assessed.",
+  "@algoStrokeCodeRRelativeCiRec2": { "description": "" },
+  "algoStrokeCodeRRelativeCiRec3": "Consider mechanical thrombectomy if large vessel occlusion is present.",
+  "@algoStrokeCodeRRelativeCiRec3": { "description": "" },
+
+  "algoStrokeCodeRCandidate4hTitle": "CANDIDATE — IV tPA (3-4.5 h window)",
+  "@algoStrokeCodeRCandidate4hTitle": { "description": "Result: tPA candidate extended window" },
+  "algoStrokeCodeRCandidate4hRec1": "No relative contraindications: patient is a candidate in the extended window.",
+  "@algoStrokeCodeRCandidate4hRec1": { "description": "" },
+  "algoStrokeCodeRCandidate4hRec2": "Dose: alteplase 0.9 mg/kg (max 90 mg) — 10% IV bolus; 90% over 60-min infusion.",
+  "@algoStrokeCodeRCandidate4hRec2": { "description": "" },
+  "algoStrokeCodeRCandidate4hRec3": "Strict neurological monitoring. BP check every 15 min for 2 h.",
+  "@algoStrokeCodeRCandidate4hRec3": { "description": "" },
+
+  "algoHtaIctusTitle": "BP Management in Acute Stroke",
+  "@algoHtaIctusTitle": { "description": "BP management algorithm title" },
+
+  "algoHtaIctusDescription": "Blood pressure targets according to stroke type and clinical situation (AHA/ASA guidelines).",
+  "@algoHtaIctusDescription": { "description": "BP management algorithm description" },
+
+  "algoHtaIctusQType": "What type of stroke has been confirmed by neuroimaging?",
+  "@algoHtaIctusQType": { "description": "Stroke type question" },
+
+  "algoHtaIctusQTypeIschemic": "Ischemic stroke",
+  "@algoHtaIctusQTypeIschemic": { "description": "Ischemic stroke" },
+
+  "algoHtaIctusQTypeHemorrhagic": "Intracerebral hemorrhage (ICH)",
+  "@algoHtaIctusQTypeHemorrhagic": { "description": "Intracerebral hemorrhage" },
+
+  "algoHtaIctusQTypeSah": "Subarachnoid hemorrhage (SAH)",
+  "@algoHtaIctusQTypeSah": { "description": "Subarachnoid hemorrhage" },
+
+  "algoHtaIctusQTypeUnknown": "Unknown type (no neuroimaging)",
+  "@algoHtaIctusQTypeUnknown": { "description": "No imaging diagnosis" },
+
+  "algoHtaIctusQReperfusion": "Is the patient a candidate for or has already received reperfusion therapy (IV tPA / thrombectomy)?",
+  "@algoHtaIctusQReperfusion": { "description": "Reperfusion therapy question" },
+
+  "algoHtaIctusQReperfusionYes": "Yes, with reperfusion",
+  "@algoHtaIctusQReperfusionYes": { "description": "Receiving or will receive tPA / thrombectomy" },
+
+  "algoHtaIctusQReperfusionNo": "No, without reperfusion",
+  "@algoHtaIctusQReperfusionNo": { "description": "Not a reperfusion candidate" },
+
+  "algoHtaIctusQIschemicBp": "Is BP sustained > 220/120 mmHg?",
+  "@algoHtaIctusQIschemicBp": { "description": "BP threshold in ischemic stroke without reperfusion" },
+
+  "algoHtaIctusQIschemicBpYes": "Yes, > 220/120 mmHg",
+  "@algoHtaIctusQIschemicBpYes": { "description": "Very high BP in ischemic stroke" },
+
+  "algoHtaIctusQIschemicBpNo": "No, ≤ 220/120 mmHg",
+  "@algoHtaIctusQIschemicBpNo": { "description": "BP in tolerable range in ischemic stroke" },
+
+  "algoHtaIctusQIchSbp": "Is SBP > 150 mmHg?",
+  "@algoHtaIctusQIchSbp": { "description": "SBP threshold in ICH" },
+
+  "algoHtaIctusQIchSbpYes": "Yes, SBP > 150 mmHg",
+  "@algoHtaIctusQIchSbpYes": { "description": "Elevated SBP in ICH" },
+
+  "algoHtaIctusQIchSbpNo": "No, SBP ≤ 150 mmHg",
+  "@algoHtaIctusQIchSbpNo": { "description": "SBP in range in ICH" },
+
+  "algoHtaIctusQSahVasospasm": "Is vasospasm documented by TCD or strongly suspected clinically?",
+  "@algoHtaIctusQSahVasospasm": { "description": "Vasospasm question in SAH" },
+
+  "algoHtaIctusQSahVasospasmYes": "Yes, vasospasm documented/suspected",
+  "@algoHtaIctusQSahVasospasmYes": { "description": "Vasospasm present in SAH" },
+
+  "algoHtaIctusQSahVasospasmNo": "No, no vasospasm findings",
+  "@algoHtaIctusQSahVasospasmNo": { "description": "No vasospasm in SAH" },
+
+  "algoHtaIctusRUnknownTypeTitle": "Unknown stroke type — urgent CT",
+  "@algoHtaIctusRUnknownTypeTitle": { "description": "Result: stroke type unconfirmed" },
+  "algoHtaIctusRUnknownTypeRec1": "Do not initiate aggressive antihypertensive treatment until neuroimaging is available.",
+  "@algoHtaIctusRUnknownTypeRec1": { "description": "" },
+  "algoHtaIctusRUnknownTypeRec2": "Order urgent CT to differentiate ischemic from hemorrhagic stroke.",
+  "@algoHtaIctusRUnknownTypeRec2": { "description": "" },
+  "algoHtaIctusRUnknownTypeRec3": "Treat only if BP > 220/130 mmHg with acute end-organ damage.",
+  "@algoHtaIctusRUnknownTypeRec3": { "description": "" },
+
+  "algoHtaIctusRReperfusionTargetTitle": "Target: BP < 185/110 (pre) / < 180/105 (post-tPA)",
+  "@algoHtaIctusRReperfusionTargetTitle": { "description": "Result: BP targets with reperfusion" },
+  "algoHtaIctusRReperfusionTargetRec1": "Pre-tPA: maintain BP ≤ 185/110 mmHg before infusion.",
+  "@algoHtaIctusRReperfusionTargetRec1": { "description": "" },
+  "algoHtaIctusRReperfusionTargetRec2": "Post-tPA (first 24 h): strict target BP < 180/105 mmHg.",
+  "@algoHtaIctusRReperfusionTargetRec2": { "description": "" },
+  "algoHtaIctusRReperfusionTargetRec3": "Agents: IV labetalol, IV nicardipine, or clevidipine. Monitor every 15 min.",
+  "@algoHtaIctusRReperfusionTargetRec3": { "description": "" },
+
+  "algoHtaIctusRIschemicTreatTitle": "Cautious BP reduction — max 15% in 24 h",
+  "@algoHtaIctusRIschemicTreatTitle": { "description": "Result: treat BP in ischemic stroke without reperfusion" },
+  "algoHtaIctusRIschemicTreatRec1": "Treat only if BP > 220/120 mmHg sustained or with end-organ damage.",
+  "@algoHtaIctusRIschemicTreatRec1": { "description": "" },
+  "algoHtaIctusRIschemicTreatRec2": "Reduction ≤ 15% in the first 24 h to avoid penumbra hypoperfusion.",
+  "@algoHtaIctusRIschemicTreatRec2": { "description": "" },
+  "algoHtaIctusRIschemicTreatRec3": "Agents: IV labetalol, IV nicardipine. Avoid nitroprusside (increases ICP).",
+  "@algoHtaIctusRIschemicTreatRec3": { "description": "" },
+
+  "algoHtaIctusRIschemicObserveTitle": "Do not treat — risk of hypoperfusion",
+  "@algoHtaIctusRIschemicObserveTitle": { "description": "Result: tolerable BP in ischemic stroke" },
+  "algoHtaIctusRIschemicObserveRec1": "BP ≤ 220/120 mmHg: active antihypertensive treatment is not recommended.",
+  "@algoHtaIctusRIschemicObserveRec1": { "description": "" },
+  "algoHtaIctusRIschemicObserveRec2": "Hypertension in acute stroke is often a physiological compensatory response.",
+  "@algoHtaIctusRIschemicObserveRec2": { "description": "" },
+  "algoHtaIctusRIschemicObserveRec3": "Monitor BP and reassess if it exceeds the treatment threshold.",
+  "@algoHtaIctusRIschemicObserveRec3": { "description": "" },
+
+  "algoHtaIctusRIchTreatTitle": "Target: SBP 130-150 mmHg",
+  "@algoHtaIctusRIchTreatTitle": { "description": "Result: treat SBP in ICH" },
+  "algoHtaIctusRIchTreatRec1": "Actively treat SBP > 150 mmHg in acute ICH (INTERACT2, ATACH-2 evidence).",
+  "@algoHtaIctusRIchTreatRec1": { "description": "" },
+  "algoHtaIctusRIchTreatRec2": "Target: SBP 130-150 mmHg. Avoid drops < 130 mmHg (ischemia risk).",
+  "@algoHtaIctusRIchTreatRec2": { "description": "" },
+  "algoHtaIctusRIchTreatRec3": "Agents: IV nicardipine, IV labetalol, or urapidil. Monitor consciousness level.",
+  "@algoHtaIctusRIchTreatRec3": { "description": "" },
+
+  "algoHtaIctusRIchObserveTitle": "Do not treat — monitor for hypotension",
+  "@algoHtaIctusRIchObserveTitle": { "description": "Result: tolerable SBP in ICH" },
+  "algoHtaIctusRIchObserveRec1": "SBP ≤ 150 mmHg: antihypertensive treatment not required.",
+  "@algoHtaIctusRIchObserveRec1": { "description": "" },
+  "algoHtaIctusRIchObserveRec2": "Monitor for hypotension (SBP < 110 mmHg), which may worsen the hematoma.",
+  "@algoHtaIctusRIchObserveRec2": { "description": "" },
+  "algoHtaIctusRIchObserveRec3": "Monitor BP hourly and consciousness level.",
+  "@algoHtaIctusRIchObserveRec3": { "description": "" },
+
+  "algoHtaIctusRSahVasospasmTitle": "Vasospasm — permissive BP, avoid hypotension",
+  "@algoHtaIctusRSahVasospasmTitle": { "description": "Result: vasospasm in SAH" },
+  "algoHtaIctusRSahVasospasmRec1": "With vasospasm: maintain BP in normotensive or mild induced hypertension range.",
+  "@algoHtaIctusRSahVasospasmRec1": { "description": "" },
+  "algoHtaIctusRSahVasospasmRec2": "Consider triple-H therapy (hypervolemia, hemodilution, hypertension) if delayed ischemia.",
+  "@algoHtaIctusRSahVasospasmRec2": { "description": "" },
+  "algoHtaIctusRSahVasospasmRec3": "Oral nimodipine 60 mg/4 h for 21 days in all SAH patients.",
+  "@algoHtaIctusRSahVasospasmRec3": { "description": "" },
+
+  "algoHtaIctusRSahNoVasospasmTitle": "No vasospasm — target BP < 160/90",
+  "@algoHtaIctusRSahNoVasospasmTitle": { "description": "Result: no vasospasm in SAH" },
+  "algoHtaIctusRSahNoVasospasmRec1": "If BP > 160/90 mmHg, consider mild antihypertensive treatment.",
+  "@algoHtaIctusRSahNoVasospasmRec1": { "description": "" },
+  "algoHtaIctusRSahNoVasospasmRec2": "Avoid hypotension: increases risk of delayed ischemia from vasospasm.",
+  "@algoHtaIctusRSahNoVasospasmRec2": { "description": "" },
+  "algoHtaIctusRSahNoVasospasmRec3": "Oral nimodipine 60 mg/4 h for 21 days, regardless of BP.",
+  "@algoHtaIctusRSahNoVasospasmRec3": { "description": "" },
+
+  "algoSahTitle": "Subarachnoid Hemorrhage",
+  "@algoSahTitle": { "description": "SAH algorithm title" },
+
+  "algoSahDescription": "Hunt-Hess clinical classification and CT Fisher scale to guide initial management.",
+  "@algoSahDescription": { "description": "SAH algorithm description" },
+
+  "algoSahQConsciousness": "What is the patient's level of consciousness?",
+  "@algoSahQConsciousness": { "description": "Consciousness level question in SAH" },
+
+  "algoSahQConsciousnessAlert": "Alert — normal consciousness",
+  "@algoSahQConsciousnessAlert": { "description": "Alert patient in SAH" },
+
+  "algoSahQConsciousnessDrowsy": "Drowsy or confused (arousable)",
+  "@algoSahQConsciousnessDrowsy": { "description": "Drowsy/confused patient in SAH" },
+
+  "algoSahQConsciousnessStupor": "Stupor, coma, or decerebrate rigidity",
+  "@algoSahQConsciousnessStupor": { "description": "Stupor/coma patient in SAH" },
+
+  "algoSahQFocalDeficit": "Is there focal neurological deficit or cranial nerve paresis?",
+  "@algoSahQFocalDeficit": { "description": "Focal deficit question in SAH (HH I vs II)" },
+
+  "algoSahQFocalDeficitNo": "No — no focal deficit",
+  "@algoSahQFocalDeficitNo": { "description": "No focal deficit in SAH" },
+
+  "algoSahQFocalDeficitYes": "Yes — focal deficit present",
+  "@algoSahQFocalDeficitYes": { "description": "Focal deficit in SAH" },
+
+  "algoSahQCtSah": "What does the CT scan show regarding the blood distribution?",
+  "@algoSahQCtSah": { "description": "Fisher CT question in SAH" },
+
+  "algoSahQCtSahFisher12": "No blood or thin diffuse hemorrhage (Fisher 1-2)",
+  "@algoSahQCtSahFisher12": { "description": "Fisher grade 1-2 on CT" },
+
+  "algoSahQCtSahFisher34": "Localized clot, layers ≥ 1 mm, or intraventricular hematoma (Fisher 3-4)",
+  "@algoSahQCtSahFisher34": { "description": "Fisher grade 3-4 on CT" },
+
+  "algoSahRHh1Fisher12Title": "Hunt-Hess I · Fisher 1-2 — low vasospasm risk",
+  "@algoSahRHh1Fisher12Title": { "description": "Result: HH I, Fisher 1-2" },
+  "algoSahRHh1Fisher12Rec1": "Low risk of symptomatic vasospasm. Favorable prognosis.",
+  "@algoSahRHh1Fisher12Rec1": { "description": "" },
+  "algoSahRHh1Fisher12Rec2": "Start nimodipine 60 mg/4 h for 21 days. Bed rest.",
+  "@algoSahRHh1Fisher12Rec2": { "description": "" },
+  "algoSahRHh1Fisher12Rec3": "CT-angiography or arteriography to localize the aneurysm. Elective neurosurgery.",
+  "@algoSahRHh1Fisher12Rec3": { "description": "" },
+
+  "algoSahRHh1Fisher34Title": "Hunt-Hess I · Fisher 3-4 — high vasospasm risk",
+  "@algoSahRHh1Fisher34Title": { "description": "Result: HH I, Fisher 3-4" },
+  "algoSahRHh1Fisher34Rec1": "Fisher 3-4: high risk of delayed vasospasm (days 4-14 after bleeding).",
+  "@algoSahRHh1Fisher34Rec1": { "description": "" },
+  "algoSahRHh1Fisher34Rec2": "Start nimodipine 60 mg/4 h. Close neurological monitoring.",
+  "@algoSahRHh1Fisher34Rec2": { "description": "" },
+  "algoSahRHh1Fisher34Rec3": "Urgent arteriography. Consider early endovascular aneurysm treatment.",
+  "@algoSahRHh1Fisher34Rec3": { "description": "" },
+
+  "algoSahRHh2Title": "Hunt-Hess II — moderate risk",
+  "@algoSahRHh2Title": { "description": "Result: Hunt-Hess grade II" },
+  "algoSahRHh2Rec1": "Admit to neurology/neurosurgery unit. Continuous monitoring.",
+  "@algoSahRHh2Rec1": { "description": "" },
+  "algoSahRHh2Rec2": "Nimodipine 60 mg/4 h for 21 days. Strict BP control.",
+  "@algoSahRHh2Rec2": { "description": "" },
+  "algoSahRHh2Rec3": "Urgent arteriography for aneurysm treatment (endovascular coiling preferred).",
+  "@algoSahRHh2Rec3": { "description": "" },
+
+  "algoSahRHh3Title": "Hunt-Hess III — high risk",
+  "@algoSahRHh3Title": { "description": "Result: Hunt-Hess grade III" },
+  "algoSahRHh3Rec1": "ICU admission. Continuous neurological and hemodynamic monitoring.",
+  "@algoSahRHh3Rec1": { "description": "" },
+  "algoSahRHh3Rec2": "Nimodipine 60 mg/4 h. Consider ICP monitoring if neurological deterioration.",
+  "@algoSahRHh3Rec2": { "description": "" },
+  "algoSahRHh3Rec3": "Urgent arteriography and aneurysm treatment.",
+  "@algoSahRHh3Rec3": { "description": "" },
+
+  "algoSahRHh45Title": "Hunt-Hess IV-V — poor prognosis",
+  "@algoSahRHh45Title": { "description": "Result: Hunt-Hess grade IV-V" },
+  "algoSahRHh45Rec1": "Urgent ICU admission. Advanced life support. Consider mechanical ventilation.",
+  "@algoSahRHh45Rec1": { "description": "" },
+  "algoSahRHh45Rec2": "Urgent consultation with neurosurgery and intensive care.",
+  "@algoSahRHh45Rec2": { "description": "" },
+  "algoSahRHh45Rec3": "Guarded prognosis. Early family communication and prognostic assessment.",
+  "@algoSahRHh45Rec3": { "description": "" }
+}
