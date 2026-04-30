@@ -42,7 +42,10 @@ gantt
     3.3 Patient detail + cleanup        :done, f3c, 2026-04-30, 1d
 
     section Fase 4 · Algoritmos + Offline
-    Algoritmos + Offline + Perfil      :active, f4, 2026-05-01, 21d
+    4.1 Algoritmos clínicos (dom + UI)  :done, f4a, 2026-04-30, 1d
+    4.2 Modo offline (drift)            :done, f4b, 2026-04-30, 1d
+    4.3 Multilenguaje EN                :done, f4c, 2026-04-30, 1d
+    4.4 Pantalla de perfil              :done, f4d, 2026-04-30, 1d
 ```
 
 ---

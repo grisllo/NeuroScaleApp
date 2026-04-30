@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Fase activa: Fase 4** — Fase 3 completada 2026-04-30. Subfase 4.1 (Algoritmos) completada 2026-04-30.
+**Proyecto completado: Fase 4** ✅ — Fase 4 completada 2026-04-30. Todas las subfases entregadas.
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
@@ -131,7 +131,7 @@ Commit `fb55092`. Feature `history/` eliminada. `PatientEvolutionChart` con Line
 
 ---
 
-### Fase 4 — Algoritmos + Offline + Perfil 🚧 En curso
+### Fase 4 — Algoritmos + Offline + Perfil ✅ Completada (2026-04-30)
 
 **Objetivo**: completar la propuesta de valor original con algoritmos clínicos y resiliencia offline.
 
@@ -141,14 +141,14 @@ Commit `fb55092`. Feature `history/` eliminada. `PatientEvolutionChart` con Line
 Commits `884ff0c` (dominio + 47 tests) + `01846f7` (UI: tab Algoritmos + pantalla paso a paso).
 Tests: 118 → 165. Tres algoritmos: Código Ictus tPA, HTA en Ictus Agudo, HSA Hunt-Hess/Fisher.
 
-#### 4.2 — Modo offline 📅 Pendiente
-Datasource local con `drift`, repositorio dual local-first, sin cambios en la UI.
+#### 4.2 — Modo offline ✅ Completada (2026-04-30)
+Commit `14a2b31`. `AppDatabase` (drift 2.22.1) con tablas `evaluations` + `patients`. Cache-aside en repositorios: remote-first → SQLite local como fallback. Sin cambios en UI.
 
-#### 4.3 — Multilenguaje (EN) 📅 Pendiente
-Traducir `app_es.arb` → `app_en.arb`, selector de idioma en perfil.
+#### 4.3 — Multilenguaje (EN) ✅ Completada (2026-04-30)
+Commit `b025b43`. `app_en.arb` con ~300 claves. `localeProvider` con persistencia en SharedPreferences. `MaterialApp.router` usa locale dinámico.
 
-#### 4.4 — Pantalla de perfil 📅 Pendiente
-Email (solo lectura desde Auth), selector de idioma, botón logout.
+#### 4.4 — Pantalla de perfil ✅ Completada (2026-04-30)
+Commit `ea1a77c`. Tab Perfil: email (solo lectura), `SegmentedButton` ES/EN, botón logout. Logout eliminado del AppBar de escalas.
 
 Issue #13.
 

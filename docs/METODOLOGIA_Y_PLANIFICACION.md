@@ -156,15 +156,21 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | **Total Fase 3 completa** | **10,5 h** | **11,0 h** | **+0,5 h** | **Desviación: +4,8%** |
 | **TOTAL ACUMULADO Fases 0-3** | **50,5 h** | **39,0 h** | **−11,5 h** | **Desviación acumulada: −22,8%** |
 | Fase 4.1: Algoritmos clínicos | 4,0 h | 1,5 h | −2,5 h | Sealed classes Dart 3 + travesía pura simplificaron dominio. Extension method para lookup l10n sin infraestructura adicional. |
-| **TOTAL ACUMULADO Fases 0-4.1** | **50,5 h** | **40,5 h** | **−10,0 h** | **Desviación acumulada: −19,8%** |
+| Fase 4.2: Modo offline (drift) | 3,0 h | 2,0 h | −1,0 h | Incompatibilidad de versiones drift/drift_flutter añadió ~30 min de diagnóstico. Resto en línea con estimación. |
+| Fase 4.3: Multilenguaje EN | 1,0 h | 2,5 h | +1,5 h | Traducción de ~300 claves (incluyendo contenido clínico extenso de algoritmos) más costosa de lo estimado. |
+| Fase 4.4: Pantalla de perfil | 2,0 h | 0,5 h | −1,5 h | Patrón de pantalla sencillo + lógica de idioma ya preparada desde 4.3. |
+| **TOTAL ACUMULADO Fases 0-4 (PROYECTO COMPLETO)** | **50,5 h** | **45,5 h** | **−5,0 h** | **Desviación acumulada: −9,9%** |
 | Fase 3.1: UX shell + back buttons + polish M3 | `6ddfe80` | 2026-04-28 | ~3,5 h |
 | Fase 3.2: Modelo pacientes + CRUD + save flow | `c8e6845` | 2026-04-29 | ~5,5 h |
 | Fase 3.3: Evolution chart + cleanup history | `fb55092` | 2026-04-30 | ~2,0 h |
 | **Total acumulado Fase 3 (real)** | | | **~39,0 h** |
 | Fase 4.1: Algoritmos clínicos (dominio + UI) | `884ff0c`, `01846f7` | 2026-04-30 | ~1,5 h |
-| **Total acumulado Fase 4.1 (real)** | | | **~40,5 h** |
+| Fase 4.2: Modo offline (drift — Android/iOS) | `14a2b31` | 2026-04-30 | ~2,0 h |
+| Fase 4.3: Multilenguaje EN | `b025b43` | 2026-04-30 | ~2,5 h |
+| Fase 4.4: Pantalla de perfil + selector idioma | `ea1a77c` | 2026-04-30 | ~0,5 h |
+| **Total acumulado Fase 4 completa (real)** | | | **~45,5 h** |
 
-**Conclusión de desviaciones (actualizada a Fase 4.1)**: La planificación inicial fue ligeramente pesimista en las tareas de implementación. El balance global acumulado es favorable: −10,0 h sobre la estimación (−19,8%). La arquitectura bien definida y el uso de sealed classes Dart 3 aceleran consistentemente la implementación del dominio.
+**Conclusión de desviaciones (proyecto completo, Fases 0-4)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance final: −5,0 h sobre estimación (−9,9%). Las mayores ganancias vinieron de la arquitectura bien definida; la única desviación positiva fue la traducción de contenido clínico extenso (Fase 4.3), no prevista en su totalidad.
 
 ---
 
