@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 
 class ScalesTabScreen extends ConsumerWidget {
@@ -27,37 +28,37 @@ class ScalesTabScreen extends ConsumerWidget {
               ),
             ),
           Text(
-            'Escalas neurológicas',
+            context.l10n.scalesTabTitle,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: 12),
           _ScaleCard(
             title: 'Glasgow Coma Scale',
-            subtitle: 'Evaluación del nivel de consciencia',
+            subtitle: context.l10n.gcsSubtitle,
             icon: Icons.psychology_rounded,
             onTap: () => context.pushNamed('gcs'),
           ),
           _ScaleCard(
             title: 'NIHSS',
-            subtitle: 'National Institutes of Health Stroke Scale',
+            subtitle: context.l10n.nihssSubtitle,
             icon: Icons.health_and_safety_rounded,
             onTap: () => context.pushNamed('nihss'),
           ),
           _ScaleCard(
             title: 'ABCD2',
-            subtitle: 'Riesgo de ictus tras AIT',
+            subtitle: context.l10n.abcd2Subtitle,
             icon: Icons.warning_amber_rounded,
             onTap: () => context.pushNamed('abcd2'),
           ),
           _ScaleCard(
             title: 'Barthel Index',
-            subtitle: 'Índice de actividades de la vida diaria',
+            subtitle: context.l10n.barthelSubtitle,
             icon: Icons.checklist_rounded,
             onTap: () => context.pushNamed('barthel'),
           ),
           _ScaleCard(
             title: 'mRS (Modified Rankin Scale)',
-            subtitle: 'Escala de discapacidad neurológica post-ictus',
+            subtitle: context.l10n.rankinSubtitle,
             icon: Icons.accessibility_new_rounded,
             onTap: () => context.pushNamed('rankin'),
           ),

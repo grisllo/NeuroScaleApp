@@ -268,6 +268,9 @@
   "tabHome": "Inicio",
   "@tabHome": { "description": "Etiqueta del tab de inicio (escalas)" },
 
+  "scalesTabTitle": "Escalas neurológicas",
+  "@scalesTabTitle": { "description": "Título de la sección de escalas en la pantalla de inicio" },
+
   "tabPatients": "Pacientes",
   "@tabPatients": { "description": "Etiqueta del tab de pacientes" },
 

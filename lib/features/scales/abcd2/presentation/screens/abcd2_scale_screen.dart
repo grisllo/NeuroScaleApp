@@ -27,7 +27,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => ref.read(abcd2AnswersProvider.notifier).reset(),
-            child: const Text('Restablecer'),
+            child: Text(context.l10n.resetButton),
           ),
         ],
       ),
@@ -39,8 +39,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Text(
-                'Estratificación del riesgo de ictus tras AIT\n'
-                '(ataque isquémico transitorio)',
+                context.l10n.abcd2Subtitle,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -68,7 +67,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
             onPressed: allAnswered
                 ? () => _calculate(context, ref, answers)
                 : null,
-            child: const Text('Calcular puntuación'),
+            child: Text(context.l10n.calculateButton),
           ),
         ),
       ),

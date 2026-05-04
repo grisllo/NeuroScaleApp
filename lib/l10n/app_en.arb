@@ -268,6 +268,9 @@
   "tabHome": "Home",
   "@tabHome": { "description": "Home tab label" },
 
+  "scalesTabTitle": "Neurological Scales",
+  "@scalesTabTitle": { "description": "Section heading in the scales home screen" },
+
   "tabPatients": "Patients",
   "@tabPatients": { "description": "Patients tab label" },
 

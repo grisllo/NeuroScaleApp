@@ -28,7 +28,7 @@ class NihssScaleScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => ref.read(nihssAnswersProvider.notifier).reset(),
-            child: const Text('Restablecer'),
+            child: Text(context.l10n.resetButton),
           ),
         ],
       ),
@@ -40,8 +40,7 @@ class NihssScaleScreen extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Text(
-                'National Institutes of Health Stroke Scale\n'
-                'Total 0-42 · Versión estándar AHA/ASA',
+                '${context.l10n.nihssSubtitle}\n${context.l10n.nihssInfo}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -66,9 +65,7 @@ class NihssScaleScreen extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Paciente comatoso (1a = 3): puntúa los ítems '
-                        'siguientes según la respuesta observada al '
-                        'estímulo nociceptivo.',
+                        context.l10n.nihssComa,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(
                             context,
@@ -101,7 +98,7 @@ class NihssScaleScreen extends ConsumerWidget {
             onPressed: allAnswered
                 ? () => _calculate(context, ref, answers)
                 : null,
-            child: const Text('Calcular puntuación'),
+            child: Text(context.l10n.calculateButton),
           ),
         ),
       ),

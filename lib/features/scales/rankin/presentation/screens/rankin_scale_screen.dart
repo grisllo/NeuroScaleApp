@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/extensions/l10n_extension.dart';
+import '../../../../../core/extensions/scale_key_resolver.dart';
 import '../../../rankin/domain/rankin_calculator.dart';
 import '../../../rankin/domain/rankin_definition.dart';
 import '../providers/rankin_provider.dart';
@@ -22,7 +24,7 @@ class RankinScaleScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => ref.read(rankinAnswersProvider.notifier).reset(),
-            child: const Text('Restablecer'),
+            child: Text(context.l10n.resetButton),
           ),
         ],
       ),
@@ -30,7 +32,7 @@ class RankinScaleScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Selecciona el grado que mejor describe la situación del paciente:',
+            context.l10n.rankinSelectGrade,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
@@ -51,7 +53,7 @@ class RankinScaleScreen extends ConsumerWidget {
                     .read(rankinAnswersProvider.notifier)
                     .setAnswer(rankinKeyScore, v!),
                 title: Text(
-                  '${opt.$1} — ${opt.$2}',
+                  '${opt.$1} — ${context.l10n.resolveKey(opt.$2)}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 contentPadding: const EdgeInsets.symmetric(
@@ -71,7 +73,7 @@ class RankinScaleScreen extends ConsumerWidget {
             onPressed: selected != null
                 ? () => _calculate(context, ref, answers)
                 : null,
-            child: const Text('Calcular puntuación'),
+            child: Text(context.l10n.calculateButton),
           ),
         ),
       ),

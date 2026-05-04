@@ -27,7 +27,7 @@ class GcsScaleScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => ref.read(gcsAnswersProvider.notifier).reset(),
-            child: const Text('Restablecer'),
+            child: Text(context.l10n.resetButton),
           ),
         ],
       ),
@@ -53,7 +53,7 @@ class GcsScaleScreen extends ConsumerWidget {
             onPressed: allAnswered
                 ? () => _calculate(context, ref, answers)
                 : null,
-            child: const Text('Calcular puntuación'),
+            child: Text(context.l10n.calculateButton),
           ),
         ),
       ),
