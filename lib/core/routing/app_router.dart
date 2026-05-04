@@ -92,11 +92,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/result',
         name: 'result',
         builder: (_, state) {
-          final extra = state.extra! as (ScaleResult, String, String);
+          final extra = state.extra;
+          if (extra == null) return const SizedBox.shrink();
+          final (result, title, type) = extra as (ScaleResult, String, String);
           return ResultScreen(
-            result: extra.$1,
-            scaleTitle: extra.$2,
-            scaleType: extra.$3,
+            result: result,
+            scaleTitle: title,
+            scaleType: type,
           );
         },
       ),

@@ -331,7 +331,8 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
     required AppLocalizations l10n,
   }) {
     return DropdownButtonFormField<String?>(
-      initialValue: _selectedValue,
+      // ignore: deprecated_member_use
+      value: _selectedValue,
       decoration: InputDecoration(labelText: l10n.patientPickerLabel),
       items: [
         DropdownMenuItem<String?>(
