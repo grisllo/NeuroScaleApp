@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
 
 // Max scores per scale — normalization to 0-100% for uniform Y axis.
@@ -159,7 +160,7 @@ class _ScaleChart extends StatelessWidget {
                           }
                           final dt = evaluations[i].createdAt;
                           return SideTitleWidget(
-                            axisSide: meta.axisSide,
+                            meta: meta,
                             child: Text(
                               '${dt.day}/${dt.month}',
                               style: const TextStyle(fontSize: 10),
@@ -175,7 +176,7 @@ class _ScaleChart extends StatelessWidget {
                         getTitlesWidget: (value, meta) {
                           if (value % 25 != 0) return const SizedBox();
                           return SideTitleWidget(
-                            axisSide: meta.axisSide,
+                            meta: meta,
                             child: Text(
                               '${value.toInt()}%',
                               style: const TextStyle(fontSize: 10),
@@ -198,7 +199,7 @@ class _ScaleChart extends StatelessWidget {
                         if (i < 0 || i >= evaluations.length) return null;
                         final eval = evaluations[i];
                         return LineTooltipItem(
-                          '${eval.totalScore}/$maxScore\n${eval.interpretation}',
+                          '${eval.totalScore}/$maxScore\n${context.l10n.resolveKey(eval.interpretation)}',
                           const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,

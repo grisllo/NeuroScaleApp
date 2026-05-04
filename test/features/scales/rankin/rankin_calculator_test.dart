@@ -10,7 +10,7 @@ void main() {
     test('grado 0 → Severity.none / Sin síntomas', () {
       final r = calculateRankin(_answers(0));
       expect(r.severity, Severity.none);
-      expect(r.interpretation, 'Sin síntomas');
+      expect(r.interpretation, 'rankinInterp0');
       expect(r.totalScore, 0);
       expect(r.maxScore, 6);
     });
@@ -18,37 +18,37 @@ void main() {
     test('grado 1 → Severity.mild / Sin discapacidad significativa', () {
       final r = calculateRankin(_answers(1));
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Sin discapacidad significativa');
+      expect(r.interpretation, 'rankinInterp1');
     });
 
     test('grado 2 → Severity.mild / Discapacidad leve', () {
       final r = calculateRankin(_answers(2));
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Discapacidad leve');
+      expect(r.interpretation, 'rankinInterp2');
     });
 
     test('grado 3 → Severity.moderate / Discapacidad moderada', () {
       final r = calculateRankin(_answers(3));
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Discapacidad moderada');
+      expect(r.interpretation, 'rankinInterp3');
     });
 
     test('grado 4 → Severity.severe / Discapacidad moderadamente grave', () {
       final r = calculateRankin(_answers(4));
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Discapacidad moderadamente grave');
+      expect(r.interpretation, 'rankinInterp4');
     });
 
     test('grado 5 → Severity.severe / Discapacidad grave', () {
       final r = calculateRankin(_answers(5));
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Discapacidad grave');
+      expect(r.interpretation, 'rankinInterp5');
     });
 
     test('grado 6 → Severity.severe / Fallecido', () {
       final r = calculateRankin(_answers(6));
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Fallecido');
+      expect(r.interpretation, 'rankinInterp6');
     });
   });
 

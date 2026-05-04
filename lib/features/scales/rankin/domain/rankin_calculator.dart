@@ -17,7 +17,7 @@ ScaleResult calculateRankin(Map<String, int> answers) {
     totalScore: score,
     maxScore: 6,
     severity: severity,
-    interpretation: _interpretation(score),
+    interpretation: _interpretationKey(score),
     itemScores: {rankinKeyScore: score},
   );
 }
@@ -47,12 +47,12 @@ Severity _interpret(int score) => switch (score) {
       _ => Severity.severe,
     };
 
-String _interpretation(int score) => switch (score) {
-      0 => 'Sin síntomas',
-      1 => 'Sin discapacidad significativa',
-      2 => 'Discapacidad leve',
-      3 => 'Discapacidad moderada',
-      4 => 'Discapacidad moderadamente grave',
-      5 => 'Discapacidad grave',
-      _ => 'Fallecido',
+String _interpretationKey(int score) => switch (score) {
+      0 => 'rankinInterp0',
+      1 => 'rankinInterp1',
+      2 => 'rankinInterp2',
+      3 => 'rankinInterp3',
+      4 => 'rankinInterp4',
+      5 => 'rankinInterp5',
+      _ => 'rankinInterp6',
     };

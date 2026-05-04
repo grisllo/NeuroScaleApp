@@ -62,7 +62,7 @@ class ProfileScreen extends ConsumerWidget {
                 selected: {selectedLocale},
                 onSelectionChanged: (Set<String> selection) async {
                   final code = selection.first;
-                  ref.read(localeProvider.notifier).state = Locale(code);
+                  ref.read(localeProvider.notifier).set(Locale(code));
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.setString(localePrefsKey, code);
                 },

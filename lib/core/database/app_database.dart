@@ -44,11 +44,10 @@ class EvaluationsDao extends DatabaseAccessor<AppDatabase>
     with _$EvaluationsDaoMixin {
   EvaluationsDao(super.db);
 
-  Future<List<EvaluationRow>> getByUserId(String userId) =>
-      (select(evaluations)
-            ..where((t) => t.userId.equals(userId))
-            ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
-          .get();
+  Future<List<EvaluationRow>> getByUserId(String userId) => (select(evaluations)
+        ..where((t) => t.userId.equals(userId))
+        ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
+      .get();
 
   Future<void> upsertMany(List<EvaluationsCompanion> rows) =>
       batch((b) => b.insertAllOnConflictUpdate(evaluations, rows));
@@ -65,11 +64,10 @@ class PatientsDao extends DatabaseAccessor<AppDatabase>
     with _$PatientsDaoMixin {
   PatientsDao(super.db);
 
-  Future<List<PatientRow>> getByUserId(String userId) =>
-      (select(patients)
-            ..where((t) => t.userId.equals(userId))
-            ..orderBy([(t) => OrderingTerm.asc(t.alias)]))
-          .get();
+  Future<List<PatientRow>> getByUserId(String userId) => (select(patients)
+        ..where((t) => t.userId.equals(userId))
+        ..orderBy([(t) => OrderingTerm.asc(t.alias)]))
+      .get();
 
   Future<PatientRow?> getById(String id) =>
       (select(patients)..where((t) => t.id.equals(id))).getSingleOrNull();

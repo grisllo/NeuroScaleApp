@@ -134,14 +134,14 @@ void main() {
       expect(r.totalScore, 0);
       expect(r.maxScore, 100);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Dependencia total');
+      expect(r.interpretation, 'barthelInterpTotal');
     });
 
     test('total 100 → Severity.none / Independiente', () {
       final r = calculateBarthel(_maxAnswers());
       expect(r.totalScore, 100);
       expect(r.severity, Severity.none);
-      expect(r.interpretation, 'Independiente');
+      expect(r.interpretation, 'barthelInterpIndependent');
     });
   });
 
@@ -149,7 +149,7 @@ void main() {
     test('total 20 → Dependencia total (techo severe-total)', () {
       final r = calculateBarthel(_withTotal(20));
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Dependencia total');
+      expect(r.interpretation, 'barthelInterpTotal');
     });
 
     test('total 21+ → Dependencia grave (suelo severe-grave)', () {
@@ -157,33 +157,33 @@ void main() {
         {..._minAnswers(), barthelKeyTransfer: 15, barthelKeyMobility: 10},
       ); // 25
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Dependencia grave');
+      expect(r.interpretation, 'barthelInterpSevere');
     });
 
     test('total 60 → Dependencia grave (techo severe-grave)', () {
       final r = calculateBarthel(_withTotal(60));
       expect(r.totalScore, 60);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Dependencia grave');
+      expect(r.interpretation, 'barthelInterpSevere');
     });
 
     test('total 65 → Dependencia moderada (suelo moderate)', () {
       final r = calculateBarthel(_withTotal(61));
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Dependencia moderada');
+      expect(r.interpretation, 'barthelInterpModerate');
     });
 
     test('total 90 → Dependencia moderada (techo moderate)', () {
       final r = calculateBarthel(_withTotal(90));
       expect(r.totalScore, 90);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Dependencia moderada');
+      expect(r.interpretation, 'barthelInterpModerate');
     });
 
     test('total 95 → Dependencia leve (suelo mild)', () {
       final r = calculateBarthel(_withTotal(91));
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Dependencia leve');
+      expect(r.interpretation, 'barthelInterpMild');
     });
   });
 

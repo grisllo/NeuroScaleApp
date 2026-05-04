@@ -51,8 +51,9 @@ class EvaluationsLocalDatasource {
     }
     if (searchQuery.isNotEmpty) {
       final q = searchQuery.toLowerCase();
-      result =
-          result.where((e) => e.caseDescription.toLowerCase().contains(q)).toList();
+      result = result
+          .where((e) => e.caseDescription.toLowerCase().contains(q))
+          .toList();
     }
     if (patientId != null) {
       result = result.where((e) => e.patientId == patientId).toList();

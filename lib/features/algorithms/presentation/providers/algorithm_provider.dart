@@ -27,7 +27,6 @@ class AlgorithmNotifier extends Notifier<AlgorithmState?> {
   }
 }
 
-final algorithmProvider =
-    NotifierProvider<AlgorithmNotifier, AlgorithmState?>(
+final algorithmProvider = NotifierProvider<AlgorithmNotifier, AlgorithmState?>(
   AlgorithmNotifier.new,
 );

@@ -1,5 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Whether the user has accepted the medical disclaimer.
-/// Initialized in main.dart from SharedPreferences before the app starts.
-final disclaimerAcceptedProvider = StateProvider<bool>((ref) => false);
+class DisclaimerAcceptedNotifier extends Notifier<bool> {
+  DisclaimerAcceptedNotifier([this._initial = false]);
+
+  final bool _initial;
+
+  @override
+  bool build() => _initial;
+
+  void accept() => state = true;
+}
+
+final disclaimerAcceptedProvider =
+    NotifierProvider<DisclaimerAcceptedNotifier, bool>(
+  DisclaimerAcceptedNotifier.new,
+);

@@ -42,7 +42,7 @@ ScaleResult calculateAbcd2(Map<String, int> answers) {
     totalScore: total,
     maxScore: 7,
     severity: severity,
-    interpretation: _interpretation(total),
+    interpretation: _interpretationKey(total),
     itemScores: itemScores,
   );
 }
@@ -69,8 +69,8 @@ Severity _interpret(int total) {
   return Severity.mild;
 }
 
-String _interpretation(int total) {
-  if (total >= 6) return 'Riesgo alto (~8.1%)';
-  if (total >= 4) return 'Riesgo moderado (~4.1%)';
-  return 'Riesgo bajo (~1.0%)';
+String _interpretationKey(int total) {
+  if (total >= 6) return 'abcd2RiskHigh';
+  if (total >= 4) return 'abcd2RiskModerate';
+  return 'abcd2RiskLow';
 }

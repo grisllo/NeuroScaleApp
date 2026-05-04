@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/extensions/l10n_extension.dart';
+import '../../../../../core/extensions/scale_key_resolver.dart';
 import '../../../abcd2/domain/abcd2_calculator.dart';
 import '../../../abcd2/domain/abcd2_definition.dart';
 import '../../../shared/domain/entities/scale_item.dart';
@@ -106,7 +108,7 @@ class _Abcd2ItemCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    item.label,
+                    context.l10n.resolveKey(item.labelKey),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -132,7 +134,7 @@ class _Abcd2ItemCard extends StatelessWidget {
                 value: opt.$1,
                 groupValue: selectedValue,
                 onChanged: (v) => onChanged(v!),
-                title: Text(opt.$2),
+                title: Text(context.l10n.resolveKey(opt.$2)),
                 secondary: opt.$1 > 0
                     ? Chip(
                         label: Text('+${opt.$1}'),

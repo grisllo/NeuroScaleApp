@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/extensions/l10n_extension.dart';
+import '../../../../../core/extensions/scale_key_resolver.dart';
 import '../../../nihss/domain/nihss_calculator.dart';
 import '../../../nihss/domain/nihss_definition.dart';
 import '../../../shared/domain/entities/scale_item.dart';
@@ -142,7 +144,7 @@ class _NihssItemCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    item.label,
+                    context.l10n.resolveKey(item.labelKey),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -185,7 +187,7 @@ class _NihssItemCard extends StatelessWidget {
       groupValue: selectedValue,
       onChanged: (v) => onChanged(v!),
       title: Text(
-        opt.$2,
+        context.l10n.resolveKey(opt.$2),
         style: isUntestable
             ? TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,

@@ -1,7 +1,7 @@
 class ScaleItem {
   const ScaleItem({
     required this.key,
-    required this.label,
+    required this.labelKey,
     required this.min,
     required this.max,
     required this.options,
@@ -9,7 +9,7 @@ class ScaleItem {
   });
 
   final String key;
-  final String label;
+  final String labelKey;
   final int min;
   final int max;
 

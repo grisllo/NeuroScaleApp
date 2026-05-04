@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patient_provider.dart';
@@ -227,7 +228,7 @@ class _EvaluationTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${eval.totalScore} — ${eval.interpretation}',
+                    '${eval.totalScore} — ${context.l10n.resolveKey(eval.interpretation)}',
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 2),

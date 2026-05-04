@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neuroscale_app/core/providers/disclaimer_provider.dart';
+import 'package:neuroscale_app/core/providers/disclaimer_provider.dart'
+    show DisclaimerAcceptedNotifier, disclaimerAcceptedProvider;
 import 'package:neuroscale_app/features/auth/domain/entities/app_user.dart';
 import 'package:neuroscale_app/features/auth/presentation/providers/session_provider.dart';
 import 'package:neuroscale_app/main.dart';
@@ -11,7 +12,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          disclaimerAcceptedProvider.overrideWith((_) => false),
+          disclaimerAcceptedProvider
+              .overrideWith(() => DisclaimerAcceptedNotifier(false)),
         ],
         child: const NeuroScaleApp(),
       ),
@@ -30,7 +32,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          disclaimerAcceptedProvider.overrideWith((_) => true),
+          disclaimerAcceptedProvider
+              .overrideWith(() => DisclaimerAcceptedNotifier(true)),
         ],
         child: const NeuroScaleApp(),
       ),
@@ -46,7 +49,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          disclaimerAcceptedProvider.overrideWith((_) => true),
+          disclaimerAcceptedProvider
+              .overrideWith(() => DisclaimerAcceptedNotifier(true)),
           sessionProvider.overrideWith(
             (_) => Stream.value(
               const AppUser(id: 'test-id', email: 'test@test.com'),

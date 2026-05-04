@@ -82,7 +82,7 @@ ScaleResult calculateNihss(Map<String, int> answers) {
     totalScore: total,
     maxScore: 42,
     severity: _interpretSeverity(total),
-    interpretation: _interpretText(total),
+    interpretation: _interpretKey(total),
     itemScores: itemScores,
   );
 }
@@ -114,10 +114,10 @@ Severity _interpretSeverity(int total) {
   return Severity.severe;
 }
 
-String _interpretText(int total) {
-  if (total == 0) return 'Sin déficit';
-  if (total <= 4) return 'Ictus menor (1-4)';
-  if (total <= 15) return 'Ictus moderado (5-15)';
-  if (total <= 20) return 'Ictus moderado a grave (16-20)';
-  return 'Ictus grave (21-42)';
+String _interpretKey(int total) {
+  if (total == 0) return 'nihssInterp0';
+  if (total <= 4) return 'nihssInterpMinor';
+  if (total <= 15) return 'nihssInterpModerate';
+  if (total <= 20) return 'nihssInterpModerateSevere';
+  return 'nihssInterpSevere';
 }

@@ -76,7 +76,7 @@ class DisclaimerScreen extends ConsumerWidget {
   Future<void> _accept(BuildContext context, WidgetRef ref) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_prefKey, true);
-    ref.read(disclaimerAcceptedProvider.notifier).state = true;
+    ref.read(disclaimerAcceptedProvider.notifier).accept();
     if (context.mounted) context.go('/login');
   }
 }

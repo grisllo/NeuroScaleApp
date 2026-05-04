@@ -108,17 +108,17 @@ void main() {
   group('GCS — interpretación textual', () {
     test('severity.mild tiene label "Leve"', () {
       final result = calculateGcs(gcs(eye: 4, verbal: 5, motor: 6));
-      expect(result.interpretation, 'Leve');
+      expect(result.interpretation, 'severityMild');
     });
 
     test('severity.moderate tiene label "Moderado"', () {
       final result = calculateGcs(gcs(eye: 2, verbal: 2, motor: 5));
-      expect(result.interpretation, 'Moderado');
+      expect(result.interpretation, 'severityModerate');
     });
 
     test('severity.severe tiene label "Grave"', () {
       final result = calculateGcs(gcs(eye: 1, verbal: 1, motor: 1));
-      expect(result.interpretation, 'Grave');
+      expect(result.interpretation, 'severitySevere');
     });
   });
 }

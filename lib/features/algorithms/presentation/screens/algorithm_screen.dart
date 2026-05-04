@@ -43,8 +43,7 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
         title: Text(l10n.algo(widget.definition.titleKey)),
         actions: [
           TextButton(
-            onPressed: () =>
-                ref.read(algorithmProvider.notifier).restart(),
+            onPressed: () => ref.read(algorithmProvider.notifier).restart(),
             child: Text(l10n.algorithmRestartButton),
           ),
         ],
@@ -97,14 +96,12 @@ class _QuestionBody extends ConsumerWidget {
                         const SizedBox(height: 8),
                         Text(
                           hint,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                         ),
                       ],
                     ],
@@ -142,8 +139,7 @@ class _QuestionBody extends ConsumerWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: TextButton.icon(
-                  onPressed: () =>
-                      ref.read(algorithmProvider.notifier).back(),
+                  onPressed: () => ref.read(algorithmProvider.notifier).back(),
                   icon: const Icon(Icons.arrow_back_rounded, size: 18),
                   label: Text(l10n.algorithmBackButton),
                 ),
@@ -174,8 +170,7 @@ class _ResultBody extends ConsumerWidget {
 
   static Color _fgColor(BuildContext context, AlgorithmUrgency urgency) =>
       switch (urgency) {
-        AlgorithmUrgency.info =>
-          Theme.of(context).colorScheme.onSurfaceVariant,
+        AlgorithmUrgency.info => Theme.of(context).colorScheme.onSurfaceVariant,
         AlgorithmUrgency.low => Colors.green.shade800,
         AlgorithmUrgency.moderate => Colors.orange.shade800,
         AlgorithmUrgency.high => Colors.deepOrange.shade800,
@@ -254,8 +249,7 @@ class _ResultBody extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color:
-                            Theme.of(context).colorScheme.onPrimaryContainer,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
                     ),
                   ),
@@ -271,8 +265,7 @@ class _ResultBody extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
-              onPressed: () =>
-                  ref.read(algorithmProvider.notifier).restart(),
+              onPressed: () => ref.read(algorithmProvider.notifier).restart(),
               icon: const Icon(Icons.refresh_rounded),
               label: Text(l10n.algorithmRestartButton),
             ),

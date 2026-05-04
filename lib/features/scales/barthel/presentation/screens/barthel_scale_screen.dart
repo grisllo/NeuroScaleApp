@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/extensions/l10n_extension.dart';
+import '../../../../../core/extensions/scale_key_resolver.dart';
 import '../../../barthel/domain/barthel_calculator.dart';
 import '../../../barthel/domain/barthel_definition.dart';
 import '../../../shared/domain/entities/scale_item.dart';
@@ -91,7 +93,7 @@ class _BarthelItemCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  item.label,
+                  context.l10n.resolveKey(item.labelKey),
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
@@ -117,7 +119,7 @@ class _BarthelItemCard extends StatelessWidget {
                 value: opt.$1,
                 groupValue: selectedValue,
                 onChanged: (v) => onChanged(v!),
-                title: Text('${opt.$1} — ${opt.$2}'),
+                title: Text('${opt.$1} — ${context.l10n.resolveKey(opt.$2)}'),
                 dense: true,
                 contentPadding: EdgeInsets.zero,
               ),

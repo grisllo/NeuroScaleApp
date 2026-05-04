@@ -22,8 +22,7 @@ class PatientRepositoryImpl implements PatientRepository {
     String searchQuery = '',
   }) async {
     try {
-      final models =
-          await _remote.fetchAll(userId, searchQuery: searchQuery);
+      final models = await _remote.fetchAll(userId, searchQuery: searchQuery);
       _local.cacheAll(models).ignore();
       return models;
     } on AppException catch (e) {

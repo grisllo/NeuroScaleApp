@@ -34,8 +34,7 @@ class PatientsLocalDatasource {
 
     if (searchQuery.isNotEmpty) {
       final q = searchQuery.toLowerCase();
-      result =
-          result.where((p) => p.alias.toLowerCase().contains(q)).toList();
+      result = result.where((p) => p.alias.toLowerCase().contains(q)).toList();
     }
 
     return result;

@@ -49,7 +49,7 @@ ScaleResult calculateBarthel(Map<String, int> answers) {
     totalScore: total,
     maxScore: 100,
     severity: severity,
-    interpretation: _interpretation(total),
+    interpretation: _interpretationKey(total),
     itemScores: itemScores,
   );
 }
@@ -77,10 +77,10 @@ Severity _interpret(int total) {
   return Severity.severe;
 }
 
-String _interpretation(int total) {
-  if (total == 100) return 'Independiente';
-  if (total >= 91) return 'Dependencia leve';
-  if (total >= 61) return 'Dependencia moderada';
-  if (total >= 21) return 'Dependencia grave';
-  return 'Dependencia total';
+String _interpretationKey(int total) {
+  if (total == 100) return 'barthelInterpIndependent';
+  if (total >= 91) return 'barthelInterpMild';
+  if (total >= 61) return 'barthelInterpModerate';
+  if (total >= 21) return 'barthelInterpSevere';
+  return 'barthelInterpTotal';
 }

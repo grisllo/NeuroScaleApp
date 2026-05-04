@@ -26,14 +26,14 @@ void main() {
       expect(r.totalScore, 0);
       expect(r.maxScore, 7);
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Riesgo bajo (~1.0%)');
+      expect(r.interpretation, 'abcd2RiskLow');
     });
 
     test('total 7 (todo máximo) → Severity.severe / Riesgo alto', () {
       final r = calculateAbcd2(_max());
       expect(r.totalScore, 7);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Riesgo alto (~8.1%)');
+      expect(r.interpretation, 'abcd2RiskHigh');
     });
   });
 
@@ -48,7 +48,7 @@ void main() {
       }); // 1+1+1 = 3
       expect(r.totalScore, 3);
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Riesgo bajo (~1.0%)');
+      expect(r.interpretation, 'abcd2RiskLow');
     });
 
     test('total 4 → Riesgo moderado (suelo moderate)', () {
@@ -61,7 +61,7 @@ void main() {
       }); // 1+1+1+1 = 4
       expect(r.totalScore, 4);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Riesgo moderado (~4.1%)');
+      expect(r.interpretation, 'abcd2RiskModerate');
     });
 
     test('total 5 → Riesgo moderado (techo moderate)', () {
@@ -74,7 +74,7 @@ void main() {
       }); // 1+1+2+1 = 5
       expect(r.totalScore, 5);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Riesgo moderado (~4.1%)');
+      expect(r.interpretation, 'abcd2RiskModerate');
     });
 
     test('total 6 → Riesgo alto (suelo severe)', () {
@@ -87,7 +87,7 @@ void main() {
       }); // 1+1+2+2 = 6
       expect(r.totalScore, 6);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Riesgo alto (~8.1%)');
+      expect(r.interpretation, 'abcd2RiskHigh');
     });
   });
 

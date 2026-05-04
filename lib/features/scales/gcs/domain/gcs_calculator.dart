@@ -23,7 +23,7 @@ ScaleResult calculateGcs(Map<String, int> answers) {
     totalScore: total,
     maxScore: 15,
     severity: severity,
-    interpretation: severity.label,
+    interpretation: severity.interpretationKey,
     itemScores: {gcsKeyEye: eye, gcsKeyVerbal: verbal, gcsKeyMotor: motor},
   );
 }

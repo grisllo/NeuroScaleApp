@@ -46,7 +46,7 @@ void main() {
       expect(r.totalScore, 0);
       expect(r.maxScore, 42);
       expect(r.severity, Severity.none);
-      expect(r.interpretation, 'Sin déficit');
+      expect(r.interpretation, 'nihssInterp0');
     });
 
     test('total 42 (todo máximo) → Severity.severe / Ictus grave', () {
@@ -54,7 +54,7 @@ void main() {
       expect(r.totalScore, 42);
       expect(r.maxScore, 42);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Ictus grave (21-42)');
+      expect(r.interpretation, 'nihssInterpSevere');
     });
   });
 
@@ -63,7 +63,7 @@ void main() {
       final r = calculateNihss({..._allZero(), nihssKey1aLoc: 1});
       expect(r.totalScore, 1);
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Ictus menor (1-4)');
+      expect(r.interpretation, 'nihssInterpMinor');
     });
 
     test('total 4 (techo mild) → mild / Ictus menor', () {
@@ -74,7 +74,7 @@ void main() {
       }); // 3+1
       expect(r.totalScore, 4);
       expect(r.severity, Severity.mild);
-      expect(r.interpretation, 'Ictus menor (1-4)');
+      expect(r.interpretation, 'nihssInterpMinor');
     });
 
     test('total 5 (suelo moderate) → moderate / Ictus moderado (5-15)', () {
@@ -85,7 +85,7 @@ void main() {
       }); // 3+2
       expect(r.totalScore, 5);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Ictus moderado (5-15)');
+      expect(r.interpretation, 'nihssInterpModerate');
     });
 
     test('total 15 (techo moderado) → moderate / Ictus moderado (5-15)', () {
@@ -100,7 +100,7 @@ void main() {
       }); // 3+2+2+2+3+3 = 15
       expect(r.totalScore, 15);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Ictus moderado (5-15)');
+      expect(r.interpretation, 'nihssInterpModerate');
     });
 
     test('total 16 (suelo moderado-grave) → moderate / Ictus moderado a grave',
@@ -117,7 +117,7 @@ void main() {
       }); // 15+1 = 16
       expect(r.totalScore, 16);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Ictus moderado a grave (16-20)');
+      expect(r.interpretation, 'nihssInterpModerateSevere');
     });
 
     test('total 20 (techo moderado-grave) → moderate / Ictus moderado a grave',
@@ -135,7 +135,7 @@ void main() {
       }); // 15+4+1 = 20
       expect(r.totalScore, 20);
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Ictus moderado a grave (16-20)');
+      expect(r.interpretation, 'nihssInterpModerateSevere');
     });
 
     test('total 21 (suelo severe) → severe / Ictus grave', () {
@@ -152,7 +152,7 @@ void main() {
       }); // 15+4+2 = 21
       expect(r.totalScore, 21);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Ictus grave (21-42)');
+      expect(r.interpretation, 'nihssInterpSevere');
     });
   });
 
@@ -195,7 +195,7 @@ void main() {
       });
       expect(r.totalScore, 22);
       expect(r.severity, Severity.severe);
-      expect(r.interpretation, 'Ictus grave (21-42)');
+      expect(r.interpretation, 'nihssInterpSevere');
     });
 
     test('UN en 7 + resto generador de severo → total intacto', () {
@@ -212,7 +212,7 @@ void main() {
       });
       expect(r.totalScore, 19); // 21 - 2 (ataxia ahora UN)
       expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'Ictus moderado a grave (16-20)');
+      expect(r.interpretation, 'nihssInterpModerateSevere');
     });
   });
 

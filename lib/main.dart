@@ -31,8 +31,12 @@ Future<void> main() async {
 
   final root = ProviderScope(
     overrides: [
-      disclaimerAcceptedProvider.overrideWith((_) => disclaimerAccepted),
-      localeProvider.overrideWith((_) => Locale(savedLocaleCode)),
+      disclaimerAcceptedProvider.overrideWith(
+        () => DisclaimerAcceptedNotifier(disclaimerAccepted),
+      ),
+      localeProvider.overrideWith(
+        () => LocaleNotifier(Locale(savedLocaleCode)),
+      ),
     ],
     child: const NeuroScaleApp(),
   );
