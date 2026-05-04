@@ -44,7 +44,9 @@ class RankinScaleScreen extends ConsumerWidget {
                   : null,
               child: RadioListTile<int>(
                 value: opt.$1,
+                // ignore: deprecated_member_use
                 groupValue: selected,
+                // ignore: deprecated_member_use
                 onChanged: (v) => ref
                     .read(rankinAnswersProvider.notifier)
                     .setAnswer(rankinKeyScore, v!),

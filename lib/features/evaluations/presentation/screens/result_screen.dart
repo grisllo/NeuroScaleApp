@@ -330,7 +330,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
     required AppLocalizations l10n,
   }) {
     return DropdownButtonFormField<String?>(
-      value: _selectedValue,
+      initialValue: _selectedValue,
       decoration: InputDecoration(labelText: l10n.patientPickerLabel),
       items: [
         DropdownMenuItem<String?>(

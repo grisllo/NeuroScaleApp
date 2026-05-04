@@ -36,44 +36,44 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/disclaimer',
         name: 'disclaimer',
-        builder: (_, __) => const DisclaimerScreen(),
+        builder: (_, _) => const DisclaimerScreen(),
       ),
       GoRoute(
         path: '/login',
         name: 'login',
-        builder: (_, __) => const LoginScreen(),
+        builder: (_, _) => const LoginScreen(),
       ),
       GoRoute(
         path: '/register',
         name: 'register',
-        builder: (_, __) => const RegisterScreen(),
+        builder: (_, _) => const RegisterScreen(),
       ),
 
       // ── Scale screens (fullscreen, no shell, pushed from ScalesTab) ────
       GoRoute(
         path: '/scales/gcs',
         name: 'gcs',
-        builder: (_, __) => const GcsScaleScreen(),
+        builder: (_, _) => const GcsScaleScreen(),
       ),
       GoRoute(
         path: '/scales/nihss',
         name: 'nihss',
-        builder: (_, __) => const NihssScaleScreen(),
+        builder: (_, _) => const NihssScaleScreen(),
       ),
       GoRoute(
         path: '/scales/rankin',
         name: 'rankin',
-        builder: (_, __) => const RankinScaleScreen(),
+        builder: (_, _) => const RankinScaleScreen(),
       ),
       GoRoute(
         path: '/scales/barthel',
         name: 'barthel',
-        builder: (_, __) => const BarthelScaleScreen(),
+        builder: (_, _) => const BarthelScaleScreen(),
       ),
       GoRoute(
         path: '/scales/abcd2',
         name: 'abcd2',
-        builder: (_, __) => const Abcd2ScaleScreen(),
+        builder: (_, _) => const Abcd2ScaleScreen(),
       ),
 
       // ── Algorithm execution (fullscreen, no shell) ───────────────────
@@ -112,7 +112,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/',
                 name: 'home',
-                builder: (_, __) => const ScalesTabScreen(),
+                builder: (_, _) => const ScalesTabScreen(),
               ),
             ],
           ),
@@ -122,7 +122,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/patients',
                 name: 'patients',
-                builder: (_, __) => const PatientsTabScreen(),
+                builder: (_, _) => const PatientsTabScreen(),
                 routes: [
                   GoRoute(
                     path: ':id',
@@ -141,7 +141,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/algorithms',
                 name: 'algorithms',
-                builder: (_, __) => const AlgorithmsTabScreen(),
+                builder: (_, _) => const AlgorithmsTabScreen(),
               ),
             ],
           ),
@@ -151,7 +151,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/profile',
                 name: 'profile',
-                builder: (_, __) => const ProfileScreen(),
+                builder: (_, _) => const ProfileScreen(),
               ),
             ],
           ),
@@ -169,8 +169,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
 class _RouterNotifier extends ChangeNotifier {
   _RouterNotifier(this._ref) {
-    _ref.listen(sessionProvider, (_, __) => notifyListeners());
-    _ref.listen(disclaimerAcceptedProvider, (_, __) => notifyListeners());
+    _ref.listen(sessionProvider, (_, _) => notifyListeners());
+    _ref.listen(disclaimerAcceptedProvider, (_, _) => notifyListeners());
   }
 
   final Ref _ref;

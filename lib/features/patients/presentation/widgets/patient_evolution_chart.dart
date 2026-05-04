@@ -141,7 +141,7 @@ class _ScaleChart extends StatelessWidget {
                       dotData: FlDotData(show: spots.length < 15),
                       belowBarData: BarAreaData(
                         show: true,
-                        color: color.withOpacity(0.08),
+                        color: color.withValues(alpha: 0.08),
                       ),
                     ),
                   ],

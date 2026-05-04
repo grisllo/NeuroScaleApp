@@ -134,7 +134,9 @@ class _Abcd2ItemCard extends StatelessWidget {
             ...item.options.map(
               ((int, String) opt) => RadioListTile<int>(
                 value: opt.$1,
+                // ignore: deprecated_member_use
                 groupValue: selectedValue,
+                // ignore: deprecated_member_use
                 onChanged: (v) => onChanged(v!),
                 title: Text(context.l10n.resolveKey(opt.$2)),
                 secondary: opt.$1 > 0

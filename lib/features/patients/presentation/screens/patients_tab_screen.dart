@@ -80,7 +80,7 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 88),
                   itemCount: patients.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  separatorBuilder: (_, _) => const SizedBox(height: 8),
                   itemBuilder: (_, i) => _PatientCard(patient: patients[i]),
                 );
               },
