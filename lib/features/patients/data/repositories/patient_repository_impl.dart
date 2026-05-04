@@ -10,8 +10,8 @@ class PatientRepositoryImpl implements PatientRepository {
   const PatientRepositoryImpl({
     required SupabasePatientDatasource remote,
     required PatientsLocalDatasource local,
-  })  : _remote = remote,
-        _local = local;
+  }) : _remote = remote,
+       _local = local;
 
   final SupabasePatientDatasource _remote;
   final PatientsLocalDatasource _local;

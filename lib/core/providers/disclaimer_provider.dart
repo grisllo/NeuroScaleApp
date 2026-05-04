@@ -13,5 +13,5 @@ class DisclaimerAcceptedNotifier extends Notifier<bool> {
 
 final disclaimerAcceptedProvider =
     NotifierProvider<DisclaimerAcceptedNotifier, bool>(
-  DisclaimerAcceptedNotifier.new,
-);
+      DisclaimerAcceptedNotifier.new,
+    );

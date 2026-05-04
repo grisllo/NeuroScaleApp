@@ -31,10 +31,7 @@ void main() {
     });
 
     test('startNodeId exists in nodes', () {
-      expect(
-        sahAlgorithm.nodes.containsKey(sahAlgorithm.startNodeId),
-        isTrue,
-      );
+      expect(sahAlgorithm.nodes.containsKey(sahAlgorithm.startNodeId), isTrue);
     });
   });
 

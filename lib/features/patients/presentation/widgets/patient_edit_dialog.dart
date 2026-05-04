@@ -13,10 +13,7 @@ class PatientEditDialog extends ConsumerStatefulWidget {
 
   final Patient? initial;
 
-  static Future<Patient?> show(
-    BuildContext context, {
-    Patient? initial,
-  }) =>
+  static Future<Patient?> show(BuildContext context, {Patient? initial}) =>
       showDialog<Patient>(
         context: context,
         builder: (_) => PatientEditDialog(initial: initial),

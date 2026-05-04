@@ -42,11 +42,11 @@ class ResultScreen extends ConsumerWidget {
                     children: [
                       Text(
                         '${result.totalScore}/${result.maxScore}',
-                        style:
-                            Theme.of(context).textTheme.displayLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: severityColor,
-                                ),
+                        style: Theme.of(context).textTheme.displayLarge
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: severityColor,
+                            ),
                       ),
                       const SizedBox(height: 8),
                       Chip(
@@ -67,8 +67,8 @@ class ResultScreen extends ConsumerWidget {
                 Text(
                   'Desglose',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 ...result.itemScores.entries.map(
@@ -114,9 +114,8 @@ class ResultScreen extends ConsumerWidget {
                     child: Text(
                       l10n.disclaimerBody,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                 ],
@@ -226,9 +225,9 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
 
       if (!mounted) return;
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.saveSuccessMessage)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.saveSuccessMessage)));
     } catch (e) {
       if (!mounted) return;
       setState(() {
@@ -274,8 +273,8 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                   ),
                   validator: (v) =>
                       _isCreatingNew && (v == null || v.trim().isEmpty)
-                          ? l10n.patientAliasRequired
-                          : null,
+                      ? l10n.patientAliasRequired
+                      : null,
                 ),
               ],
               const SizedBox(height: 16),

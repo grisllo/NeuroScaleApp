@@ -85,16 +85,13 @@ class PatientDetailScreen extends ConsumerWidget {
   }
 }
 
-final _patientByIdProvider =
-    FutureProvider.autoDispose.family<Patient?, String>(
-  (ref, id) => ref.watch(patientRepositoryProvider).findById(id),
-);
+final _patientByIdProvider = FutureProvider.autoDispose
+    .family<Patient?, String>(
+      (ref, id) => ref.watch(patientRepositoryProvider).findById(id),
+    );
 
 class _EvaluationsTab extends StatelessWidget {
-  const _EvaluationsTab({
-    required this.patient,
-    required this.evaluations,
-  });
+  const _EvaluationsTab({required this.patient, required this.evaluations});
 
   final Patient patient;
   final List<Evaluation> evaluations;
@@ -108,9 +105,9 @@ class _EvaluationsTab extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           context.l10n.evaluationsHeader,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         if (evaluations.isEmpty)
@@ -139,8 +136,9 @@ class _PatientHeader extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primaryContainer,
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer,
                   child: Icon(
                     Icons.person,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -151,8 +149,8 @@ class _PatientHeader extends StatelessWidget {
                   child: Text(
                     patient.alias,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -168,8 +166,8 @@ class _PatientHeader extends StatelessWidget {
             Text(
               l10n.patientCreatedOn(_formatDate(patient.createdAt)),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -235,8 +233,8 @@ class _EvaluationTile extends StatelessWidget {
                   Text(
                     _formatDate(eval.createdAt),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   if (hasNotes) ...[
                     const SizedBox(height: 6),

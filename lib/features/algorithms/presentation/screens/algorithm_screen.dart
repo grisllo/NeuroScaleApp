@@ -50,9 +50,9 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
       ),
       body: switch (current) {
         QuestionNode() => _QuestionBody(
-            node: current,
-            canGoBack: algoState.canGoBack,
-          ),
+          node: current,
+          canGoBack: algoState.canGoBack,
+        ),
         ResultNode() => _ResultBody(node: current),
       },
     );
@@ -87,21 +87,19 @@ class _QuestionBody extends ConsumerWidget {
                     children: [
                       Text(
                         l10n.algo(node.questionKey),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
+                        style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       if (hint != null) ...[
                         const SizedBox(height: 8),
                         Text(
                           hint,
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
                         ),
                       ],
                     ],
@@ -160,8 +158,9 @@ class _ResultBody extends ConsumerWidget {
 
   static Color _bgColor(BuildContext context, AlgorithmUrgency urgency) =>
       switch (urgency) {
-        AlgorithmUrgency.info =>
-          Theme.of(context).colorScheme.surfaceContainerHighest,
+        AlgorithmUrgency.info => Theme.of(
+          context,
+        ).colorScheme.surfaceContainerHighest,
         AlgorithmUrgency.low => Colors.green.shade50,
         AlgorithmUrgency.moderate => Colors.orange.shade50,
         AlgorithmUrgency.high => Colors.deepOrange.shade50,
@@ -178,12 +177,12 @@ class _ResultBody extends ConsumerWidget {
       };
 
   static IconData _icon(AlgorithmUrgency urgency) => switch (urgency) {
-        AlgorithmUrgency.info => Icons.info_outline_rounded,
-        AlgorithmUrgency.low => Icons.check_circle_outline_rounded,
-        AlgorithmUrgency.moderate => Icons.warning_amber_rounded,
-        AlgorithmUrgency.high => Icons.priority_high_rounded,
-        AlgorithmUrgency.critical => Icons.emergency_rounded,
-      };
+    AlgorithmUrgency.info => Icons.info_outline_rounded,
+    AlgorithmUrgency.low => Icons.check_circle_outline_rounded,
+    AlgorithmUrgency.moderate => Icons.warning_amber_rounded,
+    AlgorithmUrgency.high => Icons.priority_high_rounded,
+    AlgorithmUrgency.critical => Icons.emergency_rounded,
+  };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -211,9 +210,9 @@ class _ResultBody extends ConsumerWidget {
                 Text(
                   l10n.urgencyLabel(node.urgency),
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: fg,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: fg,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -222,17 +221,17 @@ class _ResultBody extends ConsumerWidget {
           // Result title
           Text(
             l10n.algo(node.titleKey),
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
           // Recommendations header
           Text(
             l10n.algorithmResultTitle,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
           ...node.recommendationKeys.indexed.map(
@@ -242,8 +241,9 @@ class _ResultBody extends ConsumerWidget {
                 child: ListTile(
                   leading: CircleAvatar(
                     radius: 14,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer,
                     child: Text(
                       '${entry.$1 + 1}',
                       style: TextStyle(
@@ -254,8 +254,10 @@ class _ResultBody extends ConsumerWidget {
                     ),
                   ),
                   title: Text(l10n.algo(entry.$2)),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                 ),
               ),
             ),

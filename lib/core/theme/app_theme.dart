@@ -21,9 +21,7 @@ abstract final class AppTheme {
         foregroundColor: colorScheme.onSurface,
       ),
       filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(48),
-        ),
+        style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
       ),
       inputDecorationTheme: const InputDecorationTheme(
         border: OutlineInputBorder(),

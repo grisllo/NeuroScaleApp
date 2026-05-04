@@ -20,16 +20,19 @@ void main() {
     useCase = SignInUseCase(mockRepo);
   });
 
-  test('devuelve AppUser cuando el repositorio autentica correctamente',
-      () async {
-    when(() => mockRepo.signIn(email: email, password: password))
-        .thenAnswer((_) async => testUser);
+  test(
+    'devuelve AppUser cuando el repositorio autentica correctamente',
+    () async {
+      when(
+        () => mockRepo.signIn(email: email, password: password),
+      ).thenAnswer((_) async => testUser);
 
-    final result = await useCase(email: email, password: password);
+      final result = await useCase(email: email, password: password);
 
-    expect(result, testUser);
-    verify(() => mockRepo.signIn(email: email, password: password)).called(1);
-  });
+      expect(result, testUser);
+      verify(() => mockRepo.signIn(email: email, password: password)).called(1);
+    },
+  );
 
   test('propaga AuthFailure del repositorio sin modificarla', () {
     when(

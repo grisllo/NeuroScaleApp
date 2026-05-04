@@ -12,8 +12,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          disclaimerAcceptedProvider
-              .overrideWith(() => DisclaimerAcceptedNotifier(false)),
+          disclaimerAcceptedProvider.overrideWith(
+            () => DisclaimerAcceptedNotifier(false),
+          ),
         ],
         child: const NeuroScaleApp(),
       ),
@@ -27,30 +28,34 @@ void main() {
   });
 
   testWidgets(
-      'App boots and shows login when disclaimer accepted but not logged in',
-      (tester) async {
+    'App boots and shows login when disclaimer accepted but not logged in',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            disclaimerAcceptedProvider.overrideWith(
+              () => DisclaimerAcceptedNotifier(true),
+            ),
+          ],
+          child: const NeuroScaleApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MaterialApp), findsOneWidget);
+      expect(find.text('Iniciar sesión'), findsWidgets);
+    },
+  );
+
+  testWidgets('App shows bottom navigation shell when logged in', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          disclaimerAcceptedProvider
-              .overrideWith(() => DisclaimerAcceptedNotifier(true)),
-        ],
-        child: const NeuroScaleApp(),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.byType(MaterialApp), findsOneWidget);
-    expect(find.text('Iniciar sesión'), findsWidgets);
-  });
-
-  testWidgets('App shows bottom navigation shell when logged in',
-      (tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          disclaimerAcceptedProvider
-              .overrideWith(() => DisclaimerAcceptedNotifier(true)),
+          disclaimerAcceptedProvider.overrideWith(
+            () => DisclaimerAcceptedNotifier(true),
+          ),
           sessionProvider.overrideWith(
             (_) => Stream.value(
               const AppUser(id: 'test-id', email: 'test@test.com'),

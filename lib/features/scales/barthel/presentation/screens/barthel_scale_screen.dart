@@ -17,8 +17,9 @@ class BarthelScaleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final answers = ref.watch(barthelAnswersProvider);
-    final allAnswered =
-        _definition.items.every((item) => answers.containsKey(item.key));
+    final allAnswered = _definition.items.every(
+      (item) => answers.containsKey(item.key),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -49,8 +50,9 @@ class BarthelScaleScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: FilledButton(
-            onPressed:
-                allAnswered ? () => _calculate(context, ref, answers) : null,
+            onPressed: allAnswered
+                ? () => _calculate(context, ref, answers)
+                : null,
             child: const Text('Calcular puntuación'),
           ),
         ),
@@ -65,8 +67,10 @@ class BarthelScaleScreen extends ConsumerWidget {
   ) {
     final result = calculateBarthel(answers);
     ref.read(barthelAnswersProvider.notifier).reset();
-    context
-        .push('/result', extra: (result, _definition.displayName, 'barthel'));
+    context.push(
+      '/result',
+      extra: (result, _definition.displayName, 'barthel'),
+    );
   }
 }
 
@@ -94,17 +98,17 @@ class _BarthelItemCard extends StatelessWidget {
               children: [
                 Text(
                   context.l10n.resolveKey(item.labelKey),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 if (selectedValue != null)
                   Chip(
                     label: Text('$selectedValue'),
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                       fontWeight: FontWeight.bold,

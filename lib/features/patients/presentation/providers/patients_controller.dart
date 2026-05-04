@@ -26,8 +26,9 @@ class PatientsController extends AsyncNotifier<List<Patient>> {
   Future<List<Patient>> _fetch() async {
     final userId = ref.read(sessionProvider).asData?.value?.id ?? '';
     if (userId.isEmpty) return const [];
-    return FetchPatientsUseCase(ref.read(patientRepositoryProvider))
-        .call(userId, searchQuery: _searchQuery);
+    return FetchPatientsUseCase(
+      ref.read(patientRepositoryProvider),
+    ).call(userId, searchQuery: _searchQuery);
   }
 
   Future<void> setSearchQuery(String query) async {
@@ -38,20 +39,17 @@ class PatientsController extends AsyncNotifier<List<Patient>> {
 
   Future<Patient> create({required String alias, String notes = ''}) async {
     final userId = ref.read(sessionProvider).asData?.value?.id ?? '';
-    final patient =
-        await CreatePatientUseCase(ref.read(patientRepositoryProvider)).call(
-      userId: userId,
-      alias: alias,
-      notes: notes,
-    );
+    final patient = await CreatePatientUseCase(
+      ref.read(patientRepositoryProvider),
+    ).call(userId: userId, alias: alias, notes: notes);
     state = AsyncData([patient, ...?state.value]);
     return patient;
   }
 
   Future<Patient> updatePatient(Patient patient) async {
-    final updated =
-        await UpdatePatientUseCase(ref.read(patientRepositoryProvider))
-            .call(patient);
+    final updated = await UpdatePatientUseCase(
+      ref.read(patientRepositoryProvider),
+    ).call(patient);
     final current = state.value ?? [];
     state = AsyncData(
       current.map((p) => p.id == updated.id ? updated : p).toList(),
@@ -68,16 +66,15 @@ class PatientsController extends AsyncNotifier<List<Patient>> {
 
 final patientsControllerProvider =
     AsyncNotifierProvider<PatientsController, List<Patient>>(
-  PatientsController.new,
-);
+      PatientsController.new,
+    );
 
 /// Evaluations for a given patient (autoDispose family). Used by detail screen.
-final patientEvaluationsProvider =
-    FutureProvider.autoDispose.family<List<Evaluation>, String>(
-  (ref, patientId) {
-    final userId = ref.watch(sessionProvider).asData?.value?.id ?? '';
-    if (userId.isEmpty) return Future.value(const []);
-    return FetchEvaluationsUseCase(ref.watch(evaluationRepositoryProvider))
-        .call(userId, patientId: patientId, pageSize: 100);
-  },
-);
+final patientEvaluationsProvider = FutureProvider.autoDispose
+    .family<List<Evaluation>, String>((ref, patientId) {
+      final userId = ref.watch(sessionProvider).asData?.value?.id ?? '';
+      if (userId.isEmpty) return Future.value(const []);
+      return FetchEvaluationsUseCase(
+        ref.watch(evaluationRepositoryProvider),
+      ).call(userId, patientId: patientId, pageSize: 100);
+    });

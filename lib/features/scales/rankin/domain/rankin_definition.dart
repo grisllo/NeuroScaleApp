@@ -17,22 +17,22 @@ class RankinDefinition extends ScaleDefinition {
 
   @override
   List<ScaleItem> get items => const [
-        ScaleItem(
-          key: rankinKeyScore,
-          labelKey: 'rankinScoreLabel',
-          min: 0,
-          max: 6,
-          options: [
-            (0, 'rankinLevel0'),
-            (1, 'rankinLevel1'),
-            (2, 'rankinLevel2'),
-            (3, 'rankinLevel3'),
-            (4, 'rankinLevel4'),
-            (5, 'rankinLevel5'),
-            (6, 'rankinLevel6'),
-          ],
-        ),
-      ];
+    ScaleItem(
+      key: rankinKeyScore,
+      labelKey: 'rankinScoreLabel',
+      min: 0,
+      max: 6,
+      options: [
+        (0, 'rankinLevel0'),
+        (1, 'rankinLevel1'),
+        (2, 'rankinLevel2'),
+        (3, 'rankinLevel3'),
+        (4, 'rankinLevel4'),
+        (5, 'rankinLevel5'),
+        (6, 'rankinLevel6'),
+      ],
+    ),
+  ];
 
   @override
   ScaleResult calculate(Map<String, int> answers) => calculateRankin(answers);

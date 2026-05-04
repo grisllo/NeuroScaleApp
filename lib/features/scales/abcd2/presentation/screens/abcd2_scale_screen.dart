@@ -17,8 +17,9 @@ class Abcd2ScaleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final answers = ref.watch(abcd2AnswersProvider);
-    final allAnswered =
-        _definition.items.every((item) => answers.containsKey(item.key));
+    final allAnswered = _definition.items.every(
+      (item) => answers.containsKey(item.key),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -41,8 +42,8 @@ class Abcd2ScaleScreen extends ConsumerWidget {
                 'Estratificación del riesgo de ictus tras AIT\n'
                 '(ataque isquémico transitorio)',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -64,8 +65,9 @@ class Abcd2ScaleScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: FilledButton(
-            onPressed:
-                allAnswered ? () => _calculate(context, ref, answers) : null,
+            onPressed: allAnswered
+                ? () => _calculate(context, ref, answers)
+                : null,
             child: const Text('Calcular puntuación'),
           ),
         ),
@@ -109,17 +111,17 @@ class _Abcd2ItemCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     context.l10n.resolveKey(item.labelKey),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 if (selectedValue != null)
                   Chip(
                     label: Text('+$selectedValue'),
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer,
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                       fontWeight: FontWeight.bold,

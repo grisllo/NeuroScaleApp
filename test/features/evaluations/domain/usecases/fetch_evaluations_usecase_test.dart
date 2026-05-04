@@ -7,17 +7,17 @@ import 'package:neuroscale_app/features/evaluations/domain/usecases/fetch_evalua
 class _MockEvaluationRepository extends Mock implements EvaluationRepository {}
 
 Evaluation _eval(String id, DateTime createdAt) => Evaluation(
-      id: id,
-      userId: 'user-1',
-      scaleType: 'gcs',
-      scaleVersion: 1,
-      caseDescription: 'caso test',
-      totalScore: 15,
-      interpretation: 'Leve',
-      detailedScores: const {},
-      createdAt: createdAt,
-      updatedAt: createdAt,
-    );
+  id: id,
+  userId: 'user-1',
+  scaleType: 'gcs',
+  scaleVersion: 1,
+  caseDescription: 'caso test',
+  totalScore: 15,
+  interpretation: 'Leve',
+  detailedScores: const {},
+  createdAt: createdAt,
+  updatedAt: createdAt,
+);
 
 // Matcher helper: matches any fetchAll call for a given userId
 void _stubFetchAll(
@@ -67,17 +67,19 @@ void main() {
     expect(result, isEmpty);
   });
 
-  test('la lista llega ordenada por createdAt desc (orden delegado al repo)',
-      () async {
-    final newer = _eval('e1', DateTime(2026, 4, 27));
-    final older = _eval('e2', DateTime(2026, 4, 26));
-    _stubFetchAll(mockRepo, 'user-1', () async => [newer, older]);
+  test(
+    'la lista llega ordenada por createdAt desc (orden delegado al repo)',
+    () async {
+      final newer = _eval('e1', DateTime(2026, 4, 27));
+      final older = _eval('e2', DateTime(2026, 4, 26));
+      _stubFetchAll(mockRepo, 'user-1', () async => [newer, older]);
 
-    final result = await useCase('user-1');
+      final result = await useCase('user-1');
 
-    expect(result.first.id, 'e1');
-    expect(result.last.id, 'e2');
-  });
+      expect(result.first.id, 'e1');
+      expect(result.last.id, 'e2');
+    },
+  );
 
   test('propaga la excepción si el repositorio falla', () {
     when(

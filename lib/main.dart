@@ -42,14 +42,11 @@ Future<void> main() async {
   );
 
   if (Env.hasSentry) {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = Env.sentryDsn;
-        options.tracesSampleRate = 0.2;
-        options.environment = Env.flavor;
-      },
-      appRunner: () => runApp(root),
-    );
+    await SentryFlutter.init((options) {
+      options.dsn = Env.sentryDsn;
+      options.tracesSampleRate = 0.2;
+      options.environment = Env.flavor;
+    }, appRunner: () => runApp(root));
   } else {
     runApp(root);
   }

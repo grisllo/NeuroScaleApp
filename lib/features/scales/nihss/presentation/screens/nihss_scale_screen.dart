@@ -17,8 +17,9 @@ class NihssScaleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final answers = ref.watch(nihssAnswersProvider);
-    final allAnswered =
-        _definition.items.every((item) => answers.containsKey(item.key));
+    final allAnswered = _definition.items.every(
+      (item) => answers.containsKey(item.key),
+    );
     final isComa = answers[nihssKey1aLoc] == 3;
 
     return Scaffold(
@@ -42,8 +43,8 @@ class NihssScaleScreen extends ConsumerWidget {
                 'National Institutes of Health Stroke Scale\n'
                 'Total 0-42 · Versión estándar AHA/ASA',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -69,10 +70,10 @@ class NihssScaleScreen extends ConsumerWidget {
                         'siguientes según la respuesta observada al '
                         'estímulo nociceptivo.',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer,
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSecondaryContainer,
+                        ),
                       ),
                     ),
                   ],
@@ -97,8 +98,9 @@ class NihssScaleScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: FilledButton(
-            onPressed:
-                allAnswered ? () => _calculate(context, ref, answers) : null,
+            onPressed: allAnswered
+                ? () => _calculate(context, ref, answers)
+                : null,
             child: const Text('Calcular puntuación'),
           ),
         ),
@@ -145,10 +147,9 @@ class _NihssItemCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     context.l10n.resolveKey(item.labelKey),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 if (selectedValue != null)
@@ -198,12 +199,12 @@ class _NihssItemCard extends StatelessWidget {
       secondary: isUntestable
           ? null
           : opt.$1 > 0
-              ? Chip(
-                  label: Text('+${opt.$1}'),
-                  padding: EdgeInsets.zero,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                )
-              : null,
+          ? Chip(
+              label: Text('+${opt.$1}'),
+              padding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            )
+          : null,
       dense: true,
       contentPadding: EdgeInsets.zero,
     );

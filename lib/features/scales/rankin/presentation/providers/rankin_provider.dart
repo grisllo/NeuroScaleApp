@@ -13,5 +13,5 @@ class RankinAnswersNotifier extends Notifier<Map<String, int>> {
 
 final rankinAnswersProvider =
     NotifierProvider<RankinAnswersNotifier, Map<String, int>>(
-  RankinAnswersNotifier.new,
-);
+      RankinAnswersNotifier.new,
+    );

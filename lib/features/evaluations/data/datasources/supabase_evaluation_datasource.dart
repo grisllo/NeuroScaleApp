@@ -39,8 +39,14 @@ class SupabaseEvaluationDatasource {
       }
       if (dateTo != null) {
         // Include the full end day
-        final endOfDay =
-            DateTime(dateTo.year, dateTo.month, dateTo.day, 23, 59, 59);
+        final endOfDay = DateTime(
+          dateTo.year,
+          dateTo.month,
+          dateTo.day,
+          23,
+          59,
+          59,
+        );
         query = query.lte('created_at', endOfDay.toIso8601String());
       }
       if (searchQuery.isNotEmpty) {

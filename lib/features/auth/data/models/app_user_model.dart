@@ -5,8 +5,6 @@ import '../../domain/entities/app_user.dart';
 class AppUserModel extends AppUser {
   const AppUserModel({required super.id, required super.email});
 
-  factory AppUserModel.fromSupabaseUser(User user) => AppUserModel(
-        id: user.id,
-        email: user.email ?? '',
-      );
+  factory AppUserModel.fromSupabaseUser(User user) =>
+      AppUserModel(id: user.id, email: user.email ?? '');
 }

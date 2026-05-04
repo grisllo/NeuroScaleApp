@@ -41,18 +41,18 @@ int _validated(
 }
 
 Severity _interpret(int score) => switch (score) {
-      0 => Severity.none,
-      1 || 2 => Severity.mild,
-      3 => Severity.moderate,
-      _ => Severity.severe,
-    };
+  0 => Severity.none,
+  1 || 2 => Severity.mild,
+  3 => Severity.moderate,
+  _ => Severity.severe,
+};
 
 String _interpretationKey(int score) => switch (score) {
-      0 => 'rankinInterp0',
-      1 => 'rankinInterp1',
-      2 => 'rankinInterp2',
-      3 => 'rankinInterp3',
-      4 => 'rankinInterp4',
-      5 => 'rankinInterp5',
-      _ => 'rankinInterp6',
-    };
+  0 => 'rankinInterp0',
+  1 => 'rankinInterp1',
+  2 => 'rankinInterp2',
+  3 => 'rankinInterp3',
+  4 => 'rankinInterp4',
+  5 => 'rankinInterp5',
+  _ => 'rankinInterp6',
+};

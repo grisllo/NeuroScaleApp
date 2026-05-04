@@ -16,17 +16,18 @@ void main() {
   });
 
   Patient buildPatient(String id) => Patient(
-        id: id,
-        userId: 'user-1',
-        alias: 'P-$id',
-        notes: '',
-        createdAt: DateTime(2026),
-        updatedAt: DateTime(2026),
-      );
+    id: id,
+    userId: 'user-1',
+    alias: 'P-$id',
+    notes: '',
+    createdAt: DateTime(2026),
+    updatedAt: DateTime(2026),
+  );
 
   test('delega al repositorio con el userId', () async {
-    when(() => mockRepo.fetchAll(any(), searchQuery: any(named: 'searchQuery')))
-        .thenAnswer((_) async => [buildPatient('1'), buildPatient('2')]);
+    when(
+      () => mockRepo.fetchAll(any(), searchQuery: any(named: 'searchQuery')),
+    ).thenAnswer((_) async => [buildPatient('1'), buildPatient('2')]);
 
     final result = await useCase('user-1');
 
@@ -35,8 +36,9 @@ void main() {
   });
 
   test('propaga searchQuery al repositorio', () async {
-    when(() => mockRepo.fetchAll(any(), searchQuery: any(named: 'searchQuery')))
-        .thenAnswer((_) async => []);
+    when(
+      () => mockRepo.fetchAll(any(), searchQuery: any(named: 'searchQuery')),
+    ).thenAnswer((_) async => []);
 
     await useCase('user-1', searchQuery: 'P-001');
 
@@ -44,8 +46,9 @@ void main() {
   });
 
   test('retorna lista vacía cuando no hay pacientes', () async {
-    when(() => mockRepo.fetchAll(any(), searchQuery: any(named: 'searchQuery')))
-        .thenAnswer((_) async => []);
+    when(
+      () => mockRepo.fetchAll(any(), searchQuery: any(named: 'searchQuery')),
+    ).thenAnswer((_) async => []);
 
     final result = await useCase('user-1');
 

@@ -10,8 +10,8 @@ class EvaluationRepositoryImpl implements EvaluationRepository {
   const EvaluationRepositoryImpl({
     required SupabaseEvaluationDatasource remote,
     required EvaluationsLocalDatasource local,
-  })  : _remote = remote,
-        _local = local;
+  }) : _remote = remote,
+       _local = local;
 
   final SupabaseEvaluationDatasource _remote;
   final EvaluationsLocalDatasource _local;

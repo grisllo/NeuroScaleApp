@@ -32,8 +32,9 @@ class AuthFormField extends StatelessWidget {
       validator: validator,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
-      onFieldSubmitted:
-          onFieldSubmitted != null ? (_) => onFieldSubmitted!() : null,
+      onFieldSubmitted: onFieldSubmitted != null
+          ? (_) => onFieldSubmitted!()
+          : null,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,

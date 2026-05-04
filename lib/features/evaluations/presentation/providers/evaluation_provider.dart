@@ -13,8 +13,8 @@ final _evaluationDatasourceProvider = Provider<SupabaseEvaluationDatasource>(
 
 final _evaluationsLocalDatasourceProvider =
     Provider<EvaluationsLocalDatasource>(
-  (ref) => EvaluationsLocalDatasource(ref.watch(appDatabaseProvider)),
-);
+      (ref) => EvaluationsLocalDatasource(ref.watch(appDatabaseProvider)),
+    );
 
 final evaluationRepositoryProvider = Provider<EvaluationRepository>(
   (ref) => EvaluationRepositoryImpl(

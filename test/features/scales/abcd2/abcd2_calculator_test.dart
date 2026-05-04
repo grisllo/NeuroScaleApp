@@ -4,20 +4,20 @@ import 'package:neuroscale_app/features/scales/abcd2/domain/abcd2_calculator.dar
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
 Map<String, int> _min() => {
-      abcd2KeyAge: 0,
-      abcd2KeyBp: 0,
-      abcd2KeyClinical: 0,
-      abcd2KeyDuration: 0,
-      abcd2KeyDiabetes: 0,
-    };
+  abcd2KeyAge: 0,
+  abcd2KeyBp: 0,
+  abcd2KeyClinical: 0,
+  abcd2KeyDuration: 0,
+  abcd2KeyDiabetes: 0,
+};
 
 Map<String, int> _max() => {
-      abcd2KeyAge: 1,
-      abcd2KeyBp: 1,
-      abcd2KeyClinical: 2,
-      abcd2KeyDuration: 2,
-      abcd2KeyDiabetes: 1,
-    };
+  abcd2KeyAge: 1,
+  abcd2KeyBp: 1,
+  abcd2KeyClinical: 2,
+  abcd2KeyDuration: 2,
+  abcd2KeyDiabetes: 1,
+};
 
 void main() {
   group('ABCD2 — bordes absolutos', () {
@@ -140,10 +140,7 @@ void main() {
 
   group('ABCD2 — validación: ítem ausente', () {
     test('map vacío → ValidationFailure', () {
-      expect(
-        () => calculateAbcd2({}),
-        throwsA(isA<ValidationFailure>()),
-      );
+      expect(() => calculateAbcd2({}), throwsA(isA<ValidationFailure>()));
     });
 
     test('falta clinical → ValidationFailure', () {

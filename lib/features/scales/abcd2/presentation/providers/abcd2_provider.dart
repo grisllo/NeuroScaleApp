@@ -13,5 +13,5 @@ class Abcd2AnswersNotifier extends Notifier<Map<String, int>> {
 
 final abcd2AnswersProvider =
     NotifierProvider<Abcd2AnswersNotifier, Map<String, int>>(
-  Abcd2AnswersNotifier.new,
-);
+      Abcd2AnswersNotifier.new,
+    );

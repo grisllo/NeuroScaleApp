@@ -13,5 +13,5 @@ class GcsAnswersNotifier extends Notifier<Map<String, int>> {
 
 final gcsAnswersProvider =
     NotifierProvider<GcsAnswersNotifier, Map<String, int>>(
-  GcsAnswersNotifier.new,
-);
+      GcsAnswersNotifier.new,
+    );

@@ -12,9 +12,7 @@ class ScalesTabScreen extends ConsumerWidget {
     final session = ref.watch(sessionProvider).asData?.value;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('NeuroScale'),
-      ),
+      appBar: AppBar(title: const Text('NeuroScale')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -24,8 +22,8 @@ class ScalesTabScreen extends ConsumerWidget {
               child: Text(
                 session.email,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           Text(

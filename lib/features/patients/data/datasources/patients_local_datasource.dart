@@ -61,11 +61,11 @@ class PatientsLocalDatasource {
       );
 
   static PatientModel _fromRow(PatientRow row) => PatientModel(
-        id: row.id,
-        userId: row.userId,
-        alias: row.alias,
-        notes: row.notes ?? '',
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt,
-      );
+    id: row.id,
+    userId: row.userId,
+    alias: row.alias,
+    notes: row.notes ?? '',
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+  );
 }

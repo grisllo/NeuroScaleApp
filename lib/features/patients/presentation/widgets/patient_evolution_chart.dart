@@ -38,8 +38,9 @@ class PatientEvolutionChart extends StatelessWidget {
     for (final e in evaluations) {
       grouped.putIfAbsent(e.scaleType, () => []).add(e);
     }
-    final chartable =
-        grouped.entries.where((e) => e.value.length >= 2).map((e) {
+    final chartable = grouped.entries.where((e) => e.value.length >= 2).map((
+      e,
+    ) {
       final sorted = List<Evaluation>.from(e.value)
         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
       return MapEntry(e.key, sorted);
@@ -52,8 +53,8 @@ class PatientEvolutionChart extends StatelessWidget {
           child: Text(
             l10n.evolutionEmpty,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -72,10 +73,7 @@ class PatientEvolutionChart extends StatelessWidget {
 }
 
 class _ScaleChart extends StatelessWidget {
-  const _ScaleChart({
-    required this.scaleType,
-    required this.evaluations,
-  });
+  const _ScaleChart({required this.scaleType, required this.evaluations});
 
   final String scaleType;
   final List<Evaluation> evaluations;
@@ -105,23 +103,24 @@ class _ScaleChart extends StatelessWidget {
                 Container(
                   width: 12,
                   height: 12,
-                  decoration:
-                      BoxDecoration(color: color, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Text(
                   scaleType.toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 Text(
                   '${evaluations.length} evaluaciones',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

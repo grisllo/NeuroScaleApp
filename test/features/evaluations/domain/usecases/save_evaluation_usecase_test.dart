@@ -32,20 +32,19 @@ void main() {
   Evaluation buildEvaluation({
     String description = 'Notas de la evaluación',
     String? patientId,
-  }) =>
-      Evaluation(
-        id: 'eval-1',
-        userId: 'user-1',
-        scaleType: 'gcs',
-        scaleVersion: 1,
-        caseDescription: description,
-        totalScore: 15,
-        interpretation: 'Leve',
-        detailedScores: const {'eye': 4, 'verbal': 5, 'motor': 6},
-        createdAt: DateTime(2026),
-        updatedAt: DateTime(2026),
-        patientId: patientId,
-      );
+  }) => Evaluation(
+    id: 'eval-1',
+    userId: 'user-1',
+    scaleType: 'gcs',
+    scaleVersion: 1,
+    caseDescription: description,
+    totalScore: 15,
+    interpretation: 'Leve',
+    detailedScores: const {'eye': 4, 'verbal': 5, 'motor': 6},
+    createdAt: DateTime(2026),
+    updatedAt: DateTime(2026),
+    patientId: patientId,
+  );
 
   test('llama al repositorio con evaluación válida', () async {
     when(() => mockRepo.save(any())).thenAnswer((_) async {});
@@ -55,16 +54,15 @@ void main() {
     verify(() => mockRepo.save(any())).called(1);
   });
 
-  test('acepta caseDescription vacío (ahora opcional desde Fase 3.2)',
-      () async {
-    when(() => mockRepo.save(any())).thenAnswer((_) async {});
+  test(
+    'acepta caseDescription vacío (ahora opcional desde Fase 3.2)',
+    () async {
+      when(() => mockRepo.save(any())).thenAnswer((_) async {});
 
-    await expectLater(
-      useCase(buildEvaluation(description: '')),
-      completes,
-    );
-    verify(() => mockRepo.save(any())).called(1);
-  });
+      await expectLater(useCase(buildEvaluation(description: '')), completes);
+      verify(() => mockRepo.save(any())).called(1);
+    },
+  );
 
   test('acepta evaluación con patientId asignado', () async {
     when(() => mockRepo.save(any())).thenAnswer((_) async {});

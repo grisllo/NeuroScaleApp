@@ -20,13 +20,11 @@ class AlgorithmsTabScreen extends StatelessWidget {
           Text(
             l10n.algorithmsSubtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 16),
-          ...kAlgorithms.map(
-            (def) => _AlgorithmCard(definition: def),
-          ),
+          ...kAlgorithms.map((def) => _AlgorithmCard(definition: def)),
         ],
       ),
     );
@@ -39,11 +37,11 @@ class _AlgorithmCard extends StatelessWidget {
   final AlgorithmDefinition definition;
 
   static IconData _iconFor(String id) => switch (id) {
-        'strokeCode' => Icons.emergency_rounded,
-        'htaIctus' => Icons.monitor_heart_outlined,
-        'sah' => Icons.medical_services_rounded,
-        _ => Icons.alt_route_rounded,
-      };
+    'strokeCode' => Icons.emergency_rounded,
+    'htaIctus' => Icons.monitor_heart_outlined,
+    'sah' => Icons.medical_services_rounded,
+    _ => Icons.alt_route_rounded,
+  };
 
   @override
   Widget build(BuildContext context) {

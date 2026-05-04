@@ -4,40 +4,40 @@ import 'package:neuroscale_app/features/scales/nihss/domain/nihss_calculator.dar
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
 Map<String, int> _allZero() => {
-      nihssKey1aLoc: 0,
-      nihssKey1bLocQuestions: 0,
-      nihssKey1cLocCommands: 0,
-      nihssKey2Gaze: 0,
-      nihssKey3Visual: 0,
-      nihssKey4Facial: 0,
-      nihssKey5aMotorArmL: 0,
-      nihssKey5bMotorArmR: 0,
-      nihssKey6aMotorLegL: 0,
-      nihssKey6bMotorLegR: 0,
-      nihssKey7Ataxia: 0,
-      nihssKey8Sensory: 0,
-      nihssKey9Language: 0,
-      nihssKey10Dysarthria: 0,
-      nihssKey11Neglect: 0,
-    };
+  nihssKey1aLoc: 0,
+  nihssKey1bLocQuestions: 0,
+  nihssKey1cLocCommands: 0,
+  nihssKey2Gaze: 0,
+  nihssKey3Visual: 0,
+  nihssKey4Facial: 0,
+  nihssKey5aMotorArmL: 0,
+  nihssKey5bMotorArmR: 0,
+  nihssKey6aMotorLegL: 0,
+  nihssKey6bMotorLegR: 0,
+  nihssKey7Ataxia: 0,
+  nihssKey8Sensory: 0,
+  nihssKey9Language: 0,
+  nihssKey10Dysarthria: 0,
+  nihssKey11Neglect: 0,
+};
 
 Map<String, int> _allMax() => {
-      nihssKey1aLoc: 3,
-      nihssKey1bLocQuestions: 2,
-      nihssKey1cLocCommands: 2,
-      nihssKey2Gaze: 2,
-      nihssKey3Visual: 3,
-      nihssKey4Facial: 3,
-      nihssKey5aMotorArmL: 4,
-      nihssKey5bMotorArmR: 4,
-      nihssKey6aMotorLegL: 4,
-      nihssKey6bMotorLegR: 4,
-      nihssKey7Ataxia: 2,
-      nihssKey8Sensory: 2,
-      nihssKey9Language: 3,
-      nihssKey10Dysarthria: 2,
-      nihssKey11Neglect: 2,
-    };
+  nihssKey1aLoc: 3,
+  nihssKey1bLocQuestions: 2,
+  nihssKey1cLocCommands: 2,
+  nihssKey2Gaze: 2,
+  nihssKey3Visual: 3,
+  nihssKey4Facial: 3,
+  nihssKey5aMotorArmL: 4,
+  nihssKey5bMotorArmR: 4,
+  nihssKey6aMotorLegL: 4,
+  nihssKey6bMotorLegR: 4,
+  nihssKey7Ataxia: 2,
+  nihssKey8Sensory: 2,
+  nihssKey9Language: 3,
+  nihssKey10Dysarthria: 2,
+  nihssKey11Neglect: 2,
+};
 
 void main() {
   group('NIHSS — bordes absolutos', () {
@@ -103,40 +103,44 @@ void main() {
       expect(r.interpretation, 'nihssInterpModerate');
     });
 
-    test('total 16 (suelo moderado-grave) → moderate / Ictus moderado a grave',
-        () {
-      final r = calculateNihss({
-        ..._allZero(),
-        nihssKey1aLoc: 3,
-        nihssKey1bLocQuestions: 2,
-        nihssKey1cLocCommands: 2,
-        nihssKey2Gaze: 2,
-        nihssKey3Visual: 3,
-        nihssKey4Facial: 3,
-        nihssKey8Sensory: 1,
-      }); // 15+1 = 16
-      expect(r.totalScore, 16);
-      expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'nihssInterpModerateSevere');
-    });
+    test(
+      'total 16 (suelo moderado-grave) → moderate / Ictus moderado a grave',
+      () {
+        final r = calculateNihss({
+          ..._allZero(),
+          nihssKey1aLoc: 3,
+          nihssKey1bLocQuestions: 2,
+          nihssKey1cLocCommands: 2,
+          nihssKey2Gaze: 2,
+          nihssKey3Visual: 3,
+          nihssKey4Facial: 3,
+          nihssKey8Sensory: 1,
+        }); // 15+1 = 16
+        expect(r.totalScore, 16);
+        expect(r.severity, Severity.moderate);
+        expect(r.interpretation, 'nihssInterpModerateSevere');
+      },
+    );
 
-    test('total 20 (techo moderado-grave) → moderate / Ictus moderado a grave',
-        () {
-      final r = calculateNihss({
-        ..._allZero(),
-        nihssKey1aLoc: 3,
-        nihssKey1bLocQuestions: 2,
-        nihssKey1cLocCommands: 2,
-        nihssKey2Gaze: 2,
-        nihssKey3Visual: 3,
-        nihssKey4Facial: 3,
-        nihssKey5aMotorArmL: 4,
-        nihssKey7Ataxia: 1,
-      }); // 15+4+1 = 20
-      expect(r.totalScore, 20);
-      expect(r.severity, Severity.moderate);
-      expect(r.interpretation, 'nihssInterpModerateSevere');
-    });
+    test(
+      'total 20 (techo moderado-grave) → moderate / Ictus moderado a grave',
+      () {
+        final r = calculateNihss({
+          ..._allZero(),
+          nihssKey1aLoc: 3,
+          nihssKey1bLocQuestions: 2,
+          nihssKey1cLocCommands: 2,
+          nihssKey2Gaze: 2,
+          nihssKey3Visual: 3,
+          nihssKey4Facial: 3,
+          nihssKey5aMotorArmL: 4,
+          nihssKey7Ataxia: 1,
+        }); // 15+4+1 = 20
+        expect(r.totalScore, 20);
+        expect(r.severity, Severity.moderate);
+        expect(r.interpretation, 'nihssInterpModerateSevere');
+      },
+    );
 
     test('total 21 (suelo severe) → severe / Ictus grave', () {
       final r = calculateNihss({
@@ -158,8 +162,10 @@ void main() {
 
   group('NIHSS — Untestable (UN=9) excluido del total', () {
     test('UN aislado en 5a (resto 0) → total 0 / none', () {
-      final r =
-          calculateNihss({..._allZero(), nihssKey5aMotorArmL: nihssUntestable});
+      final r = calculateNihss({
+        ..._allZero(),
+        nihssKey5aMotorArmL: nihssUntestable,
+      });
       expect(r.totalScore, 0);
       expect(r.severity, Severity.none);
       expect(r.itemScores[nihssKey5aMotorArmL], nihssUntestable);
@@ -218,10 +224,7 @@ void main() {
 
   group('NIHSS — itemScores', () {
     test('itemScores refleja todas las respuestas (incluye UN)', () {
-      final answers = {
-        ..._allMax(),
-        nihssKey5aMotorArmL: nihssUntestable,
-      };
+      final answers = {..._allMax(), nihssKey5aMotorArmL: nihssUntestable};
       final r = calculateNihss(answers);
       expect(r.itemScores.length, 15);
       for (final key in answers.keys) {

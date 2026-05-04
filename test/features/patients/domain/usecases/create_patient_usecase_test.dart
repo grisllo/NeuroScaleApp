@@ -26,13 +26,13 @@ void main() {
   });
 
   Patient buildCreated({String alias = 'P-001', String notes = ''}) => Patient(
-        id: 'patient-uuid',
-        userId: 'user-1',
-        alias: alias,
-        notes: notes,
-        createdAt: DateTime(2026, 4, 29),
-        updatedAt: DateTime(2026, 4, 29),
-      );
+    id: 'patient-uuid',
+    userId: 'user-1',
+    alias: alias,
+    notes: notes,
+    createdAt: DateTime(2026, 4, 29),
+    updatedAt: DateTime(2026, 4, 29),
+  );
 
   test('crea paciente con alias y notas trimmed', () async {
     when(() => mockRepo.create(any())).thenAnswer((_) async => buildCreated());

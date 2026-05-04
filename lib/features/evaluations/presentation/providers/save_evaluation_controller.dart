@@ -13,13 +13,14 @@ class SaveEvaluationController extends AsyncNotifier<void> {
   Future<void> save(Evaluation evaluation) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => SaveEvaluationUseCase(ref.read(evaluationRepositoryProvider))
-          .call(evaluation),
+      () => SaveEvaluationUseCase(
+        ref.read(evaluationRepositoryProvider),
+      ).call(evaluation),
     );
   }
 }
 
 final saveEvaluationControllerProvider =
     AsyncNotifierProvider<SaveEvaluationController, void>(
-  SaveEvaluationController.new,
-);
+      SaveEvaluationController.new,
+    );

@@ -85,18 +85,18 @@ class EvaluationsLocalDatasource {
       );
 
   static EvaluationModel _fromRow(EvaluationRow row) => EvaluationModel(
-        id: row.id,
-        userId: row.userId,
-        scaleType: row.scaleType,
-        scaleVersion: row.scaleVersion,
-        caseDescription: row.caseDescription,
-        totalScore: row.totalScore,
-        interpretation: row.interpretation,
-        detailedScores: Map<String, dynamic>.from(
-          jsonDecode(row.detailedScores) as Map,
-        ),
-        patientId: row.patientId,
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt,
-      );
+    id: row.id,
+    userId: row.userId,
+    scaleType: row.scaleType,
+    scaleVersion: row.scaleVersion,
+    caseDescription: row.caseDescription,
+    totalScore: row.totalScore,
+    interpretation: row.interpretation,
+    detailedScores: Map<String, dynamic>.from(
+      jsonDecode(row.detailedScores) as Map,
+    ),
+    patientId: row.patientId,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+  );
 }

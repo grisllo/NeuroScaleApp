@@ -22,15 +22,14 @@ class Patient {
     String? notes,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) =>
-      Patient(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        alias: alias ?? this.alias,
-        notes: notes ?? this.notes,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => Patient(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    alias: alias ?? this.alias,
+    notes: notes ?? this.notes,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   @override
   bool operator ==(Object other) =>

@@ -21,8 +21,9 @@ void main() {
   });
 
   test('devuelve AppUser tras registrar correctamente', () async {
-    when(() => mockRepo.signUp(email: email, password: password))
-        .thenAnswer((_) async => testUser);
+    when(
+      () => mockRepo.signUp(email: email, password: password),
+    ).thenAnswer((_) async => testUser);
 
     final result = await useCase(email: email, password: password);
 

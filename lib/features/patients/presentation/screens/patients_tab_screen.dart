@@ -122,8 +122,9 @@ class _EmptyState extends StatelessWidget {
               hasSearchQuery
                   ? l10n.patientsSearchEmpty
                   : l10n.patientsEmptyTitle,
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             if (!hasSearchQuery) ...[
@@ -165,11 +166,7 @@ class _PatientCard extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: patient.notes.isNotEmpty
-            ? Text(
-                patient.notes,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )
+            ? Text(patient.notes, maxLines: 1, overflow: TextOverflow.ellipsis)
             : null,
         trailing: const Icon(Icons.chevron_right),
         onTap: () => context.pushNamed(

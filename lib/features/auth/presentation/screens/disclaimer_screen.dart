@@ -25,9 +25,9 @@ class DisclaimerScreen extends ConsumerWidget {
               Text(
                 l10n.appTitle,
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(height: 40),
               Card(
@@ -45,9 +45,7 @@ class DisclaimerScreen extends ConsumerWidget {
                           const SizedBox(width: 8),
                           Text(
                             l10n.disclaimerTitle,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
+                            style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ],

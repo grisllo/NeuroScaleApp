@@ -32,8 +32,8 @@ class RankinScaleScreen extends ConsumerWidget {
           Text(
             'Selecciona el grado que mejor describe la situación del paciente:',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 12),
           ..._definition.items.first.options.map(
@@ -52,8 +52,10 @@ class RankinScaleScreen extends ConsumerWidget {
                   '${opt.$1} — ${opt.$2}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
               ),
             ),
           ),

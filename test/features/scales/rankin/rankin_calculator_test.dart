@@ -75,10 +75,7 @@ void main() {
     });
 
     test('map vacío → ValidationFailure', () {
-      expect(
-        () => calculateRankin({}),
-        throwsA(isA<ValidationFailure>()),
-      );
+      expect(() => calculateRankin({}), throwsA(isA<ValidationFailure>()));
     });
 
     test('clave incorrecta → ValidationFailure', () {

@@ -30,8 +30,11 @@ class SupabasePatientDatasource {
 
   Future<PatientModel?> findById(String id) async {
     try {
-      final row =
-          await _client.from('patients').select().eq('id', id).maybeSingle();
+      final row = await _client
+          .from('patients')
+          .select()
+          .eq('id', id)
+          .maybeSingle();
       if (row == null) return null;
       return PatientModel.fromJson(row);
     } on PostgrestException catch (e) {

@@ -54,12 +54,14 @@ void main() {
     });
 
     // Ischemic + no reperfusion + BP > 220/120
-    test('ischemic + no reperfusion + BP > 220/120 → r_ischemic_treat (high)',
-        () {
-      final r = _traverse(['ischemic', 'no', 'yes']);
-      expect(r.id, 'r_ischemic_treat');
-      expect(r.urgency, AlgorithmUrgency.high);
-    });
+    test(
+      'ischemic + no reperfusion + BP > 220/120 → r_ischemic_treat (high)',
+      () {
+        final r = _traverse(['ischemic', 'no', 'yes']);
+        expect(r.id, 'r_ischemic_treat');
+        expect(r.urgency, AlgorithmUrgency.high);
+      },
+    );
 
     // Ischemic + no reperfusion + BP ≤ 220/120
     test('ischemic + no reperfusion + BP ok → r_ischemic_observe (info)', () {

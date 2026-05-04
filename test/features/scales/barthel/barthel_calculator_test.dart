@@ -5,31 +5,31 @@ import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.d
 
 // Máximo posible por ítem
 Map<String, int> _maxAnswers() => {
-      barthelKeyFeeding: 10,
-      barthelKeyBathing: 5,
-      barthelKeyGrooming: 5,
-      barthelKeyDressing: 10,
-      barthelKeyBowels: 10,
-      barthelKeyBladder: 10,
-      barthelKeyToiletUse: 10,
-      barthelKeyTransfer: 15,
-      barthelKeyMobility: 15,
-      barthelKeyStairs: 10,
-    };
+  barthelKeyFeeding: 10,
+  barthelKeyBathing: 5,
+  barthelKeyGrooming: 5,
+  barthelKeyDressing: 10,
+  barthelKeyBowels: 10,
+  barthelKeyBladder: 10,
+  barthelKeyToiletUse: 10,
+  barthelKeyTransfer: 15,
+  barthelKeyMobility: 15,
+  barthelKeyStairs: 10,
+};
 
 // Mínimo posible por ítem
 Map<String, int> _minAnswers() => {
-      barthelKeyFeeding: 0,
-      barthelKeyBathing: 0,
-      barthelKeyGrooming: 0,
-      barthelKeyDressing: 0,
-      barthelKeyBowels: 0,
-      barthelKeyBladder: 0,
-      barthelKeyToiletUse: 0,
-      barthelKeyTransfer: 0,
-      barthelKeyMobility: 0,
-      barthelKeyStairs: 0,
-    };
+  barthelKeyFeeding: 0,
+  barthelKeyBathing: 0,
+  barthelKeyGrooming: 0,
+  barthelKeyDressing: 0,
+  barthelKeyBowels: 0,
+  barthelKeyBladder: 0,
+  barthelKeyToiletUse: 0,
+  barthelKeyTransfer: 0,
+  barthelKeyMobility: 0,
+  barthelKeyStairs: 0,
+};
 
 // Construye respuestas que sumen un total dado ajustando feeding y transfer
 Map<String, int> _withTotal(int total) {
@@ -153,9 +153,11 @@ void main() {
     });
 
     test('total 21+ → Dependencia grave (suelo severe-grave)', () {
-      final r = calculateBarthel(
-        {..._minAnswers(), barthelKeyTransfer: 15, barthelKeyMobility: 10},
-      ); // 25
+      final r = calculateBarthel({
+        ..._minAnswers(),
+        barthelKeyTransfer: 15,
+        barthelKeyMobility: 10,
+      }); // 25
       expect(r.severity, Severity.severe);
       expect(r.interpretation, 'barthelInterpSevere');
     });
@@ -236,10 +238,7 @@ void main() {
 
   group('Barthel — validación: ítem ausente', () {
     test('map vacío → ValidationFailure', () {
-      expect(
-        () => calculateBarthel({}),
-        throwsA(isA<ValidationFailure>()),
-      );
+      expect(() => calculateBarthel({}), throwsA(isA<ValidationFailure>()));
     });
 
     test('falta mobility → ValidationFailure', () {

@@ -1,0 +1,10 @@
+# Normaliza line endings a LF en el repo para todos los ficheros de texto.
+# Previene que core.autocrlf=true en Windows comprometa CRLF.
+* text=auto eol=lf
+
+# Ficheros binarios explícitos (no tocar line endings)
+*.png binary
+*.jpg binary
+*.ico binary
+*.apk binary
+*.aab binary

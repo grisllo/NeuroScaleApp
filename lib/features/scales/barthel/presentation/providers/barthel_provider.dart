@@ -13,5 +13,5 @@ class BarthelAnswersNotifier extends Notifier<Map<String, int>> {
 
 final barthelAnswersProvider =
     NotifierProvider<BarthelAnswersNotifier, Map<String, int>>(
-  BarthelAnswersNotifier.new,
-);
+      BarthelAnswersNotifier.new,
+    );

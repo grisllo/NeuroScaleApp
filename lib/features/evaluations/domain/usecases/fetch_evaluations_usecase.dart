@@ -15,15 +15,14 @@ class FetchEvaluationsUseCase {
     int page = 0,
     int pageSize = 20,
     String? patientId,
-  }) =>
-      _repository.fetchAll(
-        userId,
-        scales: scales,
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        searchQuery: searchQuery,
-        page: page,
-        pageSize: pageSize,
-        patientId: patientId,
-      );
+  }) => _repository.fetchAll(
+    userId,
+    scales: scales,
+    dateFrom: dateFrom,
+    dateTo: dateTo,
+    searchQuery: searchQuery,
+    page: page,
+    pageSize: pageSize,
+    patientId: patientId,
+  );
 }

@@ -13,5 +13,5 @@ class NihssAnswersNotifier extends Notifier<Map<String, int>> {
 
 final nihssAnswersProvider =
     NotifierProvider<NihssAnswersNotifier, Map<String, int>>(
-  NihssAnswersNotifier.new,
-);
+      NihssAnswersNotifier.new,
+    );

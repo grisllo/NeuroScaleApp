@@ -5,8 +5,11 @@ import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.d
 
 void main() {
   // Helper: valid complete answer
-  Map<String, int> gcs({int eye = 4, int verbal = 5, int motor = 6}) =>
-      {gcsKeyEye: eye, gcsKeyVerbal: verbal, gcsKeyMotor: motor};
+  Map<String, int> gcs({int eye = 4, int verbal = 5, int motor = 6}) => {
+    gcsKeyEye: eye,
+    gcsKeyVerbal: verbal,
+    gcsKeyMotor: motor,
+  };
 
   group('GCS — scores y severidad', () {
     test('score mínimo (3) → Grave', () {
@@ -91,10 +94,7 @@ void main() {
     });
 
     test('ítem faltante (map vacío) → ValidationFailure', () {
-      expect(
-        () => calculateGcs({}),
-        throwsA(isA<ValidationFailure>()),
-      );
+      expect(() => calculateGcs({}), throwsA(isA<ValidationFailure>()));
     });
 
     test('falta solo motor → ValidationFailure', () {
