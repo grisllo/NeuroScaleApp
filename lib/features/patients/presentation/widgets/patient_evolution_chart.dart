@@ -117,7 +117,7 @@ class _ScaleChart extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '${evaluations.length} evaluaciones',
+                  context.l10n.evolutionEvaluationCount(evaluations.length),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),

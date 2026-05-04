@@ -65,7 +65,7 @@ class ResultScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 32),
                 Text(
-                  'Desglose',
+                  l10n.resultBreakdown,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

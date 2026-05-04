@@ -169,6 +169,12 @@
   "evolutionEmpty": "You need at least 2 assessments of the same scale to view its evolution.",
   "@evolutionEmpty": { "description": "Evolution tab empty state" },
 
+  "evolutionEvaluationCount": "{count, plural, one{{count} evaluation} other{{count} evaluations}}",
+  "@evolutionEvaluationCount": {
+    "description": "Number of evaluations shown in the evolution chart header",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
   "abcd2Title": "ABCD2",
   "@abcd2Title": { "description": "ABCD2 scale title" },
 

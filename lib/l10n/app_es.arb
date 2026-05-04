@@ -169,6 +169,12 @@
   "evolutionEmpty": "Necesitas al menos 2 evaluaciones de la misma escala para ver su evolución.",
   "@evolutionEmpty": { "description": "Estado vacío de la pestaña de evolución" },
 
+  "evolutionEvaluationCount": "{count, plural, one{{count} evaluación} other{{count} evaluaciones}}",
+  "@evolutionEvaluationCount": {
+    "description": "Número de evaluaciones en la cabecera del gráfico de evolución",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
   "abcd2Title": "ABCD2",
   "@abcd2Title": { "description": "Título de la escala ABCD2" },
 
