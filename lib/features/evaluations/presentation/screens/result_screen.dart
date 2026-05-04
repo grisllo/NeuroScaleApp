@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 import '../../../../features/patients/domain/entities/patient.dart';
 import '../../../../features/patients/presentation/providers/patients_controller.dart';
@@ -51,7 +52,7 @@ class ResultScreen extends ConsumerWidget {
                       const SizedBox(height: 8),
                       Chip(
                         label: Text(
-                          result.severity.label,
+                          l10n.resolveKey(result.severity.interpretationKey),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,

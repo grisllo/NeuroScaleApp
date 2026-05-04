@@ -30,6 +30,34 @@ extension AppLocalizationsScaleKeys on AppLocalizations {
     'gcsMotorOpt5' => gcsMotorOpt5,
     'gcsMotorOpt6' => gcsMotorOpt6,
 
+    // ── ABCD2 interpretations ─────────────────────────────────────────
+    'abcd2RiskLow' => abcd2RiskLow,
+    'abcd2RiskModerate' => abcd2RiskModerate,
+    'abcd2RiskHigh' => abcd2RiskHigh,
+
+    // ── Barthel interpretations ───────────────────────────────────────
+    'barthelInterpIndependent' => barthelInterpIndependent,
+    'barthelInterpMild' => barthelInterpMild,
+    'barthelInterpModerate' => barthelInterpModerate,
+    'barthelInterpSevere' => barthelInterpSevere,
+    'barthelInterpTotal' => barthelInterpTotal,
+
+    // ── Rankin interpretations ────────────────────────────────────────
+    'rankinInterp0' => rankinInterp0,
+    'rankinInterp1' => rankinInterp1,
+    'rankinInterp2' => rankinInterp2,
+    'rankinInterp3' => rankinInterp3,
+    'rankinInterp4' => rankinInterp4,
+    'rankinInterp5' => rankinInterp5,
+    'rankinInterp6' => rankinInterp6,
+
+    // ── NIHSS interpretations ─────────────────────────────────────────
+    'nihssInterp0' => nihssInterp0,
+    'nihssInterpMinor' => nihssInterpMinor,
+    'nihssInterpModerate' => nihssInterpModerate,
+    'nihssInterpModerateSevere' => nihssInterpModerateSevere,
+    'nihssInterpSevere' => nihssInterpSevere,
+
     // ── ABCD2 labels ──────────────────────────────────────────────────
     'abcd2AgeLabel' => abcd2AgeLabel,
     'abcd2BpLabel' => abcd2BpLabel,
