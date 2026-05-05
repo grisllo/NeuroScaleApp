@@ -17,43 +17,46 @@ gantt
     axisFormat  %d/%m
 
     section Fase 0 · Bootstrap
-    Scaffold Flutter + CI + i18n       :done, f0,  2026-04-26, 1d
+    Scaffold Flutter + CI + i18n (~1.5h)      :done, f0,   2026-04-26, 1d
 
     section Fase 1 · MVP
-    Auth (login / register / guard)    :done, f1a, 2026-04-26, 1d
-    GCS calculadora + tests            :done, f1b, 2026-04-26, 1d
-    Evaluations + ResultScreen         :done, f1c, 2026-04-26, 1d
-    Migración Supabase + smoke test    :done, f1d, 2026-04-27, 1d
+    Auth (login / register / guard) (~1h)     :done, f1a,  2026-04-26, 1d
+    GCS calculadora + tests (~1.5h)           :done, f1b,  2026-04-26, 1d
+    Evaluations + ResultScreen (~1h)          :done, f1c,  2026-04-26, 1d
+    Migración Supabase + smoke test (~1h)     :done, f1d,  2026-04-27, 1d
 
     section Fase 2A · Historial + Escalas
-    Refactor + History básica          :done, f2a1, 2026-04-27, 1d
-    Filtros + búsqueda + paginación    :done, f2a2, after f2a1, 1d
-    Gráficos fl_chart                  :done, f2a3, after f2a2, 1d
-    mRS 0-6                            :done, f2a4, after f2a1, 1d
-    Barthel Index 0-100                :done, f2a5, after f2a4, 1d
-    ABCD2 riesgo post-AIT              :done, f2a6, 2026-04-27, 1d
+    Refactor + History básica (~2h)           :done, f2a1, 2026-04-27, 1d
+    Filtros + búsqueda + paginación (~30m)    :done, f2a2, after f2a1, 1d
+    Gráficos fl_chart (~45m)                  :done, f2a3, after f2a2, 1d
+    mRS 0-6 (~20m)                            :done, f2a4, after f2a1, 1d
+    Barthel Index 0-100 (~20m)                :done, f2a5, after f2a4, 1d
+    ABCD2 riesgo post-AIT (~20m)              :done, f2a6, 2026-04-27, 1d
 
     section Fase 2B · NIHSS
-    NIHSS 15 ítems condicionales       :done, f2b, 2026-04-28, 1d
+    NIHSS 15 ítems condicionales (~4h)        :done, f2b,  2026-04-28, 1d
 
     section Fase 3 · UX + Pacientes
-    3.1 Shell navegación + back         :done, f3a, 2026-04-28, 1d
-    3.2 Modelo pacientes BD + CRUD      :done, f3b, 2026-04-29, 1d
-    3.3 Patient detail + cleanup        :done, f3c, 2026-04-30, 1d
+    3.1 Shell navegación + back (~2h)         :done, f3a,  2026-04-28, 1d
+    3.2 Modelo pacientes BD + CRUD (~3h)      :done, f3b,  2026-04-29, 1d
+    3.3 Patient detail + cleanup (~2h)        :done, f3c,  2026-04-30, 1d
 
     section Fase 4 · Algoritmos + Offline
-    4.1 Algoritmos clínicos (dom + UI)  :done, f4a, 2026-04-30, 1d
-    4.2 Modo offline (drift)            :done, f4b, 2026-04-30, 1d
-    4.3 Multilenguaje EN                :done, f4c, 2026-04-30, 1d
-    4.4 Pantalla de perfil              :done, f4d, 2026-04-30, 1d
+    4.1 Algoritmos clínicos dom+UI (~3h)      :done, f4a,  2026-04-30, 1d
+    4.2 Modo offline drift (~2h)              :done, f4b,  2026-04-30, 1d
+    4.3 Multilenguaje EN (~1h)                :done, f4c,  2026-04-30, 1d
+    4.4 Pantalla de perfil (~30m)             :done, f4d,  2026-04-30, 1d
 
     section Mantenimiento
-    CI + compat. deps + i18n fixes      :done, mnt, 2026-05-04, 1d
+    CI + compat. deps + i18n fixes (~2h)      :done, mnt,  2026-05-04, 1d
 
     section Fase 5 · Design System & UX visual
-    Design system + paleta + Inter      :done, f5a, 2026-05-05, 1d
-    Widgets animados + pantallas        :done, f5b, 2026-05-05, 1d
+    Design system + paleta + Inter (~30m)     :done, f5a,  2026-05-05, 1d
+    Widgets animados + pantallas (~30m)       :done, f5b,  2026-05-05, 1d
 ```
+
+> Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
+> Total acumulado: **~28h** de trabajo activo.
 
 ---
 
