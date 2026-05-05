@@ -5,11 +5,7 @@ import '../theme/app_motion.dart';
 /// Wraps [child] with a subtle scale-down (0.97) on press.
 /// Respects `disableAnimations` for accessibility.
 class AnimatedTapScale extends StatefulWidget {
-  const AnimatedTapScale({
-    super.key,
-    required this.onTap,
-    required this.child,
-  });
+  const AnimatedTapScale({super.key, required this.onTap, required this.child});
 
   final VoidCallback onTap;
   final Widget child;

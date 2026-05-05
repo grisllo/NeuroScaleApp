@@ -25,10 +25,7 @@ class ScalesTabScreen extends ConsumerWidget {
         ),
         children: [
           if (session != null)
-            Text(
-              session.email,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            Text(session.email, style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: AppSpacing.xs),
           Text(
             context.l10n.scalesTabTitle,
@@ -109,21 +106,14 @@ class _ScaleCard extends StatelessWidget {
                   color: scheme.primaryContainer,
                   borderRadius: BorderRadius.circular(AppRadii.md),
                 ),
-                child: Icon(
-                  icon,
-                  color: scheme.onPrimaryContainer,
-                  size: 22,
-                ),
+                child: Icon(icon, color: scheme.onPrimaryContainer, size: 22),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
+                    Text(title, style: Theme.of(context).textTheme.titleSmall),
                     const SizedBox(height: 2),
                     Text(
                       subtitle,

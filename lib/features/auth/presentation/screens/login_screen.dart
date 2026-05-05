@@ -28,8 +28,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   @override
   void initState() {
     super.initState();
-    _fadeController = AnimationController(vsync: this, duration: AppMotion.normal);
-    _fadeAnimation = CurvedAnimation(parent: _fadeController, curve: AppMotion.enter);
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: AppMotion.normal,
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _fadeController,
+      curve: AppMotion.enter,
+    );
     _fadeController.forward();
   }
 
@@ -170,7 +176,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    await ref.read(authControllerProvider.notifier).signIn(
+    await ref
+        .read(authControllerProvider.notifier)
+        .signIn(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );

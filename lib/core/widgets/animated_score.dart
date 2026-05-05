@@ -31,8 +31,7 @@ class AnimatedScore extends StatelessWidget {
       tween: IntTween(begin: 0, end: score),
       duration: AppMotion.deliberate,
       curve: AppMotion.enter,
-      builder: (_, value, _) =>
-          Text('$value/$maxScore', style: effectiveStyle),
+      builder: (_, value, _) => Text('$value/$maxScore', style: effectiveStyle),
     );
   }
 }

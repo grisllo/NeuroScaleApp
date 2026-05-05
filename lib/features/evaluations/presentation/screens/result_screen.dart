@@ -58,7 +58,9 @@ class ResultScreen extends ConsumerWidget {
                       const SizedBox(height: 12),
                       SeverityBadge(
                         severity: result.severity,
-                        label: l10n.resolveKey(result.severity.interpretationKey),
+                        label: l10n.resolveKey(
+                          result.severity.interpretationKey,
+                        ),
                       ),
                     ],
                   ),
@@ -142,7 +144,6 @@ class ResultScreen extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 /// Sentinel value for the "+ Nuevo paciente" entry in the picker.

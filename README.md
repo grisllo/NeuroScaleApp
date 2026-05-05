@@ -47,6 +47,9 @@ gantt
     4.3 Multilenguaje EN                :done, f4c, 2026-04-30, 1d
     4.4 Pantalla de perfil              :done, f4d, 2026-04-30, 1d
 
+    section Mantenimiento
+    CI + compat. deps + i18n fixes      :done, mnt, 2026-05-04, 1d
+
     section Fase 5 · Design System & UX visual
     Design system + paleta + Inter      :done, f5a, 2026-05-05, 1d
     Widgets animados + pantallas        :done, f5b, 2026-05-05, 1d
