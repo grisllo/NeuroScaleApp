@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../core/widgets/app_empty_state.dart';
 import '../../../../core/widgets/app_loading_skeleton.dart';
 import '../../domain/entities/patient.dart';
@@ -117,12 +116,13 @@ class _PatientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return AnimatedTapScale(
-      onTap: () => context.pushNamed(
-        'patient-detail',
-        pathParameters: {'id': patient.id},
-      ),
-      child: Card(
+    return Card(
+      child: InkWell(
+        onTap: () => context.pushNamed(
+          'patient-detail',
+          pathParameters: {'id': patient.id},
+        ),
+        borderRadius: BorderRadius.circular(AppRadii.lg),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,

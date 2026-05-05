@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 
 class ScalesTabScreen extends ConsumerWidget {
@@ -92,9 +91,10 @@ class _ScaleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return AnimatedTapScale(
-      onTap: onTap,
-      child: Card(
+    return Card(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadii.lg),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
