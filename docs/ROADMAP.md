@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Proyecto completado: Fase 4** ✅ — Fase 4 completada 2026-04-30. Todas las subfases entregadas.
+**Proyecto completado: Fase 5** ✅ — Fase 5 completada 2026-05-05. Rediseño visual completo (design system, animaciones, colores clínicos).
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
@@ -151,6 +151,33 @@ Commit `b025b43`. `app_en.arb` con ~300 claves. `localeProvider` con persistenci
 Commit `ea1a77c`. Tab Perfil: email (solo lectura), `SegmentedButton` ES/EN, botón logout. Logout eliminado del AppBar de escalas.
 
 Issue #13.
+
+---
+
+### Fase 5 — Design System & UX visual ✅ Completada (2026-05-05)
+
+**Objetivo**: rediseño completo del sistema visual con paleta médica, tipografía profesional y animaciones sutiles que no distraigan en contexto clínico.
+
+**Entregables**:
+- `core/theme/app_colors.dart`: paleta teal médica desaturada (`#0F6F8A`), superficies neutras cálidas, semánticos clínicos (success/warning/danger/info) con par fg+surface
+- `core/theme/app_typography.dart`: Inter vía `google_fonts`, escala 12–48, pesos 400/500/600/700
+- `core/theme/app_spacing.dart`, `app_radii.dart`, `app_motion.dart`: tokens 4pt spacing, radios 8–24, duraciones 100–600ms con curvas Material 3
+- `core/theme/clinical_colors.dart`: `ThemeExtension` que expone colores semánticos clínicos desde cualquier widget; elimina `Colors.red.shade700` hardcodeado en `ResultScreen`
+- `core/theme/app_theme.dart` refactorizado: Card (borde 1px + r16, 0 elevation), Input (filled r12, focus 1.5px), Button (r12, h48), NavigationBar (h68), Dialog (r24), SnackBar flotante oscuro
+- `core/widgets/animated_score.dart`: contador TweenAnimationBuilder 0→resultado (600ms, ease-out)
+- `core/widgets/severity_badge.dart` + `SeverityDot`: chip clínico con surface tonal, entrada animada 240ms
+- `core/widgets/app_empty_state.dart`: empty state con fade+scale 320ms
+- `core/widgets/app_loading_skeleton.dart`: shimmer placeholder para listas >300ms
+- Pantallas actualizadas: `ScalesTabScreen`, `PatientsTabScreen`, `ResultScreen`, `LoginScreen` (FadeTransition + SlideTransition en entrada)
+- Hover restaurado en cards mediante `InkWell` dentro del `Card` (compatibilidad web/desktop)
+
+**Commits**:
+- `b16f6cf` — design system foundation (Inter, paleta, motion tokens)
+- `117d1f4` — shared animation widgets
+- `c1b4608` — apply design system to key screens
+- `e68975b` — fix(ui): restore hover highlight on cards
+
+**Tests**: 165 (sin cambios en dominio — únicamente UI).
 
 ---
 

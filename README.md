@@ -46,6 +46,10 @@ gantt
     4.2 Modo offline (drift)            :done, f4b, 2026-04-30, 1d
     4.3 Multilenguaje EN                :done, f4c, 2026-04-30, 1d
     4.4 Pantalla de perfil              :done, f4d, 2026-04-30, 1d
+
+    section Fase 5 · Design System & UX visual
+    Design system + paleta + Inter      :done, f5a, 2026-05-05, 1d
+    Widgets animados + pantallas        :done, f5b, 2026-05-05, 1d
 ```
 
 ---
@@ -54,7 +58,7 @@ gantt
 
 | Capa | Tecnología |
 |---|---|
-| Frontend | Flutter 3.x · Material 3 |
+| Frontend | Flutter 3.x · Material 3 · Inter (google_fonts) |
 | Estado | Riverpod (`AsyncNotifier`) |
 | Navegación | go_router |
 | Backend | Supabase (Auth + PostgreSQL + RLS) |
