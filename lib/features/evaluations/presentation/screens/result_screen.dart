@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../core/theme/clinical_colors.dart';
+import '../../../../core/widgets/animated_score.dart';
+import '../../../../core/widgets/severity_badge.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 import '../../../../features/patients/domain/entities/patient.dart';
 import '../../../../features/patients/presentation/providers/patients_controller.dart';
@@ -28,7 +31,13 @@ class ResultScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final severityColor = _severityColor(context, result.severity);
+    final clinical = Theme.of(context).clinicalColors;
+    final clinicalPair = switch (result.severity) {
+      Severity.mild => clinical.success,
+      Severity.moderate => clinical.warning,
+      Severity.severe => clinical.danger,
+      Severity.none => clinical.info,
+    };
 
     return Scaffold(
       appBar: AppBar(title: Text(scaleTitle)),
@@ -41,25 +50,15 @@ class ResultScreen extends ConsumerWidget {
                 Center(
                   child: Column(
                     children: [
-                      Text(
-                        '${result.totalScore}/${result.maxScore}',
-                        style: Theme.of(context).textTheme.displayLarge
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: severityColor,
-                            ),
+                      AnimatedScore(
+                        score: result.totalScore,
+                        maxScore: result.maxScore,
+                        color: clinicalPair.foreground,
                       ),
-                      const SizedBox(height: 8),
-                      Chip(
-                        label: Text(
-                          l10n.resolveKey(result.severity.interpretationKey),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        backgroundColor: severityColor,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                      const SizedBox(height: 12),
+                      SeverityBadge(
+                        severity: result.severity,
+                        label: l10n.resolveKey(result.severity.interpretationKey),
                       ),
                     ],
                   ),
@@ -144,13 +143,6 @@ class ResultScreen extends ConsumerWidget {
     );
   }
 
-  Color _severityColor(BuildContext context, Severity severity) =>
-      switch (severity) {
-        Severity.mild => Colors.green.shade600,
-        Severity.moderate => Colors.orange.shade700,
-        Severity.severe => Colors.red.shade700,
-        Severity.none => Theme.of(context).colorScheme.secondary,
-      };
 }
 
 /// Sentinel value for the "+ Nuevo paciente" entry in the picker.

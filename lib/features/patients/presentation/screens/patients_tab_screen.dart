@@ -5,6 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/animated_tap_scale.dart';
+import '../../../../core/widgets/app_empty_state.dart';
+import '../../../../core/widgets/app_loading_skeleton.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patients_controller.dart';
 import '../widgets/patient_edit_dialog.dart';
@@ -64,7 +69,7 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
           ),
           Expanded(
             child: patientsAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const AppLoadingSkeleton(),
               error: (e, _) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
@@ -73,8 +78,15 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
               ),
               data: (patients) {
                 if (patients.isEmpty) {
-                  return _EmptyState(
-                    hasSearchQuery: _searchController.text.isNotEmpty,
+                  final hasQuery = _searchController.text.isNotEmpty;
+                  return AppEmptyState(
+                    icon: hasQuery
+                        ? Icons.search_off_outlined
+                        : Icons.people_outline,
+                    title: hasQuery
+                        ? l10n.patientsSearchEmpty
+                        : l10n.patientsEmptyTitle,
+                    subtitle: hasQuery ? null : l10n.patientsEmptySubtitle,
                   );
                 }
                 return ListView.separated(
@@ -97,53 +109,6 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
   }
 }
 
-class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.hasSearchQuery});
-
-  final bool hasSearchQuery;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              hasSearchQuery ? Icons.search_off_outlined : Icons.people_outline,
-              size: 80,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              hasSearchQuery
-                  ? l10n.patientsSearchEmpty
-                  : l10n.patientsEmptyTitle,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            if (!hasSearchQuery) ...[
-              const SizedBox(height: 8),
-              Text(
-                l10n.patientsEmptySubtitle,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _PatientCard extends StatelessWidget {
   const _PatientCard({required this.patient});
 
@@ -151,27 +116,61 @@ class _PatientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          child: Icon(
-            Icons.person,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+    final scheme = Theme.of(context).colorScheme;
+    return AnimatedTapScale(
+      onTap: () => context.pushNamed(
+        'patient-detail',
+        pathParameters: {'id': patient.id},
+      ),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
           ),
-        ),
-        title: Text(
-          patient.alias,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        subtitle: patient.notes.isNotEmpty
-            ? Text(patient.notes, maxLines: 1, overflow: TextOverflow.ellipsis)
-            : null,
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () => context.pushNamed(
-          'patient-detail',
-          pathParameters: {'id': patient.id},
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(AppRadii.md),
+                ),
+                child: Icon(
+                  Icons.person_outline_rounded,
+                  color: scheme.onPrimaryContainer,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      patient.alias,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    if (patient.notes.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        patient.notes,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: scheme.onSurfaceVariant,
+                size: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );
