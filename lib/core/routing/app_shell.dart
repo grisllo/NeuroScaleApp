@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../providers/connectivity_provider.dart';
+import '../theme/app_motion.dart';
+import '../widgets/offline_banner.dart';
 
 /// Persistent shell that wraps bottom navigation.
 /// Follows the StatefulNavigationShell pattern from the
 /// flutter-setup-declarative-routing skill.
-class AppShell extends StatelessWidget {
+class AppShell extends ConsumerWidget {
   const AppShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
@@ -20,10 +24,20 @@ class AppShell extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final isOffline = ref.watch(isOfflineProvider);
     return Scaffold(
-      body: navigationShell,
+      body: Column(
+        children: [
+          AnimatedSize(
+            duration: AppMotion.normal,
+            curve: AppMotion.enter,
+            child: isOffline ? const OfflineBanner() : const SizedBox.shrink(),
+          ),
+          Expanded(child: navigationShell),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: _goBranch,
