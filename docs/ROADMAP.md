@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Proyecto completado: Fase 5** ✅ — Fase 5 completada 2026-05-05. Rediseño visual completo (design system, animaciones, colores clínicos).
+**Proyecto completado: Fase 6** ✅ — Fase 6 completada 2026-05-08. Saneamiento técnico completo: seguridad, optimización backend, refactor i18n y rendimiento/a11y.
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
@@ -228,6 +228,20 @@ Issue #13.
 - `CLAUDE.md`: contrato de repositorios clarificado — `throws Failure`, no `Either<L,R>`. Decisión documentada con justificación.
 
 **Tests**: 183 (sin cambios — refactor puro, sin lógica de dominio nueva).
+
+---
+
+### Fase 6.4 — Rendimiento web + tests + a11y ✅ Completada (2026-05-08)
+
+**Objetivo**: cerrar el bloque de saneamiento técnico (Fase 6) con mejoras de rendimiento web, cobertura de widget tests y accesibilidad básica.
+
+**Entregables**:
+- `lib/main.dart`: `GoogleFonts.config.allowRuntimeFetching = false` — Inter se bundlea en el artefacto web, sin fetch a `fonts.gstatic.com` en cold start.
+- `lib/core/widgets/animated_score.dart`: `Semantics(label: '$score de $maxScore')` en ambas rutas (con y sin animación) para TalkBack/VoiceOver.
+- `lib/features/evaluations/presentation/screens/result_screen.dart`: `RepaintBoundary` alrededor de `AnimatedScore`; icono decorativo info_outline envuelto en `ExcludeSemantics`; bloque disclaimer con `Semantics(container: true, label: ...)`.
+- `test/widget_test.dart`: 4 nuevos widget tests — `ResultScreen` (puntuación + guardar), `ResultScreen` (disclaimer), `ScalesTabScreen` (5 cards), `GcsScaleScreen` (ítems + reset).
+
+**Tests**: 183 → **187** (+4 widget tests de pantallas complejas).
 
 ---
 

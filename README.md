@@ -55,7 +55,10 @@ gantt
     Widgets animados + pantallas (~30m)       :done, f5b,  2026-05-05, 1d
 
     section Fase 6 · Saneamiento técnico
-    6.1 Seguridad y release (~4h)             :done, f6a,  2026-05-08, 1d
+    6.1 Seguridad y release (~2h)             :done, f6a,  2026-05-08, 1d
+    6.2 Optimización backend (~1h)            :done, f6b,  2026-05-08, 1d
+    6.3 Refactor i18n + arquitectura (~0.5h)  :done, f6c,  2026-05-08, 1d
+    6.4 Rendimiento web + tests + a11y (~0.5h):done, f6d,  2026-05-08, 1d
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
