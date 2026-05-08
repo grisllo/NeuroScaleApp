@@ -35,12 +35,11 @@ class EvaluationModel extends Evaluation {
         userId: json['user_id'] as String,
         scaleType: json['scale_type'] as String,
         scaleVersion: json['scale_version'] as int,
-        caseDescription: json['case_description'] as String,
+        caseDescription: (json['case_description'] as String?) ?? '',
         totalScore: json['total_score'] as int,
         interpretation: json['interpretation'] as String,
-        detailedScores: Map<String, dynamic>.from(
-          json['detailed_scores'] as Map,
-        ),
+        detailedScores:
+            (json['detailed_scores'] as Map<String, dynamic>?) ?? {},
         createdAt: DateTime.parse(json['created_at'] as String),
         updatedAt: DateTime.parse(json['updated_at'] as String),
         patientId: json['patient_id'] as String?,

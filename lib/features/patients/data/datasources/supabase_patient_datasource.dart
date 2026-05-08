@@ -13,7 +13,10 @@ class SupabasePatientDatasource {
     String searchQuery = '',
   }) async {
     try {
-      var query = _client.from('patients').select().eq('user_id', userId);
+      var query = _client
+          .from('patients')
+          .select('id,user_id,alias,notes,created_at,updated_at')
+          .eq('user_id', userId);
 
       if (searchQuery.isNotEmpty) {
         query = query.ilike('alias', '%$searchQuery%');
@@ -32,7 +35,7 @@ class SupabasePatientDatasource {
     try {
       final row = await _client
           .from('patients')
-          .select()
+          .select('id,user_id,alias,notes,created_at,updated_at')
           .eq('id', id)
           .maybeSingle();
       if (row == null) return null;

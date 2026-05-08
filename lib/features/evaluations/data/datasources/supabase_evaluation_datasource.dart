@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/evaluation_model.dart';
 
@@ -25,11 +26,16 @@ class SupabaseEvaluationDatasource {
     DateTime? dateTo,
     String searchQuery = '',
     int page = 0,
-    int pageSize = 20,
+    int pageSize = kEvaluationsPageSize,
     String? patientId,
   }) async {
     try {
-      var query = _client.from('evaluations').select().eq('user_id', userId);
+      var query = _client
+          .from('evaluations')
+          .select(
+            'id,user_id,scale_type,scale_version,total_score,interpretation,created_at,updated_at,patient_id',
+          )
+          .eq('user_id', userId);
 
       if (scales.isNotEmpty) {
         query = query.inFilter('scale_type', scales.toList());
