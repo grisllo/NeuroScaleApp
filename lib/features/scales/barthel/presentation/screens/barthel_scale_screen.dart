@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/extensions/l10n_extension.dart';
 import '../../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../../core/widgets/scale_item_help_button.dart';
 import '../../../barthel/domain/barthel_calculator.dart';
 import '../../../barthel/domain/barthel_definition.dart';
 import '../../../shared/domain/entities/scale_item.dart';
@@ -96,13 +97,19 @@ class _BarthelItemCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(
-                  context.l10n.resolveKey(item.labelKey),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    context.l10n.resolveKey(item.labelKey),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                if (item.helpKey != null)
+                  ScaleItemHelpButton(
+                    labelKey: item.labelKey,
+                    helpKey: item.helpKey!,
+                  ),
                 if (selectedValue != null)
                   Chip(
                     label: Text('$selectedValue'),

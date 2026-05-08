@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/extensions/l10n_extension.dart';
 import '../../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../../core/widgets/scale_item_help_button.dart';
 import '../../../abcd2/domain/abcd2_calculator.dart';
 import '../../../abcd2/domain/abcd2_definition.dart';
 import '../../../shared/domain/entities/scale_item.dart';
@@ -115,6 +116,11 @@ class _Abcd2ItemCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (item.helpKey != null)
+                  ScaleItemHelpButton(
+                    labelKey: item.labelKey,
+                    helpKey: item.helpKey!,
+                  ),
                 if (selectedValue != null)
                   Chip(
                     label: Text('+$selectedValue'),
