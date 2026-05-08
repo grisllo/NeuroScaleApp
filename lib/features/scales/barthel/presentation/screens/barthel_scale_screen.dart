@@ -23,7 +23,7 @@ class BarthelScaleScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Barthel Index'),
+        title: Text(context.l10n.barthelTitle),
         actions: [
           TextButton(
             onPressed: () => ref.read(barthelAnswersProvider.notifier).reset(),

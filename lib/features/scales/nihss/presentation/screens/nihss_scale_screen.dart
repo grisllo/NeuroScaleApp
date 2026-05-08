@@ -24,7 +24,7 @@ class NihssScaleScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('NIHSS'),
+        title: Text(context.l10n.nihssTitle),
         actions: [
           TextButton(
             onPressed: () => ref.read(nihssAnswersProvider.notifier).reset(),

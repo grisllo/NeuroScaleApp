@@ -20,7 +20,7 @@ class RankinScaleScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('mRS (Modified Rankin Scale)'),
+        title: Text(context.l10n.rankinTitle),
         actions: [
           TextButton(
             onPressed: () => ref.read(rankinAnswersProvider.notifier).reset(),

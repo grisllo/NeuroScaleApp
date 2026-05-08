@@ -23,7 +23,7 @@ class GcsScaleScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Glasgow Coma Scale'),
+        title: Text(context.l10n.gcsTitle),
         actions: [
           TextButton(
             onPressed: () => ref.read(gcsAnswersProvider.notifier).reset(),

@@ -23,7 +23,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ABCD2'),
+        title: Text(context.l10n.abcd2Title),
         actions: [
           TextButton(
             onPressed: () => ref.read(abcd2AnswersProvider.notifier).reset(),
