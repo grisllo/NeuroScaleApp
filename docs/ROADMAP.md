@@ -260,6 +260,24 @@ Issue #13.
 
 ---
 
+### Fase 7.2 — Web/tablet responsive ✅ Completada (2026-05-08)
+
+**Objetivo**: adaptar el shell de navegación y las pantallas principales para tablet (≥600px) y desktop (≥1024px), priorizando el layout 2 columnas en la pantalla de detalle de paciente.
+
+**Entregables**:
+- `lib/core/utils/breakpoints.dart`: `Breakpoints.tablet` (600px) y `Breakpoints.desktop` (1024px).
+- `lib/core/widgets/responsive_container.dart`: centra contenido con max-width 800px/960px.
+- `AppShell`: `NavigationBar` (mobile) → `NavigationRail` compacto (tablet) → extendido (desktop).
+- `ScalesTabScreen`: `GridView.count(2 cols, ratio 3.0)` en tablet + `ConstrainedBox(800px)`.
+- `PatientsTabScreen`: `ConstrainedBox(800px)` en tablet.
+- `PatientDetailScreen`: 2 columnas en tablet (lista 380px + gráfico); `DefaultTabController` en mobile.
+- `AlgorithmsTabScreen` + `ProfileScreen`: `ConstrainedBox(800px)` en tablet.
+- `widget_test.dart`: aserción de navegación agnóstica al tipo.
+
+**Tests**: 187 (sin cambios de dominio; widget test de navegación actualizado).
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |
