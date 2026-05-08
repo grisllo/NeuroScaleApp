@@ -169,6 +169,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 4.3: Multilenguaje EN | `b025b43` | 2026-04-30 | ~2,5 h |
 | Fase 4.4: Pantalla de perfil + selector idioma | `ea1a77c` | 2026-04-30 | ~0,5 h |
 | **Total acumulado Fase 4 completa (real)** | | | **~45,5 h** |
+| Fase 6.1: Seguridad y release (signing + PII + osv-scanner) | (commits subfase 6.1) | 2026-05-08 | TBD (calculado en `phase-close`) |
 
 **Conclusión de desviaciones (proyecto completo, Fases 0-4)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance final: −5,0 h sobre estimación (−9,9%). Las mayores ganancias vinieron de la arquitectura bien definida; la única desviación positiva fue la traducción de contenido clínico extenso (Fase 4.3), no prevista en su totalidad.
 

@@ -53,6 +53,9 @@ gantt
     section Fase 5 · Design System & UX visual
     Design system + paleta + Inter (~30m)     :done, f5a,  2026-05-05, 1d
     Widgets animados + pantallas (~30m)       :done, f5b,  2026-05-05, 1d
+
+    section Fase 6 · Saneamiento técnico
+    6.1 Seguridad y release (~4h)             :done, f6a,  2026-05-08, 1d
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.

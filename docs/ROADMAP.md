@@ -181,6 +181,26 @@ Issue #13.
 
 ---
 
+### Fase 6.1 — Seguridad y release ✅ Completada (2026-05-08)
+
+**Objetivo**: cerrar los gaps de seguridad bloqueantes detectados en la auditoría completa de Fase 5: firma de release Android, validación de PII en `case_description`, vigilancia de CVEs en CI.
+
+**Entregables**:
+- `android/app/build.gradle`: `signingConfigs.release` cargado desde `key.properties` (gitignored), con fallback a debug + warning si no existe. Activado `minifyEnabled` + `shrinkResources` con `proguard-rules.pro` para Flutter, Sentry y Kotlin metadata.
+- `android/key.example.properties` + `android/README.md` con instrucciones de generación del keystore (`keytool`).
+- `lib/core/utils/pii_detector.dart`: detector puro de DNI/NIE/email/teléfono ES/fecha (con año explícito). 18 tests boundary cubren positivos y falsos positivos típicos (códigos paciente, edades, siglas médicas).
+- `result_screen.dart`: `validator` + `maxLength: 500` en `case_description`; bloquea el guardado y muestra el tipo de PII detectado.
+- `supabase/migrations/0004_constrain_case_description.sql`: `CHECK (length ≤ 500)` server-side como segunda capa.
+- `supabase/README.md` con orden de migraciones y convenciones.
+- `.github/workflows/ci.yaml`: nuevo job `vulnerability-scan` con `osv-scanner` sobre `pubspec.lock`.
+- `.gitignore`: keystore (`*.jks`, `*.keystore`) y `android/key.properties`.
+
+**Decisión aplazada**: certificate pinning Supabase — ver sección _Decisiones técnicas aplazadas_.
+
+**Tests**: 165 + 18 nuevos del `PiiDetector` = **183**.
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |
@@ -227,6 +247,12 @@ lib/
 │   └── history/     (Fase 2A)
 └── l10n/            app_es.arb  →  generated/app_localizations.dart
 ```
+
+---
+
+## Decisiones técnicas aplazadas
+
+**Certificate pinning Supabase** (revisado 2026-05-08, Fase 6.1): aplazado a Fase 7+ o cuando se requiera certificación clínica (HIPAA / ISO 13485). Razón: Supabase rota certificados LetsEncrypt cada ~60 días; un pin caducado dejaría la app inservible para todos los usuarios hasta que se publique un hotfix. El ROI actual no compensa el riesgo operacional.
 
 ---
 
