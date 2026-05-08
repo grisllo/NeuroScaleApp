@@ -7,13 +7,11 @@ import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 
-class ScalesTabScreen extends ConsumerWidget {
+class ScalesTabScreen extends StatelessWidget {
   const ScalesTabScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(sessionProvider).asData?.value;
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('NeuroScale')),
       body: ListView(
@@ -24,8 +22,13 @@ class ScalesTabScreen extends ConsumerWidget {
           88,
         ),
         children: [
-          if (session != null)
-            Text(session.email, style: Theme.of(context).textTheme.bodySmall),
+          Consumer(
+            builder: (_, ref, _) {
+              final email = ref.watch(sessionProvider).asData?.value?.email;
+              if (email == null) return const SizedBox.shrink();
+              return Text(email, style: Theme.of(context).textTheme.bodySmall);
+            },
+          ),
           const SizedBox(height: AppSpacing.xs),
           Text(
             context.l10n.scalesTabTitle,
