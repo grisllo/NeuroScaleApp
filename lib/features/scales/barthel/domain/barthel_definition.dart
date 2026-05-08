@@ -20,6 +20,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyFeeding,
       labelKey: 'barthelItemFeeding',
+      helpKey: 'barthelFeedingHelp',
       min: 0,
       max: 10,
       options: [
@@ -31,6 +32,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyBathing,
       labelKey: 'barthelItemBathing',
+      helpKey: 'barthelBathingHelp',
       min: 0,
       max: 5,
       options: [(0, 'barthelBathingOpt0'), (5, 'barthelBathingOpt5')],
@@ -38,6 +40,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyGrooming,
       labelKey: 'barthelItemGrooming',
+      helpKey: 'barthelGroomingHelp',
       min: 0,
       max: 5,
       options: [(0, 'barthelGroomingOpt0'), (5, 'barthelGroomingOpt5')],
@@ -45,6 +48,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyDressing,
       labelKey: 'barthelItemDressing',
+      helpKey: 'barthelDressingHelp',
       min: 0,
       max: 10,
       options: [
@@ -56,6 +60,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyBowels,
       labelKey: 'barthelItemBowels',
+      helpKey: 'barthelBowelsHelp',
       min: 0,
       max: 10,
       options: [
@@ -67,6 +72,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyBladder,
       labelKey: 'barthelItemBladder',
+      helpKey: 'barthelBladderHelp',
       min: 0,
       max: 10,
       options: [
@@ -78,6 +84,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyToiletUse,
       labelKey: 'barthelItemToiletUse',
+      helpKey: 'barthelToiletUseHelp',
       min: 0,
       max: 10,
       options: [
@@ -89,6 +96,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyTransfer,
       labelKey: 'barthelItemTransfer',
+      helpKey: 'barthelTransferHelp',
       min: 0,
       max: 15,
       options: [
@@ -101,6 +109,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyMobility,
       labelKey: 'barthelItemMobility',
+      helpKey: 'barthelMobilityHelp',
       min: 0,
       max: 15,
       options: [
@@ -113,6 +122,7 @@ class BarthelDefinition extends ScaleDefinition {
     ScaleItem(
       key: barthelKeyStairs,
       labelKey: 'barthelItemStairs',
+      helpKey: 'barthelStairsHelp',
       min: 0,
       max: 10,
       options: [

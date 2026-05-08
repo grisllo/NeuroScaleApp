@@ -20,6 +20,7 @@ class GcsDefinition extends ScaleDefinition {
     ScaleItem(
       key: gcsKeyEye,
       labelKey: 'gcsEyeLabel',
+      helpKey: 'gcsEyeHelp',
       min: 1,
       max: 4,
       options: [
@@ -32,6 +33,7 @@ class GcsDefinition extends ScaleDefinition {
     ScaleItem(
       key: gcsKeyVerbal,
       labelKey: 'gcsVerbalLabel',
+      helpKey: 'gcsVerbalHelp',
       min: 1,
       max: 5,
       options: [
@@ -45,6 +47,7 @@ class GcsDefinition extends ScaleDefinition {
     ScaleItem(
       key: gcsKeyMotor,
       labelKey: 'gcsMotorLabel',
+      helpKey: 'gcsMotorHelp',
       min: 1,
       max: 6,
       options: [

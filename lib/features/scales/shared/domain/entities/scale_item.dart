@@ -6,6 +6,7 @@ class ScaleItem {
     required this.max,
     required this.options,
     this.untestableValue,
+    this.helpKey,
   });
 
   final String key;
@@ -23,4 +24,8 @@ class ScaleItem {
   /// (e.g. NIHSS uses 9 for amputation, joint fusion or intubation). When null,
   /// the item does not accept an untestable code.
   final int? untestableValue;
+
+  /// ARB key for the clinical description + bibliographic reference shown in the
+  /// tutorial bottom sheet. When null, no "?" button is rendered for this item.
+  final String? helpKey;
 }

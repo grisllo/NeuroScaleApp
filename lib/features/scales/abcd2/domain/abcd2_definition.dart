@@ -20,6 +20,7 @@ class Abcd2Definition extends ScaleDefinition {
     ScaleItem(
       key: abcd2KeyAge,
       labelKey: 'abcd2AgeLabel',
+      helpKey: 'abcd2AgeHelp',
       min: 0,
       max: 1,
       options: [(0, 'abcd2AgeOpt0'), (1, 'abcd2AgeOpt1')],
@@ -27,6 +28,7 @@ class Abcd2Definition extends ScaleDefinition {
     ScaleItem(
       key: abcd2KeyBp,
       labelKey: 'abcd2BpLabel',
+      helpKey: 'abcd2BpHelp',
       min: 0,
       max: 1,
       options: [(0, 'abcd2BpOpt0'), (1, 'abcd2BpOpt1')],
@@ -34,6 +36,7 @@ class Abcd2Definition extends ScaleDefinition {
     ScaleItem(
       key: abcd2KeyClinical,
       labelKey: 'abcd2ClinicalLabel',
+      helpKey: 'abcd2ClinicalHelp',
       min: 0,
       max: 2,
       options: [
@@ -45,6 +48,7 @@ class Abcd2Definition extends ScaleDefinition {
     ScaleItem(
       key: abcd2KeyDuration,
       labelKey: 'abcd2DurationLabel',
+      helpKey: 'abcd2DurationHelp',
       min: 0,
       max: 2,
       options: [
@@ -56,6 +60,7 @@ class Abcd2Definition extends ScaleDefinition {
     ScaleItem(
       key: abcd2KeyDiabetes,
       labelKey: 'abcd2DiabetesLabel',
+      helpKey: 'abcd2DiabetesHelp',
       min: 0,
       max: 1,
       options: [(0, 'abcd2DiabetesOpt0'), (1, 'abcd2DiabetesOpt1')],

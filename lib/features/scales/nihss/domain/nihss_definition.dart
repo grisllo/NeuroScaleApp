@@ -20,6 +20,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey1aLoc,
       labelKey: 'nihss1aLocLabel',
+      helpKey: 'nihss1aLocHelp',
       min: 0,
       max: 3,
       options: [
@@ -32,6 +33,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey1bLocQuestions,
       labelKey: 'nihss1bLocQuestionsLabel',
+      helpKey: 'nihss1bLocQuestionsHelp',
       min: 0,
       max: 2,
       options: [
@@ -43,6 +45,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey1cLocCommands,
       labelKey: 'nihss1cLocCommandsLabel',
+      helpKey: 'nihss1cLocCommandsHelp',
       min: 0,
       max: 2,
       options: [
@@ -54,6 +57,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey2Gaze,
       labelKey: 'nihss2GazeLabel',
+      helpKey: 'nihss2GazeHelp',
       min: 0,
       max: 2,
       options: [
@@ -65,6 +69,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey3Visual,
       labelKey: 'nihss3VisualLabel',
+      helpKey: 'nihss3VisualHelp',
       min: 0,
       max: 3,
       options: [
@@ -77,6 +82,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey4Facial,
       labelKey: 'nihss4FacialLabel',
+      helpKey: 'nihss4FacialHelp',
       min: 0,
       max: 3,
       options: [
@@ -89,6 +95,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey5aMotorArmL,
       labelKey: 'nihss5aMotorArmLLabel',
+      helpKey: 'nihss5aMotorArmHelp',
       min: 0,
       max: 4,
       untestableValue: nihssUntestable,
@@ -104,6 +111,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey5bMotorArmR,
       labelKey: 'nihss5bMotorArmRLabel',
+      helpKey: 'nihss5aMotorArmHelp', // misma descripción, distinto lado
       min: 0,
       max: 4,
       untestableValue: nihssUntestable,
@@ -119,6 +127,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey6aMotorLegL,
       labelKey: 'nihss6aMotorLegLLabel',
+      helpKey: 'nihss6aMotorLegHelp',
       min: 0,
       max: 4,
       untestableValue: nihssUntestable,
@@ -134,6 +143,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey6bMotorLegR,
       labelKey: 'nihss6bMotorLegRLabel',
+      helpKey: 'nihss6aMotorLegHelp', // misma descripción, distinto lado
       min: 0,
       max: 4,
       untestableValue: nihssUntestable,
@@ -149,6 +159,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey7Ataxia,
       labelKey: 'nihss7AtaxiaLabel',
+      helpKey: 'nihss7AtaxiaHelp',
       min: 0,
       max: 2,
       untestableValue: nihssUntestable,
@@ -162,6 +173,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey8Sensory,
       labelKey: 'nihss8SensoryLabel',
+      helpKey: 'nihss8SensoryHelp',
       min: 0,
       max: 2,
       options: [
@@ -173,6 +185,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey9Language,
       labelKey: 'nihss9LanguageLabel',
+      helpKey: 'nihss9LanguageHelp',
       min: 0,
       max: 3,
       options: [
@@ -185,6 +198,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey10Dysarthria,
       labelKey: 'nihss10DysarthriaLabel',
+      helpKey: 'nihss10DysarthriaHelp',
       min: 0,
       max: 2,
       untestableValue: nihssUntestable,
@@ -198,6 +212,7 @@ class NihssDefinition extends ScaleDefinition {
     ScaleItem(
       key: nihssKey11Neglect,
       labelKey: 'nihss11NeglectLabel',
+      helpKey: 'nihss11NeglectHelp',
       min: 0,
       max: 2,
       options: [
