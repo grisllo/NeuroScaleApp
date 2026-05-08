@@ -50,3 +50,27 @@ jobs:
           name: coverage
           path: coverage/lcov.info
           if-no-files-found: ignore
+
+  vulnerability-scan:
+    name: Vulnerability scan (osv-scanner)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: analyze-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.41.9"
+          channel: stable
+          cache: true
+
+      - name: Resolve dependencies
+        # Genera/actualiza pubspec.lock para que el scan analice el grafo real.
+        run: flutter pub get
+
+      - name: Run osv-scanner on pubspec.lock
+        uses: google/osv-scanner-action/osv-scanner-action@v2.0.2
+        with:
+          scan-args: |-
+            --lockfile=pubspec.lock
