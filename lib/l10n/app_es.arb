@@ -1109,5 +1109,101 @@
   "@profileLanguageEn": { "description": "Opción inglés en selector de idioma" },
 
   "offlineBannerMessage": "Sin conexión — mostrando datos en caché",
-  "@offlineBannerMessage": { "description": "Banner de modo offline en la shell de navegación" }
+  "@offlineBannerMessage": { "description": "Banner de modo offline en la shell de navegación" },
+
+  "tutorialButtonTooltip": "Más información",
+  "@tutorialButtonTooltip": { "description": "Tooltip del botón ? en ítems de escala (modo tutorial)" },
+
+  "gcsEyeHelp": "Apertura ocular: evalúa el nivel de arousal — el umbral de estímulo necesario para que el paciente abra los ojos. Independiente de la comprensión del lenguaje.\n• 4: espontánea\n• 3: a la voz\n• 2: al dolor\n• 1: ninguna\n\n📚 Teasdale G, Jennett B. Assessment of coma and impaired consciousness. Lancet. 1974;2(7872):81–84.",
+  "@gcsEyeHelp": { "description": "Tutorial: apertura ocular GCS" },
+
+  "gcsVerbalHelp": "Respuesta verbal: evalúa la función cortical superior y la orientación. Si el paciente está intubado o no puede hablar, se registra '1T' aunque no modifica la puntuación.\n• 5: orientado y conversa\n• 4: conversa pero confuso\n• 3: palabras inapropiadas\n• 2: sonidos incomprensibles\n• 1: ninguna respuesta verbal\n\n📚 Teasdale G, Jennett B. Lancet. 1974;2(7872):81–84.",
+  "@gcsVerbalHelp": { "description": "Tutorial: respuesta verbal GCS" },
+
+  "gcsMotorHelp": "Respuesta motora: componente con mayor valor pronóstico del GCS. Evaluar siempre en el mejor miembro.\n• 6: obedece órdenes\n• 5: localiza el dolor (acerca la mano al estímulo)\n• 4: retirada (retira sin localizar)\n• 3: flexión anormal (decorticación)\n• 2: extensión (descerebración)\n• 1: ninguna respuesta\n\n📚 Teasdale G, Jennett B. Lancet. 1974;2(7872):81–84.",
+  "@gcsMotorHelp": { "description": "Tutorial: respuesta motora GCS" },
+
+  "nihss1aLocHelp": "Nivel de consciencia (LOC): evalúa el estado de alerta general. Puntúa aunque el paciente no coopere por intubación, barrera idiomática o traumatismo.\n• 0: alerta\n• 1: somnoliento, responde con estimulación mínima\n• 2: obnubilado, requiere estimulación repetida o dolorosa\n• 3: coma, solo respuestas reflejas o ninguna\n\n📚 Brott T, et al. Measurements of acute cerebral infarction. Stroke. 1989;20(7):864–870.",
+  "@nihss1aLocHelp": { "description": "Tutorial: LOC nivel de consciencia NIHSS" },
+
+  "nihss1bLocQuestionsHelp": "Preguntas LOC: se pregunta el mes actual y la edad del paciente. Puntúa la respuesta inicial; no se insiste.\n• 0: ambas correctas\n• 1: una correcta (o disartria, intubación, barrera idiomática)\n• 2: ninguna correcta\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss1bLocQuestionsHelp": { "description": "Tutorial: preguntas LOC NIHSS" },
+
+  "nihss1cLocCommandsHelp": "Órdenes LOC: se pide al paciente que abra/cierre los ojos y que apriete/abra la mano no parética. Si la mano no es funcional puede usarse otro grupo muscular.\n• 0: ambas correctas\n• 1: una correcta\n• 2: ninguna correcta\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss1cLocCommandsHelp": { "description": "Tutorial: órdenes LOC NIHSS" },
+
+  "nihss2GazeHelp": "Mirada horizontal conjugada: solo se evalúan los movimientos horizontales voluntarios o reflejos (oculocefálico).\n• 0: normal\n• 1: paresia parcial (puede superar la desviación)\n• 2: desviación forzada que no puede superarse\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss2GazeHelp": { "description": "Tutorial: mirada NIHSS" },
+
+  "nihss3VisualHelp": "Campos visuales: evaluación por confrontación (dedo agitado o cuenta de dedos en cuadrantes).\n• 0: sin déficit\n• 1: hemianopsia parcial (cuadrantanopsia)\n• 2: hemianopsia completa\n• 3: hemianopsia bilateral o ceguera cortical\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss3VisualHelp": { "description": "Tutorial: campos visuales NIHSS" },
+
+  "nihss4FacialHelp": "Paresia facial: observar la asimetría al sonreír o apretar los ojos. En pacientes en coma aplicar estímulo doloroso.\n• 0: movimiento simétrico normal\n• 1: paresia menor (asimetría leve)\n• 2: paresia parcial (parálisis total inferior de la cara)\n• 3: parálisis completa uni o bilateral\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss4FacialHelp": { "description": "Tutorial: paresia facial NIHSS" },
+
+  "nihss5aMotorArmHelp": "Paresia de miembro superior: extender el brazo a 90° (sentado) o 45° (decúbito). Contar 10 segundos. Registrar cada lado por separado.\n• 0: mantiene la posición 10 s\n• 1: cae antes de 10 s pero no toca la camilla\n• 2: cae antes de 10 s\n• 3: no supera la gravedad\n• 4: ningún movimiento\n• UN: amputación o restricción articular\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss5aMotorArmHelp": { "description": "Tutorial: paresia miembro superior NIHSS" },
+
+  "nihss6aMotorLegHelp": "Paresia de miembro inferior: elevar la pierna a 30° en decúbito supino. Contar 5 segundos. Registrar cada lado por separado.\n• 0: mantiene la posición 5 s\n• 1: cae antes de 5 s pero no toca la camilla\n• 2: cae antes de 5 s\n• 3: no supera la gravedad\n• 4: ningún movimiento\n• UN: amputación o restricción articular\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss6aMotorLegHelp": { "description": "Tutorial: paresia miembro inferior NIHSS" },
+
+  "nihss7AtaxiaHelp": "Ataxia de miembros: evalúa disfunción cerebelosa. No puntuar si hay debilidad grave (≥3). Maniobra dedo-nariz y talón-rodilla bilateralmente.\n• 0: sin ataxia\n• 1: ataxia en un miembro\n• 2: ataxia en dos miembros\n• UN: amputación o restricción articular\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss7AtaxiaHelp": { "description": "Tutorial: ataxia NIHSS" },
+
+  "nihss8SensoryHelp": "Sensación: pinchazo con alfiler. Solo puntuar el déficit atribuible al ictus. En pacientes sin consciencia, estimar por la retirada al dolor.\n• 0: sensación normal\n• 1: leve-moderada hipestesia (el pinchazo es menos marcado)\n• 2: anestesia grave o total\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss8SensoryHelp": { "description": "Tutorial: sensación NIHSS" },
+
+  "nihss9LanguageHelp": "Lenguaje (afasia): nombrar objetos de una lámina, leer frases, describir una escena. En pacientes intubados pedir que escriban.\n• 0: sin afasia\n• 1: afasia leve-moderada (comprensible con dificultad)\n• 2: afasia grave (comunicación fragmentada)\n• 3: mutismo, afasia global o coma\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss9LanguageHelp": { "description": "Tutorial: lenguaje/afasia NIHSS" },
+
+  "nihss10DysarthriaHelp": "Disartria: articulación del habla independientemente del lenguaje. Leer o repetir palabras de una lista estandarizada.\n• 0: articulación normal\n• 1: disartria leve (algunos sonidos borrosos)\n• 2: disartria grave (ininteligible)\n• UN: intubado u otra barrera física\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss10DysarthriaHelp": { "description": "Tutorial: disartria NIHSS" },
+
+  "nihss11NeglectHelp": "Extinción e inatención (negligencia): estimulación simultánea bilateral táctil y visual. Puede puntuarse en pacientes con afasia que parezcan orientados.\n• 0: sin inatención\n• 1: extinción a estimulación bilateral en una modalidad\n• 2: hemi-inatención profunda en más de una modalidad\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss11NeglectHelp": { "description": "Tutorial: negligencia/extinción NIHSS" },
+
+  "barthelFeedingHelp": "Alimentación: capacidad de llevar la comida a la boca desde el plato. Incluye cortar alimentos.\n• 10: independiente (puede cortar alimentos)\n• 5: necesita ayuda para cortar o preparar\n• 0: dependiente o imposible\n\n📚 Mahoney FI, Barthel DW. Functional evaluation: the Barthel index. Maryland State Med J. 1965;14:56–61.",
+  "@barthelFeedingHelp": { "description": "Tutorial: alimentación Barthel" },
+
+  "barthelBathingHelp": "Baño/ducha: capacidad de bañarse o ducharse sin ayuda física.\n• 5: independiente (entra/sale de la bañera o se ducha solo)\n• 0: necesita ayuda\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelBathingHelp": { "description": "Tutorial: baño Barthel" },
+
+  "barthelGroomingHelp": "Aseo personal: lavarse la cara, peinarse, afeitarse, cepillarse los dientes. Se evalúa con los utensilios disponibles.\n• 5: independiente\n• 0: necesita ayuda\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelGroomingHelp": { "description": "Tutorial: aseo personal Barthel" },
+
+  "barthelDressingHelp": "Vestido: ponerse y quitarse la ropa, abrocharse y calzarse.\n• 10: independiente\n• 5: necesita ayuda en algún paso pero realiza más de la mitad solo\n• 0: dependiente\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelDressingHelp": { "description": "Tutorial: vestido Barthel" },
+
+  "barthelBowelsHelp": "Continencia rectal: control del esfínter rectal.\n• 10: continente (ningún episodio de incontinencia)\n• 5: episodios ocasionales (<1/semana) o necesita enema\n• 0: incontinente\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelBowelsHelp": { "description": "Tutorial: continencia rectal Barthel" },
+
+  "barthelBladderHelp": "Continencia vesical: control del esfínter vesical.\n• 10: continente (ningún episodio de incontinencia)\n• 5: episodios ocasionales (<1/día) o sondaje manejado solo\n• 0: incontinente o sondado sin control\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelBladderHelp": { "description": "Tutorial: continencia vesical Barthel" },
+
+  "barthelToiletUseHelp": "Uso del WC: entrar, sentarse, limpiarse y salir.\n• 10: independiente\n• 5: necesita alguna ayuda pero realiza parte solo\n• 0: dependiente\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelToiletUseHelp": { "description": "Tutorial: uso WC Barthel" },
+
+  "barthelTransferHelp": "Transferencia silla-cama: incluye todos los pasos de la transferencia bidireccional.\n• 15: independiente\n• 10: supervisión o pequeña ayuda física\n• 5: puede sentarse pero necesita gran ayuda para la transferencia\n• 0: incapaz, necesita dos personas\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelTransferHelp": { "description": "Tutorial: transferencia silla-cama Barthel" },
+
+  "barthelMobilityHelp": "Deambulación en terreno llano (o silla de ruedas si no deambula).\n• 15: independiente ≥50 m (puede usar bastón)\n• 10: supervisión o ayuda de una persona\n• 5: independiente en silla de ruedas ≥50 m\n• 0: encamado o totalmente dependiente\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelMobilityHelp": { "description": "Tutorial: deambulación Barthel" },
+
+  "barthelStairsHelp": "Subir y bajar escaleras.\n• 10: independiente (puede usar pasamanos o bastón)\n• 5: necesita ayuda física o supervisión\n• 0: incapaz\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelStairsHelp": { "description": "Tutorial: escaleras Barthel" },
+
+  "abcd2AgeHelp": "Edad: pacientes ≥60 años presentan mayor riesgo de ictus precoz tras AIT.\n• 1 punto: edad ≥60 años\n• 0 puntos: edad <60 años\n\n📚 Johnston SC, et al. Validation and refinement of scores to predict very early stroke risk after transient ischaemic attack. Lancet. 2007;369(9558):283–292.",
+  "@abcd2AgeHelp": { "description": "Tutorial: edad ABCD2" },
+
+  "abcd2BpHelp": "Presión arterial al ingreso: HTA en el momento de evaluación post-AIT eleva el riesgo a corto plazo.\n• 1 punto: PAS ≥140 mmHg o PAD ≥90 mmHg\n• 0 puntos: presión normal\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2BpHelp": { "description": "Tutorial: presión arterial ABCD2" },
+
+  "abcd2ClinicalHelp": "Características clínicas del AIT: la debilidad unilateral tiene mayor peso por su correlación con isquemia carotídea. La alteración del habla sin debilidad puede reflejar ictus lacunar o isquemia vertebrobasilar.\n• 2 puntos: debilidad unilateral\n• 1 punto: alteración del habla sin debilidad\n• 0 puntos: otros síntomas\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2ClinicalHelp": { "description": "Tutorial: presentación clínica ABCD2" },
+
+  "abcd2DurationHelp": "Duración del episodio: AIT prolongados reflejan mayor carga isquémica y mayor riesgo de ictus establecido.\n• 2 puntos: ≥60 minutos\n• 1 punto: 10–59 minutos\n• 0 puntos: <10 minutos\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2DurationHelp": { "description": "Tutorial: duración ABCD2" },
+
+  "abcd2DiabetesHelp": "Diabetes mellitus: la DM pre-existente amplifica el riesgo vascular basal. Se incluyen DM tipo 1 y tipo 2 en cualquier tratamiento.\n• 1 punto: diabetes presente\n• 0 puntos: no diabético\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2DiabetesHelp": { "description": "Tutorial: diabetes ABCD2" }
 }

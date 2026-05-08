@@ -1109,5 +1109,101 @@
   "@profileLanguageEn": { "description": "English option in language selector" },
 
   "offlineBannerMessage": "No connection — showing cached data",
-  "@offlineBannerMessage": { "description": "Offline mode banner in navigation shell" }
+  "@offlineBannerMessage": { "description": "Offline mode banner in navigation shell" },
+
+  "tutorialButtonTooltip": "More information",
+  "@tutorialButtonTooltip": { "description": "Tooltip for the ? button on scale items (tutorial mode)" },
+
+  "gcsEyeHelp": "Eye Opening: assesses level of arousal — the stimulus threshold needed for the patient to open their eyes. Independent of language comprehension.\n• 4: spontaneous\n• 3: to voice\n• 2: to pain\n• 1: none\n\n📚 Teasdale G, Jennett B. Assessment of coma and impaired consciousness. Lancet. 1974;2(7872):81–84.",
+  "@gcsEyeHelp": { "description": "Tutorial: eye opening GCS" },
+
+  "gcsVerbalHelp": "Verbal Response: assesses higher cortical function and orientation. Record '1T' if the patient is intubated (does not affect score).\n• 5: oriented\n• 4: confused\n• 3: inappropriate words\n• 2: incomprehensible sounds\n• 1: none\n\n📚 Teasdale G, Jennett B. Lancet. 1974;2(7872):81–84.",
+  "@gcsVerbalHelp": { "description": "Tutorial: verbal response GCS" },
+
+  "gcsMotorHelp": "Motor Response: the GCS component with the highest prognostic value. Always assess the best limb.\n• 6: obeys commands\n• 5: localises pain (moves hand toward stimulus)\n• 4: withdrawal (withdraws without localising)\n• 3: abnormal flexion (decorticate)\n• 2: extension (decerebrate)\n• 1: none\n\n📚 Teasdale G, Jennett B. Lancet. 1974;2(7872):81–84.",
+  "@gcsMotorHelp": { "description": "Tutorial: motor response GCS" },
+
+  "nihss1aLocHelp": "Level of Consciousness (LOC): assesses the overall state of alertness. Score even if the patient cannot cooperate due to intubation, language barrier or trauma.\n• 0: alert\n• 1: drowsy, responds to minimal stimulation\n• 2: obtunded, requires repeated or painful stimulation\n• 3: coma, reflex responses only or none\n\n📚 Brott T, et al. Measurements of acute cerebral infarction. Stroke. 1989;20(7):864–870.",
+  "@nihss1aLocHelp": { "description": "Tutorial: LOC level of consciousness NIHSS" },
+
+  "nihss1bLocQuestionsHelp": "LOC Questions: ask the current month and the patient's age. Score the initial response; do not repeat.\n• 0: both correct\n• 1: one correct (or dysarthria, intubation, language barrier)\n• 2: neither correct\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss1bLocQuestionsHelp": { "description": "Tutorial: LOC questions NIHSS" },
+
+  "nihss1cLocCommandsHelp": "LOC Commands: ask the patient to open/close eyes and grip/release the non-paretic hand. Another muscle group may be used if the hand is not functional.\n• 0: both correct\n• 1: one correct\n• 2: neither correct\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss1cLocCommandsHelp": { "description": "Tutorial: LOC commands NIHSS" },
+
+  "nihss2GazeHelp": "Gaze: only voluntary or reflex (oculocephalic) horizontal eye movements are assessed.\n• 0: normal\n• 1: partial palsy (can overcome the deviation)\n• 2: forced deviation that cannot be overcome\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss2GazeHelp": { "description": "Tutorial: gaze NIHSS" },
+
+  "nihss3VisualHelp": "Visual Fields: assessed by confrontation (finger wiggle or finger count in quadrants).\n• 0: no deficit\n• 1: partial hemianopia (quadrantanopia)\n• 2: complete hemianopia\n• 3: bilateral hemianopia or cortical blindness\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss3VisualHelp": { "description": "Tutorial: visual fields NIHSS" },
+
+  "nihss4FacialHelp": "Facial Palsy: observe asymmetry when smiling or squeezing eyes shut. Apply painful stimulus in unresponsive patients.\n• 0: normal symmetric movements\n• 1: minor palsy (slight asymmetry)\n• 2: partial palsy (complete lower face paralysis)\n• 3: complete palsy, unilateral or bilateral\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss4FacialHelp": { "description": "Tutorial: facial palsy NIHSS" },
+
+  "nihss5aMotorArmHelp": "Motor Arm: extend arm to 90° (sitting) or 45° (supine). Count 10 seconds. Score each side separately.\n• 0: holds position 10 s\n• 1: drifts down before 10 s, does not touch bed\n• 2: falls before 10 s\n• 3: no effort against gravity\n• 4: no movement\n• UN: amputation or joint fusion\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss5aMotorArmHelp": { "description": "Tutorial: motor arm NIHSS" },
+
+  "nihss6aMotorLegHelp": "Motor Leg: raise leg to 30° supine. Count 5 seconds. Score each side separately.\n• 0: holds position 5 s\n• 1: drifts down before 5 s, does not touch bed\n• 2: falls before 5 s\n• 3: no effort against gravity\n• 4: no movement\n• UN: amputation or joint fusion\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss6aMotorLegHelp": { "description": "Tutorial: motor leg NIHSS" },
+
+  "nihss7AtaxiaHelp": "Limb Ataxia: assesses cerebellar dysfunction. Do not score if major weakness (≥3) is present. Perform finger-nose and heel-shin tests bilaterally.\n• 0: no ataxia\n• 1: ataxia in one limb\n• 2: ataxia in two limbs\n• UN: amputation or joint fusion\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss7AtaxiaHelp": { "description": "Tutorial: limb ataxia NIHSS" },
+
+  "nihss8SensoryHelp": "Sensory: pin-prick test. Score only the deficit attributable to the stroke. In unconscious patients, estimate by pain withdrawal.\n• 0: normal sensation\n• 1: mild-moderate hypesthesia (pin-prick less sharp)\n• 2: severe or total anaesthesia\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss8SensoryHelp": { "description": "Tutorial: sensory NIHSS" },
+
+  "nihss9LanguageHelp": "Language (Aphasia): name objects from a picture, read sentences, describe a scene. Ask intubated patients to write.\n• 0: no aphasia\n• 1: mild-moderate aphasia (understandable with difficulty)\n• 2: severe aphasia (fragmented communication)\n• 3: mute, global aphasia or coma\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss9LanguageHelp": { "description": "Tutorial: language/aphasia NIHSS" },
+
+  "nihss10DysarthriaHelp": "Dysarthria: clarity of articulation, independent of language. Read or repeat words from a standardised list.\n• 0: normal articulation\n• 1: mild dysarthria (some sounds slurred)\n• 2: severe dysarthria (unintelligible)\n• UN: intubated or other physical barrier\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss10DysarthriaHelp": { "description": "Tutorial: dysarthria NIHSS" },
+
+  "nihss11NeglectHelp": "Extinction and Inattention (Neglect): bilateral simultaneous tactile and visual stimulation. May be scored in aphasic patients who appear oriented.\n• 0: no inattention\n• 1: extinction to bilateral stimulation in one modality\n• 2: profound hemi-inattention in more than one modality\n\n📚 Brott T, et al. Stroke. 1989;20(7):864–870.",
+  "@nihss11NeglectHelp": { "description": "Tutorial: extinction/neglect NIHSS" },
+
+  "barthelFeedingHelp": "Feeding: ability to bring food to mouth from a plate. Includes cutting food.\n• 10: independent (can cut food)\n• 5: needs help cutting or preparing\n• 0: dependent or unable\n\n📚 Mahoney FI, Barthel DW. Functional evaluation: the Barthel index. Maryland State Med J. 1965;14:56–61.",
+  "@barthelFeedingHelp": { "description": "Tutorial: feeding Barthel" },
+
+  "barthelBathingHelp": "Bathing: ability to bathe or shower without physical assistance.\n• 5: independent (gets in/out of bath or showers alone)\n• 0: needs assistance\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelBathingHelp": { "description": "Tutorial: bathing Barthel" },
+
+  "barthelGroomingHelp": "Grooming: washing face, combing hair, shaving, brushing teeth. Assessed with implements provided.\n• 5: independent\n• 0: needs assistance\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelGroomingHelp": { "description": "Tutorial: grooming Barthel" },
+
+  "barthelDressingHelp": "Dressing: putting on and removing clothing, fastening and putting on shoes.\n• 10: independent\n• 5: needs help with some steps but does more than half alone\n• 0: dependent\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelDressingHelp": { "description": "Tutorial: dressing Barthel" },
+
+  "barthelBowelsHelp": "Bowels: rectal sphincter control.\n• 10: continent (no incontinence episodes)\n• 5: occasional episodes (<1/week) or needs enema\n• 0: incontinent\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelBowelsHelp": { "description": "Tutorial: bowels Barthel" },
+
+  "barthelBladderHelp": "Bladder: urinary sphincter control.\n• 10: continent (no incontinence episodes)\n• 5: occasional episodes (<1/day) or catheter managed independently\n• 0: incontinent or catheterised without control\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelBladderHelp": { "description": "Tutorial: bladder Barthel" },
+
+  "barthelToiletUseHelp": "Toilet use: entering, sitting, cleansing and leaving.\n• 10: independent\n• 5: needs some help but performs part alone\n• 0: dependent\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelToiletUseHelp": { "description": "Tutorial: toilet use Barthel" },
+
+  "barthelTransferHelp": "Transfer chair-bed: includes all steps of bidirectional transfer.\n• 15: independent\n• 10: supervision or minor physical help\n• 5: can sit but needs major help for transfer\n• 0: unable, requires two people\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelTransferHelp": { "description": "Tutorial: chair-bed transfer Barthel" },
+
+  "barthelMobilityHelp": "Mobility on level surface (or wheelchair if non-ambulant).\n• 15: independent ≥50 m (may use cane)\n• 10: supervision or help from one person\n• 5: independent in wheelchair ≥50 m\n• 0: bedbound or totally dependent\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelMobilityHelp": { "description": "Tutorial: mobility Barthel" },
+
+  "barthelStairsHelp": "Stairs: going up and down stairs.\n• 10: independent (may use handrail or cane)\n• 5: needs physical help or supervision\n• 0: unable\n\n📚 Mahoney FI, Barthel DW. Maryland State Med J. 1965;14:56–61.",
+  "@barthelStairsHelp": { "description": "Tutorial: stairs Barthel" },
+
+  "abcd2AgeHelp": "Age: patients aged ≥60 years have a higher risk of early stroke after TIA.\n• 1 point: age ≥60 years\n• 0 points: age <60 years\n\n📚 Johnston SC, et al. Validation and refinement of scores to predict very early stroke risk after transient ischaemic attack. Lancet. 2007;369(9558):283–292.",
+  "@abcd2AgeHelp": { "description": "Tutorial: age ABCD2" },
+
+  "abcd2BpHelp": "Blood Pressure at presentation: hypertension at the time of evaluation after TIA increases short-term risk.\n• 1 point: SBP ≥140 mmHg or DBP ≥90 mmHg\n• 0 points: normal blood pressure\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2BpHelp": { "description": "Tutorial: blood pressure ABCD2" },
+
+  "abcd2ClinicalHelp": "Clinical features of the TIA: unilateral weakness carries greater weight due to its correlation with carotid territory ischaemia. Speech disturbance without weakness may reflect lacunar or vertebrobasilar ischaemia.\n• 2 points: unilateral weakness\n• 1 point: speech disturbance without weakness\n• 0 points: other symptoms\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2ClinicalHelp": { "description": "Tutorial: clinical features ABCD2" },
+
+  "abcd2DurationHelp": "Duration of the episode: prolonged TIAs reflect greater ischaemic load and higher risk of completed stroke.\n• 2 points: ≥60 minutes\n• 1 point: 10–59 minutes\n• 0 points: <10 minutes\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2DurationHelp": { "description": "Tutorial: duration ABCD2" },
+
+  "abcd2DiabetesHelp": "Diabetes mellitus: pre-existing DM amplifies baseline vascular risk. Includes type 1 and type 2 DM on any treatment.\n• 1 point: diabetes present\n• 0 points: not diabetic\n\n📚 Johnston SC, et al. Lancet. 2007;369(9558):283–292.",
+  "@abcd2DiabetesHelp": { "description": "Tutorial: diabetes ABCD2" }
 }
