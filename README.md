@@ -59,6 +59,9 @@ gantt
     6.2 Optimización backend (~1h)            :done, f6b,  2026-05-08, 1d
     6.3 Refactor i18n + arquitectura (~0.5h)  :done, f6c,  2026-05-08, 1d
     6.4 Rendimiento web + tests + a11y (~0.5h):done, f6d,  2026-05-08, 1d
+
+    section Fase 7 · Features de producto
+    7.1 Indicador sin conexión (~0.5h)        :done, f7a,  2026-05-08, 1d
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.

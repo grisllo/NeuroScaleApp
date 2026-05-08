@@ -174,6 +174,8 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 6.3: Refactor i18n + arquitectura | `d3c6e3f`..`009a499` | 2026-05-08 | ~0,5 h |
 | Fase 6.4: Rendimiento web + tests + a11y | `e466851`..`9aa2087` | 2026-05-08 | ~0,5 h |
 | **Total acumulado Fase 6 completa (real)** | | | **~49,5 h** |
+| Fase 7.1: Indicador visual modo sin conexión | `8f5f442`..`c9f5066` | 2026-05-08 | ~0,5 h |
+| **Total acumulado Fase 7.1 (real)** | | | **~50,0 h** |
 
 **Conclusión de desviaciones (proyecto completo, Fases 0-4)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance final: −5,0 h sobre estimación (−9,9%). Las mayores ganancias vinieron de la arquitectura bien definida; la única desviación positiva fue la traducción de contenido clínico extenso (Fase 4.3), no prevista en su totalidad.
 

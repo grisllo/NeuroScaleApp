@@ -245,6 +245,21 @@ Issue #13.
 
 ---
 
+### Fase 7.1 — Indicador visual de modo sin conexión ✅ Completada (2026-05-08)
+
+**Objetivo**: dar feedback visual inmediato al usuario cuando el dispositivo pierde conectividad, cerrando el gap de confianza del modo offline ya implementado.
+
+**Entregables**:
+- `pubspec.yaml`: dependencia `connectivity_plus: ^6.1.1`.
+- `lib/core/providers/connectivity_provider.dart`: `connectivityStreamProvider` + `isOfflineProvider` (true cuando todas las interfaces = none).
+- `lib/core/widgets/offline_banner.dart`: banner `errorContainer` con icono `wifi_off_rounded` y texto `l10n.offlineBannerMessage`. SafeArea top.
+- `lib/core/routing/app_shell.dart`: migrado a `ConsumerWidget`; banner con `AnimatedSize` encima del `navigationShell`.
+- `app_es.arb` + `app_en.arb`: clave `offlineBannerMessage`.
+
+**Tests**: 187 (sin cambios — conectividad es test de integración).
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |
