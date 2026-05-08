@@ -106,6 +106,15 @@
   "caseDescriptionWarning": "⚠ No incluir datos identificativos del paciente (nombre, DNI, fechas de nacimiento…)",
   "@caseDescriptionWarning": { "description": "Aviso anti-PII en el diálogo de guardado" },
 
+  "caseDescriptionTooLong": "Máximo 500 caracteres.",
+  "@caseDescriptionTooLong": { "description": "Error de validación cuando case_description supera 500 caracteres" },
+
+  "caseDescriptionPiiDetected": "Detectados posibles datos identificativos ({kinds}). Anonimízalos antes de guardar.",
+  "@caseDescriptionPiiDetected": {
+    "description": "Error de validación cuando se detecta PII en case_description",
+    "placeholders": { "kinds": { "type": "String" } }
+  },
+
   "saveButton": "Guardar",
   "@saveButton": { "description": "Botón de guardar genérico" },
 

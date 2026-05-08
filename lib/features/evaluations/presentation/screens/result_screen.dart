@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/theme/clinical_colors.dart';
+import '../../../../core/utils/pii_detector.dart';
 import '../../../../core/widgets/animated_score.dart';
 import '../../../../core/widgets/severity_badge.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
@@ -276,10 +277,24 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                 controller: _notesController,
                 minLines: 2,
                 maxLines: 4,
+                maxLength: 500,
                 decoration: InputDecoration(
                   labelText: l10n.evaluationNotesLabel,
                   hintText: l10n.caseDescriptionHint,
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) return null;
+                  if (value.length > 500) return l10n.caseDescriptionTooLong;
+                  final matches = PiiDetector.detect(value);
+                  if (matches.isNotEmpty) {
+                    final kinds = matches
+                        .map((m) => m.kind.name)
+                        .toSet()
+                        .join(', ');
+                    return l10n.caseDescriptionPiiDetected(kinds);
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 8),
               Text(

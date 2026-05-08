@@ -106,6 +106,15 @@
   "caseDescriptionWarning": "⚠ Do not include patient identifying data (name, ID, date of birth…)",
   "@caseDescriptionWarning": { "description": "Anti-PII warning in save dialog" },
 
+  "caseDescriptionTooLong": "Maximum 500 characters.",
+  "@caseDescriptionTooLong": { "description": "Validation error when case_description exceeds 500 characters" },
+
+  "caseDescriptionPiiDetected": "Possible identifying data detected ({kinds}). Anonymise it before saving.",
+  "@caseDescriptionPiiDetected": {
+    "description": "Validation error when PII is detected in case_description",
+    "placeholders": { "kinds": { "type": "String" } }
+  },
+
   "saveButton": "Save",
   "@saveButton": { "description": "Generic save button" },
 
