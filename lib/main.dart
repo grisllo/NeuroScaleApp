@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,6 +17,8 @@ Future<void> main() async {
   // Remove '#' from web URLs (skill: flutter-setup-declarative-routing)
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  // Fuentes bundleadas en el artefacto web; evita fetch a fonts.gstatic.com en cold start.
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   final prefs = await SharedPreferences.getInstance();
   final disclaimerAccepted = prefs.getBool('disclaimer_accepted') ?? false;
