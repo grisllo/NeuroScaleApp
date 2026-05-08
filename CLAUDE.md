@@ -48,7 +48,7 @@ lib/
 **Layer rules** (enforced by code review):
 - UI never reaches the data layer or Supabase directly. Flow: `UI → Provider → UseCase → Repository → DataSource → Supabase`.
 - Clinical scale calculations live in `domain/` as **pure functions** — easy to test, no Flutter or Supabase imports.
-- Repositories return `Either<Failure, T>` style or throw `Failure` (never raw exceptions). Datasources throw `AppException` subtypes; repositories convert.
+- Repositories **throw `Failure`** subtypes (never raw exceptions). Datasources throw `AppException` subtypes; repositories convert them to `Failure` in catch blocks. Controllers use `AsyncValue.guard()` to catch. No `Either<L,R>` — deliberately avoided in this project to keep the code simple (see ROADMAP Decisiones arquitectónicas).
 - `presentation/` uses Riverpod (`AsyncNotifier`/`Notifier`) — no business logic in widgets.
 
 **Routing** uses `go_router` via `appRouterProvider` (Riverpod). Auth guard will redirect unauthenticated users once auth is wired in Phase 1.
