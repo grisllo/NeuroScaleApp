@@ -201,6 +201,23 @@ Issue #13.
 
 ---
 
+### Fase 6.2 — Optimización backend y rebuilds ✅ Completada (2026-05-08)
+
+**Objetivo**: eliminar queries pesados, retención de memoria innecesaria y rebuilds de UI sobredimensionados detectados en la auditoría.
+
+**Entregables**:
+- `lib/core/constants/app_constants.dart`: constante `kEvaluationsPageSize = 20` compartida entre las 4 capas que antes duplicaban el literal.
+- `supabase_evaluation_datasource.dart`: `select()` con columnas explícitas — excluye `detailed_scores` (JSONB) y `case_description` de los listados de historial.
+- `EvaluationModel.fromJson()`: null-safe en `detailedScores` y `caseDescription` para soportar select parcial.
+- `supabase_patient_datasource.dart`: columnas explícitas en `fetchAll()` y `findById()`.
+- 5 providers de escalas (GCS, NIHSS, mRS, Barthel, ABCD2): `NotifierProvider` → `NotifierProvider.autoDispose` — estado liberado al salir de la pantalla.
+- `ScalesTabScreen`: de `ConsumerWidget` a `StatelessWidget`; `sessionProvider` movido a `Consumer` granular que solo reconstruye el `Text` del email.
+- `supabase/migrations/0005_add_scale_type_index.sql`: índice compuesto `(user_id, scale_type, created_at DESC)` aplicado en producción.
+
+**Tests**: 183 (sin cambios — optimizaciones de infraestructura, no lógica de dominio).
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |
