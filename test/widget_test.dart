@@ -74,10 +74,13 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byType(NavigationBar), findsOneWidget);
-    // Both tab labels are visible
+    // Navegación visible en alguna de las dos variantes (móvil: NavigationBar,
+    // tablet/desktop: NavigationRail). Los tests corren a 800px → NavigationRail.
+    final hasNavBar = find.byType(NavigationBar).evaluate().isNotEmpty;
+    final hasNavRail = find.byType(NavigationRail).evaluate().isNotEmpty;
+    expect(hasNavBar || hasNavRail, isTrue);
     expect(find.text('Inicio'), findsWidgets);
-    expect(find.text('Pacientes'), findsOneWidget);
+    expect(find.text('Pacientes'), findsWidgets);
   });
 
   // ── Pantallas individuales ────────────────────────────────────────────────

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../core/utils/breakpoints.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patient_provider.dart';
@@ -11,7 +12,8 @@ import '../widgets/patient_edit_dialog.dart';
 import '../widgets/patient_evolution_chart.dart';
 
 /// Detail screen for a single patient.
-/// Shows header + tabs: Evaluaciones / Evolución.
+/// Mobile: TabBar con Evaluaciones / Evolución.
+/// Tablet/Desktop: lista de evaluaciones + gráfico de evolución lado a lado.
 class PatientDetailScreen extends ConsumerWidget {
   const PatientDetailScreen({super.key, required this.patientId});
 
@@ -20,38 +22,40 @@ class PatientDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
     final patientAsync = ref.watch(_patientByIdProvider(patientId));
     final evaluationsAsync = ref.watch(patientEvaluationsProvider(patientId));
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: patientAsync.maybeWhen(
-            data: (p) => Text(p?.alias ?? l10n.patientsTitle),
-            orElse: () => Text(l10n.patientsTitle),
-          ),
-          actions: [
-            patientAsync.maybeWhen(
-              data: (p) => p != null
-                  ? IconButton(
-                      icon: const Icon(Icons.edit_outlined),
-                      onPressed: () async {
-                        await PatientEditDialog.show(context, initial: p);
-                      },
-                    )
-                  : const SizedBox.shrink(),
-              orElse: () => const SizedBox.shrink(),
-            ),
-          ],
-          bottom: TabBar(
-            tabs: [
-              Tab(text: l10n.listTab),
-              Tab(text: l10n.evolutionTab),
-            ],
-          ),
+    Widget buildTitle() => patientAsync.maybeWhen(
+      data: (p) => Text(p?.alias ?? l10n.patientsTitle),
+      orElse: () => Text(l10n.patientsTitle),
+    );
+
+    Widget buildEditAction() => patientAsync.maybeWhen(
+      data: (p) => p != null
+          ? IconButton(
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () async {
+                await PatientEditDialog.show(context, initial: p);
+              },
+            )
+          : const SizedBox.shrink(),
+      orElse: () => const SizedBox.shrink(),
+    );
+
+    Widget buildBody() => patientAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(e.toString()),
         ),
-        body: patientAsync.when(
+      ),
+      data: (patient) {
+        if (patient == null) {
+          return Center(child: Text(l10n.patientNotFound));
+        }
+        return evaluationsAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Center(
             child: Padding(
@@ -59,27 +63,54 @@ class PatientDetailScreen extends ConsumerWidget {
               child: Text(e.toString()),
             ),
           ),
-          data: (patient) {
-            if (patient == null) {
-              return Center(child: Text(l10n.patientNotFound));
-            }
-            return evaluationsAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(e.toString()),
-                ),
-              ),
-              data: (evals) => TabBarView(
+          data: (evals) {
+            if (isTablet) {
+              return Row(
                 children: [
-                  _EvaluationsTab(patient: patient, evaluations: evals),
-                  PatientEvolutionChart(evaluations: evals),
+                  SizedBox(
+                    width: 380,
+                    child: _EvaluationsTab(
+                      patient: patient,
+                      evaluations: evals,
+                    ),
+                  ),
+                  const VerticalDivider(thickness: 1, width: 1),
+                  Expanded(child: PatientEvolutionChart(evaluations: evals)),
                 ],
-              ),
+              );
+            }
+            return TabBarView(
+              children: [
+                _EvaluationsTab(patient: patient, evaluations: evals),
+                PatientEvolutionChart(evaluations: evals),
+              ],
             );
           },
+        );
+      },
+    );
+
+    if (isTablet) {
+      return Scaffold(
+        appBar: AppBar(title: buildTitle(), actions: [buildEditAction()]),
+        body: buildBody(),
+      );
+    }
+
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: buildTitle(),
+          actions: [buildEditAction()],
+          bottom: TabBar(
+            tabs: [
+              Tab(text: l10n.listTab),
+              Tab(text: l10n.evolutionTab),
+            ],
+          ),
         ),
+        body: buildBody(),
       ),
     );
   }

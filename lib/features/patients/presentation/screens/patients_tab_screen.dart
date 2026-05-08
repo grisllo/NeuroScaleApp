@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/widgets/app_empty_state.dart';
 import '../../../../core/widgets/app_loading_skeleton.dart';
 import '../../domain/entities/patient.dart';
@@ -47,57 +48,65 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
     final l10n = context.l10n;
     final patientsAsync = ref.watch(patientsControllerProvider);
 
+    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.patientsTitle)),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                hintText: l10n.patientsSearchHint,
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                isDense: true,
-              ),
-            ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: isTablet ? 800 : double.infinity,
           ),
-          Expanded(
-            child: patientsAsync.when(
-              loading: () => const AppLoadingSkeleton(),
-              error: (e, _) => Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(e.toString()),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: _onSearchChanged,
+                  decoration: InputDecoration(
+                    hintText: l10n.patientsSearchHint,
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                    isDense: true,
+                  ),
                 ),
               ),
-              data: (patients) {
-                if (patients.isEmpty) {
-                  final hasQuery = _searchController.text.isNotEmpty;
-                  return AppEmptyState(
-                    icon: hasQuery
-                        ? Icons.search_off_outlined
-                        : Icons.people_outline,
-                    title: hasQuery
-                        ? l10n.patientsSearchEmpty
-                        : l10n.patientsEmptyTitle,
-                    subtitle: hasQuery ? null : l10n.patientsEmptySubtitle,
-                  );
-                }
-                return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 88),
-                  itemCount: patients.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 8),
-                  itemBuilder: (_, i) => _PatientCard(patient: patients[i]),
-                );
-              },
-            ),
+              Expanded(
+                child: patientsAsync.when(
+                  loading: () => const AppLoadingSkeleton(),
+                  error: (e, _) => Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(e.toString()),
+                    ),
+                  ),
+                  data: (patients) {
+                    if (patients.isEmpty) {
+                      final hasQuery = _searchController.text.isNotEmpty;
+                      return AppEmptyState(
+                        icon: hasQuery
+                            ? Icons.search_off_outlined
+                            : Icons.people_outline,
+                        title: hasQuery
+                            ? l10n.patientsSearchEmpty
+                            : l10n.patientsEmptyTitle,
+                        subtitle: hasQuery ? null : l10n.patientsEmptySubtitle,
+                      );
+                    }
+                    return ListView.separated(
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 88),
+                      itemCount: patients.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      itemBuilder: (_, i) => _PatientCard(patient: patients[i]),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _createPatient,
