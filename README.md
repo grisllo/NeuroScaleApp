@@ -62,7 +62,7 @@ gantt
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
-> Total acumulado: **~28h** de trabajo activo.
+> Total acumulado: **~49,5h** de trabajo activo (Fases 0–6).
 
 ---
 
