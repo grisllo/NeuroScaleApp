@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/utils/breakpoints.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/algorithms/algorithms_registry.dart';
 import '../../domain/entities/algorithm_definition.dart';
@@ -12,20 +13,28 @@ class AlgorithmsTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.algorithmsTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Text(
-            l10n.algorithmsSubtitle,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: isTablet ? 800 : double.infinity,
           ),
-          const SizedBox(height: 16),
-          ...kAlgorithms.map((def) => _AlgorithmCard(definition: def)),
-        ],
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Text(
+                l10n.algorithmsSubtitle,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ...kAlgorithms.map((def) => _AlgorithmCard(definition: def)),
+            ],
+          ),
+        ),
       ),
     );
   }
