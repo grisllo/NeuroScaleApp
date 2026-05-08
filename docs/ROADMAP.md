@@ -218,6 +218,19 @@ Issue #13.
 
 ---
 
+### Fase 6.3 — Refactor i18n + arquitectura ✅ Completada (2026-05-08)
+
+**Objetivo**: cerrar deuda de i18n (títulos hardcodeados), mejorar mantenibilidad del resolutor de claves de escala y documentar el contrato arquitectónico de repositorios.
+
+**Entregables**:
+- 5 pantallas de escala (GCS, NIHSS, mRS, Barthel, ABCD2): AppBar `title` pasa de hardcode inglés a `l10n.xTitle`. Las claves ARB ya existían.
+- `lib/core/extensions/scale_key_resolver.dart`: switch de 197 cases → `Map<String, String Function(AppLocalizations)>` estático con `assert` en fallback (captura claves faltantes en debug, fallback seguro en release).
+- `CLAUDE.md`: contrato de repositorios clarificado — `throws Failure`, no `Either<L,R>`. Decisión documentada con justificación.
+
+**Tests**: 183 (sin cambios — refactor puro, sin lógica de dominio nueva).
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |
