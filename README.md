@@ -63,10 +63,11 @@ gantt
     section Fase 7 · Features de producto
     7.1 Indicador sin conexión (~0.5h)        :done, f7a,  2026-05-08, 1d
     7.2 Web/tablet responsive (~1h)           :done, f7b,  2026-05-08, 1d
+    7.3 Modo tutorial por ítem (~1h)          :done, f7c,  2026-05-08, 1d
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
-> Total acumulado: **~49,5h** de trabajo activo (Fases 0–6).
+> Total acumulado: **~52,0h** de trabajo activo (Fases 0–7).
 
 ---
 

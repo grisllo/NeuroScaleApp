@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Proyecto completado: Fase 6** ✅ — Fase 6 completada 2026-05-08. Saneamiento técnico completo: seguridad, optimización backend, refactor i18n y rendimiento/a11y.
+**Proyecto completado: Fase 7** ✅ — Fase 7 completada 2026-05-08. Features de producto: indicador offline, responsive tablet/desktop y modo tutorial clínico. Proyecto listo para beta clínica.
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
@@ -275,6 +275,27 @@ Issue #13.
 - `widget_test.dart`: aserción de navegación agnóstica al tipo.
 
 **Tests**: 187 (sin cambios de dominio; widget test de navegación actualizado).
+
+---
+
+### Fase 7.3 — Modo tutorial: botón "?" por ítem ✅ Completada (2026-05-08)
+
+**Objetivo**: añadir explicación clínica + referencia bibliográfica por ítem en GCS, NIHSS, Barthel y ABCD2, accesible mediante un botón `?` discreto sin interrumpir el flujo de evaluación.
+
+**Entregables**:
+- `ScaleItem.helpKey` (campo opcional): apunta a la clave ARB de la descripción clínica; cuando es null no aparece botón.
+- 4 definiciones actualizadas: GCS (3 claves), NIHSS (15), Barthel (10), ABCD2 (5). mRS excluida deliberadamente.
+- `lib/core/widgets/scale_item_help_button.dart`: botón `?` (IconButton 32px) + `DraggableScrollableSheet` con drag handle, título del ítem, descripción clínica y referencia en `Container` `surfaceContainerHighest`.
+- 4 scale screens (`_ScaleItemCard`, `_NihssItemCard`, `_BarthelItemCard`, `_Abcd2ItemCard`): botón `?` entre el label y el chip de puntuación.
+- 33 claves `*Help` en ES + 33 en EN + `tutorialButtonTooltip` (68 entradas ARB total).
+
+**Tests**: 187 (el tutorial es UI pura sin lógica de dominio nueva).
+
+---
+
+## Estado actual
+
+**Proyecto completado: Fase 7** ✅ — Fase 7 completada 2026-05-08. Features de producto: indicador offline, diseño responsive y modo tutorial implementados.
 
 ---
 
