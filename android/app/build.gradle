@@ -5,6 +5,13 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Lee versión del app desde local.properties (escrito por el build system de Flutter).
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
+}
+
 // Carga de credenciales de firma de release. key.properties está gitignored —
 // cada dev crea el suyo a partir de key.example.properties. Si no existe
 // (CI o clone limpio), el build release cae a firma debug con warning para
@@ -19,7 +26,7 @@ if (hasReleaseKeystore) {
 android {
     namespace = "com.neuroscale.neuroscale_app"
     compileSdk = 36
-    ndkVersion = rootProject.ext.get("flutter.ndkVersion")
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -32,10 +39,10 @@ android {
 
     defaultConfig {
         applicationId = "com.neuroscale.neuroscale_app"
-        minSdk = rootProject.ext.get("flutter.minSdkVersion")
-        targetSdk = rootProject.ext.get("flutter.targetSdkVersion")
-        versionCode = rootProject.ext.get("flutter.versionCode")
-        versionName = rootProject.ext.get("flutter.versionName")
+        minSdkVersion = flutter.minSdkVersion
+        targetSdk = 35
+        versionCode = localProperties.getProperty('flutter.versionCode')?.toInteger() ?: 1
+        versionName = localProperties.getProperty('flutter.versionName') ?: '1.0.0'
     }
 
     signingConfigs {
