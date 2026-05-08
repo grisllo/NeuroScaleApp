@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/evaluation_model.dart';
@@ -34,7 +35,7 @@ class EvaluationsLocalDatasource {
     DateTime? dateTo,
     String searchQuery = '',
     int page = 0,
-    int pageSize = 20,
+    int pageSize = kEvaluationsPageSize,
     String? patientId,
   }) async {
     final rows = await _dao.getByUserId(userId);

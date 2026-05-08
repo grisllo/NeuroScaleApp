@@ -1,3 +1,4 @@
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/evaluation.dart';
@@ -35,7 +36,7 @@ class EvaluationRepositoryImpl implements EvaluationRepository {
     DateTime? dateTo,
     String searchQuery = '',
     int page = 0,
-    int pageSize = 20,
+    int pageSize = kEvaluationsPageSize,
     String? patientId,
   }) async {
     try {

@@ -1,3 +1,4 @@
+import '../../../../core/constants/app_constants.dart';
 import '../entities/evaluation.dart';
 import '../repositories/evaluation_repository.dart';
 
@@ -13,7 +14,7 @@ class FetchEvaluationsUseCase {
     DateTime? dateTo,
     String searchQuery = '',
     int page = 0,
-    int pageSize = 20,
+    int pageSize = kEvaluationsPageSize,
     String? patientId,
   }) => _repository.fetchAll(
     userId,
