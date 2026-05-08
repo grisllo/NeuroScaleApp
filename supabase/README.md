@@ -10,6 +10,7 @@ Las migraciones se aplican **manualmente** en Supabase Studio → SQL Editor →
 | `migrations/0002_add_abcd2.sql` | Añade `'abcd2'` al enum `scale_type` (idempotente). | 2A |
 | `migrations/0003_add_patients.sql` | Tabla `patients` con RLS + FK opcional `evaluations.patient_id`. | 3.2 |
 | `migrations/0004_constrain_case_description.sql` | CHECK `length(case_description) ≤ 500` como defensa server-side. | 6.1 |
+| `migrations/0005_add_scale_type_index.sql` | Índice compuesto `(user_id, scale_type, created_at desc)` para filtros de historial. | 6.2 |
 
 ## Convenciones
 

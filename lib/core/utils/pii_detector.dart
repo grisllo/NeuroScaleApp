@@ -23,8 +23,16 @@ class PiiDetector {
   // Fecha: dd/mm/yyyy con año explícito 19xx o 20xx (descarta "1-1-80"
   //        ambiguos y "hace 3 días"). Separadores: / - .
   static final Map<PiiKind, RegExp> _patterns = {
-    PiiKind.dni: RegExp(r'\b\d{8}[A-HJ-NP-TV-Z]\b', caseSensitive: false),
-    PiiKind.nie: RegExp(r'\b[XYZ]\d{7}[A-HJ-NP-TV-Z]\b', caseSensitive: false),
+    // \s? acepta DNI/NIE con espacio o guion opcional antes de la letra
+    // (p.ej. "12345678 A" o "X1234567-A" al pegar formatos comunes).
+    PiiKind.dni: RegExp(
+      r'\b\d{8}[\s\-]?[A-HJ-NP-TV-Z]\b',
+      caseSensitive: false,
+    ),
+    PiiKind.nie: RegExp(
+      r'\b[XYZ]\d{7}[\s\-]?[A-HJ-NP-TV-Z]\b',
+      caseSensitive: false,
+    ),
     PiiKind.email: RegExp(r'\b[\w.+-]+@[\w-]+\.[\w.-]+\b'),
     PiiKind.phone: RegExp(r'\b[6-9]\d{8}\b'),
     PiiKind.date: RegExp(r'\b\d{1,2}[/\-.]\d{1,2}[/\-.](?:19|20)\d{2}\b'),

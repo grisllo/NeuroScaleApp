@@ -54,31 +54,49 @@ void main() {
     },
   );
 
-  testWidgets('App shows bottom navigation shell when logged in', (
+  Widget appWithLoggedInSession() => ProviderScope(
+    overrides: [
+      disclaimerAcceptedProvider.overrideWith(
+        () => DisclaimerAcceptedNotifier(true),
+      ),
+      sessionProvider.overrideWith(
+        (_) =>
+            Stream.value(const AppUser(id: 'test-id', email: 'test@test.com')),
+      ),
+    ],
+    child: const NeuroScaleApp(),
+  );
+
+  testWidgets('Mobile (<600px) shows NavigationBar at the bottom', (
     tester,
   ) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          disclaimerAcceptedProvider.overrideWith(
-            () => DisclaimerAcceptedNotifier(true),
-          ),
-          sessionProvider.overrideWith(
-            (_) => Stream.value(
-              const AppUser(id: 'test-id', email: 'test@test.com'),
-            ),
-          ),
-        ],
-        child: const NeuroScaleApp(),
-      ),
-    );
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(appWithLoggedInSession());
     await tester.pumpAndSettle();
 
-    // Navegación visible en alguna de las dos variantes (móvil: NavigationBar,
-    // tablet/desktop: NavigationRail). Los tests corren a 800px → NavigationRail.
-    final hasNavBar = find.byType(NavigationBar).evaluate().isNotEmpty;
-    final hasNavRail = find.byType(NavigationRail).evaluate().isNotEmpty;
-    expect(hasNavBar || hasNavRail, isTrue);
+    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.byType(NavigationRail), findsNothing);
+    expect(find.text('Inicio'), findsWidgets);
+    expect(find.text('Pacientes'), findsWidgets);
+  });
+
+  testWidgets('Tablet (≥600px) shows NavigationRail on the side', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(appWithLoggedInSession());
+    await tester.pumpAndSettle();
+
+    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(NavigationBar), findsNothing);
     expect(find.text('Inicio'), findsWidgets);
     expect(find.text('Pacientes'), findsWidgets);
   });

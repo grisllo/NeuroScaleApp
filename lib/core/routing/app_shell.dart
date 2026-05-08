@@ -8,9 +8,8 @@ import '../theme/app_motion.dart';
 import '../utils/breakpoints.dart';
 import '../widgets/offline_banner.dart';
 
-/// Persistent shell that wraps bottom navigation.
-/// Follows the StatefulNavigationShell pattern from the
-/// flutter-setup-declarative-routing skill.
+/// Persistent shell que envuelve la navegación principal.
+/// Usa el patrón StatefulNavigationShell de go_router.
 ///
 /// Mobile (<600px): NavigationBar en la parte inferior.
 /// Tablet (≥600px): NavigationRail lateral compacto (iconos + etiquetas).

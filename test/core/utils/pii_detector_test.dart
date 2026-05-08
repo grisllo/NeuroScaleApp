@@ -14,6 +14,18 @@ void main() {
       expect(PiiDetector.hasAny('12345678a'), isTrue);
     });
 
+    test('detecta DNI con espacio antes de la letra', () {
+      expect(PiiDetector.hasAny('DNI: 12345678 A'), isTrue);
+    });
+
+    test('detecta DNI con guion antes de la letra', () {
+      expect(PiiDetector.hasAny('12345678-A'), isTrue);
+    });
+
+    test('detecta NIE con espacio antes de la letra', () {
+      expect(PiiDetector.hasAny('NIE X1234567 A'), isTrue);
+    });
+
     test('detecta NIE empezando por X', () {
       final matches = PiiDetector.detect('NIE: X1234567A');
       expect(matches, hasLength(1));
