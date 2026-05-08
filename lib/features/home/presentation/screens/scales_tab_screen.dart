@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/breakpoints.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
 
 class ScalesTabScreen extends StatelessWidget {
@@ -12,64 +13,89 @@ class ScalesTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+
+    final cards = [
+      _ScaleCard(
+        title: 'Glasgow Coma Scale',
+        subtitle: context.l10n.gcsSubtitle,
+        icon: Icons.psychology_rounded,
+        onTap: () => context.pushNamed('gcs'),
+      ),
+      _ScaleCard(
+        title: 'NIHSS',
+        subtitle: context.l10n.nihssSubtitle,
+        icon: Icons.health_and_safety_rounded,
+        onTap: () => context.pushNamed('nihss'),
+      ),
+      _ScaleCard(
+        title: 'ABCD2',
+        subtitle: context.l10n.abcd2Subtitle,
+        icon: Icons.warning_amber_rounded,
+        onTap: () => context.pushNamed('abcd2'),
+      ),
+      _ScaleCard(
+        title: 'Barthel Index',
+        subtitle: context.l10n.barthelSubtitle,
+        icon: Icons.checklist_rounded,
+        onTap: () => context.pushNamed('barthel'),
+      ),
+      _ScaleCard(
+        title: 'mRS (Modified Rankin Scale)',
+        subtitle: context.l10n.rankinSubtitle,
+        icon: Icons.accessibility_new_rounded,
+        onTap: () => context.pushNamed('rankin'),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(title: const Text('NeuroScale')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.lg,
-          AppSpacing.lg,
-          AppSpacing.lg,
-          88,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: isTablet ? 800 : double.infinity,
+          ),
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.lg,
+              AppSpacing.lg,
+              88,
+            ),
+            children: [
+              Consumer(
+                builder: (_, ref, _) {
+                  final email = ref.watch(sessionProvider).asData?.value?.email;
+                  if (email == null) return const SizedBox.shrink();
+                  return Text(
+                    email,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  );
+                },
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                context.l10n.scalesTabTitle,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              if (isTablet)
+                GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: AppSpacing.sm,
+                  mainAxisSpacing: AppSpacing.sm,
+                  childAspectRatio: 3.0,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: cards,
+                )
+              else
+                ...cards.expand(
+                  (card) => [card, const SizedBox(height: AppSpacing.sm)],
+                ),
+            ],
+          ),
         ),
-        children: [
-          Consumer(
-            builder: (_, ref, _) {
-              final email = ref.watch(sessionProvider).asData?.value?.email;
-              if (email == null) return const SizedBox.shrink();
-              return Text(email, style: Theme.of(context).textTheme.bodySmall);
-            },
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            context.l10n.scalesTabTitle,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          _ScaleCard(
-            title: 'Glasgow Coma Scale',
-            subtitle: context.l10n.gcsSubtitle,
-            icon: Icons.psychology_rounded,
-            onTap: () => context.pushNamed('gcs'),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _ScaleCard(
-            title: 'NIHSS',
-            subtitle: context.l10n.nihssSubtitle,
-            icon: Icons.health_and_safety_rounded,
-            onTap: () => context.pushNamed('nihss'),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _ScaleCard(
-            title: 'ABCD2',
-            subtitle: context.l10n.abcd2Subtitle,
-            icon: Icons.warning_amber_rounded,
-            onTap: () => context.pushNamed('abcd2'),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _ScaleCard(
-            title: 'Barthel Index',
-            subtitle: context.l10n.barthelSubtitle,
-            icon: Icons.checklist_rounded,
-            onTap: () => context.pushNamed('barthel'),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _ScaleCard(
-            title: 'mRS (Modified Rankin Scale)',
-            subtitle: context.l10n.rankinSubtitle,
-            icon: Icons.accessibility_new_rounded,
-            onTap: () => context.pushNamed('rankin'),
-          ),
-        ],
       ),
     );
   }
@@ -115,12 +141,20 @@ class _ScaleCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(title, style: Theme.of(context).textTheme.titleSmall),
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
                       style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
