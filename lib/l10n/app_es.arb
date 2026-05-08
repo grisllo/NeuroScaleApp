@@ -1106,5 +1106,8 @@
   "@profileLanguageEs": { "description": "Opción español en selector de idioma" },
 
   "profileLanguageEn": "English",
-  "@profileLanguageEn": { "description": "Opción inglés en selector de idioma" }
+  "@profileLanguageEn": { "description": "Opción inglés en selector de idioma" },
+
+  "offlineBannerMessage": "Sin conexión — mostrando datos en caché",
+  "@offlineBannerMessage": { "description": "Banner de modo offline en la shell de navegación" }
 }

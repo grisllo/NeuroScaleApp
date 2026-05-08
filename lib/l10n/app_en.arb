@@ -1106,5 +1106,8 @@
   "@profileLanguageEs": { "description": "Spanish option in language selector" },
 
   "profileLanguageEn": "English",
-  "@profileLanguageEn": { "description": "English option in language selector" }
+  "@profileLanguageEn": { "description": "English option in language selector" },
+
+  "offlineBannerMessage": "No connection — showing cached data",
+  "@offlineBannerMessage": { "description": "Offline mode banner in navigation shell" }
 }
