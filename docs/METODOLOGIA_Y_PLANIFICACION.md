@@ -180,8 +180,10 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | **Total acumulado Fase 7.2 (real)** | | | **~51,0 h** |
 | Fase 7.3: Modo tutorial botón ? por ítem (GCS/NIHSS/Barthel/ABCD2) | `bb65acb`..`5a6c667` | 2026-05-08 | ~1,0 h |
 | **Total acumulado Fase 7 completa (real)** | | | **~52,0 h** |
+| Subfase 8.1: Auditoría post-Fase 7 y correcciones (tutorial bug, PII, autoDispose, tests) | `652d7bf`..`ca8c430` | 2026-05-08 | ~1,0 h |
+| **Total acumulado Subfase 8.1 (real)** | | | **~53,0 h** |
 
-**Conclusión de desviaciones (proyecto completo, Fases 0-4)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance final: −5,0 h sobre estimación (−9,9%). Las mayores ganancias vinieron de la arquitectura bien definida; la única desviación positiva fue la traducción de contenido clínico extenso (Fase 4.3), no prevista en su totalidad.
+**Conclusión de desviaciones (proyecto completo hasta Subfase 8.1)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0-4: −5,0 h (−9,9%). Fases 6-7 sin estimación previa (~7,5h); Subfase 8.1 sin estimación previa (~1,0h). Total real acumulado: **~53,0 h**. Las mayores ganancias vinieron de la arquitectura bien definida; el mayor extra no previsto fue la traducción de contenido clínico extenso (Fases 4.3 y 7.3) y la gestión de incompatibilidades de Android (Fase 6.1).
 
 ---
 
@@ -203,6 +205,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#12](https://github.com/grisllo/NeuroScaleApp/issues/12) | `70d2a59`, `f94c775` | CU-14: Completar NIHSS (15 ítems, Untestable UN=9, advisory coma) |
 | [#14](https://github.com/grisllo/NeuroScaleApp/issues/14) | `6ddfe80`, `c8e6845`, `fb55092` | CU-15: NavigationBar shell + Pacientes (CRUD + evolución por paciente) |
 | [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | `884ff0c`, `01846f7` | CU-16: Algoritmos clínicos (tPA, HTA ictus, HSA Hunt-Hess/Fisher); árbol de decisión paso a paso |
+| [#22](https://github.com/grisllo/NeuroScaleApp/issues/22) | `652d7bf`..`ca8c430` | Subfase 8.1: auditoría post-Fase 7 — bug crítico tutorial, PII, autoDispose, tests breakpoints |
 
 ---
 

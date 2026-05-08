@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Proyecto completado: Fase 7** ✅ — Fase 7 completada 2026-05-08. Features de producto: indicador offline, responsive tablet/desktop y modo tutorial clínico. Proyecto listo para beta clínica.
+**Último hito: Subfase 8.1** ✅ — Auditoría post-Fase 7 completada 2026-05-08. Bug crítico de tutorial corregido (31 claves *Help no registradas). 191 tests, 0 issues de analyze. Proyecto listo para beta clínica.
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
@@ -295,7 +295,25 @@ Issue #13.
 
 ## Estado actual
 
-**Proyecto completado: Fase 7** ✅ — Fase 7 completada 2026-05-08. Features de producto: indicador offline, diseño responsive y modo tutorial implementados.
+**Proyecto completado: Subfase 8.1** ✅ — Auditoría post-Fase 7 completada 2026-05-08. Bug crítico de tutorial corregido, PII detector mejorado, tests de breakpoints añadidos. 191 tests, CI verde.
+
+---
+
+## Fase 8 — Mantenimiento y calidad post-product
+
+### Subfase 8.1 — Auditoría post-cambios y correcciones ✅ Completada (2026-05-08)
+
+**Objetivo**: auditoría completa en 4 dimensiones (integridad, funcionalidad, optimización, seguridad) tras la implementación intensiva de Fases 6–7, y corrección de los hallazgos detectados.
+
+**Hallazgos críticos corregidos**:
+- `lib/core/extensions/scale_key_resolver.dart`: 31 claves `*Help` no registradas → tutorial mostraba clave literal en runtime.
+- `lib/core/providers/connectivity_provider.dart`: `StreamProvider` sin `autoDispose` → listener nativo activo fuera del AppShell.
+- `lib/core/utils/pii_detector.dart`: DNI/NIE con espacio (`"12345678 A"`) no detectado → regex con `[\s\-]?`.
+- `supabase/README.md`: faltaba migración 0005 → trazabilidad rota.
+- `test/widget_test.dart`: test de navegación tautológico dividido en mobile/tablet con tamaños explícitos.
+- `lib/core/routing/app_shell.dart`: comentario obsoleto eliminado.
+
+**Tests**: 191 (+4 netos: 3 PII + 1 extra navegación, reemplazando 1 tautológico).
 
 ---
 
