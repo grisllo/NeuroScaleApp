@@ -51,10 +51,12 @@ class ResultScreen extends ConsumerWidget {
                 Center(
                   child: Column(
                     children: [
-                      AnimatedScore(
-                        score: result.totalScore,
-                        maxScore: result.maxScore,
-                        color: clinicalPair.foreground,
+                      RepaintBoundary(
+                        child: AnimatedScore(
+                          score: result.totalScore,
+                          maxScore: result.maxScore,
+                          color: clinicalPair.foreground,
+                        ),
                       ),
                       const SizedBox(height: 12),
                       SeverityBadge(
@@ -99,29 +101,35 @@ class ResultScreen extends ConsumerWidget {
             ),
           ),
           // Disclaimer — always visible, cannot be dismissed
-          Container(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: SafeArea(
-              top: false,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      l10n.disclaimerBody,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          Semantics(
+            label: l10n.disclaimerBody,
+            container: true,
+            child: Container(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: SafeArea(
+                top: false,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExcludeSemantics(
+                      child: Icon(
+                        Icons.info_outline,
+                        size: 16,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l10n.disclaimerBody,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

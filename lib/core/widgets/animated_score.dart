@@ -24,14 +24,21 @@ class AnimatedScore extends StatelessWidget {
         ?.copyWith(color: color);
 
     if (MediaQuery.of(context).disableAnimations) {
-      return Text('$score/$maxScore', style: effectiveStyle);
+      return Semantics(
+        label: '$score de $maxScore',
+        child: Text('$score/$maxScore', style: effectiveStyle),
+      );
     }
 
-    return TweenAnimationBuilder<int>(
-      tween: IntTween(begin: 0, end: score),
-      duration: AppMotion.deliberate,
-      curve: AppMotion.enter,
-      builder: (_, value, _) => Text('$value/$maxScore', style: effectiveStyle),
+    return Semantics(
+      label: '$score de $maxScore',
+      child: TweenAnimationBuilder<int>(
+        tween: IntTween(begin: 0, end: score),
+        duration: AppMotion.deliberate,
+        curve: AppMotion.enter,
+        builder: (_, value, _) =>
+            Text('$value/$maxScore', style: effectiveStyle),
+      ),
     );
   }
 }
