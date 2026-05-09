@@ -43,6 +43,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       }
     });
 
+    ref.listen(authControllerProvider, (_, next) {
+      if (next.asData?.value != null && context.mounted) {
+        context.go('/');
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Center(
