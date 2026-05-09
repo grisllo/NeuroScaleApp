@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/providers/supabase_provider.dart';
@@ -17,7 +19,13 @@ final authRepositoryProvider = Provider<AuthRepository>(
 
 final sessionProvider = StreamProvider<AppUser?>((ref) {
   try {
-    return WatchSessionUseCase(ref.watch(authRepositoryProvider)).call();
+    return WatchSessionUseCase(ref.watch(authRepositoryProvider))
+        .call()
+        .transform(
+          StreamTransformer<AppUser?, AppUser?>.fromHandlers(
+            handleError: (e, s, sink) => sink.add(null),
+          ),
+        );
   } catch (_) {
     return Stream.value(null);
   }

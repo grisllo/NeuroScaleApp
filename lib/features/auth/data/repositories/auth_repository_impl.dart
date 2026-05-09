@@ -18,6 +18,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return await _datasource.signIn(email: email, password: password);
     } on UnauthorizedException catch (e) {
       throw AuthFailure(e.message);
+    } on ConnectionException catch (e) {
+      throw NetworkFailure(e.message);
     } on AppException catch (e) {
       throw UnexpectedFailure(e.message);
     }
@@ -30,8 +32,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       return await _datasource.signUp(email: email, password: password);
+    } on EmailConfirmationPendingException {
+      throw const EmailConfirmationPendingFailure();
     } on UnauthorizedException catch (e) {
       throw AuthFailure(e.message);
+    } on ConnectionException catch (e) {
+      throw NetworkFailure(e.message);
     } on AppException catch (e) {
       throw UnexpectedFailure(e.message);
     }

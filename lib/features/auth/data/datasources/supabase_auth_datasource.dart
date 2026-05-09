@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/errors/exceptions.dart';
@@ -22,6 +24,8 @@ class SupabaseAuthDatasource {
       return AppUserModel.fromSupabaseUser(user);
     } on AuthException catch (e) {
       throw UnauthorizedException(e.message);
+    } on SocketException {
+      throw const ConnectionException('Sin conexión a internet.');
     } catch (e) {
       if (e is UnauthorizedException) rethrow;
       throw ServerException(e.toString());
@@ -39,9 +43,16 @@ class SupabaseAuthDatasource {
       );
       final user = response.user;
       if (user == null) throw const UnauthorizedException('Registro fallido.');
+      if (response.session == null) {
+        throw const EmailConfirmationPendingException();
+      }
       return AppUserModel.fromSupabaseUser(user);
+    } on EmailConfirmationPendingException {
+      rethrow;
     } on AuthException catch (e) {
       throw UnauthorizedException(e.message);
+    } on SocketException {
+      throw const ConnectionException('Sin conexión a internet.');
     } catch (e) {
       if (e is UnauthorizedException) rethrow;
       throw ServerException(e.toString());
@@ -53,6 +64,8 @@ class SupabaseAuthDatasource {
       await _client.auth.signOut();
     } on AuthException catch (e) {
       throw UnauthorizedException(e.message);
+    } on SocketException {
+      // Ignorar errores de red en signOut — la sesión local se borra igualmente.
     }
   }
 

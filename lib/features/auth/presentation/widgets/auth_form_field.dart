@@ -12,6 +12,9 @@ class AuthFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.onFieldSubmitted,
     this.suffixIcon,
+    this.autofillHints,
+    this.autocorrect = true,
+    this.enableSuggestions = true,
   });
 
   final String label;
@@ -23,6 +26,9 @@ class AuthFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final VoidCallback? onFieldSubmitted;
   final Widget? suffixIcon;
+  final Iterable<String>? autofillHints;
+  final bool autocorrect;
+  final bool enableSuggestions;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,9 @@ class AuthFormField extends StatelessWidget {
       validator: validator,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
+      autofillHints: autofillHints,
+      autocorrect: autocorrect,
+      enableSuggestions: enableSuggestions,
       onFieldSubmitted: onFieldSubmitted != null
           ? (_) => onFieldSubmitted!()
           : null,
