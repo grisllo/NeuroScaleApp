@@ -85,10 +85,6 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 - ✅ 2A.4 — mRS 0-6 (2026-04-27) — commit `2e10959`
 - ✅ 2A.5 — Barthel Index 0-100 (2026-04-27) — commit `7ced22c`
 - ✅ 2A.6 — ABCD2 riesgo post-AIT (2026-04-27) — commit `902594c`
-- 📅 2A.3 — Gráficos fl_chart
-- 📅 2A.4 — mRS 0-6
-- 📅 2A.5 — Barthel Index
-- 📅 2A.6 — ABCD2
 
 **Decisiones de diseño para Fase 2A**:
 - **mRS 0-6** (no 0-5): el estándar clínico actual incluye el grado 6 (fallecido). Diverge del spec original.
@@ -295,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Proyecto completado: Subfase 8.1** ✅ — Auditoría post-Fase 7 completada 2026-05-08. Bug crítico de tutorial corregido, PII detector mejorado, tests de breakpoints añadidos. 191 tests, CI verde.
+**Proyecto completado: Subfase 8.2** ✅ — Auth hardening y correcciones post-deploy completadas 2026-05-09. 191 tests, CI verde. Listo para beta clínica.
 
 ---
 
@@ -314,6 +310,36 @@ Issue #13.
 - `lib/core/routing/app_shell.dart`: comentario obsoleto eliminado.
 
 **Tests**: 191 (+4 netos: 3 PII + 1 extra navegación, reemplazando 1 tautológico).
+
+---
+
+### Subfase 8.2 — Auth hardening y correcciones post-deploy ✅ Completada (2026-05-09)
+
+**Objetivo**: corregir los bugs de inicio de sesión detectados en el primer uso real con `env/dev.json` y aplicar hardening de seguridad al flujo de autenticación.
+
+**Bugs corregidos**:
+- `supabaseClientProvider` lanzaba `AssertionError` interno cuando Supabase no estaba configurado → ahora lanza `ConfigurationException` tipada.
+- `AuthController` propagaba `ProviderException` crudo a la UI → `_requireRepo()` lo convierte a `ConfigFailure` con mensaje legible.
+- Login/register mostraban stack trace técnico → `_authErrorMessage()` mapea tipos de `Failure` a mensajes localizados.
+- `sessionProvider` con `StreamTransformer` interfería con la entrega de eventos del stream broadcast de Supabase → eliminado, vuelve al enfoque simple.
+- Navegación post-login bloqueada → añadido `ref.listen(authControllerProvider, ...)` como vía directa de navegación.
+
+**Hardening de seguridad**:
+- `SocketException` en datasource → `ConnectionException` → `NetworkFailure` con mensaje "Sin conexión".
+- `signUp` detecta `response.session == null` (email confirmation pending) → `EmailConfirmationPendingFailure` mostrado en color primario.
+- Email normalizado a `toLowerCase()` antes de enviar a Supabase.
+- `AuthFormField` expone `autofillHints`, `autocorrect`, `enableSuggestions` — gestores de contraseñas pueden autocompletar.
+- Registro exige ≥8 chars + letra + número; login mantiene ≥6 por compatibilidad.
+- Migración `0006_fix_function_search_path.sql` aplicada: `handle_updated_at()` con `search_path = public` (security advisor WARN resuelto).
+
+**Nuevos tipos**:
+- `ConfigurationException`, `EmailConfirmationPendingException` en `exceptions.dart`.
+- `ConfigFailure`, `EmailConfirmationPendingFailure` en `failures.dart`.
+- ARB: `backendUnavailableError`, `networkErrorMessage`, `emailConfirmationPendingMessage`, `passwordTooWeakError` (ES + EN).
+
+**Commits**: `0a46992` (fix ProviderException) · `586b6df` (hardening) · `a36339b` (fix navegación post-login).
+
+**Tests**: 191 (sin cambios — correcciones en capa de presentación e infraestructura, no en dominio).
 
 ---
 
