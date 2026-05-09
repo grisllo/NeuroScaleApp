@@ -182,8 +182,14 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | **Total acumulado Fase 7 completa (real)** | | | **~52,0 h** |
 | Subfase 8.1: Auditoría post-Fase 7 y correcciones (tutorial bug, PII, autoDispose, tests) | `652d7bf`..`ca8c430` | 2026-05-08 | ~1,0 h |
 | **Total acumulado Subfase 8.1 (real)** | | | **~53,0 h** |
+| Subfase 8.2: Auth hardening — ProviderException, seguridad login, migración 0006 | `0a46992`..`c383032` | 2026-05-09 | ~2,0 h |
+| **Total acumulado Subfase 8.2 (real)** | | | **~55,0 h** |
+| Fase 9.1: Flujo recuperación de contraseña (forgot/reset password screens + provider) | `c97bfe5` | 2026-05-09 | ~2,0 h |
+| Fase 9.2: Despliegue web Netlify (netlify.toml, _redirects, fonts fix, troubleshooting) | `5ab5478`..`9985c7a` | 2026-05-09 | ~1,0 h |
+| Fase 9.3: APK Android release (build firmado + instalación en dispositivo) | — | 2026-05-09 | ~0,5 h |
+| **Total acumulado Fase 9 completa (real)** | | | **~58,5 h** |
 
-**Conclusión de desviaciones (proyecto completo hasta Subfase 8.1)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0-4: −5,0 h (−9,9%). Fases 6-7 sin estimación previa (~7,5h); Subfase 8.1 sin estimación previa (~1,0h). Total real acumulado: **~53,0 h**. Las mayores ganancias vinieron de la arquitectura bien definida; el mayor extra no previsto fue la traducción de contenido clínico extenso (Fases 4.3 y 7.3) y la gestión de incompatibilidades de Android (Fase 6.1).
+**Conclusión de desviaciones (proyecto completo hasta Fase 9)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0-4: −5,0 h (−9,9%). Fases 6-9 sin estimación previa (~13,0h acumuladas); mayor extra fue auth hardening post-deploy y troubleshooting de despliegue web. Total real acumulado: **~58,5 h**. Las mayores ganancias vinieron de la arquitectura bien definida; los mayores extras no previstos fueron la traducción clínica extensa (Fases 4.3 y 7.3), incompatibilidades Android (Fase 6.1) y bugs de integración Supabase en primer deploy real (Subfase 8.2).
 
 ---
 
@@ -206,6 +212,7 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | [#14](https://github.com/grisllo/NeuroScaleApp/issues/14) | `6ddfe80`, `c8e6845`, `fb55092` | CU-15: NavigationBar shell + Pacientes (CRUD + evolución por paciente) |
 | [#13](https://github.com/grisllo/NeuroScaleApp/issues/13) | `884ff0c`, `01846f7` | CU-16: Algoritmos clínicos (tPA, HTA ictus, HSA Hunt-Hess/Fisher); árbol de decisión paso a paso |
 | [#22](https://github.com/grisllo/NeuroScaleApp/issues/22) | `652d7bf`..`ca8c430` | Subfase 8.1: auditoría post-Fase 7 — bug crítico tutorial, PII, autoDispose, tests breakpoints |
+| [#23](https://github.com/grisllo/NeuroScaleApp/issues/23) | `c97bfe5`..`9985c7a` | Fase 9: password reset, despliegue web Netlify, APK Android firmado |
 
 ---
 

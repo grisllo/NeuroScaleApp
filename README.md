@@ -64,10 +64,17 @@ gantt
     7.1 Indicador sin conexión (~0.5h)        :done, f7a,  2026-05-08, 1d
     7.2 Web/tablet responsive (~1h)           :done, f7b,  2026-05-08, 1d
     7.3 Modo tutorial por ítem (~1h)          :done, f7c,  2026-05-08, 1d
+    section Fase 8 — Calidad
+    8.1 Auditoría post-Fase 7 (~1h)           :done, f8a,  2026-05-08, 1d
+    8.2 Auth hardening + nav fix (~2h)        :done, f8b,  2026-05-09, 1d
+    section Fase 9 — Beta
+    9.1 Password reset flow (~2h)             :done, f9a,  2026-05-09, 1d
+    9.2 Despliegue web Netlify (~1h)          :done, f9b,  2026-05-09, 1d
+    9.3 APK Android firmado (~0.5h)           :done, f9c,  2026-05-09, 1d
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
-> Total acumulado: **~52,0h** de trabajo activo (Fases 0–7).
+> Total acumulado: **~58,5h** de trabajo activo (Fases 0–9).
 
 ---
 

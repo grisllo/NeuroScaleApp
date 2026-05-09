@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Proyecto completado: Subfase 8.2** ✅ — Auth hardening y correcciones post-deploy completadas 2026-05-09. 191 tests, CI verde. Listo para beta clínica.
+**Proyecto completado: Fase 9** ✅ — Preparación beta completada 2026-05-09. Password reset, despliegue web en Netlify, APK Android firmado. 191 tests, CI verde.
 
 ---
 
@@ -340,6 +340,46 @@ Issue #13.
 **Commits**: `0a46992` (fix ProviderException) · `586b6df` (hardening) · `a36339b` (fix navegación post-login).
 
 **Tests**: 191 (sin cambios — correcciones en capa de presentación e infraestructura, no en dominio).
+
+---
+
+## Fase 9 — Preparación Beta ✅ Completada (2026-05-09)
+
+**Objetivo**: cerrar los gaps que bloquean una beta clínica real: flujo de recuperación de contraseña, despliegue web accesible y distribución Android directa.
+
+### Subfase 9.1 — Flujo "olvidé contraseña" ✅ Completada (2026-05-09)
+
+- `ForgotPasswordScreen`: email input + estado de éxito con icono
+- `ResetPasswordScreen`: nueva contraseña + confirmación con validación ≥8 chars
+- `passwordRecoveryProvider`: detecta evento `PASSWORD_RECOVERY` de Supabase y redirige a `/reset-password`
+- `PasswordResetController`: `requestReset()` y `updatePassword()`
+- `RequestPasswordResetUseCase` + `UpdatePasswordUseCase`
+- `AuthRepository` ampliado con `requestPasswordReset` y `updatePassword`
+- Rutas `/forgot-password` y `/reset-password` añadidas como `publicRoutes`
+- Router: `isRecovery` tiene prioridad sobre `isLoggedIn`
+- `Env.redirectUrl` (SUPABASE_REDIRECT_URL) configurable por entorno
+- 11 claves ARB nuevas ES + EN
+
+**Commit**: `c97bfe5`
+
+### Subfase 9.2 — Despliegue web ✅ Completada (2026-05-09)
+
+- `netlify.toml`: build automático desde GitHub con Flutter stable + variables de entorno
+- `web/_redirects`: SPA routing — todas las rutas sirven `index.html` (necesario para go_router con `usePathUrlStrategy`)
+- `web/index.html` + `web/manifest.json`: título, descripción y colores actualizados a marca NeuroScale (`#0F6F8A`)
+- `GoogleFonts.allowRuntimeFetching` condicional: `false` en móvil/desktop, runtime CDN en web
+- App desplegada en `https://neuroscaleapp.netlify.app`
+- Supabase redirect URLs configuradas para el dominio de Netlify
+
+**Commits**: `5ab5478` · `9985c7a`
+
+### Subfase 9.3 — Distribución Android APK ✅ Completada (2026-05-09)
+
+- Build release con keystore configurado en Fase 6: `flutter build apk --release`
+- APK firmado (66 MB) instalado y verificado en Redmi Note 9 Pro (Android 12)
+- Distribución directa vía `flutter install --release`
+
+**Tests**: 191 (sin cambios de dominio).
 
 ---
 
