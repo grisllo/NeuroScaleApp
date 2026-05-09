@@ -9,6 +9,8 @@ abstract final class Env {
     defaultValue: 'dev',
   );
 
+  static const String redirectUrl = String.fromEnvironment('SUPABASE_REDIRECT_URL');
+
   static bool get hasSupabase =>
       supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
   static bool get hasSentry => sentryDsn.isNotEmpty;

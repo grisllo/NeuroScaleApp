@@ -10,8 +10,10 @@ import '../../features/algorithms/presentation/screens/algorithm_screen.dart';
 import '../../features/algorithms/presentation/screens/algorithms_tab_screen.dart';
 import '../../features/auth/presentation/providers/session_provider.dart';
 import '../../features/auth/presentation/screens/disclaimer_screen.dart';
+import '../../features/auth/presentation/screens/forgot_password_screen.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/auth/presentation/screens/reset_password_screen.dart';
 import '../../features/evaluations/presentation/screens/result_screen.dart';
 import '../../features/home/presentation/screens/scales_tab_screen.dart';
 import '../../features/patients/presentation/screens/patient_detail_screen.dart';
@@ -47,6 +49,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/register',
         name: 'register',
         builder: (_, _) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        name: 'forgot-password',
+        builder: (_, _) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        name: 'reset-password',
+        builder: (_, _) => const ResetPasswordScreen(),
       ),
 
       // ── Scale screens (fullscreen, no shell, pushed from ScalesTab) ────
@@ -173,6 +185,7 @@ class _RouterNotifier extends ChangeNotifier {
   _RouterNotifier(this._ref) {
     _ref.listen(sessionProvider, (_, _) => notifyListeners());
     _ref.listen(disclaimerAcceptedProvider, (_, _) => notifyListeners());
+    _ref.listen(passwordRecoveryProvider, (_, _) => notifyListeners());
   }
 
   final Ref _ref;
@@ -180,12 +193,23 @@ class _RouterNotifier extends ChangeNotifier {
   String? redirect(GoRouterState state) {
     final disclaimerAccepted = _ref.read(disclaimerAcceptedProvider);
     final session = _ref.read(sessionProvider);
+    final isRecovery =
+        _ref.read(passwordRecoveryProvider).asData?.value ?? false;
     final isLoggedIn = session.asData?.value != null;
     final location = state.matchedLocation;
 
     const authRoutes = {'/login', '/register'};
-    const publicRoutes = {'/login', '/register', '/disclaimer'};
+    const publicRoutes = {
+      '/login',
+      '/register',
+      '/disclaimer',
+      '/forgot-password',
+      '/reset-password',
+    };
 
+    if (isRecovery && location != '/reset-password') {
+      return '/reset-password';
+    }
     if (!disclaimerAccepted && !publicRoutes.contains(location)) {
       return '/disclaimer';
     }

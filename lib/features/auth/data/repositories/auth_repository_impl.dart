@@ -54,4 +54,31 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<AppUser?> watchSession() => _datasource.watchSession();
+
+  @override
+  Future<void> requestPasswordReset({
+    required String email,
+    String? redirectTo,
+  }) async {
+    try {
+      await _datasource.requestPasswordReset(email: email, redirectTo: redirectTo);
+    } on ConnectionException catch (e) {
+      throw NetworkFailure(e.message);
+    } on AppException catch (e) {
+      throw UnexpectedFailure(e.message);
+    }
+  }
+
+  @override
+  Future<void> updatePassword({required String password}) async {
+    try {
+      await _datasource.updatePassword(password: password);
+    } on UnauthorizedException catch (e) {
+      throw AuthFailure(e.message);
+    } on ConnectionException catch (e) {
+      throw NetworkFailure(e.message);
+    } on AppException catch (e) {
+      throw UnexpectedFailure(e.message);
+    }
+  }
 }

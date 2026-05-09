@@ -43,6 +43,36 @@
   "loginLinkText": "¿Ya tienes cuenta? Inicia sesión",
   "@loginLinkText": { "description": "Enlace hacia login desde registro" },
 
+  "forgotPasswordLinkText": "¿Olvidaste tu contraseña?",
+  "@forgotPasswordLinkText": { "description": "Enlace hacia recuperación de contraseña desde login" },
+
+  "forgotPasswordTitle": "Recuperar contraseña",
+  "@forgotPasswordTitle": { "description": "Título de la pantalla de recuperación de contraseña" },
+
+  "forgotPasswordInstruction": "Introduce tu email y te enviaremos un enlace para restablecer tu contraseña.",
+  "@forgotPasswordInstruction": { "description": "Instrucción en la pantalla de recuperación" },
+
+  "sendResetLinkButton": "Enviar enlace",
+  "@sendResetLinkButton": { "description": "Botón de envío del enlace de reset" },
+
+  "resetLinkSentMessage": "Enlace enviado. Revisa tu bandeja de entrada y la carpeta de spam.",
+  "@resetLinkSentMessage": { "description": "Confirmación de envío del email de reset" },
+
+  "backToLoginButton": "Volver al inicio de sesión",
+  "@backToLoginButton": { "description": "Enlace para volver al login desde recuperación" },
+
+  "resetPasswordTitle": "Nueva contraseña",
+  "@resetPasswordTitle": { "description": "Título de la pantalla de nueva contraseña" },
+
+  "resetPasswordInstruction": "Introduce y confirma tu nueva contraseña.",
+  "@resetPasswordInstruction": { "description": "Instrucción en la pantalla de nueva contraseña" },
+
+  "newPasswordLabel": "Nueva contraseña",
+  "@newPasswordLabel": { "description": "Etiqueta del campo de nueva contraseña" },
+
+  "savePasswordButton": "Guardar contraseña",
+  "@savePasswordButton": { "description": "Botón de guardar nueva contraseña" },
+
   "registerLinkText": "¿No tienes cuenta? Regístrate",
   "@registerLinkText": { "description": "Enlace hacia registro desde login" },
 

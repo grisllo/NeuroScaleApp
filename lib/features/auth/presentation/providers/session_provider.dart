@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/providers/supabase_provider.dart';
 import '../../data/datasources/supabase_auth_datasource.dart';
@@ -20,5 +21,16 @@ final sessionProvider = StreamProvider<AppUser?>((ref) {
     return WatchSessionUseCase(ref.watch(authRepositoryProvider)).call();
   } catch (_) {
     return Stream.value(null);
+  }
+});
+
+final passwordRecoveryProvider = StreamProvider<bool>((ref) {
+  try {
+    final client = ref.watch(supabaseClientProvider);
+    return client.auth.onAuthStateChange.map(
+      (state) => state.event == AuthChangeEvent.passwordRecovery,
+    );
+  } catch (_) {
+    return Stream.value(false);
   }
 });

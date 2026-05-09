@@ -74,4 +74,31 @@ class SupabaseAuthDatasource {
         final user = event.session?.user;
         return user != null ? AppUserModel.fromSupabaseUser(user) : null;
       });
+
+  Future<void> requestPasswordReset({
+    required String email,
+    String? redirectTo,
+  }) async {
+    try {
+      await _client.auth.resetPasswordForEmail(email, redirectTo: redirectTo);
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
+    } on SocketException {
+      throw const ConnectionException('Sin conexión a internet.');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  Future<void> updatePassword({required String password}) async {
+    try {
+      await _client.auth.updateUser(UserAttributes(password: password));
+    } on AuthException catch (e) {
+      throw UnauthorizedException(e.message);
+    } on SocketException {
+      throw const ConnectionException('Sin conexión a internet.');
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
 }

@@ -43,6 +43,36 @@
   "loginLinkText": "Already have an account? Sign in",
   "@loginLinkText": { "description": "Link to login from register" },
 
+  "forgotPasswordLinkText": "Forgot your password?",
+  "@forgotPasswordLinkText": { "description": "Link to password recovery from login" },
+
+  "forgotPasswordTitle": "Reset password",
+  "@forgotPasswordTitle": { "description": "Forgot password screen title" },
+
+  "forgotPasswordInstruction": "Enter your email and we will send you a link to reset your password.",
+  "@forgotPasswordInstruction": { "description": "Instruction on the forgot password screen" },
+
+  "sendResetLinkButton": "Send link",
+  "@sendResetLinkButton": { "description": "Send reset link button" },
+
+  "resetLinkSentMessage": "Link sent. Check your inbox and spam folder.",
+  "@resetLinkSentMessage": { "description": "Reset email sent confirmation" },
+
+  "backToLoginButton": "Back to sign in",
+  "@backToLoginButton": { "description": "Link back to login from password recovery" },
+
+  "resetPasswordTitle": "New password",
+  "@resetPasswordTitle": { "description": "Reset password screen title" },
+
+  "resetPasswordInstruction": "Enter and confirm your new password.",
+  "@resetPasswordInstruction": { "description": "Instruction on the reset password screen" },
+
+  "newPasswordLabel": "New password",
+  "@newPasswordLabel": { "description": "New password field label" },
+
+  "savePasswordButton": "Save password",
+  "@savePasswordButton": { "description": "Save new password button" },
+
   "registerLinkText": "No account? Register",
   "@registerLinkText": { "description": "Link to register from login" },
 

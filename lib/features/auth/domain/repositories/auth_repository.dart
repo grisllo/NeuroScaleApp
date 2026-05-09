@@ -5,4 +5,6 @@ abstract class AuthRepository {
   Future<AppUser> signUp({required String email, required String password});
   Future<void> signOut();
   Stream<AppUser?> watchSession();
+  Future<void> requestPasswordReset({required String email, String? redirectTo});
+  Future<void> updatePassword({required String password});
 }
