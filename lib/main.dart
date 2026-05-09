@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -17,8 +18,9 @@ Future<void> main() async {
   // Remove '#' from web URLs (skill: flutter-setup-declarative-routing)
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
-  // Fuentes bundleadas en el artefacto web; evita fetch a fonts.gstatic.com en cold start.
-  GoogleFonts.config.allowRuntimeFetching = false;
+  // En móvil/desktop las fuentes se bundlean desde el pub cache en tiempo de build.
+  // En web el build no las bundlea automáticamente, así que se cargan desde CDN.
+  if (!kIsWeb) GoogleFonts.config.allowRuntimeFetching = false;
 
   final prefs = await SharedPreferences.getInstance();
   final disclaimerAccepted = prefs.getBool('disclaimer_accepted') ?? false;
