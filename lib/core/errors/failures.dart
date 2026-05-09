@@ -25,3 +25,12 @@ final class NotFoundFailure extends Failure {
 final class UnexpectedFailure extends Failure {
   const UnexpectedFailure(super.message);
 }
+
+final class ConfigFailure extends Failure {
+  const ConfigFailure(super.message);
+}
+
+final class EmailConfirmationPendingFailure extends Failure {
+  const EmailConfirmationPendingFailure()
+      : super('Revisa tu email para confirmar la cuenta.');
+}

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/errors/failures.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_motion.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/auth_controller.dart';
 import '../providers/session_provider.dart';
 import '../widgets/auth_form_field.dart';
@@ -96,6 +98,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                         hint: l10n.emailHint,
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
+                        autofillHints: const [AutofillHints.email],
                         validator: (v) {
                           if (v == null || v.trim().isEmpty) {
                             return l10n.fieldRequiredError;
@@ -114,6 +117,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                         obscureText: _obscurePassword,
                         textInputAction: TextInputAction.done,
                         onFieldSubmitted: _submit,
+                        autofillHints: const [AutofillHints.password],
+                        autocorrect: false,
+                        enableSuggestions: false,
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -139,7 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
-                            authState.error.toString(),
+                            _authErrorMessage(authState.error, l10n),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.error,
                             ),
@@ -179,8 +185,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     await ref
         .read(authControllerProvider.notifier)
         .signIn(
-          email: _emailController.text.trim(),
+          email: _emailController.text.trim().toLowerCase(),
           password: _passwordController.text,
         );
+  }
+
+  String _authErrorMessage(Object? error, AppLocalizations l10n) {
+    if (error is AuthFailure) return error.message;
+    if (error is NetworkFailure) return l10n.networkErrorMessage;
+    if (error is Failure) return l10n.backendUnavailableError;
+    return l10n.genericErrorMessage;
   }
 }

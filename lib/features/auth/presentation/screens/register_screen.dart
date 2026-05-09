@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/errors/failures.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/auth_controller.dart';
 import '../providers/session_provider.dart';
 import '../widgets/auth_form_field.dart';
@@ -65,6 +67,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     hint: l10n.emailHint,
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
+                    autofillHints: const [AutofillHints.email],
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
                         return l10n.fieldRequiredError;
@@ -81,6 +84,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     hint: l10n.passwordHint,
                     controller: _passwordController,
                     obscureText: _obscurePassword,
+                    autofillHints: const [AutofillHints.newPassword],
+                    autocorrect: false,
+                    enableSuggestions: false,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
@@ -94,8 +100,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       if (v == null || v.isEmpty) {
                         return l10n.fieldRequiredError;
                       }
-                      if (v.length < 6) {
-                        return l10n.passwordTooShortError;
+                      if (v.length < 8 ||
+                          !RegExp(r'[a-zA-Z]').hasMatch(v) ||
+                          !RegExp(r'[0-9]').hasMatch(v)) {
+                        return l10n.passwordTooWeakError;
                       }
                       return null;
                     },
@@ -107,6 +115,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     obscureText: _obscurePassword,
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: _submit,
+                    autofillHints: const [AutofillHints.newPassword],
+                    autocorrect: false,
+                    enableSuggestions: false,
                     validator: (v) {
                       if (v == null || v.isEmpty) {
                         return l10n.fieldRequiredError;
@@ -122,9 +133,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Text(
-                        authState.error.toString(),
+                        _authErrorMessage(authState.error, l10n),
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
+                          color: authState.error
+                                  is EmailConfirmationPendingFailure
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.error,
                         ),
                       ),
                     ),
@@ -158,8 +172,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     await ref
         .read(authControllerProvider.notifier)
         .signUp(
-          email: _emailController.text.trim(),
+          email: _emailController.text.trim().toLowerCase(),
           password: _passwordController.text,
         );
+  }
+
+  String _authErrorMessage(Object? error, AppLocalizations l10n) {
+    if (error is EmailConfirmationPendingFailure) {
+      return l10n.emailConfirmationPendingMessage;
+    }
+    if (error is AuthFailure) return error.message;
+    if (error is NetworkFailure) return l10n.networkErrorMessage;
+    if (error is Failure) return l10n.backendUnavailableError;
+    return l10n.genericErrorMessage;
   }
 }

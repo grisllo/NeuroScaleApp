@@ -21,3 +21,12 @@ class ServerException extends AppException {
 class CacheException extends AppException {
   const CacheException(super.message);
 }
+
+class ConfigurationException extends AppException {
+  const ConfigurationException(super.message);
+}
+
+class EmailConfirmationPendingException extends AppException {
+  const EmailConfirmationPendingException()
+      : super('Email pendiente de confirmación.');
+}

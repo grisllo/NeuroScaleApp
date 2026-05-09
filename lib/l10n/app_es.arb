@@ -58,6 +58,9 @@
   "passwordTooShortError": "La contraseña debe tener al menos 6 caracteres",
   "@passwordTooShortError": { "description": "Error de contraseña muy corta" },
 
+  "passwordTooWeakError": "La contraseña debe tener al menos 8 caracteres e incluir letras y números",
+  "@passwordTooWeakError": { "description": "Error de contraseña débil en el registro" },
+
   "gcsTitle": "Glasgow Coma Scale",
   "@gcsTitle": { "description": "Título de la escala GCS" },
 
@@ -132,6 +135,15 @@
 
   "genericErrorMessage": "Ha ocurrido un error inesperado",
   "@genericErrorMessage": { "description": "Mensaje de error genérico" },
+
+  "backendUnavailableError": "El servidor no está disponible. Comprueba tu conexión e inténtalo de nuevo.",
+  "@backendUnavailableError": { "description": "Error cuando Supabase no está configurado o el backend no responde" },
+
+  "networkErrorMessage": "Sin conexión. Comprueba tu red e inténtalo de nuevo.",
+  "@networkErrorMessage": { "description": "Error de red (sin internet)" },
+
+  "emailConfirmationPendingMessage": "Registro completado. Revisa tu correo para confirmar la cuenta antes de iniciar sesión.",
+  "@emailConfirmationPendingMessage": { "description": "Aviso de confirmación de email pendiente tras el registro" },
 
   "retryButton": "Reintentar",
   "@retryButton": { "description": "Botón de reintentar acción" },

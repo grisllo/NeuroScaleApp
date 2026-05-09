@@ -58,6 +58,9 @@
   "passwordTooShortError": "Password must be at least 6 characters",
   "@passwordTooShortError": { "description": "Password too short error" },
 
+  "passwordTooWeakError": "Password must be at least 8 characters and include letters and numbers",
+  "@passwordTooWeakError": { "description": "Weak password error on registration" },
+
   "gcsTitle": "Glasgow Coma Scale",
   "@gcsTitle": { "description": "GCS scale title" },
 
@@ -132,6 +135,15 @@
 
   "genericErrorMessage": "An unexpected error occurred",
   "@genericErrorMessage": { "description": "Generic error message" },
+
+  "backendUnavailableError": "The server is not available. Check your connection and try again.",
+  "@backendUnavailableError": { "description": "Error when Supabase is not configured or the backend is unreachable" },
+
+  "networkErrorMessage": "No connection. Check your network and try again.",
+  "@networkErrorMessage": { "description": "Network error (no internet)" },
+
+  "emailConfirmationPendingMessage": "Registration complete. Check your email to confirm your account before signing in.",
+  "@emailConfirmationPendingMessage": { "description": "Email confirmation pending notice after registration" },
 
   "retryButton": "Retry",
   "@retryButton": { "description": "Retry button" },
