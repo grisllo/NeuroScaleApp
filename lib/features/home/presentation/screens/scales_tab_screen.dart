@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/breakpoints.dart';
+import '../../../../core/widgets/animated_tap_scale.dart';
 
 class ScalesTabScreen extends StatelessWidget {
   const ScalesTabScreen({super.key});
@@ -12,36 +14,48 @@ class ScalesTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+    final clinical = Theme.of(context).clinicalColors;
+    final scheme = Theme.of(context).colorScheme;
 
     final cards = [
       _ScaleCard(
         title: 'Glasgow Coma Scale',
         subtitle: context.l10n.gcsSubtitle,
         icon: Icons.psychology_rounded,
+        iconBackground: clinical.info.surface,
+        iconColor: clinical.info.foreground,
         onTap: () => context.pushNamed('gcs'),
       ),
       _ScaleCard(
         title: 'NIHSS',
         subtitle: context.l10n.nihssSubtitle,
         icon: Icons.health_and_safety_rounded,
+        iconBackground: clinical.danger.surface,
+        iconColor: clinical.danger.foreground,
         onTap: () => context.pushNamed('nihss'),
       ),
       _ScaleCard(
         title: 'ABCD2',
         subtitle: context.l10n.abcd2Subtitle,
         icon: Icons.warning_amber_rounded,
+        iconBackground: clinical.warning.surface,
+        iconColor: clinical.warning.foreground,
         onTap: () => context.pushNamed('abcd2'),
       ),
       _ScaleCard(
         title: 'Barthel Index',
         subtitle: context.l10n.barthelSubtitle,
         icon: Icons.checklist_rounded,
+        iconBackground: clinical.success.surface,
+        iconColor: clinical.success.foreground,
         onTap: () => context.pushNamed('barthel'),
       ),
       _ScaleCard(
         title: 'mRS (Modified Rankin Scale)',
         subtitle: context.l10n.rankinSubtitle,
         icon: Icons.accessibility_new_rounded,
+        iconBackground: scheme.secondaryContainer,
+        iconColor: scheme.onSecondaryContainer,
         onTap: () => context.pushNamed('rankin'),
       ),
     ];
@@ -89,21 +103,23 @@ class _ScaleCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.icon,
+    required this.iconBackground,
+    required this.iconColor,
     required this.onTap,
   });
 
   final String title;
   final String subtitle;
   final IconData icon;
+  final Color iconBackground;
+  final Color iconColor;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppRadii.lg),
+    return AnimatedTapScale(
+      onTap: onTap,
+      child: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -112,13 +128,13 @@ class _ScaleCard extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: scheme.primaryContainer,
+                  color: iconBackground,
                   borderRadius: BorderRadius.circular(AppRadii.md),
                 ),
-                child: Icon(icon, color: scheme.onPrimaryContainer, size: 22),
+                child: Icon(icon, color: iconColor, size: 24),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
@@ -141,11 +157,6 @@ class _ScaleCard extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              Icon(
-                Icons.chevron_right,
-                color: scheme.onSurfaceVariant,
-                size: 20,
               ),
             ],
           ),
