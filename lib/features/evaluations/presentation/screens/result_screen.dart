@@ -17,6 +17,51 @@ import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/entities/evaluation.dart';
 import '../providers/save_evaluation_controller.dart';
 
+// Maps item data keys → ARB label keys for each scale type.
+const _kItemLabelKeys = <String, Map<String, String>>{
+  'gcs': {
+    'eye': 'gcsEyeLabel',
+    'verbal': 'gcsVerbalLabel',
+    'motor': 'gcsMotorLabel',
+  },
+  'nihss': {
+    'loc': 'nihss1aLocLabel',
+    'loc_questions': 'nihss1bLocQuestionsLabel',
+    'loc_commands': 'nihss1cLocCommandsLabel',
+    'gaze': 'nihss2GazeLabel',
+    'visual': 'nihss3VisualLabel',
+    'facial': 'nihss4FacialLabel',
+    'motor_arm_left': 'nihss5aMotorArmLLabel',
+    'motor_arm_right': 'nihss5bMotorArmRLabel',
+    'motor_leg_left': 'nihss6aMotorLegLLabel',
+    'motor_leg_right': 'nihss6bMotorLegRLabel',
+    'ataxia': 'nihss7AtaxiaLabel',
+    'sensory': 'nihss8SensoryLabel',
+    'language': 'nihss9LanguageLabel',
+    'dysarthria': 'nihss10DysarthriaLabel',
+    'neglect': 'nihss11NeglectLabel',
+  },
+  'abcd2': {
+    'age': 'abcd2AgeLabel',
+    'bp': 'abcd2BpLabel',
+    'clinical': 'abcd2ClinicalLabel',
+    'duration': 'abcd2DurationLabel',
+    'diabetes': 'abcd2DiabetesLabel',
+  },
+  'barthel': {
+    'feeding': 'barthelItemFeeding',
+    'bathing': 'barthelItemBathing',
+    'grooming': 'barthelItemGrooming',
+    'dressing': 'barthelItemDressing',
+    'bowels': 'barthelItemBowels',
+    'bladder': 'barthelItemBladder',
+    'toilet_use': 'barthelItemToiletUse',
+    'transfer': 'barthelItemTransfer',
+    'mobility': 'barthelItemMobility',
+    'stairs': 'barthelItemStairs',
+  },
+};
+
 class ResultScreen extends ConsumerWidget {
   const ResultScreen({
     super.key,
@@ -32,6 +77,7 @@ class ResultScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
     final clinical = Theme.of(context).clinicalColors;
     final clinicalPair = switch (result.severity) {
       Severity.mild => clinical.success,
@@ -40,94 +86,131 @@ class ResultScreen extends ConsumerWidget {
       Severity.none => clinical.info,
     };
 
+    final labelKeys = _kItemLabelKeys[scaleType] ?? {};
+    // Rankin has a single item identical to totalScore — breakdown is redundant.
+    final showBreakdown = result.itemScores.length > 1;
+
     return Scaffold(
       appBar: AppBar(title: Text(scaleTitle)),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(24),
+          // ── Severity hero ─────────────────────────────────────────────────
+          Container(
+            width: double.infinity,
+            color: clinicalPair.surface,
+            padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
+            child: Column(
               children: [
-                Center(
-                  child: Column(
-                    children: [
-                      RepaintBoundary(
-                        child: AnimatedScore(
-                          score: result.totalScore,
-                          maxScore: result.maxScore,
-                          color: clinicalPair.foreground,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      SeverityBadge(
-                        severity: result.severity,
-                        label: l10n.resolveKey(
-                          result.severity.interpretationKey,
-                        ),
-                      ),
-                    ],
+                RepaintBoundary(
+                  child: AnimatedScore(
+                    score: result.totalScore,
+                    maxScore: result.maxScore,
+                    color: clinicalPair.foreground,
                   ),
                 ),
-                const SizedBox(height: 32),
-                Text(
-                  l10n.resultBreakdown,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...result.itemScores.entries.map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(e.key.toUpperCase()),
-                        Text(
-                          '${e.value}',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                FilledButton.icon(
-                  onPressed: () => _openSaveDialog(context, ref),
-                  icon: const Icon(Icons.save_outlined),
-                  label: Text(l10n.resultSaveButton),
+                const SizedBox(height: 12),
+                SeverityBadge(
+                  severity: result.severity,
+                  label: l10n.resolveKey(result.severity.interpretationKey),
                 ),
               ],
             ),
           ),
-          // Disclaimer — always visible, cannot be dismissed
-          Semantics(
-            label: l10n.disclaimerBody,
-            container: true,
-            child: Container(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: SafeArea(
-                top: false,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+
+          // ── Breakdown ─────────────────────────────────────────────────────
+          if (showBreakdown)
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+                children: [
+                  Text(
+                    l10n.resultBreakdown,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: scheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Card(
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        for (
+                          var i = 0;
+                          i < result.itemScores.entries.length;
+                          i++
+                        ) ...[
+                          if (i > 0)
+                            Divider(height: 1, color: scheme.outlineVariant),
+                          _BreakdownRow(
+                            label: () {
+                              final key = result.itemScores.keys.elementAt(i);
+                              final labelKey = labelKeys[key];
+                              return labelKey != null
+                                  ? l10n.resolveKey(labelKey)
+                                  : key.toUpperCase();
+                            }(),
+                            value: result.itemScores.values.elementAt(i),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            const Spacer(),
+
+          // ── Sticky bottom: Save + Disclaimer ──────────────────────────────
+          Container(
+            decoration: BoxDecoration(
+              color: scheme.surfaceContainerHighest,
+              border: Border(
+                top: BorderSide(color: scheme.outlineVariant, width: 0.5),
+              ),
+            ),
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    ExcludeSemantics(
-                      child: Icon(
-                        Icons.info_outline,
-                        size: 16,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        onPressed: () => _openSaveDialog(context, ref),
+                        icon: const Icon(Icons.save_outlined),
+                        label: Text(l10n.resultSaveButton),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.disclaimerBody,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                    const SizedBox(height: 10),
+                    Semantics(
+                      label: l10n.disclaimerBody,
+                      container: true,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ExcludeSemantics(
+                            child: Icon(
+                              Icons.info_outline,
+                              size: 14,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              l10n.disclaimerBody,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: scheme.onSurfaceVariant),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -150,6 +233,36 @@ class ResultScreen extends ConsumerWidget {
         result: result,
         scaleType: scaleType,
         userId: session.id,
+      ),
+    );
+  }
+}
+
+class _BreakdownRow extends StatelessWidget {
+  const _BreakdownRow({required this.label, required this.value});
+
+  final String label;
+  final int value;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isUntestable = value == 9;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+          ),
+          Text(
+            isUntestable ? 'N/E' : '$value',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: isUntestable ? scheme.onSurfaceVariant : null,
+            ),
+          ),
+        ],
       ),
     );
   }
