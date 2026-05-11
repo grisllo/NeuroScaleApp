@@ -12,21 +12,8 @@ import '../../../../core/widgets/app_empty_state.dart';
 import '../../../../core/widgets/app_loading_skeleton.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patients_controller.dart';
+import '../widgets/patient_avatar.dart';
 import '../widgets/patient_edit_dialog.dart';
-
-// Paleta de fondos para avatares — todos con contraste suficiente para texto blanco.
-const _kAvatarPalette = [
-  Color(0xFF1565C0), // blue
-  Color(0xFF2E7D32), // green
-  Color(0xFF6A1B9A), // purple
-  Color(0xFFAD1457), // pink
-  Color(0xFF00695C), // teal
-  Color(0xFF4527A0), // deep purple
-  Color(0xFF0277BD), // light blue
-  Color(0xFF558B2F), // light green
-  Color(0xFF5D4037), // brown
-  Color(0xFF00838F), // cyan
-];
 
 class PatientsTabScreen extends ConsumerStatefulWidget {
   const PatientsTabScreen({super.key});
@@ -138,13 +125,6 @@ class _PatientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final trimmed = patient.alias.trim();
-    final initials = trimmed.length >= 2
-        ? trimmed.substring(0, 2).toUpperCase()
-        : trimmed.toUpperCase();
-    final avatarColor =
-        _kAvatarPalette[patient.id.hashCode.abs() % _kAvatarPalette.length];
-
     return AnimatedTapScale(
       onTap: () => context.pushNamed(
         'patient-detail',
@@ -158,17 +138,7 @@ class _PatientCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: avatarColor,
-                child: Text(
-                  initials,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Color.lerp(avatarColor, Colors.white, 0.65),
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
+              PatientAvatar(patient: patient),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(

@@ -13,6 +13,7 @@ import '../../../scales/shared/domain/entities/severity.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patient_provider.dart';
 import '../providers/patients_controller.dart';
+import '../widgets/patient_avatar.dart';
 import '../widgets/patient_edit_dialog.dart';
 import '../widgets/patient_evolution_chart.dart';
 
@@ -233,15 +234,7 @@ class _PatientHeader extends StatelessWidget {
           children: [
             Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer,
-                  child: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-                ),
+                PatientAvatar(patient: patient, radius: 28),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
