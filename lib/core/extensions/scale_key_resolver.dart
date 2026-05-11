@@ -238,9 +238,16 @@ extension AppLocalizationsScaleKeys on AppLocalizations {
   // Aliases para valores legacy guardados antes de Fase 4.3 (2026-04-30).
   // Corregidos en BD por migración 0008; este mapa actúa como red de seguridad.
   static const Map<String, String> _legacyAliases = {
+    // ABCD2 legacy (pre Fase 4.3)
     'Riesgo bajo (~1.0%)': 'abcd2RiskLow',
     'Riesgo moderado (~4.1%)': 'abcd2RiskModerate',
     'Riesgo alto (~8.1%)': 'abcd2RiskHigh',
+    // NIHSS legacy (pre Fase 4.3)
+    'Sin déficit': 'nihssInterp0',
+    'Ictus menor (1-4)': 'nihssInterpMinor',
+    'Ictus moderado (5-15)': 'nihssInterpModerate',
+    'Ictus moderado-grave (16-20)': 'nihssInterpModerateSevere',
+    'Ictus grave (21-42)': 'nihssInterpSevere',
   };
 
   String resolveKey(String key) {
