@@ -229,7 +229,8 @@ class _ChangePasswordDialog extends ConsumerStatefulWidget {
 
 class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
   final _formKey = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
+  final _currentController = TextEditingController();
+  final _newController = TextEditingController();
   final _confirmController = TextEditingController();
   bool _obscure = true;
   bool _loading = false;
@@ -237,13 +238,15 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
 
   @override
   void dispose() {
-    _passwordController.dispose();
+    _currentController.dispose();
+    _newController.dispose();
     _confirmController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    final email = ref.read(sessionProvider).asData?.value?.email ?? '';
     setState(() {
       _loading = true;
       _error = null;
@@ -251,7 +254,11 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
     try {
       await ref
           .read(passwordResetControllerProvider.notifier)
-          .updatePassword(password: _passwordController.text.trim());
+          .verifyAndUpdatePassword(
+            email: email,
+            currentPassword: _currentController.text,
+            newPassword: _newController.text.trim(),
+          );
       if (!mounted) return;
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -282,10 +289,10 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
               const SizedBox(height: 12),
             ],
             TextFormField(
-              controller: _passwordController,
+              controller: _currentController,
               obscureText: _obscure,
               decoration: InputDecoration(
-                labelText: l10n.newPasswordLabel,
+                labelText: l10n.currentPasswordLabel,
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscure ? Icons.visibility : Icons.visibility_off,
@@ -293,6 +300,14 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
                   onPressed: () => setState(() => _obscure = !_obscure),
                 ),
               ),
+              validator: (v) =>
+                  (v == null || v.isEmpty) ? l10n.fieldRequiredError : null,
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _newController,
+              obscureText: _obscure,
+              decoration: InputDecoration(labelText: l10n.newPasswordLabel),
               validator: (v) {
                 if (v == null || v.isEmpty) return l10n.fieldRequiredError;
                 if (v.length < 8 ||
@@ -312,7 +327,7 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
               ),
               validator: (v) {
                 if (v == null || v.isEmpty) return l10n.fieldRequiredError;
-                if (v != _passwordController.text) {
+                if (v != _newController.text) {
                   return l10n.passwordMismatchError;
                 }
                 return null;

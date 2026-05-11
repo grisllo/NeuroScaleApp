@@ -175,6 +175,9 @@
   "profileDangerZoneSection": "Danger zone",
   "@profileDangerZoneSection": { "description": "Danger zone section header in profile" },
 
+  "currentPasswordLabel": "Current password",
+  "@currentPasswordLabel": { "description": "Current password field in change password dialog" },
+
   "changePasswordButton": "Change password",
   "@changePasswordButton": { "description": "Change password button" },
 

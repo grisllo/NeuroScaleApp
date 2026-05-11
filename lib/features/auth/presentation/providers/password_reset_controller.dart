@@ -4,6 +4,7 @@ import '../../../../core/env/env.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/request_password_reset_usecase.dart';
+import '../../domain/usecases/sign_in_usecase.dart';
 import '../../domain/usecases/update_password_usecase.dart';
 import 'session_provider.dart';
 
@@ -29,6 +30,20 @@ class PasswordResetController extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       final repo = _requireRepo();
       await UpdatePasswordUseCase(repo).call(password: password);
+    });
+  }
+
+  /// Verifies [currentPassword] by re-authenticating, then sets [newPassword].
+  Future<void> verifyAndUpdatePassword({
+    required String email,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final repo = _requireRepo();
+      await SignInUseCase(repo).call(email: email, password: currentPassword);
+      await UpdatePasswordUseCase(repo).call(password: newPassword);
     });
   }
 
