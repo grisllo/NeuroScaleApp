@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/theme/clinical_colors.dart';
+import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/entities/algorithm_definition.dart';
 import '../../domain/entities/algorithm_node.dart';
@@ -70,6 +72,7 @@ class _QuestionBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
     final hint = node.hintKey != null ? l10n.algo(node.hintKey!) : null;
 
     return Column(
@@ -79,7 +82,7 @@ class _QuestionBody extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             children: [
               Card(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                color: scheme.surfaceContainerHighest,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -95,11 +98,7 @@ class _QuestionBody extends ConsumerWidget {
                         Text(
                           hint,
                           style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
-                              ),
+                              ?.copyWith(color: scheme.onSurfaceVariant),
                         ),
                       ],
                     ],
@@ -110,19 +109,32 @@ class _QuestionBody extends ConsumerWidget {
               ...node.options.map(
                 (opt) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
+                  child: AnimatedTapScale(
+                    onTap: () =>
+                        ref.read(algorithmProvider.notifier).step(opt.id),
+                    child: Card(
+                      child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 14,
                         ),
-                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                l10n.algo(opt.labelKey),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 14,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          ],
+                        ),
                       ),
-                      onPressed: () =>
-                          ref.read(algorithmProvider.notifier).step(opt.id),
-                      child: Text(l10n.algo(opt.labelKey)),
                     ),
                   ),
                 ),
@@ -156,25 +168,17 @@ class _ResultBody extends ConsumerWidget {
 
   final ResultNode node;
 
-  static Color _bgColor(BuildContext context, AlgorithmUrgency urgency) =>
-      switch (urgency) {
-        AlgorithmUrgency.info => Theme.of(
-          context,
-        ).colorScheme.surfaceContainerHighest,
-        AlgorithmUrgency.low => Colors.green.shade50,
-        AlgorithmUrgency.moderate => Colors.orange.shade50,
-        AlgorithmUrgency.high => Colors.deepOrange.shade50,
-        AlgorithmUrgency.critical => Colors.red.shade50,
-      };
-
-  static Color _fgColor(BuildContext context, AlgorithmUrgency urgency) =>
-      switch (urgency) {
-        AlgorithmUrgency.info => Theme.of(context).colorScheme.onSurfaceVariant,
-        AlgorithmUrgency.low => Colors.green.shade800,
-        AlgorithmUrgency.moderate => Colors.orange.shade800,
-        AlgorithmUrgency.high => Colors.deepOrange.shade800,
-        AlgorithmUrgency.critical => Colors.red.shade800,
-      };
+  ClinicalColorPair _urgencyColors(
+    AlgorithmUrgency urgency,
+    ClinicalColors clinical,
+    ColorScheme scheme,
+  ) => switch (urgency) {
+    AlgorithmUrgency.info => clinical.info,
+    AlgorithmUrgency.low => clinical.success,
+    AlgorithmUrgency.moderate => clinical.warning,
+    AlgorithmUrgency.high => clinical.danger,
+    AlgorithmUrgency.critical => clinical.danger,
+  };
 
   static IconData _icon(AlgorithmUrgency urgency) => switch (urgency) {
     AlgorithmUrgency.info => Icons.info_outline_rounded,
@@ -187,31 +191,33 @@ class _ResultBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final bg = _bgColor(context, node.urgency);
-    final fg = _fgColor(context, node.urgency);
+    final scheme = Theme.of(context).colorScheme;
+    final clinical = Theme.of(context).clinicalColors;
+    final pair = _urgencyColors(node.urgency, clinical, scheme);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Urgency banner
+          // Urgency banner — uses ClinicalColors, adapts to dark mode
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: bg,
+              color: pair.surface,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: pair.foreground.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
-                Icon(_icon(node.urgency), color: fg, size: 20),
-                const SizedBox(width: 8),
+                Icon(_icon(node.urgency), color: pair.foreground, size: 22),
+                const SizedBox(width: 10),
                 Text(
                   l10n.urgencyLabel(node.urgency),
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: fg,
-                    fontWeight: FontWeight.w600,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: pair.foreground,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
@@ -226,7 +232,7 @@ class _ResultBody extends ConsumerWidget {
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
-          // Recommendations header
+          // Recommendations
           Text(
             l10n.algorithmResultTitle,
             style: Theme.of(
@@ -238,32 +244,43 @@ class _ResultBody extends ConsumerWidget {
             ((int, String) entry) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 14,
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.primaryContainer,
-                    child: Text(
-                      '${entry.$1 + 1}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                  ),
-                  title: Text(l10n.algo(entry.$2)),
-                  contentPadding: const EdgeInsets.symmetric(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 12,
-                    vertical: 4,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundColor: pair.surface,
+                        child: Text(
+                          '${entry.$1 + 1}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: pair.foreground,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            l10n.algo(entry.$2),
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
           const SizedBox(height: 24),
-          // Actions
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
