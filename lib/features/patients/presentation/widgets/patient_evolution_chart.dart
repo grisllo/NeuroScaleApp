@@ -70,16 +70,6 @@ class PatientEvolutionChart extends StatelessWidget {
   }
 }
 
-// Returns the tick interval (in hours) for a given time range.
-double _axisInterval(double rangeHours) {
-  if (rangeHours <= 2) return 0.5;
-  if (rangeHours <= 12) return 2;
-  if (rangeHours <= 48) return 6;
-  if (rangeHours <= 168) return 24;
-  if (rangeHours <= 720) return 168;
-  return 720;
-}
-
 String _fmtTime(DateTime dt) =>
     '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
 
@@ -95,16 +85,9 @@ class _ScaleChart extends StatelessWidget {
         _kScaleColors[scaleType] ?? Theme.of(context).colorScheme.primary;
     final maxScore = _kMaxScores[scaleType] ?? 1;
 
-    final firstTime = evaluations.first.createdAt;
-    final rangeHours =
-        evaluations.last.createdAt.difference(firstTime).inMinutes / 60.0;
-
-    // Use real timestamps for proportional X when evaluations span > 36 s.
-    final useTime = rangeHours > 0.01;
-
-    double xFor(int i) => useTime
-        ? evaluations[i].createdAt.difference(firstTime).inMinutes / 60.0
-        : i.toDouble();
+    // Index-based X guarantees each data point has its own tick (interval: 1)
+    // and labels align exactly with dots. Time info is conveyed via label text.
+    double xFor(int i) => i.toDouble();
 
     // ── Spots ────────────────────────────────────────────────────────────────
     final spots = List.generate(evaluations.length, (i) {
@@ -112,39 +95,19 @@ class _ScaleChart extends StatelessWidget {
       return FlSpot(xFor(i), normalized.clamp(0, 100));
     });
 
-    // ── Label map: x → display string ────────────────────────────────────────
-    // Format: "dd/M\nHH:mm" for the first evaluation of a new day,
-    //         "HH:mm" for subsequent evaluations on the same day.
-    final xToLabel = <double, String>{};
-    for (var i = 0; i < evaluations.length; i++) {
-      final dt = evaluations[i].createdAt;
-      final isDifferentDay =
-          i == 0 ||
-          dt.day != evaluations[i - 1].createdAt.day ||
-          dt.month != evaluations[i - 1].createdAt.month;
-      final isLast = i == evaluations.length - 1;
-      xToLabel[xFor(i)] = (isDifferentDay || isLast)
-          ? '${dt.day}/${dt.month}\n${_fmtTime(dt)}'
-          : _fmtTime(dt);
-    }
-
-    // Thin to at most 6 visible labels (always keep last).
+    // ── Visible label indices ─────────────────────────────────────────────────
+    // "dd/M\nHH:mm" for first of day or last eval; "HH:mm" for same-day rest.
+    // Thin to at most 6 visible labels.
     const maxLabels = 6;
-    if (xToLabel.length > maxLabels) {
-      final keys = xToLabel.keys.toList();
-      final step = (keys.length / maxLabels).ceil();
-      for (var i = 0; i < keys.length - 1; i++) {
-        if (i % step != 0) xToLabel.remove(keys[i]);
-      }
-    }
+    final step = (evaluations.length / maxLabels).ceil().clamp(1, 999);
+    final visibleIndices = {
+      for (var i = 0; i < evaluations.length; i++)
+        if (i % step == 0 || i == evaluations.length - 1) i,
+    };
 
-    // ── Axis range and tick interval ─────────────────────────────────────────
-    final interval = useTime ? _axisInterval(rangeHours) : 1.0;
-    // maxX rounded up to the next tick boundary so the last data point
-    // always falls within tolerance of a generated tick.
-    final maxX = useTime
-        ? (rangeHours / interval).ceil() * interval
-        : (evaluations.length - 1).toDouble();
+    // ── Axis range ───────────────────────────────────────────────────────────
+    const interval = 1.0;
+    final maxX = (evaluations.length - 1).toDouble();
 
     // ── Chart ────────────────────────────────────────────────────────────────
     return Card(
@@ -210,23 +173,23 @@ class _ScaleChart extends StatelessWidget {
                         reservedSize: 36,
                         interval: interval,
                         getTitlesWidget: (value, meta) {
-                          // Find the closest labeled data point to this tick.
-                          MapEntry<double, String>? nearest;
-                          for (final e in xToLabel.entries) {
-                            if (nearest == null ||
-                                (e.key - value).abs() <
-                                    (nearest.key - value).abs()) {
-                              nearest = e;
-                            }
-                          }
-                          if (nearest == null ||
-                              (nearest.key - value).abs() > interval * 0.45) {
+                          final i = value.round();
+                          if (!visibleIndices.contains(i)) {
                             return const SizedBox();
                           }
+                          final dt = evaluations[i].createdAt;
+                          final isDifferentDay =
+                              i == 0 ||
+                              dt.day != evaluations[i - 1].createdAt.day ||
+                              dt.month != evaluations[i - 1].createdAt.month;
+                          final isLast = i == evaluations.length - 1;
+                          final label = (isDifferentDay || isLast)
+                              ? '${dt.day}/${dt.month}\n${_fmtTime(dt)}'
+                              : _fmtTime(dt);
                           return SideTitleWidget(
                             meta: meta,
                             child: Text(
-                              nearest.value,
+                              label,
                               style: const TextStyle(fontSize: 9),
                               textAlign: TextAlign.center,
                             ),
@@ -260,17 +223,11 @@ class _ScaleChart extends StatelessWidget {
                   lineTouchData: LineTouchData(
                     touchTooltipData: LineTouchTooltipData(
                       getTooltipItems: (spots) => spots.map((spot) {
-                        // Find the evaluation closest to this spot's x.
-                        var bestIdx = 0;
-                        var bestDist = double.infinity;
-                        for (var i = 0; i < evaluations.length; i++) {
-                          final d = (xFor(i) - spot.x).abs();
-                          if (d < bestDist) {
-                            bestDist = d;
-                            bestIdx = i;
-                          }
-                        }
-                        final eval = evaluations[bestIdx];
+                        final i = spot.x.round().clamp(
+                          0,
+                          evaluations.length - 1,
+                        );
+                        final eval = evaluations[i];
                         return LineTooltipItem(
                           '${eval.totalScore}/$maxScore\n${context.l10n.resolveKey(eval.interpretation)}',
                           const TextStyle(
