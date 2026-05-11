@@ -80,7 +80,7 @@ void main() {
 
     expect(find.byType(NavigationBar), findsOneWidget);
     expect(find.byType(NavigationRail), findsNothing);
-    expect(find.text('Inicio'), findsWidgets);
+    expect(find.text('Escalas'), findsWidgets);
     expect(find.text('Pacientes'), findsWidgets);
   });
 
@@ -97,7 +97,7 @@ void main() {
 
     expect(find.byType(NavigationRail), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
-    expect(find.text('Inicio'), findsWidgets);
+    expect(find.text('Escalas'), findsWidgets);
     expect(find.text('Pacientes'), findsWidgets);
   });
 

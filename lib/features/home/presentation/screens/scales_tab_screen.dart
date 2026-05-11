@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/breakpoints.dart';
-import '../../../../features/auth/presentation/providers/session_provider.dart';
 
 class ScalesTabScreen extends StatelessWidget {
   const ScalesTabScreen({super.key});
@@ -63,21 +61,6 @@ class ScalesTabScreen extends StatelessWidget {
               88,
             ),
             children: [
-              Consumer(
-                builder: (_, ref, _) {
-                  final email = ref.watch(sessionProvider).asData?.value?.email;
-                  if (email == null) return const SizedBox.shrink();
-                  return Text(
-                    email,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  );
-                },
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                context.l10n.scalesTabTitle,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
               const SizedBox(height: AppSpacing.lg),
               if (isTablet)
                 GridView.count(

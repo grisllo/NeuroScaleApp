@@ -322,8 +322,8 @@
   "rankinLevel6": "Deceased",
   "@rankinLevel6": { "description": "mRS grade 6" },
 
-  "tabHome": "Home",
-  "@tabHome": { "description": "Home tab label" },
+  "tabHome": "Scales",
+  "@tabHome": { "description": "Scales tab label" },
 
   "scalesTabTitle": "Neurological Scales",
   "@scalesTabTitle": { "description": "Section heading in the scales home screen" },

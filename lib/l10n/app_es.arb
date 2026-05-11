@@ -322,8 +322,8 @@
   "rankinLevel6": "Fallecido",
   "@rankinLevel6": { "description": "mRS grado 6" },
 
-  "tabHome": "Inicio",
-  "@tabHome": { "description": "Etiqueta del tab de inicio (escalas)" },
+  "tabHome": "Escalas",
+  "@tabHome": { "description": "Etiqueta del tab de escalas" },
 
   "scalesTabTitle": "Escalas neurológicas",
   "@scalesTabTitle": { "description": "Título de la sección de escalas en la pantalla de inicio" },
