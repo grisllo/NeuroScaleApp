@@ -173,8 +173,9 @@ class _ScaleChart extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 28,
+                        interval: 1,
                         getTitlesWidget: (value, meta) {
-                          final i = value.toInt();
+                          final i = value.round();
                           if (!visibleLabels.contains(i)) {
                             return const SizedBox();
                           }
