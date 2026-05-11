@@ -164,8 +164,8 @@ class _PatientCard extends StatelessWidget {
                 child: Text(
                   initials,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+                    color: Color.lerp(avatarColor, Colors.white, 0.65),
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
