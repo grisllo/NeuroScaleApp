@@ -122,7 +122,8 @@ class _ScaleChart extends StatelessWidget {
           i == 0 ||
           dt.day != evaluations[i - 1].createdAt.day ||
           dt.month != evaluations[i - 1].createdAt.month;
-      xToLabel[xFor(i)] = isDifferentDay
+      final isLast = i == evaluations.length - 1;
+      xToLabel[xFor(i)] = (isDifferentDay || isLast)
           ? '${dt.day}/${dt.month}\n${_fmtTime(dt)}'
           : _fmtTime(dt);
     }
