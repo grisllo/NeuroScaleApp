@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/breakpoints.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
 import '../../../evaluations/presentation/providers/evaluation_provider.dart';
@@ -292,6 +294,20 @@ class _NoEvaluationsCard extends StatelessWidget {
   }
 }
 
+/// Returns (accentForeground, accentSurface) for a given scale type,
+/// consistent with the ScalesTabScreen card colours.
+(Color, Color) _scaleAccent(
+  String scaleType,
+  ClinicalColors c,
+  ColorScheme s,
+) => switch (scaleType) {
+  'gcs' => (c.info.foreground, c.info.surface),
+  'nihss' => (c.danger.foreground, c.danger.surface),
+  'abcd2' => (c.warning.foreground, c.warning.surface),
+  'barthel' => (c.success.foreground, c.success.surface),
+  _ => (s.onSecondaryContainer, s.secondaryContainer),
+};
+
 class _EvaluationTile extends ConsumerWidget {
   const _EvaluationTile({required this.eval, required this.patientId});
 
@@ -302,54 +318,91 @@ class _EvaluationTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final hasNotes = eval.caseDescription.trim().isNotEmpty;
+    final clinical = Theme.of(context).clinicalColors;
+    final scheme = Theme.of(context).colorScheme;
+    final (accentFg, accentSurface) = _scaleAccent(
+      eval.scaleType,
+      clinical,
+      scheme,
+    );
+
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 8),
+      clipBehavior: Clip.antiAlias,
+      child: IntrinsicHeight(
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Chip(
-                label: Text(eval.scaleType.toUpperCase()),
-                padding: EdgeInsets.zero,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              ),
-            ),
-            const SizedBox(width: 12),
+            // ── Left accent strip ────────────────────────────────────────
+            Container(width: 4, color: accentFg),
+            // ── Content ──────────────────────────────────────────────────
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${eval.totalScore} — ${context.l10n.resolveKey(eval.interpretation)}',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    _formatDate(eval.createdAt),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 12, 4, 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Scale chip
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: accentSurface,
+                          borderRadius: BorderRadius.circular(AppRadii.sm),
+                        ),
+                        child: Text(
+                          eval.scaleType.toUpperCase(),
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(
+                                color: accentFg,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                      ),
                     ),
-                  ),
-                  if (hasNotes) ...[
-                    const SizedBox(height: 6),
-                    Text(
-                      eval.caseDescription,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    const SizedBox(width: 10),
+                    // Score + interpretation + date + notes
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${eval.totalScore} — ${context.l10n.resolveKey(eval.interpretation)}',
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            _formatDate(eval.createdAt),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: scheme.onSurfaceVariant),
+                          ),
+                          if (hasNotes) ...[
+                            const SizedBox(height: 6),
+                            Text(
+                              eval.caseDescription,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    // Delete — visually separated at the far right
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete_outline,
+                        size: 20,
+                        color: scheme.onSurfaceVariant,
+                      ),
+                      tooltip: l10n.deleteEvaluationButton,
+                      onPressed: () => _confirmDelete(context, ref),
                     ),
                   ],
-                ],
+                ),
               ),
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.delete_outline,
-                size: 20,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              tooltip: l10n.deleteEvaluationButton,
-              onPressed: () => _confirmDelete(context, ref),
             ),
           ],
         ),
