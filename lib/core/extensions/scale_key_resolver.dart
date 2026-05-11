@@ -235,8 +235,17 @@ extension AppLocalizationsScaleKeys on AppLocalizations {
     'abcd2DiabetesHelp': (l) => l.abcd2DiabetesHelp,
   };
 
+  // Aliases para valores legacy guardados antes de Fase 4.3 (2026-04-30).
+  // Corregidos en BD por migración 0008; este mapa actúa como red de seguridad.
+  static const Map<String, String> _legacyAliases = {
+    'Riesgo bajo (~1.0%)': 'abcd2RiskLow',
+    'Riesgo moderado (~4.1%)': 'abcd2RiskModerate',
+    'Riesgo alto (~8.1%)': 'abcd2RiskHigh',
+  };
+
   String resolveKey(String key) {
-    final fn = _keys[key];
+    final canonical = _legacyAliases[key] ?? key;
+    final fn = _keys[canonical];
     assert(
       fn != null,
       'resolveKey: clave "$key" no registrada en scale_key_resolver',
