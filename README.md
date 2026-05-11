@@ -53,6 +53,7 @@ gantt
     CI format fix + UI tab cleanup (~0.5h)    :done, mnt2, 2026-05-11, 1d
     Borrado pacientes + evaluaciones (~1h)    :done, mnt3, 2026-05-11, 1d
     Fix interpretation keys legacy BD (~1h)  :done, mnt4, 2026-05-11, 1d
+    Gráfico evolución: hora + eje temporal (~1h) :done, mnt5, 2026-05-11, 1d
 
     section Fase 5 · Design System & UX visual
     Design system + paleta + Inter (~30m)     :done, f5a,  2026-05-05, 1d
@@ -78,7 +79,7 @@ gantt
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
-> Total acumulado: **~62h** de trabajo activo (Fases 0–9 + Mantenimiento).
+> Total acumulado: **~63h** de trabajo activo (Fases 0–9 + Mantenimiento).
 
 ---
 
