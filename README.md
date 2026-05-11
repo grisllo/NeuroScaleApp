@@ -2,7 +2,7 @@
 
 Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la salud y estudiantes de medicina. Permite aplicar escalas neurológicas estandarizadas, calcular puntuaciones, interpretar resultados clínicos y registrar evaluaciones de forma anonimizada por paciente.
 
-**Producción web:** [neuroscale.netlify.app](https://neuroscale.netlify.app)
+**Producción web:** [grisllo.github.io/NeuroScaleApp](https://grisllo.github.io/NeuroScaleApp/)
 
 ---
 
@@ -131,7 +131,7 @@ gantt
 | Offline | Drift (SQLite) — Android e iOS |
 | i18n | intl + ARB files — ES + EN |
 | Error tracking | Sentry (condicional) |
-| CI/CD | GitHub Actions + Netlify |
+| CI/CD | GitHub Actions + GitHub Pages |
 
 ## Arquitectura
 

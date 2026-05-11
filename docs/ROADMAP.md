@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Proyecto completado: Fase 9** ✅ — Preparación beta completada 2026-05-09. Password reset, despliegue web en Netlify, APK Android firmado. 191 tests, CI verde.
+**Proyecto completado: Fase 9 + Mantenimiento** ✅ — Beta completada 2026-05-09. Password reset, APK Android firmado. Web desplegada en **GitHub Pages**: https://grisllo.github.io/NeuroScaleApp/ — 191 tests, CI verde, ~68h acumuladas.
 
 ---
 
@@ -364,12 +364,11 @@ Issue #13.
 
 ### Subfase 9.2 — Despliegue web ✅ Completada (2026-05-09)
 
-- `netlify.toml`: build automático desde GitHub con Flutter stable + variables de entorno
-- `web/_redirects`: SPA routing — todas las rutas sirven `index.html` (necesario para go_router con `usePathUrlStrategy`)
 - `web/index.html` + `web/manifest.json`: título, descripción y colores actualizados a marca NeuroScale (`#0F6F8A`)
 - `GoogleFonts.allowRuntimeFetching` condicional: `false` en móvil/desktop, runtime CDN en web
-- App desplegada en `https://neuroscaleapp.netlify.app`
-- Supabase redirect URLs configuradas para el dominio de Netlify
+- Desplegado inicialmente en Netlify (2026-05-09); migrado a **GitHub Pages** (2026-05-11)
+- Deploy actual: `.github/workflows/deploy.yml` → `https://grisllo.github.io/NeuroScaleApp/`
+- Supabase redirect URLs configuradas para el dominio de GitHub Pages
 
 **Commits**: `5ab5478` · `9985c7a`
 
