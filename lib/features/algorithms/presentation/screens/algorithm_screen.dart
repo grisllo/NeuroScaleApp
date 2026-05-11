@@ -82,11 +82,16 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 320),
           transitionBuilder: (child, animation) => FadeTransition(
-            opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+            opacity: CurvedAnimation(
+              parent: animation,
+              // Fade out fast (60% of duration) so the exiting child
+              // disappears before the slide asymmetry becomes noticeable.
+              curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
+            ),
             child: SlideTransition(
               position:
                   Tween<Offset>(
-                    begin: Offset(0.06 * direction, 0),
+                    begin: Offset(0.4 * direction, 0),
                     end: Offset.zero,
                   ).animate(
                     CurvedAnimation(
@@ -204,26 +209,16 @@ class _QuestionBody extends StatelessWidget {
         ),
         // ── Back button ────────────────────────────────────────────────────
         if (canGoBack)
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  width: 0.5,
-                ),
-              ),
-            ),
-            child: SafeArea(
-              top: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.tonalIcon(
-                    onPressed: onBack,
-                    icon: const Icon(Icons.arrow_back_rounded, size: 18),
-                    label: Text(l10n.algorithmBackButton),
-                  ),
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+              child: SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonalIcon(
+                  onPressed: onBack,
+                  icon: const Icon(Icons.arrow_back_rounded, size: 18),
+                  label: Text(l10n.algorithmBackButton),
                 ),
               ),
             ),
