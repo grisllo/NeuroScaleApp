@@ -20,41 +20,78 @@ class AlgorithmScreen extends ConsumerStatefulWidget {
   ConsumerState<AlgorithmScreen> createState() => _AlgorithmScreenState();
 }
 
-class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
-  bool _isGoingBack = false;
-  int _nodeIndex = 0;
+class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
+    with SingleTickerProviderStateMixin {
+  // exitDir: -1 = outgoing exits LEFT (forward), +1 = outgoing exits RIGHT (back)
+  double _exitDir = -1;
+  AlgorithmNode? _outgoingNode;
+  bool _outgoingCanGoBack = false;
+  late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 380),
+        )..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            setState(() => _outgoingNode = null);
+          }
+        });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(algorithmProvider.notifier).start(widget.definition);
     });
   }
 
-  void _step(String optionId) {
-    setState(() {
-      _isGoingBack = false;
-      _nodeIndex++;
-    });
-    ref.read(algorithmProvider.notifier).step(optionId);
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  void _back() {
+  void _navigate({required double exitDir, required VoidCallback action}) {
+    final algoState = ref.read(algorithmProvider);
+    if (algoState == null) return;
     setState(() {
-      _isGoingBack = true;
-      _nodeIndex--;
+      _exitDir = exitDir;
+      _outgoingNode = algoState.currentNode;
+      _outgoingCanGoBack = algoState.canGoBack;
     });
-    ref.read(algorithmProvider.notifier).back();
+    action();
+    _controller.forward(from: 0);
   }
+
+  void _step(String optionId) => _navigate(
+    exitDir: -1,
+    action: () => ref.read(algorithmProvider.notifier).step(optionId),
+  );
+
+  void _back() => _navigate(
+    exitDir: 1,
+    action: () => ref.read(algorithmProvider.notifier).back(),
+  );
 
   void _restart() {
-    setState(() {
-      _isGoingBack = false;
-      _nodeIndex = 0;
-    });
+    setState(() => _outgoingNode = null);
+    _controller.reset();
     ref.read(algorithmProvider.notifier).restart();
   }
+
+  Widget _buildNode(AlgorithmNode node, bool canGoBack, {bool active = true}) =>
+      switch (node) {
+        QuestionNode() => _QuestionBody(
+          node: node,
+          canGoBack: canGoBack,
+          onStep: active ? _step : (_) {},
+          onBack: active ? _back : () {},
+        ),
+        ResultNode() => _ResultBody(
+          node: node,
+          onRestart: active ? _restart : () {},
+        ),
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +103,6 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
     }
 
     final current = algoState.currentNode;
-    final direction = _isGoingBack ? -1.0 : 1.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,43 +114,39 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
           ),
         ],
       ),
-      body: ClipRect(
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 320),
-          transitionBuilder: (child, animation) => FadeTransition(
-            opacity: CurvedAnimation(
-              parent: animation,
-              // Fade out fast (60% of duration) so the exiting child
-              // disappears before the slide asymmetry becomes noticeable.
-              curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
-            ),
-            child: SlideTransition(
-              position:
-                  Tween<Offset>(
-                    begin: Offset(0.4 * direction, 0),
-                    end: Offset.zero,
-                  ).animate(
-                    CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeOutCubic,
-                    ),
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          final isAnimating = _outgoingNode != null;
+
+          if (!isAnimating) {
+            return _buildNode(current, algoState.canGoBack);
+          }
+
+          final t = Curves.easeInOutCubic.transform(_controller.value);
+
+          return ClipRect(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Outgoing: exits in _exitDir direction
+                FractionalTranslation(
+                  translation: Offset(_exitDir * t, 0),
+                  child: _buildNode(
+                    _outgoingNode!,
+                    _outgoingCanGoBack,
+                    active: false,
                   ),
-              child: child,
+                ),
+                // Incoming: enters from opposite side
+                FractionalTranslation(
+                  translation: Offset(-_exitDir * (1 - t), 0),
+                  child: _buildNode(current, algoState.canGoBack),
+                ),
+              ],
             ),
-          ),
-          child: KeyedSubtree(
-            key: ValueKey(_nodeIndex),
-            child: switch (current) {
-              QuestionNode() => _QuestionBody(
-                node: current,
-                canGoBack: algoState.canGoBack,
-                onStep: _step,
-                onBack: _back,
-              ),
-              ResultNode() => _ResultBody(node: current, onRestart: _restart),
-            },
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -207,7 +239,6 @@ class _QuestionBody extends StatelessWidget {
             ],
           ),
         ),
-        // ── Back button ────────────────────────────────────────────────────
         if (canGoBack)
           SafeArea(
             top: false,
