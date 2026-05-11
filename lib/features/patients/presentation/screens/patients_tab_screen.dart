@@ -6,6 +6,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/breakpoints.dart';
+import '../../../../core/widgets/animated_tap_scale.dart';
+import '../../../../core/widgets/app_empty_state.dart';
+import '../../../../core/widgets/app_loading_skeleton.dart';
+import '../../domain/entities/patient.dart';
+import '../providers/patients_controller.dart';
+import '../widgets/patient_edit_dialog.dart';
 
 // Paleta de fondos para avatares — todos con contraste suficiente para texto blanco.
 const _kAvatarPalette = [
@@ -20,13 +27,6 @@ const _kAvatarPalette = [
   Color(0xFF5D4037), // brown
   Color(0xFF00838F), // cyan
 ];
-import '../../../../core/utils/breakpoints.dart';
-import '../../../../core/widgets/animated_tap_scale.dart';
-import '../../../../core/widgets/app_empty_state.dart';
-import '../../../../core/widgets/app_loading_skeleton.dart';
-import '../../domain/entities/patient.dart';
-import '../providers/patients_controller.dart';
-import '../widgets/patient_edit_dialog.dart';
 
 class PatientsTabScreen extends ConsumerStatefulWidget {
   const PatientsTabScreen({super.key});
