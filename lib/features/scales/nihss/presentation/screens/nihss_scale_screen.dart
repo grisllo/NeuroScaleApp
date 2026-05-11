@@ -18,9 +18,9 @@ class NihssScaleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final answers = ref.watch(nihssAnswersProvider);
-    final allAnswered = _definition.items.every(
-      (item) => answers.containsKey(item.key),
-    );
+    final total = _definition.items.length;
+    final answered = answers.length;
+    final allAnswered = answered == total;
     final isComa = answers[nihssKey1aLoc] == 3;
 
     return Scaffold(
@@ -32,6 +32,13 @@ class NihssScaleScreen extends ConsumerWidget {
             child: Text(context.l10n.resetButton),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4),
+          child: LinearProgressIndicator(
+            value: total > 0 ? answered / total : 0,
+            minHeight: 4,
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -201,6 +208,11 @@ class _NihssItemCard extends StatelessWidget {
               )
             : null,
       ),
+      selected: selectedValue == opt.$1,
+      selectedTileColor: Theme.of(
+        context,
+      ).colorScheme.primaryContainer.withValues(alpha: 0.35),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       secondary: isUntestable
           ? null
           : opt.$1 > 0

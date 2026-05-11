@@ -27,6 +27,13 @@ class RankinScaleScreen extends ConsumerWidget {
             child: Text(context.l10n.resetButton),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4),
+          child: LinearProgressIndicator(
+            value: selected != null ? 1.0 : 0.0,
+            minHeight: 4,
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

@@ -18,9 +18,9 @@ class Abcd2ScaleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final answers = ref.watch(abcd2AnswersProvider);
-    final allAnswered = _definition.items.every(
-      (item) => answers.containsKey(item.key),
-    );
+    final total = _definition.items.length;
+    final answered = answers.length;
+    final allAnswered = answered == total;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,6 +31,13 @@ class Abcd2ScaleScreen extends ConsumerWidget {
             child: Text(context.l10n.resetButton),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4),
+          child: LinearProgressIndicator(
+            value: total > 0 ? answered / total : 0,
+            minHeight: 4,
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -99,6 +106,7 @@ class _Abcd2ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -121,23 +129,23 @@ class _Abcd2ItemCard extends StatelessWidget {
                     labelKey: item.labelKey,
                     helpKey: item.helpKey!,
                   ),
-                if (selectedValue != null)
+                if (selectedValue != null) ...[
+                  const SizedBox(width: 8),
                   Chip(
                     label: Text('+$selectedValue'),
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.primaryContainer,
+                    backgroundColor: scheme.primaryContainer,
                     labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      color: scheme.onPrimaryContainer,
                       fontWeight: FontWeight.bold,
                     ),
                     padding: EdgeInsets.zero,
                   ),
+                ],
               ],
             ),
             const SizedBox(height: 8),
             ...item.options.map(
-              ((int, String) opt) => RadioListTile<int>(
+              (opt) => RadioListTile<int>(
                 value: opt.$1,
                 // ignore: deprecated_member_use
                 groupValue: selectedValue,
@@ -153,6 +161,13 @@ class _Abcd2ItemCard extends StatelessWidget {
                     : null,
                 dense: true,
                 contentPadding: EdgeInsets.zero,
+                selected: selectedValue == opt.$1,
+                selectedTileColor: scheme.primaryContainer.withValues(
+                  alpha: 0.35,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ],
