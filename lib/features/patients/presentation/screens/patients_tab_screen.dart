@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
-import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/breakpoints.dart';
+import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../core/widgets/app_empty_state.dart';
 import '../../../../core/widgets/app_loading_skeleton.dart';
 import '../../domain/entities/patient.dart';
@@ -125,13 +125,16 @@ class _PatientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return Card(
-      child: InkWell(
-        onTap: () => context.pushNamed(
-          'patient-detail',
-          pathParameters: {'id': patient.id},
-        ),
-        borderRadius: BorderRadius.circular(AppRadii.lg),
+    final initial = patient.alias.isNotEmpty
+        ? patient.alias[0].toUpperCase()
+        : '?';
+
+    return AnimatedTapScale(
+      onTap: () => context.pushNamed(
+        'patient-detail',
+        pathParameters: {'id': patient.id},
+      ),
+      child: Card(
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -139,17 +142,15 @@ class _PatientCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: scheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(AppRadii.md),
-                ),
-                child: Icon(
-                  Icons.person_outline_rounded,
-                  color: scheme.onPrimaryContainer,
-                  size: 22,
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: scheme.primaryContainer,
+                child: Text(
+                  initial,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: scheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -172,11 +173,6 @@ class _PatientCard extends StatelessWidget {
                     ],
                   ],
                 ),
-              ),
-              Icon(
-                Icons.chevron_right,
-                color: scheme.onSurfaceVariant,
-                size: 20,
               ),
             ],
           ),
