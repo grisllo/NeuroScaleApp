@@ -80,7 +80,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                     validator: (v) {
-                      if (v == null || v.isEmpty) return l10n.fieldRequiredError;
+                      if (v == null || v.isEmpty) {
+                        return l10n.fieldRequiredError;
+                      }
                       if (v.length < 8 ||
                           !RegExp(r'[a-zA-Z]').hasMatch(v) ||
                           !RegExp(r'[0-9]').hasMatch(v)) {
@@ -100,7 +102,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                     autocorrect: false,
                     enableSuggestions: false,
                     validator: (v) {
-                      if (v == null || v.isEmpty) return l10n.fieldRequiredError;
+                      if (v == null || v.isEmpty) {
+                        return l10n.fieldRequiredError;
+                      }
                       if (v != _passwordController.text) {
                         return l10n.passwordMismatchError;
                       }

@@ -141,8 +141,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       child: Text(
                         _authErrorMessage(authState.error, l10n),
                         style: TextStyle(
-                          color: authState.error
-                                  is EmailConfirmationPendingFailure
+                          color:
+                              authState.error is EmailConfirmationPendingFailure
                               ? Theme.of(context).colorScheme.primary
                               : Theme.of(context).colorScheme.error,
                         ),

@@ -43,7 +43,9 @@ class AuthController extends AsyncNotifier<AppUser?> {
     try {
       return ref.read(authRepositoryProvider);
     } catch (_) {
-      throw const ConfigFailure('El servidor no está disponible. Comprueba tu conexión.');
+      throw const ConfigFailure(
+        'El servidor no está disponible. Comprueba tu conexión.',
+      );
     }
   }
 }

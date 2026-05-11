@@ -18,10 +18,9 @@ class PasswordResetController extends AsyncNotifier<void> {
       final redirectTo = Env.redirectUrl.isEmpty
           ? null
           : '${Env.redirectUrl}/reset-password';
-      await RequestPasswordResetUseCase(repo).call(
-        email: email,
-        redirectTo: redirectTo,
-      );
+      await RequestPasswordResetUseCase(
+        repo,
+      ).call(email: email, redirectTo: redirectTo);
     });
   }
 
@@ -37,12 +36,14 @@ class PasswordResetController extends AsyncNotifier<void> {
     try {
       return ref.read(authRepositoryProvider);
     } catch (_) {
-      throw const ConfigFailure('El servidor no está disponible. Comprueba tu conexión.');
+      throw const ConfigFailure(
+        'El servidor no está disponible. Comprueba tu conexión.',
+      );
     }
   }
 }
 
 final passwordResetControllerProvider =
     AsyncNotifierProvider<PasswordResetController, void>(
-  PasswordResetController.new,
-);
+      PasswordResetController.new,
+    );

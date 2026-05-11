@@ -61,7 +61,10 @@ class AuthRepositoryImpl implements AuthRepository {
     String? redirectTo,
   }) async {
     try {
-      await _datasource.requestPasswordReset(email: email, redirectTo: redirectTo);
+      await _datasource.requestPasswordReset(
+        email: email,
+        redirectTo: redirectTo,
+      );
     } on ConnectionException catch (e) {
       throw NetworkFailure(e.message);
     } on AppException catch (e) {

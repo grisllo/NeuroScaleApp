@@ -32,5 +32,5 @@ final class ConfigFailure extends Failure {
 
 final class EmailConfirmationPendingFailure extends Failure {
   const EmailConfirmationPendingFailure()
-      : super('Revisa tu email para confirmar la cuenta.');
+    : super('Revisa tu email para confirmar la cuenta.');
 }

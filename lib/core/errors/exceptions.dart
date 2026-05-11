@@ -28,5 +28,5 @@ class ConfigurationException extends AppException {
 
 class EmailConfirmationPendingException extends AppException {
   const EmailConfirmationPendingException()
-      : super('Email pendiente de confirmación.');
+    : super('Email pendiente de confirmación.');
 }
