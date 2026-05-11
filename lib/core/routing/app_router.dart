@@ -61,72 +61,60 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const ResetPasswordScreen(),
       ),
 
-      // ── Scale screens (fullscreen, no shell, pushed from ScalesTab) ────
-      GoRoute(
-        path: '/scales/gcs',
-        name: 'gcs',
-        builder: (_, _) => const GcsScaleScreen(),
-      ),
-      GoRoute(
-        path: '/scales/nihss',
-        name: 'nihss',
-        builder: (_, _) => const NihssScaleScreen(),
-      ),
-      GoRoute(
-        path: '/scales/rankin',
-        name: 'rankin',
-        builder: (_, _) => const RankinScaleScreen(),
-      ),
-      GoRoute(
-        path: '/scales/barthel',
-        name: 'barthel',
-        builder: (_, _) => const BarthelScaleScreen(),
-      ),
-      GoRoute(
-        path: '/scales/abcd2',
-        name: 'abcd2',
-        builder: (_, _) => const Abcd2ScaleScreen(),
-      ),
-
-      // ── Algorithm execution (fullscreen, no shell) ───────────────────
-      GoRoute(
-        path: '/algorithms/:id',
-        name: 'algorithm',
-        builder: (_, state) {
-          final id = state.pathParameters['id']!;
-          final definition = kAlgorithms.firstWhere((a) => a.id == id);
-          return AlgorithmScreen(definition: definition);
-        },
-      ),
-
-      // ── Result (fullscreen, no shell) ─────────────────────────────────
-      GoRoute(
-        path: '/result',
-        name: 'result',
-        builder: (_, state) {
-          final extra = state.extra;
-          if (extra == null) return const SizedBox.shrink();
-          final (result, title, type) = extra as (ScaleResult, String, String);
-          return ResultScreen(
-            result: result,
-            scaleTitle: title,
-            scaleType: type,
-          );
-        },
-      ),
-
       // ── Shell with bottom navigation ──────────────────────────────────
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             AppShell(navigationShell: navigationShell),
         branches: [
-          // Branch 0 — Inicio (escalas)
+          // Branch 0 — Escalas (+ pantallas de escala y resultado)
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: '/',
                 name: 'home',
                 builder: (_, _) => const ScalesTabScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'scales/gcs',
+                    name: 'gcs',
+                    builder: (_, _) => const GcsScaleScreen(),
+                  ),
+                  GoRoute(
+                    path: 'scales/nihss',
+                    name: 'nihss',
+                    builder: (_, _) => const NihssScaleScreen(),
+                  ),
+                  GoRoute(
+                    path: 'scales/rankin',
+                    name: 'rankin',
+                    builder: (_, _) => const RankinScaleScreen(),
+                  ),
+                  GoRoute(
+                    path: 'scales/barthel',
+                    name: 'barthel',
+                    builder: (_, _) => const BarthelScaleScreen(),
+                  ),
+                  GoRoute(
+                    path: 'scales/abcd2',
+                    name: 'abcd2',
+                    builder: (_, _) => const Abcd2ScaleScreen(),
+                  ),
+                  GoRoute(
+                    path: 'result',
+                    name: 'result',
+                    builder: (_, state) {
+                      final extra = state.extra;
+                      if (extra == null) return const SizedBox.shrink();
+                      final (result, title, type) =
+                          extra as (ScaleResult, String, String);
+                      return ResultScreen(
+                        result: result,
+                        scaleTitle: title,
+                        scaleType: type,
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -149,13 +137,26 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // Branch 2 — Algoritmos
+          // Branch 2 — Algoritmos (+ pantalla de ejecución)
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: '/algorithms',
                 name: 'algorithms',
                 builder: (_, _) => const AlgorithmsTabScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: 'algorithm',
+                    builder: (_, state) {
+                      final id = state.pathParameters['id']!;
+                      final definition = kAlgorithms.firstWhere(
+                        (a) => a.id == id,
+                      );
+                      return AlgorithmScreen(definition: definition);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
