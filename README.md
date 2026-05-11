@@ -48,6 +48,7 @@ gantt
     4.4 Pantalla de perfil (~30m)             :done, f4d,  2026-04-30, 1d
 
     section Mantenimiento
+    CI Node.js 24 + Android compat (~1h)      :done, mnt0, 2026-04-28, 1d
     CI + compat. deps + i18n fixes (~2h)      :done, mnt,  2026-05-04, 1d
     CI format fix + UI tab cleanup (~0.5h)    :done, mnt2, 2026-05-11, 1d
     Borrado pacientes + evaluaciones (~1h)    :done, mnt3, 2026-05-11, 1d
@@ -76,7 +77,7 @@ gantt
 ```
 
 > Las estimaciones `(~Xh/m)` se derivan de los timestamps de los commits de git.
-> Total acumulado: **~60h** de trabajo activo (Fases 0–9 + Mantenimiento).
+> Total acumulado: **~61h** de trabajo activo (Fases 0–9 + Mantenimiento).
 
 ---
 
