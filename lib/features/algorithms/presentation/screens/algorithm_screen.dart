@@ -34,7 +34,7 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
     _controller =
         AnimationController(
           vsync: this,
-          duration: const Duration(milliseconds: 380),
+          duration: const Duration(milliseconds: 320),
         )..addStatusListener((status) {
           if (status == AnimationStatus.completed) {
             setState(() => _outgoingNode = null);
@@ -123,36 +123,24 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
             return _buildNode(current, algoState.canGoBack);
           }
 
-          final t = _controller.value;
-          // Incoming snaps to position early (75% of duration), then stays.
-          final inT = const Interval(
-            0,
-            0.75,
-            curve: Curves.easeOutCubic,
-          ).transform(t);
-          // Outgoing slides and fades with easeIn (accelerates toward end).
-          final outT = Curves.easeIn.transform(t);
-          final outOpacity = (1 - outT).clamp(0.0, 1.0);
+          final t = Curves.easeOut.transform(_controller.value);
 
           return ClipRect(
             child: Stack(
               fit: StackFit.expand,
               children: [
-                // Outgoing: slides out + fades
-                Opacity(
-                  opacity: outOpacity,
-                  child: FractionalTranslation(
-                    translation: Offset(_exitDir * outT, 0),
-                    child: _buildNode(
-                      _outgoingNode!,
-                      _outgoingCanGoBack,
-                      active: false,
-                    ),
+                // Outgoing: exits in _exitDir direction
+                FractionalTranslation(
+                  translation: Offset(_exitDir * t, 0),
+                  child: _buildNode(
+                    _outgoingNode!,
+                    _outgoingCanGoBack,
+                    active: false,
                   ),
                 ),
-                // Incoming: snaps in fast from opposite side
+                // Incoming: enters from opposite side
                 FractionalTranslation(
-                  translation: Offset(-_exitDir * (1 - inT), 0),
+                  translation: Offset(-_exitDir * (1 - t), 0),
                   child: _buildNode(current, algoState.canGoBack),
                 ),
               ],
