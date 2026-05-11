@@ -21,12 +21,39 @@ class AlgorithmScreen extends ConsumerStatefulWidget {
 }
 
 class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
+  bool _isGoingBack = false;
+  int _nodeIndex = 0;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(algorithmProvider.notifier).start(widget.definition);
     });
+  }
+
+  void _step(String optionId) {
+    setState(() {
+      _isGoingBack = false;
+      _nodeIndex++;
+    });
+    ref.read(algorithmProvider.notifier).step(optionId);
+  }
+
+  void _back() {
+    setState(() {
+      _isGoingBack = true;
+      _nodeIndex--;
+    });
+    ref.read(algorithmProvider.notifier).back();
+  }
+
+  void _restart() {
+    setState(() {
+      _isGoingBack = false;
+      _nodeIndex = 0;
+    });
+    ref.read(algorithmProvider.notifier).restart();
   }
 
   @override
@@ -39,38 +66,72 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen> {
     }
 
     final current = algoState.currentNode;
+    final direction = _isGoingBack ? -1.0 : 1.0;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.algo(widget.definition.titleKey)),
         actions: [
           TextButton(
-            onPressed: () => ref.read(algorithmProvider.notifier).restart(),
+            onPressed: _restart,
             child: Text(l10n.algorithmRestartButton),
           ),
         ],
       ),
-      body: switch (current) {
-        QuestionNode() => _QuestionBody(
-          node: current,
-          canGoBack: algoState.canGoBack,
+      body: ClipRect(
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 320),
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+            child: SlideTransition(
+              position:
+                  Tween<Offset>(
+                    begin: Offset(0.06 * direction, 0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    ),
+                  ),
+              child: child,
+            ),
+          ),
+          child: KeyedSubtree(
+            key: ValueKey(_nodeIndex),
+            child: switch (current) {
+              QuestionNode() => _QuestionBody(
+                node: current,
+                canGoBack: algoState.canGoBack,
+                onStep: _step,
+                onBack: _back,
+              ),
+              ResultNode() => _ResultBody(node: current, onRestart: _restart),
+            },
+          ),
         ),
-        ResultNode() => _ResultBody(node: current),
-      },
+      ),
     );
   }
 }
 
 // ── Question ──────────────────────────────────────────────────────────────────
 
-class _QuestionBody extends ConsumerWidget {
-  const _QuestionBody({required this.node, required this.canGoBack});
+class _QuestionBody extends StatelessWidget {
+  const _QuestionBody({
+    required this.node,
+    required this.canGoBack,
+    required this.onStep,
+    required this.onBack,
+  });
 
   final QuestionNode node;
   final bool canGoBack;
+  final void Function(String optionId) onStep;
+  final VoidCallback onBack;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     final hint = node.hintKey != null ? l10n.algo(node.hintKey!) : null;
@@ -110,8 +171,7 @@ class _QuestionBody extends ConsumerWidget {
                 (opt) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: AnimatedTapScale(
-                    onTap: () =>
-                        ref.read(algorithmProvider.notifier).step(opt.id),
+                    onTap: () => onStep(opt.id),
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -142,16 +202,28 @@ class _QuestionBody extends ConsumerWidget {
             ],
           ),
         ),
+        // ── Back button ────────────────────────────────────────────────────
         if (canGoBack)
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: SizedBox(
-                width: double.infinity,
-                child: TextButton.icon(
-                  onPressed: () => ref.read(algorithmProvider.notifier).back(),
-                  icon: const Icon(Icons.arrow_back_rounded, size: 18),
-                  label: Text(l10n.algorithmBackButton),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: 0.5,
+                ),
+              ),
+            ),
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.tonalIcon(
+                    onPressed: onBack,
+                    icon: const Icon(Icons.arrow_back_rounded, size: 18),
+                    label: Text(l10n.algorithmBackButton),
+                  ),
                 ),
               ),
             ),
@@ -163,15 +235,15 @@ class _QuestionBody extends ConsumerWidget {
 
 // ── Result ────────────────────────────────────────────────────────────────────
 
-class _ResultBody extends ConsumerWidget {
-  const _ResultBody({required this.node});
+class _ResultBody extends StatelessWidget {
+  const _ResultBody({required this.node, required this.onRestart});
 
   final ResultNode node;
+  final VoidCallback onRestart;
 
   ClinicalColorPair _urgencyColors(
     AlgorithmUrgency urgency,
     ClinicalColors clinical,
-    ColorScheme scheme,
   ) => switch (urgency) {
     AlgorithmUrgency.info => clinical.info,
     AlgorithmUrgency.low => clinical.success,
@@ -189,18 +261,16 @@ class _ResultBody extends ConsumerWidget {
   };
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final scheme = Theme.of(context).colorScheme;
     final clinical = Theme.of(context).clinicalColors;
-    final pair = _urgencyColors(node.urgency, clinical, scheme);
+    final pair = _urgencyColors(node.urgency, clinical);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Urgency banner — uses ClinicalColors, adapts to dark mode
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -224,7 +294,6 @@ class _ResultBody extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          // Result title
           Text(
             l10n.algo(node.titleKey),
             style: Theme.of(
@@ -232,7 +301,6 @@ class _ResultBody extends ConsumerWidget {
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
-          // Recommendations
           Text(
             l10n.algorithmResultTitle,
             style: Theme.of(
@@ -284,7 +352,7 @@ class _ResultBody extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
-              onPressed: () => ref.read(algorithmProvider.notifier).restart(),
+              onPressed: onRestart,
               icon: const Icon(Icons.refresh_rounded),
               label: Text(l10n.algorithmRestartButton),
             ),
