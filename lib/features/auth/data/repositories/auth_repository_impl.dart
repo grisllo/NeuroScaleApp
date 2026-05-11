@@ -84,4 +84,15 @@ class AuthRepositoryImpl implements AuthRepository {
       throw UnexpectedFailure(e.message);
     }
   }
+
+  @override
+  Future<void> deleteAccount() async {
+    try {
+      await _datasource.deleteAccount();
+    } on ConnectionException catch (e) {
+      throw NetworkFailure(e.message);
+    } on AppException catch (e) {
+      throw UnexpectedFailure(e.message);
+    }
+  }
 }

@@ -10,4 +10,5 @@ abstract class AuthRepository {
     String? redirectTo,
   });
   Future<void> updatePassword({required String password});
+  Future<void> deleteAccount();
 }

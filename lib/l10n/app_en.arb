@@ -163,6 +163,45 @@
   "signOutButton": "Sign out",
   "@signOutButton": { "description": "Sign out button" },
 
+  "profileAccountSection": "Account",
+  "@profileAccountSection": { "description": "Account section header in profile" },
+
+  "profilePreferencesSection": "Preferences",
+  "@profilePreferencesSection": { "description": "Preferences section header in profile" },
+
+  "profileSessionSection": "Session",
+  "@profileSessionSection": { "description": "Session section header in profile" },
+
+  "profileDangerZoneSection": "Danger zone",
+  "@profileDangerZoneSection": { "description": "Danger zone section header in profile" },
+
+  "changePasswordButton": "Change password",
+  "@changePasswordButton": { "description": "Change password button" },
+
+  "changePasswordTitle": "New password",
+  "@changePasswordTitle": { "description": "Change password dialog title" },
+
+  "newPasswordLabel": "New password",
+  "@newPasswordLabel": { "description": "New password field" },
+
+  "confirmNewPasswordLabel": "Confirm new password",
+  "@confirmNewPasswordLabel": { "description": "Confirm new password field" },
+
+  "changePasswordSuccess": "Password updated successfully",
+  "@changePasswordSuccess": { "description": "Success message after changing password" },
+
+  "deleteAccountButton": "Delete account",
+  "@deleteAccountButton": { "description": "Delete account button" },
+
+  "deleteAccountConfirmTitle": "Delete account?",
+  "@deleteAccountConfirmTitle": { "description": "Delete account confirmation dialog title" },
+
+  "deleteAccountConfirmBody": "Your account and all your data (patients and assessments) will be permanently deleted. This action cannot be undone.",
+  "@deleteAccountConfirmBody": { "description": "Delete account confirmation dialog body" },
+
+  "deleteAccountSuccess": "Account deleted",
+  "@deleteAccountSuccess": { "description": "Success message after deleting account" },
+
   "genericErrorMessage": "An unexpected error occurred",
   "@genericErrorMessage": { "description": "Generic error message" },
 

@@ -163,6 +163,45 @@
   "signOutButton": "Cerrar sesión",
   "@signOutButton": { "description": "Botón de cerrar sesión" },
 
+  "profileAccountSection": "Cuenta",
+  "@profileAccountSection": { "description": "Cabecera sección cuenta en perfil" },
+
+  "profilePreferencesSection": "Preferencias",
+  "@profilePreferencesSection": { "description": "Cabecera sección preferencias en perfil" },
+
+  "profileSessionSection": "Sesión",
+  "@profileSessionSection": { "description": "Cabecera sección sesión en perfil" },
+
+  "profileDangerZoneSection": "Zona peligrosa",
+  "@profileDangerZoneSection": { "description": "Cabecera sección zona peligrosa en perfil" },
+
+  "changePasswordButton": "Cambiar contraseña",
+  "@changePasswordButton": { "description": "Botón para cambiar contraseña" },
+
+  "changePasswordTitle": "Nueva contraseña",
+  "@changePasswordTitle": { "description": "Título del diálogo de cambio de contraseña" },
+
+  "newPasswordLabel": "Nueva contraseña",
+  "@newPasswordLabel": { "description": "Campo nueva contraseña" },
+
+  "confirmNewPasswordLabel": "Confirmar nueva contraseña",
+  "@confirmNewPasswordLabel": { "description": "Campo confirmar nueva contraseña" },
+
+  "changePasswordSuccess": "Contraseña actualizada correctamente",
+  "@changePasswordSuccess": { "description": "Mensaje de éxito al cambiar contraseña" },
+
+  "deleteAccountButton": "Borrar cuenta",
+  "@deleteAccountButton": { "description": "Botón para borrar cuenta" },
+
+  "deleteAccountConfirmTitle": "¿Borrar cuenta?",
+  "@deleteAccountConfirmTitle": { "description": "Título del diálogo de confirmación de borrado de cuenta" },
+
+  "deleteAccountConfirmBody": "Se eliminarán permanentemente tu cuenta y todos tus datos (pacientes y evaluaciones). Esta acción no se puede deshacer.",
+  "@deleteAccountConfirmBody": { "description": "Cuerpo del diálogo de confirmación de borrado de cuenta" },
+
+  "deleteAccountSuccess": "Cuenta eliminada",
+  "@deleteAccountSuccess": { "description": "Mensaje de éxito al borrar cuenta" },
+
   "genericErrorMessage": "Ha ocurrido un error inesperado",
   "@genericErrorMessage": { "description": "Mensaje de error genérico" },
 

@@ -101,4 +101,20 @@ class SupabaseAuthDatasource {
       throw ServerException(e.toString());
     }
   }
+
+  Future<void> deleteAccount() async {
+    try {
+      final response = await _client.functions.invoke('delete-account');
+      if (response.status != 200) {
+        throw ServerException(
+          'Error al borrar la cuenta (${response.status}).',
+        );
+      }
+    } on SocketException {
+      throw const ConnectionException('Sin conexión a internet.');
+    } catch (e) {
+      if (e is ServerException || e is ConnectionException) rethrow;
+      throw ServerException(e.toString());
+    }
+  }
 }
