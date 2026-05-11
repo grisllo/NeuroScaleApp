@@ -140,15 +140,14 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── SESIÓN ───────────────────────────────────────────────────
-              _SectionHeader(label: l10n.profileSessionSection),
-              const SizedBox(height: 8),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.logout_rounded),
-                  title: Text(l10n.signOutButton),
-                  onTap: () =>
+              // ── CERRAR SESIÓN ─────────────────────────────────────────────
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonalIcon(
+                  onPressed: () =>
                       ref.read(authControllerProvider.notifier).signOut(),
+                  icon: const Icon(Icons.logout_rounded, size: 18),
+                  label: Text(l10n.signOutButton),
                 ),
               ),
               const SizedBox(height: 24),
