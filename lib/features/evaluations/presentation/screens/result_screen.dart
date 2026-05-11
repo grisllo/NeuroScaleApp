@@ -94,21 +94,38 @@ class ResultScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(scaleTitle)),
       body: Column(
         children: [
-          // ── Severity hero ─────────────────────────────────────────────────
-          Container(
-            width: double.infinity,
-            color: clinicalPair.surface,
-            padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
+          // ── Severity hero — bullseye circle ──────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
             child: Column(
               children: [
-                RepaintBoundary(
-                  child: AnimatedScore(
-                    score: result.totalScore,
-                    maxScore: result.maxScore,
-                    color: clinicalPair.foreground,
+                Container(
+                  width: 172,
+                  height: 172,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: clinicalPair.surface,
+                    border: Border.all(
+                      color: clinicalPair.foreground,
+                      width: 4,
+                    ),
+                  ),
+                  child: Center(
+                    child: RepaintBoundary(
+                      child: AnimatedScore(
+                        score: result.totalScore,
+                        maxScore: result.maxScore,
+                        color: clinicalPair.foreground,
+                        style: Theme.of(context).textTheme.headlineLarge
+                            ?.copyWith(
+                              color: clinicalPair.foreground,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 SeverityBadge(
                   severity: result.severity,
                   label: l10n.resolveKey(result.severity.interpretationKey),
