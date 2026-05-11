@@ -5,6 +5,7 @@ import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/utils/breakpoints.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
+import '../../../evaluations/presentation/providers/evaluation_provider.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patient_provider.dart';
 import '../providers/patients_controller.dart';
@@ -31,15 +32,26 @@ class PatientDetailScreen extends ConsumerWidget {
       orElse: () => Text(l10n.patientsTitle),
     );
 
-    Widget buildEditAction() => patientAsync.maybeWhen(
-      data: (p) => p != null
-          ? IconButton(
+    Widget buildActions() => patientAsync.maybeWhen(
+      data: (p) {
+        if (p == null) return const SizedBox.shrink();
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
               icon: const Icon(Icons.edit_outlined),
               onPressed: () async {
                 await PatientEditDialog.show(context, initial: p);
               },
-            )
-          : const SizedBox.shrink(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: l10n.deletePatientConfirmTitle,
+              onPressed: () => _confirmDeletePatient(context, ref, p),
+            ),
+          ],
+        );
+      },
       orElse: () => const SizedBox.shrink(),
     );
 
@@ -72,6 +84,7 @@ class PatientDetailScreen extends ConsumerWidget {
                     child: _EvaluationsTab(
                       patient: patient,
                       evaluations: evals,
+                      patientId: patientId,
                     ),
                   ),
                   const VerticalDivider(thickness: 1, width: 1),
@@ -81,7 +94,11 @@ class PatientDetailScreen extends ConsumerWidget {
             }
             return TabBarView(
               children: [
-                _EvaluationsTab(patient: patient, evaluations: evals),
+                _EvaluationsTab(
+                  patient: patient,
+                  evaluations: evals,
+                  patientId: patientId,
+                ),
                 PatientEvolutionChart(evaluations: evals),
               ],
             );
@@ -92,7 +109,7 @@ class PatientDetailScreen extends ConsumerWidget {
 
     if (isTablet) {
       return Scaffold(
-        appBar: AppBar(title: buildTitle(), actions: [buildEditAction()]),
+        appBar: AppBar(title: buildTitle(), actions: [buildActions()]),
         body: buildBody(),
       );
     }
@@ -102,7 +119,7 @@ class PatientDetailScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: buildTitle(),
-          actions: [buildEditAction()],
+          actions: [buildActions()],
           bottom: TabBar(
             tabs: [
               Tab(text: l10n.listTab),
@@ -114,6 +131,45 @@ class PatientDetailScreen extends ConsumerWidget {
       ),
     );
   }
+
+  Future<void> _confirmDeletePatient(
+    BuildContext context,
+    WidgetRef ref,
+    Patient patient,
+  ) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.deletePatientConfirmTitle),
+        content: Text(l10n.deletePatientConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(l10n.cancelButton),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(l10n.deleteButton),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    await ref.read(patientsControllerProvider.notifier).delete(patient.id);
+
+    if (!context.mounted) return;
+    Navigator.of(context).pop();
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.deletePatientSuccessMessage)));
+  }
 }
 
 final _patientByIdProvider = FutureProvider.autoDispose
@@ -122,10 +178,15 @@ final _patientByIdProvider = FutureProvider.autoDispose
     );
 
 class _EvaluationsTab extends StatelessWidget {
-  const _EvaluationsTab({required this.patient, required this.evaluations});
+  const _EvaluationsTab({
+    required this.patient,
+    required this.evaluations,
+    required this.patientId,
+  });
 
   final Patient patient;
   final List<Evaluation> evaluations;
+  final String patientId;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +205,9 @@ class _EvaluationsTab extends StatelessWidget {
         if (evaluations.isEmpty)
           const _NoEvaluationsCard()
         else
-          ...evaluations.map((e) => _EvaluationTile(eval: e)),
+          ...evaluations.map(
+            (e) => _EvaluationTile(eval: e, patientId: patientId),
+          ),
       ],
     );
   }
@@ -229,13 +292,15 @@ class _NoEvaluationsCard extends StatelessWidget {
   }
 }
 
-class _EvaluationTile extends StatelessWidget {
-  const _EvaluationTile({required this.eval});
+class _EvaluationTile extends ConsumerWidget {
+  const _EvaluationTile({required this.eval, required this.patientId});
 
   final Evaluation eval;
+  final String patientId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final hasNotes = eval.caseDescription.trim().isNotEmpty;
     return Card(
       child: Padding(
@@ -277,10 +342,54 @@ class _EvaluationTile extends StatelessWidget {
                 ],
               ),
             ),
+            IconButton(
+              icon: Icon(
+                Icons.delete_outline,
+                size: 20,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              tooltip: l10n.deleteEvaluationButton,
+              onPressed: () => _confirmDelete(context, ref),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.deleteConfirmTitle),
+        content: Text(l10n.deleteConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(l10n.cancelButton),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+              foregroundColor: Theme.of(ctx).colorScheme.onError,
+            ),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(l10n.deleteButton),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    await ref.read(evaluationRepositoryProvider).delete(eval.id);
+
+    if (!context.mounted) return;
+    ref.invalidate(patientEvaluationsProvider(patientId));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.deleteSuccessMessage)));
   }
 }
 

@@ -199,6 +199,18 @@
   "deleteSuccessMessage": "Evaluación eliminada correctamente",
   "@deleteSuccessMessage": { "description": "Mensaje de éxito al borrar evaluación" },
 
+  "deleteButton": "Borrar",
+  "@deleteButton": { "description": "Botón de confirmación en diálogos de borrado" },
+
+  "deletePatientConfirmTitle": "¿Borrar paciente?",
+  "@deletePatientConfirmTitle": { "description": "Título del diálogo de confirmación de borrado de paciente" },
+
+  "deletePatientConfirmBody": "Se eliminarán también todas sus evaluaciones. Esta acción no se puede deshacer.",
+  "@deletePatientConfirmBody": { "description": "Cuerpo del diálogo de confirmación de borrado de paciente" },
+
+  "deletePatientSuccessMessage": "Paciente eliminado",
+  "@deletePatientSuccessMessage": { "description": "Mensaje de éxito al borrar paciente" },
+
   "filterByScale": "Filtrar por escala",
   "@filterByScale": { "description": "Tooltip del filtro de escala en historial" },
 

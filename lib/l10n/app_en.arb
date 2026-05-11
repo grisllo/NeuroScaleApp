@@ -199,6 +199,18 @@
   "deleteSuccessMessage": "Assessment deleted successfully",
   "@deleteSuccessMessage": { "description": "Delete success message" },
 
+  "deleteButton": "Delete",
+  "@deleteButton": { "description": "Confirmation button in delete dialogs" },
+
+  "deletePatientConfirmTitle": "Delete patient?",
+  "@deletePatientConfirmTitle": { "description": "Delete patient confirmation dialog title" },
+
+  "deletePatientConfirmBody": "All their assessments will also be deleted. This action cannot be undone.",
+  "@deletePatientConfirmBody": { "description": "Delete patient confirmation dialog body" },
+
+  "deletePatientSuccessMessage": "Patient deleted",
+  "@deletePatientSuccessMessage": { "description": "Delete patient success message" },
+
   "filterByScale": "Filter by scale",
   "@filterByScale": { "description": "Scale filter tooltip in history" },
 
