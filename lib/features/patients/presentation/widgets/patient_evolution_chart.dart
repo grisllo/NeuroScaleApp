@@ -89,7 +89,30 @@ class _ScaleChart extends StatelessWidget {
       return FlSpot(entry.key.toDouble(), normalized.clamp(0, 100));
     }).toList();
 
-    final labelStep = (evaluations.length / 5).ceil().clamp(1, 999);
+    // Indices where the calendar date changes (first evaluation of each day).
+    final firstOfDay = <int>{};
+    for (var i = 0; i < evaluations.length; i++) {
+      if (i == 0) {
+        firstOfDay.add(i);
+      } else {
+        final curr = evaluations[i].createdAt;
+        final prev = evaluations[i - 1].createdAt;
+        if (curr.day != prev.day ||
+            curr.month != prev.month ||
+            curr.year != prev.year) {
+          firstOfDay.add(i);
+        }
+      }
+    }
+    // Thin further if there are more than 5 distinct dates.
+    final step = (firstOfDay.length / 5).ceil().clamp(1, 999);
+    final visibleLabels = firstOfDay
+        .toList()
+        .asMap()
+        .entries
+        .where((e) => e.key % step == 0)
+        .map((e) => e.value)
+        .toSet();
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -152,9 +175,7 @@ class _ScaleChart extends StatelessWidget {
                         reservedSize: 28,
                         getTitlesWidget: (value, meta) {
                           final i = value.toInt();
-                          if (i < 0 ||
-                              i >= evaluations.length ||
-                              i % labelStep != 0) {
+                          if (!visibleLabels.contains(i)) {
                             return const SizedBox();
                           }
                           final dt = evaluations[i].createdAt;
