@@ -123,24 +123,36 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
             return _buildNode(current, algoState.canGoBack);
           }
 
-          final t = Curves.easeInOutCubic.transform(_controller.value);
+          final t = _controller.value;
+          // Incoming snaps to position early (75% of duration), then stays.
+          final inT = const Interval(
+            0,
+            0.75,
+            curve: Curves.easeOutCubic,
+          ).transform(t);
+          // Outgoing slides and fades with easeIn (accelerates toward end).
+          final outT = Curves.easeIn.transform(t);
+          final outOpacity = (1 - outT).clamp(0.0, 1.0);
 
           return ClipRect(
             child: Stack(
               fit: StackFit.expand,
               children: [
-                // Outgoing: exits in _exitDir direction
-                FractionalTranslation(
-                  translation: Offset(_exitDir * t, 0),
-                  child: _buildNode(
-                    _outgoingNode!,
-                    _outgoingCanGoBack,
-                    active: false,
+                // Outgoing: slides out + fades
+                Opacity(
+                  opacity: outOpacity,
+                  child: FractionalTranslation(
+                    translation: Offset(_exitDir * outT, 0),
+                    child: _buildNode(
+                      _outgoingNode!,
+                      _outgoingCanGoBack,
+                      active: false,
+                    ),
                   ),
                 ),
-                // Incoming: enters from opposite side
+                // Incoming: snaps in fast from opposite side
                 FractionalTranslation(
-                  translation: Offset(-_exitDir * (1 - t), 0),
+                  translation: Offset(-_exitDir * (1 - inT), 0),
                   child: _buildNode(current, algoState.canGoBack),
                 ),
               ],
