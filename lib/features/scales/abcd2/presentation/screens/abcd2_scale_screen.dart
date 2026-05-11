@@ -33,9 +33,12 @@ class Abcd2ScaleScreen extends ConsumerWidget {
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(4),
-          child: LinearProgressIndicator(
-            value: total > 0 ? answered / total : 0,
-            minHeight: 4,
+          child: TweenAnimationBuilder<double>(
+            tween: Tween(end: total > 0 ? answered / total : 0),
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            builder: (_, value, _) =>
+                LinearProgressIndicator(value: value, minHeight: 4),
           ),
         ),
       ),
