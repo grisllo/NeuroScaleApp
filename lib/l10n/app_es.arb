@@ -1195,6 +1195,18 @@
   "profileEmailLabel": "Correo electrónico",
   "@profileEmailLabel": { "description": "Etiqueta del campo email en perfil" },
 
+  "themeLabel": "Tema",
+  "@themeLabel": { "description": "Etiqueta del selector de tema" },
+
+  "themeSystem": "Sistema",
+  "@themeSystem": { "description": "Opción de tema: seguir el sistema" },
+
+  "themeLight": "Claro",
+  "@themeLight": { "description": "Opción de tema claro" },
+
+  "themeDark": "Oscuro",
+  "@themeDark": { "description": "Opción de tema oscuro" },
+
   "profileLanguageLabel": "Idioma",
   "@profileLanguageLabel": { "description": "Etiqueta del selector de idioma" },
 

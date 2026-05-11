@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/locale_provider.dart';
+import '../../../../core/providers/theme_provider.dart';
 import '../../../../core/utils/breakpoints.dart';
 import '../../../auth/presentation/providers/auth_controller.dart';
 import '../../../auth/presentation/providers/password_reset_controller.dart';
@@ -18,6 +19,7 @@ class ProfileScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final session = ref.watch(sessionProvider).asData?.value;
     final selectedLocale = ref.watch(localeProvider).languageCode;
+    final selectedTheme = ref.watch(themeModeProvider);
     final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
     final scheme = Theme.of(context).colorScheme;
 
@@ -74,6 +76,40 @@ class ProfileScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        l10n.themeLabel,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      SegmentedButton<ThemeMode>(
+                        segments: [
+                          ButtonSegment(
+                            value: ThemeMode.system,
+                            label: Text(l10n.themeSystem),
+                          ),
+                          ButtonSegment(
+                            value: ThemeMode.light,
+                            label: Text(l10n.themeLight),
+                          ),
+                          ButtonSegment(
+                            value: ThemeMode.dark,
+                            label: Text(l10n.themeDark),
+                          ),
+                        ],
+                        selected: {selectedTheme},
+                        onSelectionChanged: (Set<ThemeMode> selection) async {
+                          final mode = selection.first;
+                          ref.read(themeModeProvider.notifier).set(mode);
+                          final modeString = switch (mode) {
+                            ThemeMode.light => 'light',
+                            ThemeMode.dark => 'dark',
+                            _ => 'system',
+                          };
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString(themePrefsKey, modeString);
+                        },
+                      ),
+                      const SizedBox(height: 16),
                       Text(
                         l10n.profileLanguageLabel,
                         style: Theme.of(context).textTheme.bodyMedium,

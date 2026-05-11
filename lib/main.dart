@@ -10,6 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/env/env.dart';
 import 'core/providers/disclaimer_provider.dart';
 import 'core/providers/locale_provider.dart';
+import 'core/providers/theme_provider.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
@@ -25,6 +26,12 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
   final disclaimerAccepted = prefs.getBool('disclaimer_accepted') ?? false;
   final savedLocaleCode = prefs.getString(localePrefsKey) ?? 'es';
+  final savedTheme = prefs.getString(themePrefsKey) ?? 'system';
+  final initialTheme = switch (savedTheme) {
+    'light' => ThemeMode.light,
+    'dark' => ThemeMode.dark,
+    _ => ThemeMode.system,
+  };
 
   if (Env.hasSupabase) {
     await Supabase.initialize(
@@ -42,6 +49,7 @@ Future<void> main() async {
       localeProvider.overrideWith(
         () => LocaleNotifier(Locale(savedLocaleCode)),
       ),
+      themeModeProvider.overrideWith(() => ThemeModeNotifier(initialTheme)),
     ],
     child: const NeuroScaleApp(),
   );
@@ -64,12 +72,13 @@ class NeuroScaleApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeModeProvider);
     return MaterialApp.router(
       title: 'NeuroScale',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
       routerConfig: router,
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

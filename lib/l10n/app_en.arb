@@ -1195,6 +1195,18 @@
   "profileEmailLabel": "Email",
   "@profileEmailLabel": { "description": "Email field label in profile" },
 
+  "themeLabel": "Theme",
+  "@themeLabel": { "description": "Theme selector label" },
+
+  "themeSystem": "System",
+  "@themeSystem": { "description": "Theme option: follow system" },
+
+  "themeLight": "Light",
+  "@themeLight": { "description": "Light theme option" },
+
+  "themeDark": "Dark",
+  "@themeDark": { "description": "Dark theme option" },
+
   "profileLanguageLabel": "Language",
   "@profileLanguageLabel": { "description": "Language selector label" },
 
