@@ -6,6 +6,20 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_spacing.dart';
+
+// Paleta de fondos para avatares — todos con contraste suficiente para texto blanco.
+const _kAvatarPalette = [
+  Color(0xFF1565C0), // blue
+  Color(0xFF2E7D32), // green
+  Color(0xFF6A1B9A), // purple
+  Color(0xFFAD1457), // pink
+  Color(0xFF00695C), // teal
+  Color(0xFF4527A0), // deep purple
+  Color(0xFF0277BD), // light blue
+  Color(0xFF558B2F), // light green
+  Color(0xFF5D4037), // brown
+  Color(0xFF00838F), // cyan
+];
 import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../core/widgets/app_empty_state.dart';
@@ -124,10 +138,12 @@ class _PatientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final initial = patient.alias.isNotEmpty
-        ? patient.alias[0].toUpperCase()
-        : '?';
+    final trimmed = patient.alias.trim();
+    final initials = trimmed.length >= 2
+        ? trimmed.substring(0, 2).toUpperCase()
+        : trimmed.toUpperCase();
+    final avatarColor =
+        _kAvatarPalette[patient.id.hashCode.abs() % _kAvatarPalette.length];
 
     return AnimatedTapScale(
       onTap: () => context.pushNamed(
@@ -144,11 +160,11 @@ class _PatientCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 22,
-                backgroundColor: scheme.primaryContainer,
+                backgroundColor: avatarColor,
                 child: Text(
-                  initial,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: scheme.onPrimaryContainer,
+                  initials,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: Colors.white,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
