@@ -111,16 +111,23 @@ class ResultScreen extends ConsumerWidget {
                     ),
                   ),
                   child: Center(
-                    child: RepaintBoundary(
-                      child: AnimatedScore(
-                        score: result.totalScore,
-                        maxScore: result.maxScore,
-                        color: clinicalPair.foreground,
-                        style: Theme.of(context).textTheme.headlineLarge
-                            ?.copyWith(
-                              color: clinicalPair.foreground,
-                              fontWeight: FontWeight.w800,
-                            ),
+                    child: SizedBox(
+                      width: 136,
+                      height: 72,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: RepaintBoundary(
+                          child: AnimatedScore(
+                            score: result.totalScore,
+                            maxScore: result.maxScore,
+                            color: clinicalPair.foreground,
+                            style: Theme.of(context).textTheme.displayLarge
+                                ?.copyWith(
+                                  color: clinicalPair.foreground,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
