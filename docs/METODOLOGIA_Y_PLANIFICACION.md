@@ -188,8 +188,10 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | Fase 9.2: Despliegue web Netlify (netlify.toml, _redirects, fonts fix, troubleshooting) | `5ab5478`..`9985c7a` | 2026-05-09 | ~1,0 h |
 | Fase 9.3: APK Android release (build firmado + instalación en dispositivo) | — | 2026-05-09 | ~0,5 h |
 | **Total acumulado Fase 9 completa (real)** | | | **~58,5 h** |
+| Mantenimiento 2026-05-11: borrado pacientes/evaluaciones, admin cuenta, tema oscuro, menú persistente, revisión UI/UX global | `5b5fb73`..`a7c6dbe` | 2026-05-11 | ~9,5 h |
+| **Total acumulado incluyendo mantenimiento (real)** | | | **~68 h** |
 
-**Conclusión de desviaciones (proyecto completo hasta Fase 9)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0-4: −5,0 h (−9,9%). Fases 6-9 sin estimación previa (~13,0h acumuladas); mayor extra fue auth hardening post-deploy y troubleshooting de despliegue web. Total real acumulado: **~58,5 h**. Las mayores ganancias vinieron de la arquitectura bien definida; los mayores extras no previstos fueron la traducción clínica extensa (Fases 4.3 y 7.3), incompatibilidades Android (Fase 6.1) y bugs de integración Supabase en primer deploy real (Subfase 8.2).
+**Conclusión de desviaciones (proyecto completo hasta Fase 9 + mantenimiento)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0-4: −5,0 h (−9,9%). Fases 6-9 sin estimación previa (~13,0h acumuladas); mayor extra fue auth hardening post-deploy y troubleshooting de despliegue web. Mantenimiento post-beta: ~9,5h adicionales (features de UX, administración de cuenta, mejoras visuales). Total real acumulado: **~68 h**.
 
 ---
 

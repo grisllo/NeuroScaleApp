@@ -12,7 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Último hito: Subfase 8.1** ✅ — Auditoría post-Fase 7 completada 2026-05-08. Bug crítico de tutorial corregido (31 claves *Help no registradas). 191 tests, 0 issues de analyze. Proyecto listo para beta clínica.
+**Último hito: Fase 9 + Mantenimiento UI/UX** ✅ — Beta completada 2026-05-09 (password reset, Netlify, APK firmado). Mantenimiento 2026-05-11: borrado de pacientes/evaluaciones, administración de cuenta (cambiar contraseña, borrar cuenta), tema claro/oscuro, menú de navegación persistente, revisión UI/UX global de todas las pantallas. 191 tests, 0 issues de analyze, ~68h acumuladas.
 
 **Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
 
