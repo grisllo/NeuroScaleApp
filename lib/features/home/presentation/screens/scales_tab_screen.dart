@@ -7,6 +7,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/widgets/animated_tap_scale.dart';
+import '../../../../core/widgets/fade_slide_item.dart';
 
 class ScalesTabScreen extends StatelessWidget {
   const ScalesTabScreen({super.key});
@@ -19,7 +20,7 @@ class ScalesTabScreen extends StatelessWidget {
     final clinical = Theme.of(context).clinicalColors;
     final scheme = Theme.of(context).colorScheme;
 
-    final cards = [
+    final rawCards = [
       _ScaleCard(
         title: 'Glasgow Coma Scale',
         subtitle: context.l10n.gcsSubtitle,
@@ -60,6 +61,14 @@ class ScalesTabScreen extends StatelessWidget {
         iconColor: scheme.onSecondaryContainer,
         onTap: () => context.pushNamed('rankin'),
       ),
+    ];
+
+    final cards = [
+      for (var i = 0; i < rawCards.length; i++)
+        FadeSlideItem(
+          delay: Duration(milliseconds: i * 60),
+          child: rawCards[i],
+        ),
     ];
 
     return Scaffold(

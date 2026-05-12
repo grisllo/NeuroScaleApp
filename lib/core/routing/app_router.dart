@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/env/env.dart';
 import '../../core/providers/disclaimer_provider.dart';
 import '../../core/routing/app_shell.dart';
+import '../../core/theme/app_motion.dart';
 import '../../features/algorithms/domain/algorithms/algorithms_registry.dart';
 import '../../features/algorithms/presentation/screens/algorithm_screen.dart';
 import '../../features/algorithms/presentation/screens/algorithms_tab_screen.dart';
@@ -25,6 +26,32 @@ import '../../features/scales/gcs/presentation/screens/gcs_scale_screen.dart';
 import '../../features/scales/nihss/presentation/screens/nihss_scale_screen.dart';
 import '../../features/scales/rankin/presentation/screens/rankin_scale_screen.dart';
 import '../../features/scales/shared/domain/entities/scale_result.dart';
+
+/// Fade + subtle slide-up transition for pushed routes.
+Page<void> _pushPage(GoRouterState state, Widget child) =>
+    CustomTransitionPage<void>(
+      key: state.pageKey,
+      child: child,
+      transitionDuration: AppMotion.normal,
+      reverseTransitionDuration: AppMotion.fast,
+      transitionsBuilder: (context, animation, _, child) {
+        if (MediaQuery.of(context).disableAnimations) return child;
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: AppMotion.enter,
+        );
+        return FadeTransition(
+          opacity: curved,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.04),
+              end: Offset.zero,
+            ).animate(curved),
+            child: child,
+          ),
+        );
+      },
+    );
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final notifier = _RouterNotifier(ref);
@@ -77,40 +104,49 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'scales/gcs',
                     name: 'gcs',
-                    builder: (_, _) => const GcsScaleScreen(),
+                    pageBuilder: (_, s) => _pushPage(s, const GcsScaleScreen()),
                   ),
                   GoRoute(
                     path: 'scales/nihss',
                     name: 'nihss',
-                    builder: (_, _) => const NihssScaleScreen(),
+                    pageBuilder: (_, s) =>
+                        _pushPage(s, const NihssScaleScreen()),
                   ),
                   GoRoute(
                     path: 'scales/rankin',
                     name: 'rankin',
-                    builder: (_, _) => const RankinScaleScreen(),
+                    pageBuilder: (_, s) =>
+                        _pushPage(s, const RankinScaleScreen()),
                   ),
                   GoRoute(
                     path: 'scales/barthel',
                     name: 'barthel',
-                    builder: (_, _) => const BarthelScaleScreen(),
+                    pageBuilder: (_, s) =>
+                        _pushPage(s, const BarthelScaleScreen()),
                   ),
                   GoRoute(
                     path: 'scales/abcd2',
                     name: 'abcd2',
-                    builder: (_, _) => const Abcd2ScaleScreen(),
+                    pageBuilder: (_, s) =>
+                        _pushPage(s, const Abcd2ScaleScreen()),
                   ),
                   GoRoute(
                     path: 'result',
                     name: 'result',
-                    builder: (_, state) {
+                    pageBuilder: (_, state) {
                       final extra = state.extra;
-                      if (extra == null) return const SizedBox.shrink();
+                      if (extra == null) {
+                        return _pushPage(state, const SizedBox.shrink());
+                      }
                       final (result, title, type) =
                           extra as (ScaleResult, String, String);
-                      return ResultScreen(
-                        result: result,
-                        scaleTitle: title,
-                        scaleType: type,
+                      return _pushPage(
+                        state,
+                        ResultScreen(
+                          result: result,
+                          scaleTitle: title,
+                          scaleType: type,
+                        ),
                       );
                     },
                   ),
@@ -129,8 +165,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: ':id',
                     name: 'patient-detail',
-                    builder: (_, state) => PatientDetailScreen(
-                      patientId: state.pathParameters['id']!,
+                    pageBuilder: (_, state) => _pushPage(
+                      state,
+                      PatientDetailScreen(
+                        patientId: state.pathParameters['id']!,
+                      ),
                     ),
                   ),
                 ],
@@ -148,12 +187,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: ':id',
                     name: 'algorithm',
-                    builder: (_, state) {
+                    pageBuilder: (_, state) {
                       final id = state.pathParameters['id']!;
                       final definition = kAlgorithms.firstWhere(
                         (a) => a.id == id,
                       );
-                      return AlgorithmScreen(definition: definition);
+                      return _pushPage(
+                        state,
+                        AlgorithmScreen(definition: definition),
+                      );
                     },
                   ),
                 ],

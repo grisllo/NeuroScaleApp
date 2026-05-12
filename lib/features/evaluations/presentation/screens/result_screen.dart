@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/pii_detector.dart';
 import '../../../../core/widgets/animated_score.dart';
@@ -107,39 +108,43 @@ class ResultScreen extends ConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
                 child: Column(
                   children: [
-                    Container(
-                      width: 172,
-                      height: 172,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: clinicalPair.surface,
-                        border: Border.all(
-                          color: clinicalPair.foreground,
-                          width: 4,
+                    _AnimatedEntrance(
+                      child: Container(
+                        width: 172,
+                        height: 172,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: clinicalPair.surface,
+                          border: Border.all(
+                            color: clinicalPair.foreground,
+                            width: 4,
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: SizedBox(
-                          width: 136,
-                          height: 72,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: RepaintBoundary(
-                              child: AnimatedScore(
-                                score: result.totalScore,
-                                maxScore: result.maxScore,
-                                color: clinicalPair.foreground,
-                                style: Theme.of(context).textTheme.displayLarge
-                                    ?.copyWith(
-                                      color: clinicalPair.foreground,
-                                      fontWeight: FontWeight.w800,
-                                    ),
+                        child: Center(
+                          child: SizedBox(
+                            width: 136,
+                            height: 72,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: RepaintBoundary(
+                                child: AnimatedScore(
+                                  score: result.totalScore,
+                                  maxScore: result.maxScore,
+                                  color: clinicalPair.foreground,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge
+                                      ?.copyWith(
+                                        color: clinicalPair.foreground,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ), // _AnimatedEntrance
                     const SizedBox(height: 16),
                     SeverityBadge(
                       severity: result.severity,
@@ -519,6 +524,58 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
       onChanged: (value) {
         setState(() => _selectedValue = value);
       },
+    );
+  }
+}
+
+// ── Animación de entrada para el círculo de severidad ─────────────────────────
+
+class _AnimatedEntrance extends StatefulWidget {
+  const _AnimatedEntrance({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_AnimatedEntrance> createState() => _AnimatedEntranceState();
+}
+
+class _AnimatedEntranceState extends State<_AnimatedEntrance>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _scale;
+  late final Animation<double> _opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: AppMotion.deliberate);
+    _scale = Tween<double>(
+      begin: 0.72,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: AppMotion.emphasized));
+    _opacity = CurvedAnimation(
+      parent: _ctrl,
+      curve: const Interval(0.0, 0.55, curve: Curves.easeOut),
+    );
+    _ctrl.forward();
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.of(context).disableAnimations) return widget.child;
+    return AnimatedBuilder(
+      animation: _ctrl,
+      builder: (_, child) => Opacity(
+        opacity: _opacity.value,
+        child: Transform.scale(scale: _scale.value, child: child),
+      ),
+      child: widget.child,
     );
   }
 }

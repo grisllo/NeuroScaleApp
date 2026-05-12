@@ -11,6 +11,7 @@ import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../core/widgets/app_empty_state.dart';
 import '../../../../core/widgets/app_loading_skeleton.dart';
+import '../../../../core/widgets/fade_slide_item.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patients_controller.dart';
 import '../widgets/patient_avatar.dart';
@@ -107,7 +108,11 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 88),
                       itemCount: patients.length,
                       separatorBuilder: (_, _) => const SizedBox(height: 8),
-                      itemBuilder: (_, i) => _PatientCard(patient: patients[i]),
+                      itemBuilder: (_, i) => FadeSlideItem(
+                        key: ValueKey(patients[i].id),
+                        delay: Duration(milliseconds: i.clamp(0, 6) * 50),
+                        child: _PatientCard(patient: patients[i]),
+                      ),
                     );
                   },
                 ),
