@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/disclaimer_provider.dart';
+import '../../../../core/widgets/ns_logo.dart';
 import '../widgets/auth_card.dart';
 
 const _prefKey = 'disclaimer_accepted';
@@ -66,6 +67,8 @@ class DisclaimerScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 32),
+              const NsLogo(size: 56),
+              const SizedBox(height: 16),
               Text(
                 l10n.appTitle,
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/ns_logo.dart';
 
 /// En tablet/desktop (≥600px): layout de marca adaptado al tema.
 /// Claro: fondo teal + card blanca. Oscuro: fondo oscuro + card elevada + acento teal.
@@ -37,7 +38,7 @@ class AuthCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (showLogo) ...[
-                  Icon(Icons.psychology_rounded, color: logoColor, size: 64),
+                  NsLogo(size: 72, color: logoColor),
                   const SizedBox(height: 12),
                   Text(
                     'NeuroScale',
