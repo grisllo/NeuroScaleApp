@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 12 — Animaciones** ✅ — Completada 2026-05-12. Transiciones de página go_router (fade+slide), círculo de resultado animado, listas escalonadas (pacientes + escalas), AnimatedCheck en guardado y reset password, transiciones elegantes en algoritmos (Q→Q fade+slide 40%, Q→Result scale+fade reveal, sin salto de layout ni parpadeo). 191 tests, CI verde, ~79h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito: Fase 12 — Animaciones y Fixes Móvil** ✅ — Completada 2026-05-12. Transiciones de página, AnimatedCheck, algoritmos Q→Q y Q→Result elegantes. Fixes móvil: icono centrado en disclaimer y login, "NeuroScale App" como nombre completo (ARB + AndroidManifest). 191 tests, CI verde, ~80h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 
