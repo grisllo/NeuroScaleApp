@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 10 — Polish & Optimización** ✅ — Completada 2026-05-12. Errores localizados (`failureMessage`), `ValidationException` en dominio puro, `RadioGroup` migration, `kInterpSeverity` centralizado, LICENSE MIT, versión 1.0.0-beta+1. Web desplegada en **GitHub Pages**: https://grisllo.github.io/NeuroScaleApp/ — 191 tests, CI verde, ~71h acumuladas.
+**Último hito: Fase 11 — UX Visual** ✅ — Completada 2026-05-12. Hash cross-platform para avatares, proporciones web corregidas (maxWidth por breakpoint, grid 3 cols desktop), AuthCard navy con logo real, tema claro cálido, icono oficial en todas las plataformas. Web desplegada en **GitHub Pages**: https://grisllo.github.io/NeuroScaleApp/ — 191 tests, ~76h acumuladas.
 
 ---
 

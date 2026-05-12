@@ -38,10 +38,14 @@ void main() {
 
   // ── Muestrea una bezier cúbica en [steps] puntos ───────────────────
   List<(double, double)> bezier(
-    double x0, double y0,
-    double cx1, double cy1,
-    double cx2, double cy2,
-    double x1, double y1, {
+    double x0,
+    double y0,
+    double cx1,
+    double cy1,
+    double cx2,
+    double cy2,
+    double x1,
+    double y1, {
     int steps = 120,
   }) {
     final pts = <(double, double)>[];
@@ -88,9 +92,17 @@ void main() {
   // ── Línea ECG / latido ─────────────────────────────────────────────
   // Genera puntos interpolados entre cada vértice de la polilínea
   final ecgVerts = [
-    (0.12, 0.49), (0.26, 0.49), (0.32, 0.35), (0.39, 0.63),
-    (0.44, 0.45), (0.50, 0.49), (0.56, 0.49), (0.61, 0.35),
-    (0.68, 0.63), (0.73, 0.45), (0.88, 0.49),
+    (0.12, 0.49),
+    (0.26, 0.49),
+    (0.32, 0.35),
+    (0.39, 0.63),
+    (0.44, 0.45),
+    (0.50, 0.49),
+    (0.56, 0.49),
+    (0.61, 0.35),
+    (0.68, 0.63),
+    (0.73, 0.45),
+    (0.88, 0.49),
   ];
   for (var i = 0; i < ecgVerts.length - 1; i++) {
     final (x0, y0) = ecgVerts[i];

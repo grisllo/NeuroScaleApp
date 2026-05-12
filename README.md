@@ -118,10 +118,15 @@ gantt
     10.P0 Errores localizados + LICENSE (1.5h) :done, f10a, 2026-05-12, 1d
     10.P1 ValidationException + scale_metadata (1h) :done, f10b, 2026-05-12, 1d
     10.P2 RadioGroup migration + docs (0.5h) :done, f10c, 2026-05-12, 1d
+
+    section Fase 11 - UX Visual
+    11.1 Hash avatar cross-platform + layout web (2h) :done, f11a, 2026-05-12, 1d
+    11.2 Auth card navy + tema claro calido (1h) :done, f11b, 2026-05-12, 1d
+    11.3 Icono y logo oficial (1.5h)            :done, f11c, 2026-05-12, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git.
-> Total acumulado: **~71h** de trabajo activo (Fases 0–10 + Mantenimiento).
+> Total acumulado: **~76h** de trabajo activo (Fases 0–11 + Mantenimiento).
 
 ---
 
