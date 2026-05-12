@@ -15,6 +15,17 @@ const _kAvatarPalette = [
   Color(0xFF00838F),
 ];
 
+/// Stable cross-platform hash of [s] using its code units.
+/// String.hashCode differs between Dart VM and JS compilation, so we
+/// compute our own hash to guarantee the same color on mobile and web.
+int _stableHash(String s) {
+  var h = 0;
+  for (final c in s.codeUnits) {
+    h = (h * 31 + c) & 0x7FFFFFFF;
+  }
+  return h;
+}
+
 /// Avatar circular con las dos primeras letras del alias y un color
 /// determinista basado en el ID del paciente.
 class PatientAvatar extends StatelessWidget {
@@ -30,7 +41,7 @@ class PatientAvatar extends StatelessWidget {
         ? trimmed.substring(0, 2).toUpperCase()
         : trimmed.toUpperCase();
     final color =
-        _kAvatarPalette[patient.id.hashCode.abs() % _kAvatarPalette.length];
+        _kAvatarPalette[_stableHash(patient.id) % _kAvatarPalette.length];
 
     return CircleAvatar(
       radius: radius,
