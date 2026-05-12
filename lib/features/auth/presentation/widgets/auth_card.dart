@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
 
-/// En tablet/desktop (≥600px): fondo primary oscuro + logo + card blanca centrada.
-/// En móvil: devuelve el child directamente (cada pantalla gestiona su propio Scaffold).
+import '../../../../core/theme/app_colors.dart';
+
+/// En tablet/desktop (≥600px): layout de marca adaptado al tema.
+/// Claro: fondo teal + card blanca. Oscuro: fondo oscuro + card elevada + acento teal.
 class AuthCard extends StatelessWidget {
   const AuthCard({super.key, required this.child, this.showLogo = true});
 
   final Widget child;
-
-  /// Muestra el logo + nombre de la app encima de la card.
   final bool showLogo;
 
   static const double _maxWidth = 440;
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final bgColor = isDark ? AppColors.surfaceDark : AppColors.primary;
+    final cardColor = isDark ? AppColors.surfaceDarkContainer : Colors.white;
+    final logoColor = isDark ? AppColors.primary : Colors.white;
+    final nameColor = isDark ? AppColors.textPrimaryDark : Colors.white;
+    final cardShape = isDark
+        ? RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: AppColors.outlineDark, width: 1),
+          )
+        : RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
 
     return Scaffold(
-      backgroundColor: scheme.primary,
+      backgroundColor: bgColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -26,16 +37,12 @@ class AuthCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (showLogo) ...[
-                  const Icon(
-                    Icons.psychology_rounded,
-                    color: Colors.white,
-                    size: 64,
-                  ),
+                  Icon(Icons.psychology_rounded, color: logoColor, size: 64),
                   const SizedBox(height: 12),
                   Text(
                     'NeuroScale',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
+                      color: nameColor,
                       fontWeight: FontWeight.bold,
                       letterSpacing: -0.5,
                     ),
@@ -45,8 +52,9 @@ class AuthCard extends StatelessWidget {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: _maxWidth),
                   child: Card(
-                    color: scheme.surface,
-                    elevation: 4,
+                    color: cardColor,
+                    elevation: isDark ? 0 : 4,
+                    shape: cardShape,
                     child: Padding(
                       padding: const EdgeInsets.all(32),
                       child: child,
