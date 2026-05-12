@@ -382,6 +382,39 @@ Issue #13.
 
 ---
 
+## Fase 10 — Polish & Optimización
+
+**Objetivo**: elevar la calidad del código antes de la entrega definitiva. Sin features nuevas — sólo coherencia, robustez y presentación profesional.
+
+### P0 — Completadas
+
+#### POLISH-01 + POLISH-02 — Saneamiento de mensajes de error en UI ✅
+- `lib/core/extensions/failure_l10n.dart`: helper `failureMessage(error, l10n)` que mapea cualquier `Failure` a string localizada. Nunca expone detalles técnicos internos ni stack traces.
+- `lib/l10n/app_es.arb` + `app_en.arb`: clave `authInvalidCredentialsError` para credenciales inválidas.
+- 8 archivos UI corregidos: `result_screen`, `profile_screen`, `patient_edit_dialog`, `patient_detail_screen`, `patients_tab_screen`, `login_screen`, `register_screen` — eliminados todos los `e.toString()` y `error.message` hardcodeados.
+- `_ChangePasswordDialog._submit()`: añadido `if (!mounted) return` antes del setState en catch.
+
+#### POLISH-03 — Documentar migraciones 0006-0008 en supabase/README.md ✅
+- Añadidas 3 filas faltantes: `0006` (search_path fix), `0007` (cascade delete), `0008` (normalización claves legacy).
+
+#### POLISH-04 — LICENSE + version bump ✅
+- `LICENSE`: MIT (copyright 2026 Arturo Ramos Reparaz).
+- `pubspec.yaml` version: `0.1.0` → `1.0.0-beta+1`.
+
+### P1 — Pendientes
+
+- **POLISH-05** — Screenshots en README (3 capturas: escalas, resultado, perfil)
+- **POLISH-06** — Consolidar `_kInterpSeverity` y `_kItemLabelKeys` en `scales/shared/domain/`
+- **POLISH-07** — `ValidationException` en `core/errors/` para calculadoras de dominio puro
+
+### P2 — Nice to have
+
+- **POLISH-08** — Migrar `RadioListTile` deprecated API (9 `// ignore`)
+- **POLISH-09** — Fix O(n²) en breakdown de result_screen (elementAt en loop)
+- **POLISH-10** — Corregir `mockito` → `mocktail` en METODOLOGIA_Y_PLANIFICACION.md
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |

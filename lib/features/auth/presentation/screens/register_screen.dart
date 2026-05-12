@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/errors/failures.dart';
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/auth_controller.dart';
@@ -183,13 +184,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         );
   }
 
-  String _authErrorMessage(Object? error, AppLocalizations l10n) {
-    if (error is EmailConfirmationPendingFailure) {
-      return l10n.emailConfirmationPendingMessage;
-    }
-    if (error is AuthFailure) return error.message;
-    if (error is NetworkFailure) return l10n.networkErrorMessage;
-    if (error is Failure) return l10n.backendUnavailableError;
-    return l10n.genericErrorMessage;
-  }
+  String _authErrorMessage(Object? error, AppLocalizations l10n) =>
+      failureMessage(error, l10n);
 }

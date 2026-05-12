@@ -11,6 +11,9 @@ Las migraciones se aplican **manualmente** en Supabase Studio → SQL Editor →
 | `migrations/0003_add_patients.sql` | Tabla `patients` con RLS + FK opcional `evaluations.patient_id`. | 3.2 |
 | `migrations/0004_constrain_case_description.sql` | CHECK `length(case_description) ≤ 500` como defensa server-side. | 6.1 |
 | `migrations/0005_add_scale_type_index.sql` | Índice compuesto `(user_id, scale_type, created_at desc)` para filtros de historial. | 6.2 |
+| `migrations/0006_fix_function_search_path.sql` | Fija `search_path = public` en `handle_updated_at()` — elimina vulnerabilidad de schema injection (security advisor WARN). | 8.2 |
+| `migrations/0007_cascade_delete_patient_evaluations.sql` | Cambia `evaluations.patient_id FK` de `SET NULL` a `CASCADE`: borrar paciente borra sus evaluaciones. | Mant. |
+| `migrations/0008_fix_legacy_interpretation_keys.sql` | Normaliza claves de interpretación antiguas en español a claves ARB canónicas. Idempotente. | Mant. |
 
 ## Convenciones
 

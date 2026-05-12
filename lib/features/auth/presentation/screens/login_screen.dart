@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/errors/failures.dart';
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -200,10 +200,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         );
   }
 
-  String _authErrorMessage(Object? error, AppLocalizations l10n) {
-    if (error is AuthFailure) return error.message;
-    if (error is NetworkFailure) return l10n.networkErrorMessage;
-    if (error is Failure) return l10n.backendUnavailableError;
-    return l10n.genericErrorMessage;
-  }
+  String _authErrorMessage(Object? error, AppLocalizations l10n) =>
+      failureMessage(error, l10n);
 }

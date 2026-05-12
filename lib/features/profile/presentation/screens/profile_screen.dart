@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/locale_provider.dart';
 import '../../../../core/providers/theme_provider.dart';
@@ -223,7 +224,7 @@ class ProfileScreen extends ConsumerWidget {
       if (!context.mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
+      ).showSnackBar(SnackBar(content: Text(failureMessage(e, context.l10n))));
       return;
     }
 
@@ -300,7 +301,8 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
         SnackBar(content: Text(context.l10n.changePasswordSuccess)),
       );
     } catch (e) {
-      setState(() => _error = e.toString());
+      if (!mounted) return;
+      setState(() => _error = failureMessage(e, context.l10n));
     } finally {
       if (mounted) setState(() => _loading = false);
     }

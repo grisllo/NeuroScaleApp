@@ -217,6 +217,9 @@
   "emailConfirmationPendingMessage": "Registration complete. Check your email to confirm your account before signing in.",
   "@emailConfirmationPendingMessage": { "description": "Email confirmation pending notice after registration" },
 
+  "authInvalidCredentialsError": "Incorrect email or password",
+  "@authInvalidCredentialsError": { "description": "Error for invalid authentication credentials" },
+
   "retryButton": "Retry",
   "@retryButton": { "description": "Retry button" },
 

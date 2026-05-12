@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/theme/clinical_colors.dart';
@@ -372,7 +373,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _errorMessage = e.toString();
+        _errorMessage = failureMessage(e, context.l10n);
       });
     }
   }
@@ -397,7 +398,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                   child: Center(child: CircularProgressIndicator()),
                 ),
                 error: (e, _) => Text(
-                  e.toString(),
+                  failureMessage(e, context.l10n),
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
                 data: (patients) => _buildPatientPicker(patients, l10n: l10n),

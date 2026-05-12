@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patients_controller.dart';
@@ -71,7 +72,7 @@ class _PatientEditDialogState extends ConsumerState<PatientEditDialog> {
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _errorMessage = e.toString();
+        _errorMessage = failureMessage(e, context.l10n);
       });
     }
   }

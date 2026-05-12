@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/breakpoints.dart';
@@ -80,7 +81,7 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
                   error: (e, _) => Center(
                     child: Padding(
                       padding: const EdgeInsets.all(24),
-                      child: Text(e.toString()),
+                      child: Text(failureMessage(e, l10n)),
                     ),
                   ),
                   data: (patients) {
