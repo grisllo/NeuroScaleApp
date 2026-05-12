@@ -113,10 +113,13 @@ gantt
     9.1 Password reset flow (2h)             :done, f9a,  2026-05-09, 1d
     9.2 Despliegue web Netlify (1h)          :done, f9b,  2026-05-09, 1d
     9.3 APK Android firmado (0.5h)           :done, f9c,  2026-05-09, 1d
+
+    section Fase 10 - Polish
+    10.P0 Errores localizados + LICENSE (1.5h) :done, f10a, 2026-05-12, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git.
-> Total acumulado: **~68h** de trabajo activo (Fases 0–9 + Mantenimiento).
+> Total acumulado: **~69.5h** de trabajo activo (Fases 0–10 + Mantenimiento).
 
 ---
 
