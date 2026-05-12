@@ -249,76 +249,90 @@ class _QuestionBody extends StatelessWidget {
     final hint = node.hintKey != null ? l10n.algo(node.hintKey!) : null;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              Card(
-                color: scheme.surfaceContainerHighest,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.algo(node.questionKey),
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      if (hint != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          hint,
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: scheme.onSurfaceVariant),
-                        ),
-                      ],
-                    ],
+        // ── Pregunta — header fijo con acento primary ────────────────────
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: scheme.primaryContainer,
+              borderRadius: BorderRadius.circular(12),
+              border: Border(left: BorderSide(color: scheme.primary, width: 4)),
+            ),
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.algo(node.questionKey),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: scheme.onPrimaryContainer,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              ...node.options.map(
-                (opt) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: AnimatedTapScale(
-                    onTap: () => onStep(opt.id),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                l10n.algo(opt.labelKey),
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.w500),
+                if (hint != null) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    hint,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: scheme.onPrimaryContainer.withValues(alpha: 0.75),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        // ── Opciones — lista anclada en la mitad inferior (thumb-friendly) ──
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            children: node.options
+                .map(
+                  (opt) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: AnimatedTapScale(
+                      onTap: () => onStep(opt.id),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  l10n.algo(opt.labelKey),
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.w500),
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 14,
-                              color: scheme.onSurfaceVariant,
-                            ),
-                          ],
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 14,
+                                color: scheme.onSurfaceVariant,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
+                )
+                .toList(),
           ),
         ),
+
+        // ── Botón atrás — siempre al fondo ─────────────────────────────────
         if (canGoBack)
           SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: SizedBox(
                 width: double.infinity,
                 child: FilledButton.tonalIcon(
