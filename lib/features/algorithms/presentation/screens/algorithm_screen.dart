@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/widgets/animated_tap_scale.dart';
-import '../../../../core/widgets/fade_slide_item.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/entities/algorithm_definition.dart';
 import '../../domain/entities/algorithm_node.dart';
@@ -98,31 +97,19 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
     ref.read(algorithmProvider.notifier).restart();
   }
 
-  Widget _buildNode(
-    AlgorithmNode node,
-    bool canGoBack, {
-    bool active = true,
-    bool withEntrance = false,
-  }) {
-    final body = switch (node) {
-      QuestionNode() => _QuestionBody(
-        node: node,
-        canGoBack: canGoBack,
-        onStep: active ? _step : (_) {},
-        onBack: active ? _back : () {},
-      ),
-      ResultNode() => _ResultBody(
-        node: node,
-        onRestart: active ? _restart : () {},
-      ),
-    };
-
-    // Entrance animation only for ResultNode shown outside a transition.
-    if (withEntrance && node is ResultNode) {
-      return FadeSlideItem(key: ValueKey(node.id), child: body);
-    }
-    return body;
-  }
+  Widget _buildNode(AlgorithmNode node, bool canGoBack, {bool active = true}) =>
+      switch (node) {
+        QuestionNode() => _QuestionBody(
+          node: node,
+          canGoBack: canGoBack,
+          onStep: active ? _step : (_) {},
+          onBack: active ? _back : () {},
+        ),
+        ResultNode() => _ResultBody(
+          node: node,
+          onRestart: active ? _restart : () {},
+        ),
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -162,11 +149,7 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
               // used during transitions — prevents layout jump on result.
               if (!isAnimating || disableAnim) {
                 return SizedBox.expand(
-                  child: _buildNode(
-                    current,
-                    algoState.canGoBack,
-                    withEntrance: true,
-                  ),
+                  child: _buildNode(current, algoState.canGoBack),
                 );
               }
 
