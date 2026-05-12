@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neuroscale_app/core/errors/failures.dart';
+import 'package:neuroscale_app/core/errors/exceptions.dart';
 import 'package:neuroscale_app/features/scales/nihss/domain/nihss_calculator.dart';
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
@@ -234,95 +234,95 @@ void main() {
   });
 
   group('NIHSS — validación: ítem ausente', () {
-    test('map vacío → ValidationFailure', () {
-      expect(() => calculateNihss({}), throwsA(isA<ValidationFailure>()));
+    test('map vacío → ValidationException', () {
+      expect(() => calculateNihss({}), throwsA(isA<ValidationException>()));
     });
 
-    test('falta 1a → ValidationFailure', () {
+    test('falta 1a → ValidationException', () {
       final incomplete = Map<String, int>.from(_allZero())
         ..remove(nihssKey1aLoc);
       expect(
         () => calculateNihss(incomplete),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('falta 11 (negligencia) → ValidationFailure', () {
+    test('falta 11 (negligencia) → ValidationException', () {
       final incomplete = Map<String, int>.from(_allZero())
         ..remove(nihssKey11Neglect);
       expect(
         () => calculateNihss(incomplete),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });
 
   group('NIHSS — validación: rango fuera de límites', () {
-    test('1a=-1 → ValidationFailure', () {
+    test('1a=-1 → ValidationException', () {
       expect(
         () => calculateNihss({..._allZero(), nihssKey1aLoc: -1}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('1a=4 → ValidationFailure (máximo es 3)', () {
+    test('1a=4 → ValidationException (máximo es 3)', () {
       expect(
         () => calculateNihss({..._allZero(), nihssKey1aLoc: 4}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('motor brazo izquierdo=5 → ValidationFailure (máximo es 4)', () {
+    test('motor brazo izquierdo=5 → ValidationException (máximo es 4)', () {
       expect(
         () => calculateNihss({..._allZero(), nihssKey5aMotorArmL: 5}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('ataxia=3 → ValidationFailure (máximo es 2)', () {
+    test('ataxia=3 → ValidationException (máximo es 2)', () {
       expect(
         () => calculateNihss({..._allZero(), nihssKey7Ataxia: 3}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('lenguaje=4 → ValidationFailure (máximo es 3)', () {
+    test('lenguaje=4 → ValidationException (máximo es 3)', () {
       expect(
         () => calculateNihss({..._allZero(), nihssKey9Language: 4}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });
 
   group('NIHSS — validación: UN en ítems no permitidos', () {
-    test('1a=9 → ValidationFailure (LOC no permite UN)', () {
+    test('1a=9 → ValidationException (LOC no permite UN)', () {
       expect(
         () => calculateNihss({..._allZero(), nihssKey1aLoc: nihssUntestable}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('sensibilidad=9 → ValidationFailure (8 no permite UN)', () {
+    test('sensibilidad=9 → ValidationException (8 no permite UN)', () {
       expect(
         () =>
             calculateNihss({..._allZero(), nihssKey8Sensory: nihssUntestable}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('lenguaje=9 → ValidationFailure (9 no permite UN)', () {
+    test('lenguaje=9 → ValidationException (9 no permite UN)', () {
       expect(
         () =>
             calculateNihss({..._allZero(), nihssKey9Language: nihssUntestable}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('negligencia=9 → ValidationFailure (11 no permite UN)', () {
+    test('negligencia=9 → ValidationException (11 no permite UN)', () {
       expect(
         () =>
             calculateNihss({..._allZero(), nihssKey11Neglect: nihssUntestable}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });

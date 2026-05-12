@@ -10,7 +10,7 @@ import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/widgets/severity_badge.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
 import '../../../evaluations/presentation/providers/evaluation_provider.dart';
-import '../../../scales/shared/domain/entities/severity.dart';
+import '../../../scales/shared/domain/scale_metadata.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patient_provider.dart';
 import '../providers/patients_controller.dart';
@@ -290,34 +290,6 @@ class _NoEvaluationsCard extends StatelessWidget {
   }
 }
 
-/// Maps stored interpretation ARB keys → Severity for the dot indicator.
-const _kInterpSeverity = <String, Severity>{
-  'severityNone': Severity.none,
-  'severityMild': Severity.mild,
-  'severityModerate': Severity.moderate,
-  'severitySevere': Severity.severe,
-  'nihssInterp0': Severity.none,
-  'nihssInterpMinor': Severity.mild,
-  'nihssInterpModerate': Severity.moderate,
-  'nihssInterpModerateSevere': Severity.severe,
-  'nihssInterpSevere': Severity.severe,
-  'abcd2RiskLow': Severity.mild,
-  'abcd2RiskModerate': Severity.moderate,
-  'abcd2RiskHigh': Severity.severe,
-  'barthelInterpIndependent': Severity.none,
-  'barthelInterpMild': Severity.mild,
-  'barthelInterpModerate': Severity.moderate,
-  'barthelInterpSevere': Severity.severe,
-  'barthelInterpTotal': Severity.severe,
-  'rankinInterp0': Severity.none,
-  'rankinInterp1': Severity.mild,
-  'rankinInterp2': Severity.mild,
-  'rankinInterp3': Severity.moderate,
-  'rankinInterp4': Severity.moderate,
-  'rankinInterp5': Severity.severe,
-  'rankinInterp6': Severity.severe,
-};
-
 /// Returns (accentForeground, accentSurface) for a given scale type,
 /// consistent with the ScalesTabScreen card colours.
 (Color, Color) _scaleAccent(
@@ -349,7 +321,7 @@ class _EvaluationTile extends ConsumerWidget {
       clinical,
       scheme,
     );
-    final severity = _kInterpSeverity[eval.interpretation];
+    final severity = kInterpSeverity[eval.interpretation];
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),

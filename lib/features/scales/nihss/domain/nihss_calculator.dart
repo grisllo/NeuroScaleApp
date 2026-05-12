@@ -1,4 +1,4 @@
-import '../../../../core/errors/failures.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../../shared/domain/entities/scale_result.dart';
 import '../../shared/domain/entities/severity.dart';
 
@@ -52,7 +52,7 @@ const Set<String> _kAllowsUntestable = {
 };
 
 /// Pure function — no Flutter or Supabase imports.
-/// Throws [ValidationFailure] if any answer is missing or out of range.
+/// Throws [ValidationException] if any answer is missing or out of range.
 ///
 /// NIHSS (Brott et al., 1989; AHA/ASA NIHSS instructions). Total 0-42.
 /// Items 5a/5b/6a/6b/7/10 accept the untestable code 9, which is recorded
@@ -90,7 +90,7 @@ ScaleResult calculateNihss(Map<String, int> answers) {
 int _validated(Map<String, int> answers, String key, int min, int max) {
   final value = answers[key];
   if (value == null) {
-    throw ValidationFailure(
+    throw ValidationException(
       'El ítem "$key" es obligatorio en la escala NIHSS.',
     );
   }
@@ -100,7 +100,7 @@ int _validated(Map<String, int> answers, String key, int min, int max) {
   if (value < min || value > max) {
     final allowsUn = _kAllowsUntestable.contains(key);
     final hint = allowsUn ? ' o $nihssUntestable (no evaluable)' : '';
-    throw ValidationFailure(
+    throw ValidationException(
       'El ítem "$key" debe estar entre $min y $max$hint (recibido: $value).',
     );
   }

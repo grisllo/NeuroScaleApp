@@ -18,7 +18,7 @@
 | Navegación | go_router (rutas declarativas, auth guard) |
 | Backend | Supabase (Auth + PostgreSQL + RLS + Storage) |
 | Internacionalización | intl + flutter_localizations (ARB files) |
-| Testing | flutter_test, mockito |
+| Testing | flutter_test, mocktail |
 | CI/CD | GitHub Actions (`flutter analyze` + `flutter test`) |
 | Error tracking | Sentry (condicional, no bloquea sin clave) |
 

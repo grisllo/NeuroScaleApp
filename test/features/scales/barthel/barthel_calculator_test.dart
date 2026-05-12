@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neuroscale_app/core/errors/failures.dart';
+import 'package:neuroscale_app/core/errors/exceptions.dart';
 import 'package:neuroscale_app/features/scales/barthel/domain/barthel_calculator.dart';
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
@@ -200,53 +200,53 @@ void main() {
   });
 
   group('Barthel — validación: valores no permitidos', () {
-    test('feeding=3 → ValidationFailure (solo 0/5/10)', () {
+    test('feeding=3 → ValidationException (solo 0/5/10)', () {
       expect(
         () => calculateBarthel({..._minAnswers(), barthelKeyFeeding: 3}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('bathing=3 → ValidationFailure (solo 0/5)', () {
+    test('bathing=3 → ValidationException (solo 0/5)', () {
       expect(
         () => calculateBarthel({..._minAnswers(), barthelKeyBathing: 3}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('transfer=7 → ValidationFailure (solo 0/5/10/15)', () {
+    test('transfer=7 → ValidationException (solo 0/5/10/15)', () {
       expect(
         () => calculateBarthel({..._minAnswers(), barthelKeyTransfer: 7}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('mobility=-1 → ValidationFailure', () {
+    test('mobility=-1 → ValidationException', () {
       expect(
         () => calculateBarthel({..._minAnswers(), barthelKeyMobility: -1}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('stairs=20 → ValidationFailure (máximo es 10)', () {
+    test('stairs=20 → ValidationException (máximo es 10)', () {
       expect(
         () => calculateBarthel({..._minAnswers(), barthelKeyStairs: 20}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });
 
   group('Barthel — validación: ítem ausente', () {
-    test('map vacío → ValidationFailure', () {
-      expect(() => calculateBarthel({}), throwsA(isA<ValidationFailure>()));
+    test('map vacío → ValidationException', () {
+      expect(() => calculateBarthel({}), throwsA(isA<ValidationException>()));
     });
 
-    test('falta mobility → ValidationFailure', () {
+    test('falta mobility → ValidationException', () {
       final incomplete = Map<String, int>.from(_minAnswers())
         ..remove(barthelKeyMobility);
       expect(
         () => calculateBarthel(incomplete),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });

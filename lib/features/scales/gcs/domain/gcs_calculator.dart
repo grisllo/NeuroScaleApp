@@ -1,4 +1,4 @@
-import '../../../../core/errors/failures.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../../shared/domain/entities/scale_result.dart';
 import '../../shared/domain/entities/severity.dart';
 
@@ -7,7 +7,7 @@ const String gcsKeyVerbal = 'verbal';
 const String gcsKeyMotor = 'motor';
 
 /// Pure function — no Flutter or Supabase imports.
-/// Throws [ValidationFailure] if any answer is missing or out of range.
+/// Throws [ValidationException] if any answer is missing or out of range.
 ///
 /// GCS thresholds (Teasdale & Jennett, 1974):
 ///   13–15 → Mild  |  9–12 → Moderate  |  3–8 → Severe
@@ -36,10 +36,12 @@ int _validated(
 }) {
   final value = answers[key];
   if (value == null) {
-    throw ValidationFailure('El ítem "$key" es obligatorio en la escala GCS.');
+    throw ValidationException(
+      'El ítem "$key" es obligatorio en la escala GCS.',
+    );
   }
   if (value < min || value > max) {
-    throw ValidationFailure(
+    throw ValidationException(
       'El ítem "$key" debe estar entre $min y $max (recibido: $value).',
     );
   }

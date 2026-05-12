@@ -30,3 +30,7 @@ class EmailConfirmationPendingException extends AppException {
   const EmailConfirmationPendingException()
     : super('Email pendiente de confirmación.');
 }
+
+class ValidationException extends AppException {
+  const ValidationException(super.message);
+}

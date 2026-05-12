@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neuroscale_app/core/errors/failures.dart';
+import 'package:neuroscale_app/core/errors/exceptions.dart';
 import 'package:neuroscale_app/features/scales/abcd2/domain/abcd2_calculator.dart';
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
@@ -102,62 +102,62 @@ void main() {
   });
 
   group('ABCD2 — validación: valores no permitidos', () {
-    test('age=2 → ValidationFailure (solo 0/1)', () {
+    test('age=2 → ValidationException (solo 0/1)', () {
       expect(
         () => calculateAbcd2({..._min(), abcd2KeyAge: 2}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('bp=-1 → ValidationFailure', () {
+    test('bp=-1 → ValidationException', () {
       expect(
         () => calculateAbcd2({..._min(), abcd2KeyBp: -1}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('clinical=3 → ValidationFailure (máximo es 2)', () {
+    test('clinical=3 → ValidationException (máximo es 2)', () {
       expect(
         () => calculateAbcd2({..._min(), abcd2KeyClinical: 3}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('duration=5 → ValidationFailure (solo 0/1/2)', () {
+    test('duration=5 → ValidationException (solo 0/1/2)', () {
       expect(
         () => calculateAbcd2({..._min(), abcd2KeyDuration: 5}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('diabetes=2 → ValidationFailure (solo 0/1)', () {
+    test('diabetes=2 → ValidationException (solo 0/1)', () {
       expect(
         () => calculateAbcd2({..._min(), abcd2KeyDiabetes: 2}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });
 
   group('ABCD2 — validación: ítem ausente', () {
-    test('map vacío → ValidationFailure', () {
-      expect(() => calculateAbcd2({}), throwsA(isA<ValidationFailure>()));
+    test('map vacío → ValidationException', () {
+      expect(() => calculateAbcd2({}), throwsA(isA<ValidationException>()));
     });
 
-    test('falta clinical → ValidationFailure', () {
+    test('falta clinical → ValidationException', () {
       final incomplete = Map<String, int>.from(_min())
         ..remove(abcd2KeyClinical);
       expect(
         () => calculateAbcd2(incomplete),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('falta duration → ValidationFailure', () {
+    test('falta duration → ValidationException', () {
       final incomplete = Map<String, int>.from(_min())
         ..remove(abcd2KeyDuration);
       expect(
         () => calculateAbcd2(incomplete),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });

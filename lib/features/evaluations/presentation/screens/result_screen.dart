@@ -160,22 +160,18 @@ class ResultScreen extends ConsumerWidget {
                     margin: EdgeInsets.zero,
                     child: Column(
                       children: [
-                        for (
-                          var i = 0;
-                          i < result.itemScores.entries.length;
-                          i++
-                        ) ...[
+                        for (final (i, MapEntry(key: key, value: score))
+                            in result.itemScores.entries.indexed) ...[
                           if (i > 0)
                             Divider(height: 1, color: scheme.outlineVariant),
                           _BreakdownRow(
                             label: () {
-                              final key = result.itemScores.keys.elementAt(i);
                               final labelKey = labelKeys[key];
                               return labelKey != null
                                   ? l10n.resolveKey(labelKey)
                                   : key.toUpperCase();
                             }(),
-                            value: result.itemScores.values.elementAt(i),
+                            value: score,
                           ),
                         ],
                       ],

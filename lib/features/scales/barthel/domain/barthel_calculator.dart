@@ -1,4 +1,4 @@
-import '../../../../core/errors/failures.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../../shared/domain/entities/scale_result.dart';
 import '../../shared/domain/entities/severity.dart';
 
@@ -29,7 +29,7 @@ const _kAllowed = {
 };
 
 /// Pure function — no Flutter or Supabase imports.
-/// Throws [ValidationFailure] if any answer is missing or not one of the
+/// Throws [ValidationException] if any answer is missing or not one of the
 /// allowed values for that item.
 ///
 /// Barthel Index (Mahoney & Barthel, 1965) — 10 ítems de AVD, total 0-100.
@@ -57,12 +57,12 @@ ScaleResult calculateBarthel(Map<String, int> answers) {
 int _validated(Map<String, int> answers, String key, Set<int> allowed) {
   final value = answers[key];
   if (value == null) {
-    throw ValidationFailure(
+    throw ValidationException(
       'El ítem "$key" es obligatorio en el Barthel Index.',
     );
   }
   if (!allowed.contains(value)) {
-    throw ValidationFailure(
+    throw ValidationException(
       'El ítem "$key" solo admite los valores ${allowed.toList()..sort()} '
       '(recibido: $value).',
     );

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neuroscale_app/core/errors/failures.dart';
+import 'package:neuroscale_app/core/errors/exceptions.dart';
 import 'package:neuroscale_app/features/scales/gcs/domain/gcs_calculator.dart';
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
@@ -58,49 +58,49 @@ void main() {
   });
 
   group('GCS — validación de inputs', () {
-    test('eye fuera de rango inferior (0) → ValidationFailure', () {
+    test('eye fuera de rango inferior (0) → ValidationException', () {
       expect(
         () => calculateGcs(gcs(eye: 0)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('eye fuera de rango superior (5) → ValidationFailure', () {
+    test('eye fuera de rango superior (5) → ValidationException', () {
       expect(
         () => calculateGcs(gcs(eye: 5)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('verbal fuera de rango superior (6) → ValidationFailure', () {
+    test('verbal fuera de rango superior (6) → ValidationException', () {
       expect(
         () => calculateGcs(gcs(verbal: 6)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('motor fuera de rango superior (7) → ValidationFailure', () {
+    test('motor fuera de rango superior (7) → ValidationException', () {
       expect(
         () => calculateGcs(gcs(motor: 7)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('motor fuera de rango inferior (0) → ValidationFailure', () {
+    test('motor fuera de rango inferior (0) → ValidationException', () {
       expect(
         () => calculateGcs(gcs(motor: 0)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('ítem faltante (map vacío) → ValidationFailure', () {
-      expect(() => calculateGcs({}), throwsA(isA<ValidationFailure>()));
+    test('ítem faltante (map vacío) → ValidationException', () {
+      expect(() => calculateGcs({}), throwsA(isA<ValidationException>()));
     });
 
-    test('falta solo motor → ValidationFailure', () {
+    test('falta solo motor → ValidationException', () {
       expect(
         () => calculateGcs({gcsKeyEye: 4, gcsKeyVerbal: 5}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });

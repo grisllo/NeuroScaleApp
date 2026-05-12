@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:neuroscale_app/core/errors/failures.dart';
+import 'package:neuroscale_app/core/errors/exceptions.dart';
 import 'package:neuroscale_app/features/scales/rankin/domain/rankin_calculator.dart';
 import 'package:neuroscale_app/features/scales/shared/domain/entities/severity.dart';
 
@@ -60,28 +60,28 @@ void main() {
   });
 
   group('mRS — validación de inputs', () {
-    test('score -1 → ValidationFailure', () {
+    test('score -1 → ValidationException', () {
       expect(
         () => calculateRankin(_answers(-1)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('score 7 → ValidationFailure', () {
+    test('score 7 → ValidationException', () {
       expect(
         () => calculateRankin(_answers(7)),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
 
-    test('map vacío → ValidationFailure', () {
-      expect(() => calculateRankin({}), throwsA(isA<ValidationFailure>()));
+    test('map vacío → ValidationException', () {
+      expect(() => calculateRankin({}), throwsA(isA<ValidationException>()));
     });
 
-    test('clave incorrecta → ValidationFailure', () {
+    test('clave incorrecta → ValidationException', () {
       expect(
         () => calculateRankin({'wrong_key': 3}),
-        throwsA(isA<ValidationFailure>()),
+        throwsA(isA<ValidationException>()),
       );
     });
   });
