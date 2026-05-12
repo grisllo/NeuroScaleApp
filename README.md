@@ -116,10 +116,11 @@ gantt
 
     section Fase 10 - Polish
     10.P0 Errores localizados + LICENSE (1.5h) :done, f10a, 2026-05-12, 1d
+    10.P1 ValidationException + scale_metadata (1h) :done, f10b, 2026-05-12, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git.
-> Total acumulado: **~69.5h** de trabajo activo (Fases 0–10 + Mantenimiento).
+> Total acumulado: **~70.5h** de trabajo activo (Fases 0–10 + Mantenimiento).
 
 ---
 

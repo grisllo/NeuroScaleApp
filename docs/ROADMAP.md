@@ -401,17 +401,28 @@ Issue #13.
 - `LICENSE`: MIT (copyright 2026 Arturo Ramos Reparaz).
 - `pubspec.yaml` version: `0.1.0` → `1.0.0-beta+1`.
 
-### P1 — Pendientes
+### P1 — Completadas
 
-- **POLISH-05** — Screenshots en README (3 capturas: escalas, resultado, perfil)
-- **POLISH-06** — Consolidar `_kInterpSeverity` y `_kItemLabelKeys` en `scales/shared/domain/`
-- **POLISH-07** — `ValidationException` en `core/errors/` para calculadoras de dominio puro
+#### POLISH-06 — Consolidar `_kInterpSeverity` en shared domain ✅
+- `lib/features/scales/shared/domain/scale_metadata.dart`: mapa `kInterpSeverity` como fuente única; elimina 26 líneas duplicadas de `patient_detail_screen.dart`.
 
-### P2 — Nice to have
+#### POLISH-07 — `ValidationException` para calculadoras de dominio puro ✅
+- `core/errors/exceptions.dart`: nuevo `ValidationException extends AppException`.
+- 5 calculadoras (GCS, NIHSS, mRS, Barthel, ABCD2): sustituyen `import failures.dart` por `exceptions.dart` y lanzan `ValidationException`. Dominio puro ya no depende de la capa `Failure`.
+- 5 tests de calculadoras actualizados a `isA<ValidationException>()`.
 
+### P2 — Completadas
+
+#### POLISH-09 — Fix O(n²) en breakdown ✅
+- `result_screen.dart`: loop usa `entries.indexed` en lugar de `elementAt(i)` por índice.
+
+#### POLISH-10 — Corregir `mockito` → `mocktail` en docs ✅
+- `METODOLOGIA_Y_PLANIFICACION.md`: stack de testing corregido.
+
+### Pendiente
+
+- **POLISH-05** — Screenshots en README (requiere capturas manuales del usuario)
 - **POLISH-08** — Migrar `RadioListTile` deprecated API (9 `// ignore`)
-- **POLISH-09** — Fix O(n²) en breakdown de result_screen (elementAt en loop)
-- **POLISH-10** — Corregir `mockito` → `mocktail` en METODOLOGIA_Y_PLANIFICACION.md
 
 ---
 
