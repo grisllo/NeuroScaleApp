@@ -127,10 +127,11 @@ gantt
     section Fase 12 - Animaciones
     12.1 Transiciones pagina + FadeSlideItem (1.5h) :done, f12a, 2026-05-12, 1d
     12.2 AnimatedCheck + circulo resultado (1h) :done, f12b, 2026-05-12, 1d
+    12.3 Algoritmos Q-Q + Q-Result reveal (1h) :done, f12c, 2026-05-12, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git.
-> Total acumulado: **~78h** de trabajo activo (Fases 0–12 + Mantenimiento).
+> Total acumulado: **~79h** de trabajo activo (Fases 0–12 + Mantenimiento).
 
 ---
 

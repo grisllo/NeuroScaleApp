@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 12 — Animaciones** ✅ — Completada 2026-05-12. Transiciones de página go_router (fade+slide), círculo de resultado animado, listas escalonadas (pacientes + escalas), AnimatedCheck en guardado y reset password. 191 tests, CI verde, ~78h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito: Fase 12 — Animaciones** ✅ — Completada 2026-05-12. Transiciones de página go_router (fade+slide), círculo de resultado animado, listas escalonadas (pacientes + escalas), AnimatedCheck en guardado y reset password, transiciones elegantes en algoritmos (Q→Q fade+slide 40%, Q→Result scale+fade reveal, sin salto de layout ni parpadeo). 191 tests, CI verde, ~79h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 
