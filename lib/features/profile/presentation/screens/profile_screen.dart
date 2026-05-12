@@ -21,7 +21,9 @@ class ProfileScreen extends ConsumerWidget {
     final session = ref.watch(sessionProvider).asData?.value;
     final selectedLocale = ref.watch(localeProvider).languageCode;
     final selectedTheme = ref.watch(themeModeProvider);
-    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+    final width = MediaQuery.sizeOf(context).width;
+    final isTablet = width >= Breakpoints.tablet;
+    final isDesktop = width >= Breakpoints.desktop;
     final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -29,7 +31,11 @@ class ProfileScreen extends ConsumerWidget {
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: isTablet ? 800 : double.infinity,
+            maxWidth: isDesktop
+                ? 900
+                : isTablet
+                ? 800
+                : double.infinity,
           ),
           child: ListView(
             padding: const EdgeInsets.all(16),

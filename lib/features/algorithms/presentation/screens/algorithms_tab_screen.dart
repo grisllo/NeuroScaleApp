@@ -17,13 +17,19 @@ class AlgorithmsTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+    final width = MediaQuery.sizeOf(context).width;
+    final isTablet = width >= Breakpoints.tablet;
+    final isDesktop = width >= Breakpoints.desktop;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.algorithmsTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: isTablet ? 800 : double.infinity,
+            maxWidth: isDesktop
+                ? 900
+                : isTablet
+                ? 800
+                : double.infinity,
           ),
           child: ListView(
             padding: const EdgeInsets.all(16),

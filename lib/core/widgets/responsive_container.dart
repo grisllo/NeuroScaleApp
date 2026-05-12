@@ -17,7 +17,7 @@ class ResponsiveContainer extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: width < Breakpoints.desktop ? 800 : 960,
+          maxWidth: width < Breakpoints.desktop ? 800 : 1100,
         ),
         child: child,
       ),

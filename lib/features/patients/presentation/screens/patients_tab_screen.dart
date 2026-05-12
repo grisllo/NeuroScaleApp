@@ -50,13 +50,19 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
     final l10n = context.l10n;
     final patientsAsync = ref.watch(patientsControllerProvider);
 
-    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+    final width = MediaQuery.sizeOf(context).width;
+    final isTablet = width >= Breakpoints.tablet;
+    final isDesktop = width >= Breakpoints.desktop;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.patientsTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: isTablet ? 800 : double.infinity,
+            maxWidth: isDesktop
+                ? 900
+                : isTablet
+                ? 800
+                : double.infinity,
           ),
           child: Column(
             children: [

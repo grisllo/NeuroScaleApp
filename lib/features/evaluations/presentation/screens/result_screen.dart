@@ -91,153 +91,167 @@ class ResultScreen extends ConsumerWidget {
     // Rankin has a single item identical to totalScore — breakdown is redundant.
     final showBreakdown = result.itemScores.length > 1;
 
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isTablet = screenWidth >= 600;
     return Scaffold(
       appBar: AppBar(title: Text(scaleTitle)),
-      body: Column(
-        children: [
-          // ── Severity hero — bullseye circle ──────────────────────────────
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
-            child: Column(
-              children: [
-                Container(
-                  width: 172,
-                  height: 172,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: clinicalPair.surface,
-                    border: Border.all(
-                      color: clinicalPair.foreground,
-                      width: 4,
-                    ),
-                  ),
-                  child: Center(
-                    child: SizedBox(
-                      width: 136,
-                      height: 72,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: RepaintBoundary(
-                          child: AnimatedScore(
-                            score: result.totalScore,
-                            maxScore: result.maxScore,
-                            color: clinicalPair.foreground,
-                            style: Theme.of(context).textTheme.displayLarge
-                                ?.copyWith(
-                                  color: clinicalPair.foreground,
-                                  fontWeight: FontWeight.w800,
-                                ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: isTablet ? 800 : double.infinity,
+          ),
+          child: Column(
+            children: [
+              // ── Severity hero — bullseye circle ──────────────────────────────
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 172,
+                      height: 172,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: clinicalPair.surface,
+                        border: Border.all(
+                          color: clinicalPair.foreground,
+                          width: 4,
+                        ),
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: 136,
+                          height: 72,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: RepaintBoundary(
+                              child: AnimatedScore(
+                                score: result.totalScore,
+                                maxScore: result.maxScore,
+                                color: clinicalPair.foreground,
+                                style: Theme.of(context).textTheme.displayLarge
+                                    ?.copyWith(
+                                      color: clinicalPair.foreground,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                SeverityBadge(
-                  severity: result.severity,
-                  label: l10n.resolveKey(result.severity.interpretationKey),
-                ),
-              ],
-            ),
-          ),
-
-          // ── Breakdown ─────────────────────────────────────────────────────
-          if (showBreakdown)
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
-                children: [
-                  Text(
-                    l10n.resultBreakdown,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: scheme.onSurfaceVariant,
+                    const SizedBox(height: 16),
+                    SeverityBadge(
+                      severity: result.severity,
+                      label: l10n.resolveKey(result.severity.interpretationKey),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Card(
-                    margin: EdgeInsets.zero,
-                    child: Column(
-                      children: [
-                        for (final (i, MapEntry(key: key, value: score))
-                            in result.itemScores.entries.indexed) ...[
-                          if (i > 0)
-                            Divider(height: 1, color: scheme.outlineVariant),
-                          _BreakdownRow(
-                            label: () {
-                              final labelKey = labelKeys[key];
-                              return labelKey != null
-                                  ? l10n.resolveKey(labelKey)
-                                  : key.toUpperCase();
-                            }(),
-                            value: score,
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-          else
-            const Spacer(),
-
-          // ── Sticky bottom: Save + Disclaimer ──────────────────────────────
-          Container(
-            decoration: BoxDecoration(
-              color: scheme.surfaceContainerHighest,
-              border: Border(
-                top: BorderSide(color: scheme.outlineVariant, width: 0.5),
-              ),
-            ),
-            child: SafeArea(
-              top: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton.icon(
-                        onPressed: () => _openSaveDialog(context, ref),
-                        icon: const Icon(Icons.save_outlined),
-                        label: Text(l10n.resultSaveButton),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Semantics(
-                      label: l10n.disclaimerBody,
-                      container: true,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ExcludeSemantics(
-                            child: Icon(
-                              Icons.info_outline,
-                              size: 14,
-                              color: scheme.onSurfaceVariant,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Text(
-                              l10n.disclaimerBody,
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: scheme.onSurfaceVariant),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
                   ],
                 ),
               ),
-            ),
+
+              // ── Breakdown ─────────────────────────────────────────────────────
+              if (showBreakdown)
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+                    children: [
+                      Text(
+                        l10n.resultBreakdown,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Card(
+                        margin: EdgeInsets.zero,
+                        child: Column(
+                          children: [
+                            for (final (i, MapEntry(key: key, value: score))
+                                in result.itemScores.entries.indexed) ...[
+                              if (i > 0)
+                                Divider(
+                                  height: 1,
+                                  color: scheme.outlineVariant,
+                                ),
+                              _BreakdownRow(
+                                label: () {
+                                  final labelKey = labelKeys[key];
+                                  return labelKey != null
+                                      ? l10n.resolveKey(labelKey)
+                                      : key.toUpperCase();
+                                }(),
+                                value: score,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                const Spacer(),
+
+              // ── Sticky bottom: Save + Disclaimer ──────────────────────────────
+              Container(
+                decoration: BoxDecoration(
+                  color: scheme.surfaceContainerHighest,
+                  border: Border(
+                    top: BorderSide(color: scheme.outlineVariant, width: 0.5),
+                  ),
+                ),
+                child: SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton.icon(
+                            onPressed: () => _openSaveDialog(context, ref),
+                            icon: const Icon(Icons.save_outlined),
+                            label: Text(l10n.resultSaveButton),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Semantics(
+                          label: l10n.disclaimerBody,
+                          container: true,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ExcludeSemantics(
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 14,
+                                  color: scheme.onSurfaceVariant,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  l10n.disclaimerBody,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(
+                                        color: scheme.onSurfaceVariant,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

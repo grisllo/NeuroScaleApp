@@ -114,39 +114,48 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
           ),
         ],
       ),
-      body: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, _) {
-          final isAnimating = _outgoingNode != null;
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.sizeOf(context).width >= 600
+                ? 900
+                : double.infinity,
+          ),
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
+              final isAnimating = _outgoingNode != null;
 
-          if (!isAnimating) {
-            return _buildNode(current, algoState.canGoBack);
-          }
+              if (!isAnimating) {
+                return _buildNode(current, algoState.canGoBack);
+              }
 
-          final t = Curves.easeOut.transform(_controller.value);
+              final t = Curves.easeOut.transform(_controller.value);
 
-          return ClipRect(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                // Outgoing: exits in _exitDir direction
-                FractionalTranslation(
-                  translation: Offset(_exitDir * t, 0),
-                  child: _buildNode(
-                    _outgoingNode!,
-                    _outgoingCanGoBack,
-                    active: false,
-                  ),
+              return ClipRect(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Outgoing: exits in _exitDir direction
+                    FractionalTranslation(
+                      translation: Offset(_exitDir * t, 0),
+                      child: _buildNode(
+                        _outgoingNode!,
+                        _outgoingCanGoBack,
+                        active: false,
+                      ),
+                    ),
+                    // Incoming: enters from opposite side
+                    FractionalTranslation(
+                      translation: Offset(-_exitDir * (1 - t), 0),
+                      child: _buildNode(current, algoState.canGoBack),
+                    ),
+                  ],
                 ),
-                // Incoming: enters from opposite side
-                FractionalTranslation(
-                  translation: Offset(-_exitDir * (1 - t), 0),
-                  child: _buildNode(current, algoState.canGoBack),
-                ),
-              ],
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

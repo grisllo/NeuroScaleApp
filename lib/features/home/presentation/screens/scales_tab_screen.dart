@@ -13,7 +13,9 @@ class ScalesTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTablet = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+    final width = MediaQuery.sizeOf(context).width;
+    final isTablet = width >= Breakpoints.tablet;
+    final isDesktop = width >= Breakpoints.desktop;
     final clinical = Theme.of(context).clinicalColors;
     final scheme = Theme.of(context).colorScheme;
 
@@ -65,7 +67,11 @@ class ScalesTabScreen extends StatelessWidget {
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxWidth: isTablet ? 800 : double.infinity,
+            maxWidth: isDesktop
+                ? 1100
+                : isTablet
+                ? 800
+                : double.infinity,
           ),
           child: ListView(
             padding: const EdgeInsets.fromLTRB(
@@ -78,10 +84,10 @@ class ScalesTabScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               if (isTablet)
                 GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount: isDesktop ? 3 : 2,
                   crossAxisSpacing: AppSpacing.sm,
                   mainAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 3.0,
+                  childAspectRatio: isDesktop ? 2.5 : 3.0,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: cards,
