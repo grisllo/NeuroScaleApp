@@ -10,6 +10,9 @@ abstract final class AppColors {
   static const Color primaryHover = Color(0xFF0C5C73);
   static const Color secondary = Color(0xFF445A66);
 
+  // Fondo de pantallas de autenticación — navy del icono de la app.
+  static const Color authBackground = Color(0xFF0C1840);
+
   // Surfaces — light (warm neutral: evita el blanco puro frío).
   static const Color surfaceLight = Color(0xFFF2EDE8);
   static const Color surfaceLightContainer = Color(0xFFFFFCF8);
