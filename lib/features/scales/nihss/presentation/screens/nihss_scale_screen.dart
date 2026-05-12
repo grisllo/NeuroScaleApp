@@ -187,8 +187,14 @@ class _NihssItemCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            ...item.options.map(
-              ((int, String) opt) => _buildOption(context, opt),
+            RadioGroup<int>(
+              groupValue: selectedValue,
+              onChanged: (v) => onChanged(v!),
+              child: Column(
+                children: item.options
+                    .map(((int, String) opt) => _buildOption(context, opt))
+                    .toList(),
+              ),
             ),
           ],
         ),
@@ -201,10 +207,6 @@ class _NihssItemCard extends StatelessWidget {
 
     return RadioListTile<int>(
       value: opt.$1,
-      // ignore: deprecated_member_use
-      groupValue: selectedValue,
-      // ignore: deprecated_member_use
-      onChanged: (v) => onChanged(v!),
       title: Text(
         context.l10n.resolveKey(opt.$2),
         style: isUntestable

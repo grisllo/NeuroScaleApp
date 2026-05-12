@@ -60,23 +60,29 @@ class ScaleItemCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            ...item.options.map(
-              (opt) => RadioListTile<int>(
-                value: opt.$1,
-                // ignore: deprecated_member_use
-                groupValue: selectedValue,
-                // ignore: deprecated_member_use
-                onChanged: (v) => onChanged(v!),
-                title: Text('${opt.$1} — ${context.l10n.resolveKey(opt.$2)}'),
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                selected: selectedValue == opt.$1,
-                selectedTileColor: scheme.primaryContainer.withValues(
-                  alpha: 0.35,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
+            RadioGroup<int>(
+              groupValue: selectedValue,
+              onChanged: (int? v) { if (v != null) onChanged(v); },
+              child: Column(
+                children: item.options
+                    .map(
+                      (opt) => RadioListTile<int>(
+                        value: opt.$1,
+                        title: Text(
+                          '${opt.$1} — ${context.l10n.resolveKey(opt.$2)}',
+                        ),
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        selected: selectedValue == opt.$1,
+                        selectedTileColor: scheme.primaryContainer.withValues(
+                          alpha: 0.35,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
             ),
           ],

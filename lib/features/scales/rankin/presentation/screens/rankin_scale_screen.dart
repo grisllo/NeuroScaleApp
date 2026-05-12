@@ -51,29 +51,33 @@ class RankinScaleScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 12),
-          ..._definition.items.first.options.map(
-            ((int, String) opt) => Card(
-              margin: const EdgeInsets.only(bottom: 8),
-              color: selected == opt.$1
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : null,
-              child: RadioListTile<int>(
-                value: opt.$1,
-                // ignore: deprecated_member_use
-                groupValue: selected,
-                // ignore: deprecated_member_use
-                onChanged: (v) => ref
-                    .read(rankinAnswersProvider.notifier)
-                    .setAnswer(rankinKeyScore, v!),
-                title: Text(
-                  '${opt.$1} — ${context.l10n.resolveKey(opt.$2)}',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
-              ),
+          RadioGroup<int>(
+            groupValue: selected,
+            onChanged: (v) => ref
+                .read(rankinAnswersProvider.notifier)
+                .setAnswer(rankinKeyScore, v!),
+            child: Column(
+              children: _definition.items.first.options
+                  .map(
+                    ((int, String) opt) => Card(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      color: selected == opt.$1
+                          ? Theme.of(context).colorScheme.primaryContainer
+                          : null,
+                      child: RadioListTile<int>(
+                        value: opt.$1,
+                        title: Text(
+                          '${opt.$1} — ${context.l10n.resolveKey(opt.$2)}',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           const SizedBox(height: 24),
