@@ -62,7 +62,9 @@ class ScaleItemCard extends StatelessWidget {
             const SizedBox(height: 8),
             RadioGroup<int>(
               groupValue: selectedValue,
-              onChanged: (int? v) { if (v != null) onChanged(v); },
+              onChanged: (int? v) {
+                if (v != null) onChanged(v);
+              },
               child: Column(
                 children: item.options
                     .map(

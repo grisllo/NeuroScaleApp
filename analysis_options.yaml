@@ -12,6 +12,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "lib/l10n/generated/**"
+    - "tool/**"
 
   plugins:
     - custom_lint
