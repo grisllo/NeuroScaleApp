@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 11 — UX Visual** ✅ — Completada 2026-05-12. Hash cross-platform para avatares, proporciones web corregidas (maxWidth por breakpoint, grid 3 cols desktop), AuthCard navy con logo real, tema claro cálido, icono oficial en todas las plataformas. Web desplegada en **GitHub Pages**: https://grisllo.github.io/NeuroScaleApp/ — 191 tests, ~76h acumuladas.
+**Último hito: Fase 12 — Animaciones** ✅ — Completada 2026-05-12. Transiciones de página go_router (fade+slide), círculo de resultado animado, listas escalonadas (pacientes + escalas), AnimatedCheck en guardado y reset password. 191 tests, CI verde, ~78h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 

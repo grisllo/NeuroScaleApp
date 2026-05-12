@@ -123,10 +123,14 @@ gantt
     11.1 Hash avatar cross-platform + layout web (2h) :done, f11a, 2026-05-12, 1d
     11.2 Auth card navy + tema claro calido (1h) :done, f11b, 2026-05-12, 1d
     11.3 Icono y logo oficial (1.5h)            :done, f11c, 2026-05-12, 1d
+
+    section Fase 12 - Animaciones
+    12.1 Transiciones pagina + FadeSlideItem (1.5h) :done, f12a, 2026-05-12, 1d
+    12.2 AnimatedCheck + circulo resultado (1h) :done, f12b, 2026-05-12, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git.
-> Total acumulado: **~76h** de trabajo activo (Fases 0–11 + Mantenimiento).
+> Total acumulado: **~78h** de trabajo activo (Fases 0–12 + Mantenimiento).
 
 ---
 
