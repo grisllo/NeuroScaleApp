@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/auth_controller.dart';
 import '../providers/session_provider.dart';
+import '../widgets/auth_card.dart';
 import '../widgets/auth_form_field.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -37,19 +37,125 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final authState = ref.watch(authControllerProvider);
+    final isTablet = MediaQuery.sizeOf(context).width >= 600;
 
     ref.listen(sessionProvider, (_, next) {
-      if (next.asData?.value != null && context.mounted) {
-        context.go('/');
-      }
+      if (next.asData?.value != null && context.mounted) context.go('/');
     });
-
     ref.listen(authControllerProvider, (_, next) {
-      if (next.asData?.value != null && context.mounted) {
-        context.go('/');
-      }
+      if (next.asData?.value != null && context.mounted) context.go('/');
     });
 
+    final formFields = [
+      AuthFormField(
+        label: l10n.emailLabel,
+        hint: l10n.emailHint,
+        controller: _emailController,
+        keyboardType: TextInputType.emailAddress,
+        autofillHints: const [AutofillHints.email],
+        validator: (v) {
+          if (v == null || v.trim().isEmpty) return l10n.fieldRequiredError;
+          if (!EmailValidator.validate(v.trim())) return l10n.emailInvalidError;
+          return null;
+        },
+      ),
+      const SizedBox(height: 16),
+      AuthFormField(
+        label: l10n.passwordLabel,
+        hint: l10n.passwordHint,
+        controller: _passwordController,
+        obscureText: _obscurePassword,
+        autofillHints: const [AutofillHints.newPassword],
+        autocorrect: false,
+        enableSuggestions: false,
+        suffixIcon: IconButton(
+          icon: Icon(
+            _obscurePassword ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+        ),
+        validator: (v) {
+          if (v == null || v.isEmpty) return l10n.fieldRequiredError;
+          if (v.length < 8 ||
+              !RegExp(r'[a-zA-Z]').hasMatch(v) ||
+              !RegExp(r'[0-9]').hasMatch(v)) {
+            return l10n.passwordTooWeakError;
+          }
+          return null;
+        },
+      ),
+      const SizedBox(height: 16),
+      AuthFormField(
+        label: l10n.confirmPasswordLabel,
+        controller: _confirmController,
+        obscureText: _obscurePassword,
+        textInputAction: TextInputAction.done,
+        onFieldSubmitted: _submit,
+        autofillHints: const [AutofillHints.newPassword],
+        autocorrect: false,
+        enableSuggestions: false,
+        validator: (v) {
+          if (v == null || v.isEmpty) return l10n.fieldRequiredError;
+          if (v != _passwordController.text) return l10n.passwordMismatchError;
+          return null;
+        },
+      ),
+      const SizedBox(height: 8),
+      if (authState.hasError)
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(
+            failureMessage(authState.error, l10n),
+            style: TextStyle(
+              color: authState.error is EmailConfirmationPendingFailure
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ),
+      const SizedBox(height: 24),
+      FilledButton(
+        onPressed: authState.isLoading ? null : _submit,
+        child: authState.isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Text(l10n.registerButton),
+      ),
+      const SizedBox(height: 8),
+      TextButton(
+        onPressed: () => context.go('/login'),
+        child: Text(l10n.loginLinkText),
+      ),
+    ];
+
+    // ── Web / tablet: card blanca centrada sobre fondo primary ────────────
+    if (isTablet) {
+      return AuthCard(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n.registerTitle,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              ...formFields,
+            ],
+          ),
+        ),
+      );
+    }
+
+    // ── Móvil: layout actual ──────────────────────────────────────────────
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -69,102 +175,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-                  AuthFormField(
-                    label: l10n.emailLabel,
-                    hint: l10n.emailHint,
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    autofillHints: const [AutofillHints.email],
-                    validator: (v) {
-                      if (v == null || v.trim().isEmpty) {
-                        return l10n.fieldRequiredError;
-                      }
-                      if (!EmailValidator.validate(v.trim())) {
-                        return l10n.emailInvalidError;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  AuthFormField(
-                    label: l10n.passwordLabel,
-                    hint: l10n.passwordHint,
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    autofillHints: const [AutofillHints.newPassword],
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                      ),
-                      onPressed: () =>
-                          setState(() => _obscurePassword = !_obscurePassword),
-                    ),
-                    validator: (v) {
-                      if (v == null || v.isEmpty) {
-                        return l10n.fieldRequiredError;
-                      }
-                      if (v.length < 8 ||
-                          !RegExp(r'[a-zA-Z]').hasMatch(v) ||
-                          !RegExp(r'[0-9]').hasMatch(v)) {
-                        return l10n.passwordTooWeakError;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  AuthFormField(
-                    label: l10n.confirmPasswordLabel,
-                    controller: _confirmController,
-                    obscureText: _obscurePassword,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: _submit,
-                    autofillHints: const [AutofillHints.newPassword],
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    validator: (v) {
-                      if (v == null || v.isEmpty) {
-                        return l10n.fieldRequiredError;
-                      }
-                      if (v != _passwordController.text) {
-                        return l10n.passwordMismatchError;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  if (authState.hasError)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        _authErrorMessage(authState.error, l10n),
-                        style: TextStyle(
-                          color:
-                              authState.error is EmailConfirmationPendingFailure
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                    ),
-                  const SizedBox(height: 24),
-                  FilledButton(
-                    onPressed: authState.isLoading ? null : _submit,
-                    child: authState.isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l10n.registerButton),
-                  ),
-                  const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () => context.go('/login'),
-                    child: Text(l10n.loginLinkText),
-                  ),
+                  ...formFields,
                 ],
               ),
             ),
@@ -183,7 +194,4 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           password: _passwordController.text,
         );
   }
-
-  String _authErrorMessage(Object? error, AppLocalizations l10n) =>
-      failureMessage(error, l10n);
 }

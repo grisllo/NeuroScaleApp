@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/disclaimer_provider.dart';
+import '../widgets/auth_card.dart';
 
 const _prefKey = 'disclaimer_accepted';
 
@@ -14,6 +15,49 @@ class DisclaimerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final isTablet = MediaQuery.sizeOf(context).width >= 600;
+
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.warning_amber_rounded,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                l10n.disclaimerTitle,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Text(
+          l10n.disclaimerBody,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 32),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton(
+            onPressed: () => _accept(context, ref),
+            child: Text(l10n.disclaimerAcceptButton),
+          ),
+        ),
+      ],
+    );
+
+    if (isTablet) {
+      return AuthCard(child: content);
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -33,37 +77,10 @@ class DisclaimerScreen extends ConsumerWidget {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.warning_amber_rounded,
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.disclaimerTitle,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        l10n.disclaimerBody,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
+                  child: content,
                 ),
               ),
               const Spacer(),
-              FilledButton(
-                onPressed: () => _accept(context, ref),
-                child: Text(l10n.disclaimerAcceptButton),
-              ),
             ],
           ),
         ),

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/errors/failures.dart';
+import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/password_reset_controller.dart';
+import '../widgets/auth_card.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -31,6 +32,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final state = ref.watch(passwordResetControllerProvider);
+    final isTablet = MediaQuery.sizeOf(context).width >= 600;
 
     ref.listen(passwordResetControllerProvider, (prev, next) {
       if (prev?.isLoading == true && next.hasValue && !next.hasError) {
@@ -38,13 +40,19 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       }
     });
 
+    final content = _sent ? _buildSuccess(l10n) : _buildForm(l10n, state);
+
+    if (isTablet) {
+      return AuthCard(child: content);
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.forgotPasswordTitle)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: _sent ? _buildSuccess(l10n) : _buildForm(l10n, state),
+            child: content,
           ),
         ),
       ),
@@ -56,19 +64,21 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             l10n.forgotPasswordTitle,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),
           Text(
             l10n.forgotPasswordInstruction,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
@@ -95,7 +105,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                _errorMessage(state.error, l10n),
+                failureMessage(state.error, l10n),
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ),
@@ -110,7 +120,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   )
                 : Text(l10n.sendResetLinkButton),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           TextButton(
             onPressed: () => context.go('/login'),
             child: Text(l10n.backToLoginButton),
@@ -123,6 +133,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget _buildSuccess(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           Icons.mark_email_read_outlined,
@@ -149,11 +160,5 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     await ref
         .read(passwordResetControllerProvider.notifier)
         .requestReset(email: _emailController.text.trim().toLowerCase());
-  }
-
-  String _errorMessage(Object? error, AppLocalizations l10n) {
-    if (error is NetworkFailure) return l10n.networkErrorMessage;
-    if (error is Failure) return l10n.backendUnavailableError;
-    return l10n.genericErrorMessage;
   }
 }
