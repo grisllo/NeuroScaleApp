@@ -8,6 +8,7 @@ import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/pii_detector.dart';
+import '../../../../core/widgets/animated_check.dart';
 import '../../../../core/widgets/animated_score.dart';
 import '../../../../core/widgets/severity_badge.dart';
 import '../../../../features/auth/presentation/providers/session_provider.dart';
@@ -327,15 +328,18 @@ class _SaveEvaluationDialog extends ConsumerStatefulWidget {
       _SaveEvaluationDialogState();
 }
 
+enum _SaveState { idle, busy, success }
+
 class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
   final _formKey = GlobalKey<FormState>();
   final _newAliasController = TextEditingController();
   final _notesController = TextEditingController();
-  String? _selectedValue; // null = "Sin asignar"; patient.id; or sentinel
-  bool _busy = false;
+  String? _selectedValue;
+  _SaveState _saveState = _SaveState.idle;
   String? _errorMessage;
 
   bool get _isCreatingNew => _selectedValue == _kNewPatientSentinel;
+  bool get _busy => _saveState == _SaveState.busy;
 
   @override
   void dispose() {
@@ -347,7 +351,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() {
-      _busy = true;
+      _saveState = _SaveState.busy;
       _errorMessage = null;
     });
     try {
@@ -358,7 +362,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
             .create(alias: _newAliasController.text.trim());
         finalPatientId = created.id;
       } else {
-        finalPatientId = _selectedValue; // null or existing patient id
+        finalPatientId = _selectedValue;
       }
 
       final evaluation = Evaluation(
@@ -380,14 +384,14 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
           .save(evaluation);
 
       if (!mounted) return;
+      setState(() => _saveState = _SaveState.success);
+      await Future<void>.delayed(const Duration(milliseconds: 1100));
+      if (!mounted) return;
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.saveSuccessMessage)));
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _busy = false;
+        _saveState = _SaveState.idle;
         _errorMessage = failureMessage(e, context.l10n);
       });
     }
@@ -397,6 +401,30 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final patientsAsync = ref.watch(patientsControllerProvider);
+
+    // ── Estado de éxito: checkmark animado ────────────────────────────
+    if (_saveState == _SaveState.success) {
+      return AlertDialog(
+        content: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedCheck(
+                size: 80,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l10n.saveSuccessMessage,
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return AlertDialog(
       title: Text(l10n.saveDialogTitle),

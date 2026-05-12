@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/widgets/animated_check.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/password_reset_controller.dart';
 import '../widgets/auth_card.dart';
@@ -135,11 +136,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.mark_email_read_outlined,
-          size: 64,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        const Center(child: AnimatedCheck(size: 80)),
         const SizedBox(height: 24),
         Text(
           l10n.resetLinkSentMessage,
