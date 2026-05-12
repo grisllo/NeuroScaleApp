@@ -10,6 +10,6 @@ abstract class ScaleDefinition {
   List<ScaleItem> get items;
 
   /// Pure calculation — no Flutter or Supabase imports allowed here.
-  /// Throws [ValidationFailure] if any answer is out of range or missing.
+  /// Throws [ValidationException] if any answer is out of range or missing.
   ScaleResult calculate(Map<String, int> answers);
 }

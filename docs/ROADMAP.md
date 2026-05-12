@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Proyecto completado: Fase 9 + Mantenimiento** ✅ — Beta completada 2026-05-09. Password reset, APK Android firmado. Web desplegada en **GitHub Pages**: https://grisllo.github.io/NeuroScaleApp/ — 191 tests, CI verde, ~68h acumuladas.
+**Último hito: Fase 10 — Polish & Optimización** ✅ — Completada 2026-05-12. Errores localizados (`failureMessage`), `ValidationException` en dominio puro, `RadioGroup` migration, `kInterpSeverity` centralizado, LICENSE MIT, versión 1.0.0-beta+1. Web desplegada en **GitHub Pages**: https://grisllo.github.io/NeuroScaleApp/ — 191 tests, CI verde, ~71h acumuladas.
 
 ---
 
@@ -419,10 +419,12 @@ Issue #13.
 #### POLISH-10 — Corregir `mockito` → `mocktail` en docs ✅
 - `METODOLOGIA_Y_PLANIFICACION.md`: stack de testing corregido.
 
+#### POLISH-08 — Migrar `RadioListTile` deprecated API ✅
+- 4 pantallas (`ScaleItemCard`, `Abcd2ScaleScreen`, `RankinScaleScreen`, `NihssItemCard`): `groupValue`/`onChanged` sustituidos por `RadioGroup<int>` wrapper. De 9 `// ignore` a 1 (el `DropdownButtonFormField.value` restante no tiene sustituto M3 directo sin cambiar la UX).
+
 ### Pendiente
 
-- **POLISH-05** — Screenshots en README (requiere capturas manuales del usuario)
-- **POLISH-08** — Migrar `RadioListTile` deprecated API (9 `// ignore`)
+- **POLISH-05** — Screenshots en README (requiere capturas manuales)
 
 ---
 
