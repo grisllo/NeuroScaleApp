@@ -158,12 +158,15 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
             builder: (context, _) {
               final isAnimating = _outgoingNode != null;
 
-              // No animation: show current node (with entrance for result).
+              // No animation: fill available space to match the Stack layout
+              // used during transitions — prevents layout jump on result.
               if (!isAnimating || disableAnim) {
-                return _buildNode(
-                  current,
-                  algoState.canGoBack,
-                  withEntrance: true,
+                return SizedBox.expand(
+                  child: _buildNode(
+                    current,
+                    algoState.canGoBack,
+                    withEntrance: true,
+                  ),
                 );
               }
 
