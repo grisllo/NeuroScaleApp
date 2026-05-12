@@ -63,16 +63,17 @@ class DisclaimerScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 32),
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.asset('assets/logo.png', width: 72, height: 72),
+                child: Image.asset('assets/logo.png', width: 80, height: 80),
               ),
               const SizedBox(height: 16),
               Text(
                 l10n.appTitle,
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).brightness == Brightness.dark

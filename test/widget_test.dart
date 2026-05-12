@@ -30,7 +30,7 @@ void main() {
 
     expect(find.byType(MaterialApp), findsOneWidget);
     // DisclaimerScreen shows appTitle and accept button
-    expect(find.text('NeuroScale'), findsWidgets);
+    expect(find.text('NeuroScale App'), findsWidgets);
     expect(find.text('Entendido, continuar'), findsOneWidget);
   });
 

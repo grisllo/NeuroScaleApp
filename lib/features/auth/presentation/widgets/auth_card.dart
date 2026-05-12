@@ -43,7 +43,7 @@ class AuthCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'NeuroScale',
+                    'NeuroScale App',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 26,

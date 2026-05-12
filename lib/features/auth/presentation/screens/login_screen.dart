@@ -171,6 +171,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.asset(
+                            'assets/logo.png',
+                            width: 80,
+                            height: 80,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       Text(
                         l10n.appTitle,
                         style: Theme.of(context).textTheme.headlineMedium

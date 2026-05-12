@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
 
-  "appTitle": "NeuroScale",
+  "appTitle": "NeuroScale App",
   "@appTitle": { "description": "Application title" },
 
   "disclaimerTitle": "Medical Notice",
