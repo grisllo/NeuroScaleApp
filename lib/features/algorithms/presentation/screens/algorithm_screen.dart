@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/widgets/animated_tap_scale.dart';
+import '../../../../core/widgets/fade_slide_item.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../../domain/entities/algorithm_definition.dart';
 import '../../domain/entities/algorithm_node.dart';
 import '../../domain/entities/algorithm_urgency.dart';
 import '../l10n/algorithm_l10n.dart';
 import '../providers/algorithm_provider.dart';
+
+// Durations by transition type.
+const _kDurationQuestion = Duration(milliseconds: 280);
+const _kDurationBack = Duration(milliseconds: 220);
+const _kDurationResult = Duration(milliseconds: 480);
 
 class AlgorithmScreen extends ConsumerStatefulWidget {
   const AlgorithmScreen({super.key, required this.definition});
@@ -22,24 +29,21 @@ class AlgorithmScreen extends ConsumerStatefulWidget {
 
 class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
     with SingleTickerProviderStateMixin {
-  // exitDir: -1 = outgoing exits LEFT (forward), +1 = outgoing exits RIGHT (back)
   double _exitDir = -1;
   AlgorithmNode? _outgoingNode;
   bool _outgoingCanGoBack = false;
+  bool _isResultIncoming = false;
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(
-          vsync: this,
-          duration: const Duration(milliseconds: 320),
-        )..addStatusListener((status) {
-          if (status == AnimationStatus.completed) {
-            setState(() => _outgoingNode = null);
-          }
-        });
+    _controller = AnimationController(vsync: this, duration: _kDurationQuestion)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          setState(() => _outgoingNode = null);
+        }
+      });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(algorithmProvider.notifier).start(widget.definition);
     });
@@ -51,7 +55,11 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
     super.dispose();
   }
 
-  void _navigate({required double exitDir, required VoidCallback action}) {
+  void _navigate({
+    required double exitDir,
+    required VoidCallback action,
+    bool checkResult = false,
+  }) {
     final algoState = ref.read(algorithmProvider);
     if (algoState == null) return;
     setState(() {
@@ -60,11 +68,19 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
       _outgoingCanGoBack = algoState.canGoBack;
     });
     action();
+    final newState = ref.read(algorithmProvider);
+    _isResultIncoming = checkResult && newState?.currentNode is ResultNode;
+    _controller.duration = _isResultIncoming
+        ? _kDurationResult
+        : exitDir < 0
+        ? _kDurationQuestion
+        : _kDurationBack;
     _controller.forward(from: 0);
   }
 
   void _step(String optionId) => _navigate(
     exitDir: -1,
+    checkResult: true,
     action: () => ref.read(algorithmProvider.notifier).step(optionId),
   );
 
@@ -74,24 +90,39 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
   );
 
   void _restart() {
-    setState(() => _outgoingNode = null);
+    setState(() {
+      _outgoingNode = null;
+      _isResultIncoming = false;
+    });
     _controller.reset();
     ref.read(algorithmProvider.notifier).restart();
   }
 
-  Widget _buildNode(AlgorithmNode node, bool canGoBack, {bool active = true}) =>
-      switch (node) {
-        QuestionNode() => _QuestionBody(
-          node: node,
-          canGoBack: canGoBack,
-          onStep: active ? _step : (_) {},
-          onBack: active ? _back : () {},
-        ),
-        ResultNode() => _ResultBody(
-          node: node,
-          onRestart: active ? _restart : () {},
-        ),
-      };
+  Widget _buildNode(
+    AlgorithmNode node,
+    bool canGoBack, {
+    bool active = true,
+    bool withEntrance = false,
+  }) {
+    final body = switch (node) {
+      QuestionNode() => _QuestionBody(
+        node: node,
+        canGoBack: canGoBack,
+        onStep: active ? _step : (_) {},
+        onBack: active ? _back : () {},
+      ),
+      ResultNode() => _ResultBody(
+        node: node,
+        onRestart: active ? _restart : () {},
+      ),
+    };
+
+    // Entrance animation only for ResultNode shown outside a transition.
+    if (withEntrance && node is ResultNode) {
+      return FadeSlideItem(key: ValueKey(node.id), child: body);
+    }
+    return body;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +134,7 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
     }
 
     final current = algoState.currentNode;
+    final disableAnim = MediaQuery.of(context).disableAnimations;
 
     return Scaffold(
       appBar: AppBar(
@@ -126,29 +158,77 @@ class _AlgorithmScreenState extends ConsumerState<AlgorithmScreen>
             builder: (context, _) {
               final isAnimating = _outgoingNode != null;
 
-              if (!isAnimating) {
-                return _buildNode(current, algoState.canGoBack);
+              // No animation: show current node (with entrance for result).
+              if (!isAnimating || disableAnim) {
+                return _buildNode(
+                  current,
+                  algoState.canGoBack,
+                  withEntrance: true,
+                );
               }
 
-              final t = Curves.easeOut.transform(_controller.value);
+              final raw = _controller.value;
+
+              // ── Result reveal: outgoing fades/shrinks, result scales in ─────
+              if (_isResultIncoming) {
+                final tIn = AppMotion.emphasized.transform(raw);
+                final tOut = Curves.easeIn.transform(raw);
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Outgoing question fades out + slight shrink
+                    Opacity(
+                      opacity: (1 - tOut * 1.4).clamp(0.0, 1.0),
+                      child: Transform.scale(
+                        scale: 1.0 - 0.04 * tOut,
+                        child: _buildNode(
+                          _outgoingNode!,
+                          _outgoingCanGoBack,
+                          active: false,
+                        ),
+                      ),
+                    ),
+                    // Incoming result: scale up from 0.90 + fade
+                    Opacity(
+                      opacity: Curves.easeOut.transform(
+                        (raw * 1.5).clamp(0.0, 1.0),
+                      ),
+                      child: Transform.scale(
+                        scale: 0.90 + 0.10 * tIn,
+                        child: _buildNode(current, algoState.canGoBack),
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              // ── Question → Question: fade + partial slide ────────────────
+              final tSlide = AppMotion.enter.transform(raw);
+              final tFadeOut = Curves.easeIn.transform(raw);
 
               return ClipRect(
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    // Outgoing: exits in _exitDir direction
-                    FractionalTranslation(
-                      translation: Offset(_exitDir * t, 0),
-                      child: _buildNode(
-                        _outgoingNode!,
-                        _outgoingCanGoBack,
-                        active: false,
+                    // Outgoing: fade out + 40% slide in exit direction
+                    Opacity(
+                      opacity: (1 - tFadeOut * 1.6).clamp(0.0, 1.0),
+                      child: FractionalTranslation(
+                        translation: Offset(_exitDir * tSlide * 0.40, 0),
+                        child: _buildNode(
+                          _outgoingNode!,
+                          _outgoingCanGoBack,
+                          active: false,
+                        ),
                       ),
                     ),
-                    // Incoming: enters from opposite side
-                    FractionalTranslation(
-                      translation: Offset(-_exitDir * (1 - t), 0),
-                      child: _buildNode(current, algoState.canGoBack),
+                    // Incoming: fade in + 40% slide from opposite
+                    Opacity(
+                      opacity: Curves.easeOut.transform(raw),
+                      child: FractionalTranslation(
+                        translation: Offset(-_exitDir * (1 - tSlide) * 0.40, 0),
+                        child: _buildNode(current, algoState.canGoBack),
+                      ),
                     ),
                   ],
                 ),
