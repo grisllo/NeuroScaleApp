@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 12 — Animaciones, Fixes y UX Algoritmos** ✅ — Completada 2026-05-12. Transiciones de página, AnimatedCheck, algoritmos Q→Q y Q→Result elegantes, fix parpadeo y salto de layout. Fixes móvil: icono centrado, "NeuroScale App" completo (ARB + AndroidManifest). Algoritmos: pregunta con acento primaryContainer + borde teal, opciones ancladas en zona inferior para acceso con pulgar. 191 tests, CI verde, ~81h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito: Fase 12 — Animaciones, Fixes y UX Algoritmos** ✅ — Completada 2026-05-12. Transiciones de página, AnimatedCheck, algoritmos Q→Q y Q→Result elegantes, fix parpadeo y salto de layout. Fixes móvil: icono centrado, "NeuroScale App" completo (ARB + AndroidManifest). Algoritmos: pregunta con acento primaryContainer + borde teal, opciones ancladas en zona inferior para acceso con pulgar. 191 tests, CI verde, ~73h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 

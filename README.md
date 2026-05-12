@@ -132,8 +132,8 @@ gantt
     12.5 Algoritmos — jerarquia pregunta + thumb-friendly (0.5h) :done, f12e, 2026-05-12, 1d
 ```
 
-> Tiempos derivados de los timestamps de los commits de git.
-> Total acumulado: **~81h** de trabajo activo (Fases 0–12 + Mantenimiento).
+> Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).
+> Total acumulado: **~73h** de trabajo activo (Fases 0–12 + Mantenimiento).
 
 ---
 
