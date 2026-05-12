@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/env/env.dart';
@@ -10,7 +12,9 @@ import 'session_provider.dart';
 
 class PasswordResetController extends AsyncNotifier<void> {
   @override
-  Future<void> build() async {}
+  // Synchronous build: avoids AsyncLoading→AsyncData on init that would
+  // trigger the "sent" listener in ForgotPasswordScreen prematurely.
+  FutureOr<void> build() {}
 
   Future<void> requestReset({required String email}) async {
     state = const AsyncLoading();
