@@ -10,10 +10,10 @@ abstract final class AppColors {
   static const Color primaryHover = Color(0xFF0C5C73);
   static const Color secondary = Color(0xFF445A66);
 
-  // Surfaces — light.
-  static const Color surfaceLight = Color(0xFFF7F9FB);
-  static const Color surfaceLightContainer = Color(0xFFFFFFFF);
-  static const Color surfaceLightContainerHigh = Color(0xFFEEF2F5);
+  // Surfaces — light (warm neutral: evita el blanco puro frío).
+  static const Color surfaceLight = Color(0xFFF2EDE8);
+  static const Color surfaceLightContainer = Color(0xFFFFFCF8);
+  static const Color surfaceLightContainerHigh = Color(0xFFE8E2DC);
 
   // Surfaces — dark.
   static const Color surfaceDark = Color(0xFF0E1419);
@@ -29,8 +29,8 @@ abstract final class AppColors {
   static const Color textSecondaryDark = Color(0xFFAFBCC4);
 
   // Outlines.
-  static const Color outlineLight = Color(0xFFD8DEE3);
-  static const Color outlineVariantLight = Color(0xFFE7ECF0);
+  static const Color outlineLight = Color(0xFFCEC8C0);
+  static const Color outlineVariantLight = Color(0xFFE0DAD3);
   static const Color outlineDark = Color(0xFF2A333C);
   static const Color outlineVariantDark = Color(0xFF1F2730);
 
