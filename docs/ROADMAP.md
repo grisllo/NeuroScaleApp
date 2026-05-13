@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 13 — Fixes UX evaluaciones** ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado en pantallas de auth (backgroundColor/foregroundColor explícitos en theme). 191 tests, CI verde, ~75h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito: Fase 13 — Fixes UX evaluaciones** ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado en pantallas de auth. Tab "Evaluaciones" en móvil, cabecera "Evolución" en web. Toast disclaimer superior-derecha en web/tablet (Overlay + slide-in, 6s, botón Cerrar); SnackBar con swipe lateral en móvil. 191 tests, CI verde, ~76h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 
