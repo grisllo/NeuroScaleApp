@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../core/providers/scale_disclaimer_provider.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/pii_detector.dart';
@@ -65,7 +66,7 @@ const _kItemLabelKeys = <String, Map<String, String>>{
   },
 };
 
-class ResultScreen extends ConsumerWidget {
+class ResultScreen extends ConsumerStatefulWidget {
   const ResultScreen({
     super.key,
     required this.result,
@@ -78,25 +79,60 @@ class ResultScreen extends ConsumerWidget {
   final String scaleType;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ResultScreen> createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends ConsumerState<ResultScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final notifier = ref.read(scaleDisclaimerProvider.notifier);
+      if (!notifier.hasSeen(widget.scaleType)) {
+        notifier.markSeen(widget.scaleType);
+        final l10n = context.l10n;
+        final scheme = Theme.of(context).colorScheme;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16,
+                  color: scheme.onInverseSurface,
+                ),
+                const SizedBox(width: 8),
+                Expanded(child: Text(l10n.disclaimerBody)),
+              ],
+            ),
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final clinical = Theme.of(context).clinicalColors;
-    final clinicalPair = switch (result.severity) {
+    final clinicalPair = switch (widget.result.severity) {
       Severity.mild => clinical.success,
       Severity.moderate => clinical.warning,
       Severity.severe => clinical.danger,
       Severity.none => clinical.info,
     };
 
-    final labelKeys = _kItemLabelKeys[scaleType] ?? {};
+    final labelKeys = _kItemLabelKeys[widget.scaleType] ?? {};
     // Rankin has a single item identical to totalScore — breakdown is redundant.
-    final showBreakdown = result.itemScores.length > 1;
+    final showBreakdown = widget.result.itemScores.length > 1;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isTablet = screenWidth >= 600;
     return Scaffold(
-      appBar: AppBar(title: Text(scaleTitle)),
+      appBar: AppBar(title: Text(widget.scaleTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -129,8 +165,8 @@ class ResultScreen extends ConsumerWidget {
                               fit: BoxFit.contain,
                               child: RepaintBoundary(
                                 child: AnimatedScore(
-                                  score: result.totalScore,
-                                  maxScore: result.maxScore,
+                                  score: widget.result.totalScore,
+                                  maxScore: widget.result.maxScore,
                                   color: clinicalPair.foreground,
                                   style: Theme.of(context)
                                       .textTheme
@@ -148,8 +184,10 @@ class ResultScreen extends ConsumerWidget {
                     ), // _AnimatedEntrance
                     const SizedBox(height: 16),
                     SeverityBadge(
-                      severity: result.severity,
-                      label: l10n.resolveKey(result.severity.interpretationKey),
+                      severity: widget.result.severity,
+                      label: l10n.resolveKey(
+                        widget.result.severity.interpretationKey,
+                      ),
                     ),
                   ],
                 ),
@@ -174,7 +212,11 @@ class ResultScreen extends ConsumerWidget {
                         child: Column(
                           children: [
                             for (final (i, MapEntry(key: key, value: score))
-                                in result.itemScores.entries.indexed) ...[
+                                in widget
+                                    .result
+                                    .itemScores
+                                    .entries
+                                    .indexed) ...[
                               if (i > 0)
                                 Divider(
                                   height: 1,
@@ -199,7 +241,7 @@ class ResultScreen extends ConsumerWidget {
               else
                 const Spacer(),
 
-              // ── Sticky bottom: Save + Disclaimer ──────────────────────────────
+              // ── Sticky bottom: Save ───────────────────────────────────────────
               Container(
                 decoration: BoxDecoration(
                   color: scheme.surfaceContainerHighest,
@@ -210,47 +252,14 @@ class ResultScreen extends ConsumerWidget {
                 child: SafeArea(
                   top: false,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: FilledButton.icon(
-                            onPressed: () => _openSaveDialog(context, ref),
-                            icon: const Icon(Icons.save_outlined),
-                            label: Text(l10n.resultSaveButton),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Semantics(
-                          label: l10n.disclaimerBody,
-                          container: true,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ExcludeSemantics(
-                                child: Icon(
-                                  Icons.info_outline,
-                                  size: 14,
-                                  color: scheme.onSurfaceVariant,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                child: Text(
-                                  l10n.disclaimerBody,
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: scheme.onSurfaceVariant,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        onPressed: () => _openSaveDialog(context),
+                        icon: const Icon(Icons.save_outlined),
+                        label: Text(l10n.resultSaveButton),
+                      ),
                     ),
                   ),
                 ),
@@ -262,7 +271,7 @@ class ResultScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _openSaveDialog(BuildContext context, WidgetRef ref) async {
+  Future<void> _openSaveDialog(BuildContext context) async {
     final session = ref.read(sessionProvider).asData?.value;
     if (session == null) {
       if (context.mounted) context.go('/login');
@@ -271,8 +280,8 @@ class ResultScreen extends ConsumerWidget {
     await showDialog<void>(
       context: context,
       builder: (_) => _SaveEvaluationDialog(
-        result: result,
-        scaleType: scaleType,
+        result: widget.result,
+        scaleType: widget.scaleType,
         userId: session.id,
       ),
     );

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:neuroscale_app/core/providers/disclaimer_provider.dart'
     show DisclaimerAcceptedNotifier, disclaimerAcceptedProvider;
+import 'package:neuroscale_app/core/providers/scale_disclaimer_provider.dart'
+    show ScaleDisclaimerNotifier, scaleDisclaimerProvider;
 import 'package:neuroscale_app/core/theme/app_theme.dart';
 import 'package:neuroscale_app/features/auth/domain/entities/app_user.dart';
 import 'package:neuroscale_app/features/auth/presentation/providers/session_provider.dart';
@@ -108,6 +110,9 @@ void main() {
   ) async {
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          scaleDisclaimerProvider.overrideWith(ScaleDisclaimerNotifier.new),
+        ],
         child: MaterialApp(
           theme: AppTheme.light(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -131,9 +136,14 @@ void main() {
     expect(find.byIcon(Icons.save_outlined), findsOneWidget);
   });
 
-  testWidgets('ResultScreen muestra el bloque de disclaimer', (tester) async {
+  testWidgets('ResultScreen muestra SnackBar de disclaimer en primera vista', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          scaleDisclaimerProvider.overrideWith(ScaleDisclaimerNotifier.new),
+        ],
         child: MaterialApp(
           theme: AppTheme.light(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -152,7 +162,8 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump(); // trigger postFrameCallback
+    await tester.pump(const Duration(milliseconds: 300)); // SnackBar animation
     expect(find.byIcon(Icons.info_outline), findsOneWidget);
   });
 

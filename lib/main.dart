@@ -10,6 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/env/env.dart';
 import 'core/providers/disclaimer_provider.dart';
 import 'core/providers/locale_provider.dart';
+import 'core/providers/scale_disclaimer_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -27,6 +28,10 @@ Future<void> main() async {
   final disclaimerAccepted = prefs.getBool('disclaimer_accepted') ?? false;
   final savedLocaleCode = prefs.getString(localePrefsKey) ?? 'es';
   final savedTheme = prefs.getString(themePrefsKey) ?? 'system';
+  final seenScalesRaw = prefs.getString('disclaimer_seen_scales') ?? '';
+  final seenScales = seenScalesRaw.isEmpty
+      ? <String>{}
+      : seenScalesRaw.split(',').toSet();
   final initialTheme = switch (savedTheme) {
     'light' => ThemeMode.light,
     'dark' => ThemeMode.dark,
@@ -45,6 +50,9 @@ Future<void> main() async {
     overrides: [
       disclaimerAcceptedProvider.overrideWith(
         () => DisclaimerAcceptedNotifier(disclaimerAccepted),
+      ),
+      scaleDisclaimerProvider.overrideWith(
+        () => ScaleDisclaimerNotifier(prefs, seenScales),
       ),
       localeProvider.overrideWith(
         () => LocaleNotifier(Locale(savedLocaleCode)),
