@@ -26,8 +26,36 @@ int _stableHash(String s) {
   return h;
 }
 
-/// Avatar circular con las dos primeras letras del alias y un color
-/// determinista basado en el ID del paciente.
+/// Extrae iniciales inteligentes del alias:
+/// - Multi-palabra ("Juan García") → primeras letras de cada palabra → "JG"
+/// - Mixto letra+número ("P001") → primera letra + último dígito → "P1"
+/// - Solo dígitos ("042") → últimos 2 dígitos → "42"
+/// - Solo letras ("Ana") → primeros 2 caracteres → "AN"
+String _initials(String alias) {
+  final s = alias.trim();
+  if (s.isEmpty) return '?';
+
+  final words = s.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+  if (words.length >= 2) {
+    return '${words[0][0]}${words[1][0]}'.toUpperCase();
+  }
+
+  final letters = s.replaceAll(RegExp(r'[^a-zA-ZÀ-ÿ]'), '');
+  final digits = s.replaceAll(RegExp(r'[^0-9]'), '');
+
+  if (letters.isNotEmpty && digits.isNotEmpty) {
+    return '${letters[0]}${digits[digits.length - 1]}'.toUpperCase();
+  }
+  if (letters.isEmpty && digits.isNotEmpty) {
+    final start = digits.length > 2 ? digits.length - 2 : 0;
+    return digits.substring(start);
+  }
+  final end = letters.length > 2 ? 2 : letters.length;
+  return letters.substring(0, end).toUpperCase();
+}
+
+/// Avatar circular con iniciales inteligentes del alias y color determinista
+/// basado en el ID del paciente.
 class PatientAvatar extends StatelessWidget {
   const PatientAvatar({super.key, required this.patient, this.radius = 22});
 
@@ -36,10 +64,6 @@ class PatientAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final trimmed = patient.alias.trim();
-    final initials = trimmed.length >= 2
-        ? trimmed.substring(0, 2).toUpperCase()
-        : trimmed.toUpperCase();
     final color =
         _kAvatarPalette[_stableHash(patient.id) % _kAvatarPalette.length];
 
@@ -47,7 +71,7 @@ class PatientAvatar extends StatelessWidget {
       radius: radius,
       backgroundColor: color,
       child: Text(
-        initials,
+        _initials(patient.alias),
         style: TextStyle(
           color: Color.lerp(color, Colors.white, 0.65),
           fontWeight: FontWeight.w800,
