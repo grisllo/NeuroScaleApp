@@ -140,10 +140,12 @@ gantt
     13.6 NavigationRail jerarquía visual — fondo diferenciado claro/oscuro (0.1h) :done, f13f, 2026-05-13, 1d
     13.7 Ordenación evaluaciones por paciente — reciente, antigua, por escala (0.2h) :done, f13g, 2026-05-13, 1d
     13.8 PatientAvatar iniciales inteligentes — P001→P1, P002→P2 (0.2h) :done, f13h, 2026-05-13, 1d
+    13.9 Spinner carga web + homepage GitHub Pages (0.2h) :done, f13i, 2026-05-13, 1d
+    13.10 Fix producción web — BOM y sufijo /rest/v1 en SUPABASE_URL (2.5h) :done, f13j, 2026-05-13, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).
-> Total acumulado: **~77h** de trabajo activo (Fases 0–13 + Mantenimiento).
+> Total acumulado: **~80h** de trabajo activo (Fases 0–13 + Mantenimiento).
 
 ---
 

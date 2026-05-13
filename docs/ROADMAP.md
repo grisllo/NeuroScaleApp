@@ -291,7 +291,7 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 13 — Fixes UX evaluaciones** ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado en pantallas de auth. Tab "Evaluaciones" en móvil, cabecera "Evolución" en web. Toast disclaimer superior-derecha en web/tablet; SnackBar swipe lateral en móvil. NavigationRail con fondo diferenciado para jerarquía visual. Ordenación de evaluaciones por paciente (reciente/antigua/escala). PatientAvatar con iniciales inteligentes (P001→P1, P002→P2). 191 tests, CI verde, ~77h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito: Fase 13 — Fixes UX evaluaciones** ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado. Tab "Evaluaciones" móvil, cabecera "Evolución" web. NavigationRail con fondo diferenciado. Ordenación evaluaciones por paciente. PatientAvatar iniciales inteligentes. Spinner carga web. Fix producción: BOM (U+FEFF) y sufijo /rest/v1 accidental en SUPABASE_URL — app web funcional en grisllo.github.io/NeuroScaleApp. 191 tests, CI verde, ~80h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 
