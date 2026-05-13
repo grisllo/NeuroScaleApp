@@ -28,8 +28,14 @@
   "passwordLabel": "Contraseña",
   "@passwordLabel": { "description": "Etiqueta del campo contraseña" },
 
-  "passwordHint": "Mínimo 6 caracteres",
+  "passwordHint": "Mínimo 8 caracteres",
   "@passwordHint": { "description": "Placeholder del campo contraseña" },
+
+  "showPasswordTooltip": "Mostrar contraseña",
+  "@showPasswordTooltip": { "description": "Tooltip del botón mostrar/ocultar contraseña" },
+
+  "hidePasswordTooltip": "Ocultar contraseña",
+  "@hidePasswordTooltip": { "description": "Tooltip del botón ocultar contraseña" },
 
   "confirmPasswordLabel": "Confirmar contraseña",
   "@confirmPasswordLabel": { "description": "Etiqueta del campo confirmar contraseña" },
@@ -85,7 +91,7 @@
   "passwordMismatchError": "Las contraseñas no coinciden",
   "@passwordMismatchError": { "description": "Error de contraseñas que no coinciden" },
 
-  "passwordTooShortError": "La contraseña debe tener al menos 6 caracteres",
+  "passwordTooShortError": "La contraseña debe tener al menos 8 caracteres",
   "@passwordTooShortError": { "description": "Error de contraseña muy corta" },
 
   "passwordTooWeakError": "La contraseña debe tener al menos 8 caracteres e incluir letras y números",

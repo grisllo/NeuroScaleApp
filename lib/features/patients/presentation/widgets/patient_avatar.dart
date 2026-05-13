@@ -67,15 +67,19 @@ class PatientAvatar extends StatelessWidget {
     final color =
         _kAvatarPalette[_stableHash(patient.id) % _kAvatarPalette.length];
 
-    return CircleAvatar(
-      radius: radius,
-      backgroundColor: color,
-      child: Text(
-        _initials(patient.alias),
-        style: TextStyle(
-          color: Color.lerp(color, Colors.white, 0.65),
-          fontWeight: FontWeight.w800,
-          fontSize: radius * 0.75,
+    return Semantics(
+      label: patient.alias,
+      excludeSemantics: true,
+      child: CircleAvatar(
+        radius: radius,
+        backgroundColor: color,
+        child: Text(
+          _initials(patient.alias),
+          style: TextStyle(
+            color: Color.lerp(color, Colors.white, 0.65),
+            fontWeight: FontWeight.w800,
+            fontSize: radius * 0.75,
+          ),
         ),
       ),
     );

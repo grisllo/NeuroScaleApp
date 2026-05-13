@@ -28,8 +28,14 @@
   "passwordLabel": "Password",
   "@passwordLabel": { "description": "Password field label" },
 
-  "passwordHint": "At least 6 characters",
+  "passwordHint": "At least 8 characters",
   "@passwordHint": { "description": "Password field placeholder" },
+
+  "showPasswordTooltip": "Show password",
+  "@showPasswordTooltip": { "description": "Tooltip for show/hide password button" },
+
+  "hidePasswordTooltip": "Hide password",
+  "@hidePasswordTooltip": { "description": "Tooltip for hide password button" },
 
   "confirmPasswordLabel": "Confirm password",
   "@confirmPasswordLabel": { "description": "Confirm password field label" },
@@ -85,7 +91,7 @@
   "passwordMismatchError": "Passwords do not match",
   "@passwordMismatchError": { "description": "Password mismatch error" },
 
-  "passwordTooShortError": "Password must be at least 6 characters",
+  "passwordTooShortError": "Password must be at least 8 characters",
   "@passwordTooShortError": { "description": "Password too short error" },
 
   "passwordTooWeakError": "Password must be at least 8 characters and include letters and numbers",

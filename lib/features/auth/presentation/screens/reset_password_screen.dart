@@ -73,6 +73,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             enableSuggestions: false,
             suffixIcon: IconButton(
               icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
+              tooltip: _obscure
+                  ? l10n.showPasswordTooltip
+                  : l10n.hidePasswordTooltip,
               onPressed: () => setState(() => _obscure = !_obscure),
             ),
             validator: (v) {

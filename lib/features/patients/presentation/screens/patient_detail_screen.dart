@@ -47,6 +47,7 @@ class PatientDetailScreen extends ConsumerWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.edit_outlined),
+              tooltip: l10n.patientEditTitle,
               onPressed: () async {
                 await PatientEditDialog.show(context, initial: p);
               },

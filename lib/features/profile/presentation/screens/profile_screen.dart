@@ -342,6 +342,9 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
                   icon: Icon(
                     _obscure ? Icons.visibility : Icons.visibility_off,
                   ),
+                  tooltip: _obscure
+                      ? l10n.showPasswordTooltip
+                      : l10n.hidePasswordTooltip,
                   onPressed: () => setState(() => _obscure = !_obscure),
                 ),
               ),
