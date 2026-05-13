@@ -147,13 +147,14 @@ gantt
     13.9 Spinner carga web + homepage GitHub Pages (0.2h) :done, f13i, 2026-05-13, 1d
     13.10 Fix producción web — BOM y sufijo /rest/v1 en SUPABASE_URL (2.5h) :done, f13j, 2026-05-13, 1d
 
-    section Fase 14 - Auditoría y producción
-    14.A Críticos producción — RLS, Sentry PII, validación (1h)   :done, f14a, 2026-05-13, 1d
-    14.B Tokens spacing/radii — 90 SizedBox + 15 BorderRadius (2h) :done, f14b, 2026-05-13, 1d
-    14.C Accesibilidad — Semantics + tooltips + ARB fixes (0.5h)   :done, f14c, 2026-05-13, 1d
-    14.D Tests presentación — PatientAvatar + ProfileScreen (0.5h) :done, f14d, 2026-05-13, 1d
-    14.E Documentación profesional — release/security/contributing (0.5h) :done, f14e, 2026-05-13, 1d
-    14.F Cierre — advisors + tag v1.0.0 (0.5h)                    :done, f14f, 2026-05-13, 1d
+    section Fase 14 - Auditoria y produccion v1.0.0
+    14.Audit Auditoria multi-dim + plan (1.5h)                    :done, f14au, 2026-05-13, 1d
+    14.A Criticos produccion — RLS+Sentry PII+validacion (0.75h)  :done, f14a,  2026-05-13, 1d
+    14.B Tokens spacing/radii — 90 SizedBox + 15 BorderRadius (0.75h) :done, f14b, 2026-05-13, 1d
+    14.C Accesibilidad — Semantics + tooltips + ARB (0.25h)       :done, f14c,  2026-05-13, 1d
+    14.D Tests widget — PatientAvatar + ProfileScreen (0.25h)     :done, f14d,  2026-05-13, 1d
+    14.E Documentacion — RELEASE+SECURITY+CONTRIBUTING (0.25h)   :done, f14e,  2026-05-13, 1d
+    14.F Cobertura + ROADMAP + tag v1.0.0 (0.25h)                :done, f14f,  2026-05-13, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).

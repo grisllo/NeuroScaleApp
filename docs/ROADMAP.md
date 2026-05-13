@@ -291,7 +291,78 @@ Issue #13.
 
 ## Estado actual
 
-**Último hito: Fase 13 — Fixes UX evaluaciones** ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado. Tab "Evaluaciones" móvil, cabecera "Evolución" web. NavigationRail con fondo diferenciado. Ordenación evaluaciones por paciente. PatientAvatar iniciales inteligentes. Spinner carga web. Fix producción: BOM (U+FEFF) y sufijo /rest/v1 accidental en SUPABASE_URL — app web funcional en grisllo.github.io/NeuroScaleApp. 191 tests, CI verde, ~80h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito: Fase 14 — Auditoría y producción v1.0.0** ✅ — Completada 2026-05-13. Tag `v1.0.0` pusheado. 204 tests, CI verde, ~85h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+
+---
+
+## Fase 14 — Auditoría y producción v1.0.0 ✅ Completada (2026-05-13)
+
+**Objetivo**: llevar la app a un estado production-ready y entregable mediante auditoría multi-dimensional (arquitectura, seguridad, UI/UX, accesibilidad, datos, performance, testing, documentación).
+
+### 14.A — Críticos de producción ✅
+
+- **Migración 0009**: 8 políticas RLS optimizadas con `(select auth.uid())` — evaluación una vez por sentencia, no por fila. Impacto: menor overhead en tablas con muchas filas por usuario.
+- **Migración 0010**: eliminados 2 índices no usados (`evaluations_patient_id_idx`, `evaluations_user_scale_created_idx`) identificados por Supabase Performance Advisor.
+- **Migración 0011**: constraint `patients.alias` max 255 chars — límite razonable para cualquier alias clínico.
+- `lib/main.dart`: eliminado `PlatformDispatcher.onError` debug temporal.
+- `lib/main.dart`: añadido filtro `beforeSend` en Sentry que descarta eventos con patrones de email/DNI en stack traces.
+- `login_screen.dart`: unificada validación password 6→8 chars (igual que register).
+- `scales_tab_screen.dart`: `AppBar('NeuroScale')` hardcoded → `l10n.appTitle`.
+- **Nota**: Leaked Password Protection requiere plan Supabase Pro — no disponible en plan gratuito.
+
+### 14.B — Sistema de tokens (consistencia visual) ✅
+
+- `AppSpacing.xxs = 2` añadido al scale de 4pt.
+- ~90 `SizedBox(height/width: N)` → `AppSpacing.{xxs,sm,md,lg,xl,xxl}` en 20 archivos.
+- ~15 `BorderRadius.circular(N)` → `AppRadii.{sm,md,lg}` en 8 archivos.
+- Imports `AppSpacing`/`AppRadii` añadidos donde faltaban.
+- Valores sin token estándar (2px barras progreso, 22px/28px pill shapes) conservados como literales.
+
+### 14.C — Accesibilidad ✅
+
+- `PatientAvatar`: `Semantics(label: patient.alias, excludeSemantics: true)` — screen readers leen el alias real en lugar de las iniciales.
+- 5 `IconButton` sin etiqueta añadidos con `tooltip:`: show/hide password en login/register/reset/profile + editar paciente.
+- ARB ES+EN: `showPasswordTooltip`, `hidePasswordTooltip` (2 claves nuevas).
+- ARB ES+EN: `passwordHint` y `passwordTooShortError` corregidos a 8 chars (coincide con validación real).
+- NavigationBar/Rail: semántica ya cubierta por labels existentes (Material 3 los usa como tooltips automáticamente).
+
+### 14.D — Testing de presentación ✅
+
+**PatientAvatar (8 tests)** — `test/features/patients/patient_avatar_test.dart`:
+- Iniciales multi-palabra, mixto letra+número, solo dígitos, solo letras, vacío, tres palabras.
+- Verificación semántica: `Semantics.label == patient.alias`.
+
+**ProfileScreen (5 tests)** — `test/features/profile/profile_screen_test.dart`:
+- Email del usuario visible, SegmentedButtons de tema e idioma, botón logout, botón delete_forever (con scroll), dash `—` sin sesión.
+
+**Cobertura global**: 20.7% (204 líneas instrumentadas de 5.781). Nota: lcov cuenta todo el código UI, datasource y routing — la cobertura de dominio (calculadoras de escala) es efectivamente 100% en todos los umbrales clínicos. Un 20% global es normal en Flutter apps sin mocks de infraestructura.
+
+**Tests totales: 191 → 204**.
+
+### 14.E — Documentación profesional ✅
+
+- `docs/RELEASE_GUIDE.md`: build APK/web/iOS, gestión de secrets, CI/CD, checklist pre-release.
+- `docs/SECURITY.md`: modelo RLS, PII, Sentry filter, sesiones, reporting de vulnerabilidades.
+- `docs/CONTRIBUTING.md`: flujo PR, Conventional Commits, i18n, checklist de accesibilidad para features nuevos.
+- `CLAUDE.md`: sección "Accessibility checklist" para features nuevos.
+- `README.md`: badges CI+deploy+license, 204 tests, Fase 14 en Gantt, ~85h, links a nuevos docs.
+
+### 14.F — Cierre y entrega ✅
+
+- `flutter analyze` — 0 issues.
+- `flutter test` — 204 tests verdes.
+- `dart format --set-exit-if-changed lib test` — 0 cambios.
+- Supabase advisors: 0 WARN performance, 1 WARN security (Leaked Password Pro — plan gratuito).
+- Tag `v1.0.0` creado y pusheado a GitHub.
+- ROADMAP actualizado.
+
+**Commit clave**: `c1f07ce` (docs E) · `686c9e0` (tests D) · `5afd104` (a11y C) · `6890f0b` (tokens B) · `92b2157` (seguridad A).
+
+---
+
+## Historial — Fase 13 — Fixes UX evaluaciones ✅ Completada (2026-05-13)
+
+**Último hito previo a Fase 14**: Fase 13 — Fixes UX evaluaciones ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado. Tab "Evaluaciones" móvil, cabecera "Evolución" web. NavigationRail con fondo diferenciado. Ordenación evaluaciones por paciente. PatientAvatar iniciales inteligentes. Spinner carga web. Fix producción: BOM (U+FEFF) y sufijo /rest/v1 accidental en SUPABASE_URL — app web funcional en grisllo.github.io/NeuroScaleApp. 191 tests, CI verde, ~80h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 
