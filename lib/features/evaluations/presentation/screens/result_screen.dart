@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,10 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
-import '../../../../core/providers/scale_disclaimer_provider.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
-import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/utils/pii_detector.dart';
 import '../../../../core/widgets/animated_check.dart';
 import '../../../../core/widgets/animated_score.dart';
@@ -69,7 +65,7 @@ const _kItemLabelKeys = <String, Map<String, String>>{
   },
 };
 
-class ResultScreen extends ConsumerStatefulWidget {
+class ResultScreen extends ConsumerWidget {
   const ResultScreen({
     super.key,
     required this.result,
@@ -82,95 +78,25 @@ class ResultScreen extends ConsumerStatefulWidget {
   final String scaleType;
 
   @override
-  ConsumerState<ResultScreen> createState() => _ResultScreenState();
-}
-
-class _ResultScreenState extends ConsumerState<ResultScreen> {
-  OverlayEntry? _toastEntry;
-  Timer? _toastTimer;
-
-  @override
-  void dispose() {
-    _toastTimer?.cancel();
-    _toastEntry?.remove();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final notifier = ref.read(scaleDisclaimerProvider.notifier);
-      if (!notifier.hasSeen(widget.scaleType)) {
-        notifier.markSeen(widget.scaleType);
-        final l10n = context.l10n;
-        final isWide = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
-
-        if (isWide) {
-          _showTopRightToast(l10n);
-        } else {
-          final scheme = Theme.of(context).colorScheme;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: 16,
-                    color: scheme.onInverseSurface,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(l10n.disclaimerBody)),
-                ],
-              ),
-              duration: const Duration(seconds: 4),
-              dismissDirection: DismissDirection.horizontal,
-            ),
-          );
-        }
-      }
-    });
-  }
-
-  void _showTopRightToast(AppLocalizations l10n) {
-    void removeToast() {
-      _toastEntry?.remove();
-      _toastEntry = null;
-    }
-
-    _toastEntry = OverlayEntry(
-      builder: (_) => _DisclaimerToast(
-        l10n: l10n,
-        onClose: removeToast,
-      ),
-    );
-    Overlay.of(context).insert(_toastEntry!);
-    _toastTimer = Timer(const Duration(seconds: 6), () {
-      if (mounted) removeToast();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final clinical = Theme.of(context).clinicalColors;
-    final clinicalPair = switch (widget.result.severity) {
+    final clinicalPair = switch (result.severity) {
       Severity.mild => clinical.success,
       Severity.moderate => clinical.warning,
       Severity.severe => clinical.danger,
       Severity.none => clinical.info,
     };
 
-    final labelKeys = _kItemLabelKeys[widget.scaleType] ?? {};
+    final labelKeys = _kItemLabelKeys[scaleType] ?? {};
     // Rankin has a single item identical to totalScore — breakdown is redundant.
-    final showBreakdown = widget.result.itemScores.length > 1;
+    final showBreakdown = result.itemScores.length > 1;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isTablet = screenWidth >= 600;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.scaleTitle)),
+      appBar: AppBar(title: Text(scaleTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -203,8 +129,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                               fit: BoxFit.contain,
                               child: RepaintBoundary(
                                 child: AnimatedScore(
-                                  score: widget.result.totalScore,
-                                  maxScore: widget.result.maxScore,
+                                  score: result.totalScore,
+                                  maxScore: result.maxScore,
                                   color: clinicalPair.foreground,
                                   style: Theme.of(context)
                                       .textTheme
@@ -222,10 +148,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                     ), // _AnimatedEntrance
                     const SizedBox(height: 16),
                     SeverityBadge(
-                      severity: widget.result.severity,
-                      label: l10n.resolveKey(
-                        widget.result.severity.interpretationKey,
-                      ),
+                      severity: result.severity,
+                      label: l10n.resolveKey(result.severity.interpretationKey),
                     ),
                   ],
                 ),
@@ -250,11 +174,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                         child: Column(
                           children: [
                             for (final (i, MapEntry(key: key, value: score))
-                                in widget
-                                    .result
-                                    .itemScores
-                                    .entries
-                                    .indexed) ...[
+                                in result.itemScores.entries.indexed) ...[
                               if (i > 0)
                                 Divider(
                                   height: 1,
@@ -279,7 +199,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
               else
                 const Spacer(),
 
-              // ── Sticky bottom: Save ───────────────────────────────────────────
+              // ── Sticky bottom: Save + Disclaimer ──────────────────────────────
               Container(
                 decoration: BoxDecoration(
                   color: scheme.surfaceContainerHighest,
@@ -290,14 +210,47 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                 child: SafeArea(
                   top: false,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: FilledButton.icon(
-                        onPressed: () => _openSaveDialog(context),
-                        icon: const Icon(Icons.save_outlined),
-                        label: Text(l10n.resultSaveButton),
-                      ),
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton.icon(
+                            onPressed: () => _openSaveDialog(context, ref),
+                            icon: const Icon(Icons.save_outlined),
+                            label: Text(l10n.resultSaveButton),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Semantics(
+                          label: l10n.disclaimerBody,
+                          container: true,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ExcludeSemantics(
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 14,
+                                  color: scheme.onSurfaceVariant,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  l10n.disclaimerBody,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(
+                                        color: scheme.onSurfaceVariant,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                      ],
                     ),
                   ),
                 ),
@@ -309,7 +262,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
     );
   }
 
-  Future<void> _openSaveDialog(BuildContext context) async {
+  Future<void> _openSaveDialog(BuildContext context, WidgetRef ref) async {
     final session = ref.read(sessionProvider).asData?.value;
     if (session == null) {
       if (context.mounted) context.go('/login');
@@ -318,8 +271,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
     await showDialog<void>(
       context: context,
       builder: (_) => _SaveEvaluationDialog(
-        result: widget.result,
-        scaleType: widget.scaleType,
+        result: result,
+        scaleType: scaleType,
         userId: session.id,
       ),
     );
@@ -653,71 +606,3 @@ class _AnimatedEntranceState extends State<_AnimatedEntrance>
   }
 }
 
-// ── Toast superior-derecha para pantallas anchas (web/tablet) ─────────────────
-
-class _DisclaimerToast extends StatelessWidget {
-  const _DisclaimerToast({required this.l10n, required this.onClose});
-
-  final AppLocalizations l10n;
-  final VoidCallback onClose;
-
-  @override
-  Widget build(BuildContext context) {
-    final snackTheme = Theme.of(context).snackBarTheme;
-    final topPadding = MediaQuery.paddingOf(context).top;
-
-    return Positioned(
-      top: topPadding + 16,
-      right: 16,
-      width: 400,
-      child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.0, end: 1.0),
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOut,
-        builder: (_, value, child) => Opacity(
-          opacity: value,
-          child: Transform.translate(
-            offset: Offset(32 * (1 - value), 0),
-            child: child,
-          ),
-        ),
-        child: Material(
-          elevation: 6,
-          borderRadius: BorderRadius.circular(12),
-          color: snackTheme.backgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16,
-                  color: snackTheme.contentTextStyle?.color,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    l10n.disclaimerBody,
-                    style: snackTheme.contentTextStyle,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                TextButton(
-                  onPressed: onClose,
-                  style: TextButton.styleFrom(
-                    foregroundColor: snackTheme.actionTextColor ??
-                        snackTheme.contentTextStyle?.color,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: Text(l10n.closeButton),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
