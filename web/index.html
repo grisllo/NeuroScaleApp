@@ -56,11 +56,25 @@
     @keyframes ns-spin { to { transform: rotate(360deg); } }
   </style>
   <div id="flutter-loader"></div>
+  <div id="flutter-error" style="display:none;position:fixed;inset:0;background:#F2EDE8;display:flex;align-items:center;justify-content:center;padding:24px;font-family:sans-serif;font-size:14px;color:#B5354F;text-align:center;flex-direction:column;gap:12px;"></div>
   <script>
     window.addEventListener('flutter-first-frame', function () {
       var loader = document.getElementById('flutter-loader');
       if (loader) loader.remove();
     });
+
+    function showError(msg) {
+      var loader = document.getElementById('flutter-loader');
+      if (loader) loader.style.display = 'none';
+      var err = document.getElementById('flutter-error');
+      if (err) {
+        err.style.display = 'flex';
+        err.innerHTML = '<strong>Error al iniciar la app</strong><code style="background:#FBE9ED;padding:8px;border-radius:6px;word-break:break-all;max-width:600px">' + msg + '</code>';
+      }
+    }
+
+    window.addEventListener('error', function (e) { showError(e.message || String(e)); });
+    window.addEventListener('unhandledrejection', function (e) { showError(String(e.reason)); });
   </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
