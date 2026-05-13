@@ -18,6 +18,7 @@ abstract final class AppTheme {
           brightness: brightness,
         ).copyWith(
           primary: AppColors.primary,
+          onPrimary: Colors.white,
           surface: isLight ? AppColors.surfaceLight : AppColors.surfaceDark,
           surfaceContainer: isLight
               ? AppColors.surfaceLightContainer
@@ -76,6 +77,8 @@ abstract final class AppTheme {
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(48),
           textStyle: textTheme.labelLarge,
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadii.md),
           ),
