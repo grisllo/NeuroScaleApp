@@ -93,7 +93,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
         notifier.markSeen(widget.scaleType);
         final l10n = context.l10n;
         final scheme = Theme.of(context).colorScheme;
-        ScaffoldMessenger.of(context).showSnackBar(
+        final messenger = ScaffoldMessenger.of(context);
+        messenger.showSnackBar(
           SnackBar(
             content: Row(
               children: [
@@ -107,6 +108,11 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
               ],
             ),
             duration: const Duration(seconds: 4),
+            dismissDirection: DismissDirection.down,
+            action: SnackBarAction(
+              label: l10n.closeButton,
+              onPressed: messenger.hideCurrentSnackBar,
+            ),
           ),
         );
       }

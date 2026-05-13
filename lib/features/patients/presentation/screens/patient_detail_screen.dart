@@ -94,7 +94,24 @@ class PatientDetailScreen extends ConsumerWidget {
                     ),
                   ),
                   const VerticalDivider(thickness: 1, width: 1),
-                  Expanded(child: PatientEvolutionChart(evaluations: evals)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                          child: Text(
+                            l10n.evolutionTab,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          child: PatientEvolutionChart(evaluations: evals),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               );
             }
@@ -128,7 +145,7 @@ class PatientDetailScreen extends ConsumerWidget {
           actions: [buildActions()],
           bottom: TabBar(
             tabs: [
-              Tab(text: l10n.listTab),
+              Tab(text: l10n.evaluationsHeader),
               Tab(text: l10n.evolutionTab),
             ],
           ),

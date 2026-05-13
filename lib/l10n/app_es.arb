@@ -154,6 +154,9 @@
   "cancelButton": "Cancelar",
   "@cancelButton": { "description": "Botón de cancelar genérico" },
 
+  "closeButton": "Cerrar",
+  "@closeButton": { "description": "Botón de cerrar genérico (ej. SnackBar)" },
+
   "saveSuccessMessage": "Evaluación guardada correctamente",
   "@saveSuccessMessage": { "description": "Mensaje de éxito al guardar evaluación" },
 
