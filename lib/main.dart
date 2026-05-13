@@ -16,6 +16,12 @@ import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
+  // Captura errores Dart no controlados y los expone en consola web.
+  PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint('FATAL: $error\n$stack');
+    return false;
+  };
+
   // Remove '#' from web URLs (skill: flutter-setup-declarative-routing)
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
