@@ -142,6 +142,13 @@ abstract final class AppTheme {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: isLight
+            ? AppColors.surfaceLightContainerHigh
+            : AppColors.surfaceDarkContainer,
+        indicatorColor: colorScheme.primaryContainer,
+        labelType: NavigationRailLabelType.all,
+      ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: colorScheme.surface,
         elevation: 0,
