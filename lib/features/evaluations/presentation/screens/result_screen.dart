@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -108,11 +109,15 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
               ],
             ),
             duration: const Duration(seconds: 4),
-            dismissDirection: DismissDirection.down,
-            action: SnackBarAction(
-              label: l10n.closeButton,
-              onPressed: messenger.hideCurrentSnackBar,
-            ),
+            dismissDirection: kIsWeb
+                ? DismissDirection.down
+                : DismissDirection.horizontal,
+            action: kIsWeb
+                ? SnackBarAction(
+                    label: l10n.closeButton,
+                    onPressed: messenger.hideCurrentSnackBar,
+                  )
+                : null,
           ),
         );
       }
