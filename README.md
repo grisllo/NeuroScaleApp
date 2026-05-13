@@ -133,10 +133,11 @@ gantt
 
     section Fase 13 - Fixes UX evaluaciones
     13.1 Paciente obligatorio al guardar + fix case_description (1h) :done, f13a, 2026-05-13, 1d
+    13.2 Disclaimer SnackBar por escala — primera vez (0.5h) :done, f13b, 2026-05-13, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).
-> Total acumulado: **~74h** de trabajo activo (Fases 0–13 + Mantenimiento).
+> Total acumulado: **~75h** de trabajo activo (Fases 0–13 + Mantenimiento).
 
 ---
 
