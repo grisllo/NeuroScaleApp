@@ -106,7 +106,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                 Expanded(child: Text(l10n.disclaimerBody)),
               ],
             ),
-            duration: const Duration(seconds: 5),
+            duration: const Duration(seconds: 4),
           ),
         );
       }
