@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -84,6 +86,16 @@ class ResultScreen extends ConsumerStatefulWidget {
 }
 
 class _ResultScreenState extends ConsumerState<ResultScreen> {
+  OverlayEntry? _toastEntry;
+  Timer? _toastTimer;
+
+  @override
+  void dispose() {
+    _toastTimer?.cancel();
+    _toastEntry?.remove();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -93,37 +105,49 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
       if (!notifier.hasSeen(widget.scaleType)) {
         notifier.markSeen(widget.scaleType);
         final l10n = context.l10n;
-        final scheme = Theme.of(context).colorScheme;
-        final messenger = ScaffoldMessenger.of(context);
-        final isWide =
-            MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
-        messenger.showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16,
-                  color: scheme.onInverseSurface,
-                ),
-                const SizedBox(width: 8),
-                Expanded(child: Text(l10n.disclaimerBody)),
-              ],
+        final isWide = MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
+
+        if (isWide) {
+          _showTopRightToast(l10n);
+        } else {
+          final scheme = Theme.of(context).colorScheme;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    size: 16,
+                    color: scheme.onInverseSurface,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(l10n.disclaimerBody)),
+                ],
+              ),
+              duration: const Duration(seconds: 4),
+              dismissDirection: DismissDirection.horizontal,
             ),
-            duration: const Duration(seconds: 4),
-            width: isWide ? 480.0 : null,
-            dismissDirection: isWide
-                ? DismissDirection.down
-                : DismissDirection.horizontal,
-            action: isWide
-                ? SnackBarAction(
-                    label: l10n.closeButton,
-                    onPressed: messenger.hideCurrentSnackBar,
-                  )
-                : null,
-          ),
-        );
+          );
+        }
       }
+    });
+  }
+
+  void _showTopRightToast(AppLocalizations l10n) {
+    void removeToast() {
+      _toastEntry?.remove();
+      _toastEntry = null;
+    }
+
+    _toastEntry = OverlayEntry(
+      builder: (_) => _DisclaimerToast(
+        l10n: l10n,
+        onClose: removeToast,
+      ),
+    );
+    Overlay.of(context).insert(_toastEntry!);
+    _toastTimer = Timer(const Duration(seconds: 4), () {
+      if (mounted) removeToast();
     });
   }
 
@@ -625,6 +649,75 @@ class _AnimatedEntranceState extends State<_AnimatedEntrance>
         child: Transform.scale(scale: _scale.value, child: child),
       ),
       child: widget.child,
+    );
+  }
+}
+
+// ── Toast superior-derecha para pantallas anchas (web/tablet) ─────────────────
+
+class _DisclaimerToast extends StatelessWidget {
+  const _DisclaimerToast({required this.l10n, required this.onClose});
+
+  final AppLocalizations l10n;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final snackTheme = Theme.of(context).snackBarTheme;
+    final topPadding = MediaQuery.paddingOf(context).top;
+
+    return Positioned(
+      top: topPadding + 16,
+      right: 16,
+      width: 400,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0.0, end: 1.0),
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+        builder: (_, value, child) => Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(32 * (1 - value), 0),
+            child: child,
+          ),
+        ),
+        child: Material(
+          elevation: 6,
+          borderRadius: BorderRadius.circular(12),
+          color: snackTheme.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16,
+                  color: snackTheme.contentTextStyle?.color,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.disclaimerBody,
+                    style: snackTheme.contentTextStyle,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                TextButton(
+                  onPressed: onClose,
+                  style: TextButton.styleFrom(
+                    foregroundColor: snackTheme.actionTextColor ??
+                        snackTheme.contentTextStyle?.color,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: Text(l10n.closeButton),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
