@@ -433,6 +433,9 @@
   "patientAliasRequired": "El alias es obligatorio",
   "@patientAliasRequired": { "description": "Error al guardar paciente sin alias" },
 
+  "patientPickerRequired": "Selecciona o crea un paciente para guardar la evaluación",
+  "@patientPickerRequired": { "description": "Validación del picker de paciente en guardado" },
+
   "patientCreateButton": "Crear",
   "@patientCreateButton": { "description": "Botón de crear en dialog paciente" },
 

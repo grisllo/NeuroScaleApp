@@ -433,6 +433,9 @@
   "patientAliasRequired": "Alias is required",
   "@patientAliasRequired": { "description": "Alias required error" },
 
+  "patientPickerRequired": "Select or create a patient to save the assessment",
+  "@patientPickerRequired": { "description": "Patient picker validation on save" },
+
   "patientCreateButton": "Create",
   "@patientCreateButton": { "description": "Create button in patient dialog" },
 

@@ -33,7 +33,7 @@ class SupabaseEvaluationDatasource {
       var query = _client
           .from('evaluations')
           .select(
-            'id,user_id,scale_type,scale_version,total_score,interpretation,created_at,updated_at,patient_id',
+            'id,user_id,scale_type,scale_version,case_description,total_score,interpretation,created_at,updated_at,patient_id',
           )
           .eq('user_id', userId);
 

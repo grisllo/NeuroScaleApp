@@ -532,10 +532,6 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
       value: _selectedValue,
       decoration: InputDecoration(labelText: l10n.patientPickerLabel),
       items: [
-        DropdownMenuItem<String?>(
-          value: null,
-          child: Text(l10n.patientUnassigned),
-        ),
         for (final p in patients)
           DropdownMenuItem<String?>(value: p.id, child: Text(p.alias)),
         DropdownMenuItem<String?>(
@@ -549,6 +545,8 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
           ),
         ),
       ],
+      validator: (_) =>
+          _selectedValue == null ? l10n.patientPickerRequired : null,
       onChanged: (value) {
         setState(() => _selectedValue = value);
       },
