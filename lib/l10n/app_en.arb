@@ -460,6 +460,15 @@
   "evaluationsHeader": "Assessments",
   "@evaluationsHeader": { "description": "Assessments list header in patient detail" },
 
+  "evalSortNewest": "Recent",
+  "@evalSortNewest": { "description": "Sort assessments newest first" },
+
+  "evalSortOldest": "Oldest",
+  "@evalSortOldest": { "description": "Sort assessments oldest first" },
+
+  "evalSortByScale": "By scale",
+  "@evalSortByScale": { "description": "Group assessments by scale type" },
+
   "patientCreatedOn": "Created on {date}",
   "@patientCreatedOn": {
     "description": "Patient creation date",

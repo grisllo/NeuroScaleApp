@@ -460,6 +460,15 @@
   "evaluationsHeader": "Evaluaciones",
   "@evaluationsHeader": { "description": "Header de la lista de evaluaciones en el detalle de paciente" },
 
+  "evalSortNewest": "Reciente",
+  "@evalSortNewest": { "description": "Ordenar evaluaciones de más reciente a más antigua" },
+
+  "evalSortOldest": "Antigua",
+  "@evalSortOldest": { "description": "Ordenar evaluaciones de más antigua a más reciente" },
+
+  "evalSortByScale": "Escala",
+  "@evalSortByScale": { "description": "Agrupar evaluaciones por tipo de escala" },
+
   "patientCreatedOn": "Creado el {date}",
   "@patientCreatedOn": {
     "description": "Fecha de creación del paciente",

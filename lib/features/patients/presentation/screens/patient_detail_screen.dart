@@ -200,7 +200,9 @@ final _patientByIdProvider = FutureProvider.autoDispose
       (ref, id) => ref.watch(patientRepositoryProvider).findById(id),
     );
 
-class _EvaluationsTab extends StatelessWidget {
+enum _EvalSort { newestFirst, oldestFirst, byScale }
+
+class _EvaluationsTab extends StatefulWidget {
   const _EvaluationsTab({
     required this.patient,
     required this.evaluations,
@@ -212,24 +214,100 @@ class _EvaluationsTab extends StatelessWidget {
   final String patientId;
 
   @override
+  State<_EvaluationsTab> createState() => _EvaluationsTabState();
+}
+
+class _EvaluationsTabState extends State<_EvaluationsTab> {
+  _EvalSort _sort = _EvalSort.newestFirst;
+
+  List<Evaluation> get _sorted {
+    final evals = [...widget.evaluations];
+    switch (_sort) {
+      case _EvalSort.newestFirst:
+        evals.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      case _EvalSort.oldestFirst:
+        evals.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+      case _EvalSort.byScale:
+        evals.sort((a, b) {
+          final sc = a.scaleType.compareTo(b.scaleType);
+          return sc != 0 ? sc : b.createdAt.compareTo(a.createdAt);
+        });
+    }
+    return evals;
+  }
+
+  List<Widget> _buildGrouped(List<Evaluation> evals) {
+    final groups = <String, List<Evaluation>>{};
+    for (final e in evals) {
+      groups.putIfAbsent(e.scaleType, () => []).add(e);
+    }
+    final result = <Widget>[];
+    for (final entry in groups.entries) {
+      result.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 12, bottom: 4),
+          child: Text(
+            entry.key.toUpperCase(),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              letterSpacing: 0.8,
+            ),
+          ),
+        ),
+      );
+      result.addAll(
+        entry.value.map((e) => _EvaluationTile(eval: e, patientId: widget.patientId)),
+      );
+    }
+    return result;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final sorted = _sorted;
+
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _PatientHeader(patient: patient),
+        _PatientHeader(patient: widget.patient),
         const SizedBox(height: 16),
         Text(
-          context.l10n.evaluationsHeader,
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          l10n.evaluationsHeader,
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        if (evaluations.isEmpty)
+        if (widget.evaluations.isNotEmpty)
+          SegmentedButton<_EvalSort>(
+            segments: [
+              ButtonSegment(
+                value: _EvalSort.newestFirst,
+                label: Text(l10n.evalSortNewest),
+              ),
+              ButtonSegment(
+                value: _EvalSort.oldestFirst,
+                label: Text(l10n.evalSortOldest),
+              ),
+              ButtonSegment(
+                value: _EvalSort.byScale,
+                label: Text(l10n.evalSortByScale),
+              ),
+            ],
+            selected: {_sort},
+            onSelectionChanged: (s) => setState(() => _sort = s.first),
+            style: const ButtonStyle(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+          ),
+        const SizedBox(height: 8),
+        if (widget.evaluations.isEmpty)
           const _NoEvaluationsCard()
+        else if (_sort == _EvalSort.byScale)
+          ..._buildGrouped(sorted)
         else
-          ...evaluations.map(
-            (e) => _EvaluationTile(eval: e, patientId: patientId),
+          ...sorted.map(
+            (e) => _EvaluationTile(eval: e, patientId: widget.patientId),
           ),
       ],
     );
