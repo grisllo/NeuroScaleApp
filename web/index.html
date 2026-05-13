@@ -33,6 +33,35 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <style>
+    #flutter-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #F2EDE8;
+      gap: 20px;
+    }
+    #flutter-loader::after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border: 3px solid #E8E2DC;
+      border-top-color: #0F6F8A;
+      border-radius: 50%;
+      animation: ns-spin 0.8s linear infinite;
+    }
+    @keyframes ns-spin { to { transform: rotate(360deg); } }
+  </style>
+  <div id="flutter-loader"></div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var loader = document.getElementById('flutter-loader');
+      if (loader) loader.remove();
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
