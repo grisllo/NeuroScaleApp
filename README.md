@@ -1,5 +1,9 @@
 # NeuroScale App
 
+[![CI](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yml)
+[![Deploy](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la salud y estudiantes de medicina. Permite aplicar escalas neurológicas estandarizadas, calcular puntuaciones, interpretar resultados clínicos y registrar evaluaciones de forma anonimizada por paciente.
 
 **Producción web:** [grisllo.github.io/NeuroScaleApp](https://grisllo.github.io/NeuroScaleApp/)
@@ -33,7 +37,7 @@ Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la
 - Idioma ES / EN (persistido)
 
 ### Calidad técnica
-- **191 tests** — calculadoras cubren todos los umbrales clínicos
+- **204 tests** — calculadoras cubren todos los umbrales clínicos + widget tests presentación
 - Modo offline con SQLite (Drift) para Android e iOS
 - Modo tutorial por ítem en escalas complejas
 - Responsive: NavigationBar (móvil) / NavigationRail (tablet/web)
@@ -142,10 +146,18 @@ gantt
     13.8 PatientAvatar iniciales inteligentes — P001→P1, P002→P2 (0.2h) :done, f13h, 2026-05-13, 1d
     13.9 Spinner carga web + homepage GitHub Pages (0.2h) :done, f13i, 2026-05-13, 1d
     13.10 Fix producción web — BOM y sufijo /rest/v1 en SUPABASE_URL (2.5h) :done, f13j, 2026-05-13, 1d
+
+    section Fase 14 - Auditoría y producción
+    14.A Críticos producción — RLS, Sentry PII, validación (1h)   :done, f14a, 2026-05-13, 1d
+    14.B Tokens spacing/radii — 90 SizedBox + 15 BorderRadius (2h) :done, f14b, 2026-05-13, 1d
+    14.C Accesibilidad — Semantics + tooltips + ARB fixes (0.5h)   :done, f14c, 2026-05-13, 1d
+    14.D Tests presentación — PatientAvatar + ProfileScreen (0.5h) :done, f14d, 2026-05-13, 1d
+    14.E Documentación profesional — release/security/contributing (0.5h) :done, f14e, 2026-05-13, 1d
+    14.F Cierre — advisors + tag v1.0.0 (0.5h)                    :done, f14f, 2026-05-13, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).
-> Total acumulado: **~80h** de trabajo activo (Fases 0–13 + Mantenimiento).
+> Total acumulado: **~85h** de trabajo activo (Fases 0–14 + Mantenimiento).
 
 ---
 
@@ -199,5 +211,8 @@ dart format lib test
 ## Documentación
 
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — fases, entregables y decisiones de diseño
+- [`docs/RELEASE_GUIDE.md`](docs/RELEASE_GUIDE.md) — build APK/web/iOS, secretos, deploy, checklist pre-release
+- [`docs/SECURITY.md`](docs/SECURITY.md) — RLS, PII, secrets, reporting de vulnerabilidades
+- [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) — flujo de PR, convenciones, accesibilidad
 - [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) — metodología, planificación estimada vs real, análisis de desviaciones (~68h)
 - [Issues y milestones](https://github.com/grisllo/NeuroScaleApp/issues) — trazabilidad completa de tareas

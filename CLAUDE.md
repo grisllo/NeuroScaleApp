@@ -97,3 +97,15 @@ The implementation roadmap lives at `~/.claude/plans/wild-imagining-creek.md` (a
 4. **Run `flutter analyze` before committing.** CI will block PRs that fail analyze or test.
 5. **i18n**: every new user-facing string goes through ARB. Don't hardcode in widgets.
 6. **Run `/phase-close` at the end of every subfase** to keep docs, issues and the Gantt actualizados.
+
+## Accessibility checklist (for new features)
+
+Apply to every new screen or widget before committing:
+
+- [ ] All `IconButton` have `tooltip:`
+- [ ] Meaningful images/avatars wrapped in `Semantics(label: ..., excludeSemantics: true)`
+- [ ] Decorative icons wrapped in `ExcludeSemantics`
+- [ ] Information is not conveyed by color alone (`color-not-only`)
+- [ ] Touch targets ≥ 44×44pt (min `SizedBox` or padding to ensure this)
+- [ ] Password fields have show/hide toggle with `showPasswordTooltip`/`hidePasswordTooltip`
+- [ ] New user-facing strings have ARB keys in both `app_es.arb` and `app_en.arb`
