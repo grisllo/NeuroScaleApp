@@ -256,7 +256,9 @@ class _EvaluationsTabState extends State<_EvaluationsTab> {
         ),
       );
       result.addAll(
-        entry.value.map((e) => _EvaluationTile(eval: e, patientId: widget.patientId)),
+        entry.value.map(
+          (e) => _EvaluationTile(eval: e, patientId: widget.patientId),
+        ),
       );
     }
     return result;
@@ -274,8 +276,9 @@ class _EvaluationsTabState extends State<_EvaluationsTab> {
         const SizedBox(height: 16),
         Text(
           l10n.evaluationsHeader,
-          style: Theme.of(context).textTheme.titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         if (widget.evaluations.isNotEmpty)

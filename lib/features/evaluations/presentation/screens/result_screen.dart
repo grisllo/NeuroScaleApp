@@ -605,4 +605,3 @@ class _AnimatedEntranceState extends State<_AnimatedEntrance>
     );
   }
 }
-
