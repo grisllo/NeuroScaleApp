@@ -107,7 +107,8 @@ class _PatientsTabScreenState extends ConsumerState<PatientsTabScreen> {
                     return ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 88),
                       itemCount: patients.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: AppSpacing.sm),
                       itemBuilder: (_, i) => FadeSlideItem(
                         key: ValueKey(patients[i].id),
                         delay: Duration(milliseconds: i.clamp(0, 6) * 50),
@@ -161,7 +162,7 @@ class _PatientCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     if (patient.notes.isNotEmpty) ...[
-                      const SizedBox(height: 2),
+                      const SizedBox(height: AppSpacing.xxs),
                       Text(
                         patient.notes,
                         maxLines: 1,

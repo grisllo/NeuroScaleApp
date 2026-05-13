@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../evaluations/domain/entities/evaluation.dart';
 
 // Max scores per scale — normalization to 0-100% for uniform Y axis.
@@ -127,7 +128,7 @@ class _ScaleChart extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   scaleType.toUpperCase(),
                   style: Theme.of(
@@ -143,7 +144,7 @@ class _ScaleChart extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.lg),
             SizedBox(
               height: 180,
               child: LineChart(

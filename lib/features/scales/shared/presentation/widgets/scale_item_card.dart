@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/extensions/l10n_extension.dart';
 import '../../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../../core/theme/app_radii.dart';
+import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../core/widgets/scale_item_help_button.dart';
 import '../../domain/entities/scale_item.dart';
 
@@ -46,7 +48,7 @@ class ScaleItemCard extends StatelessWidget {
                     helpKey: item.helpKey!,
                   ),
                 if (selectedValue != null) ...[
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   Chip(
                     label: Text('$selectedValue'),
                     backgroundColor: scheme.primaryContainer,
@@ -59,7 +61,7 @@ class ScaleItemCard extends StatelessWidget {
                 ],
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             RadioGroup<int>(
               groupValue: selectedValue,
               onChanged: (int? v) {
@@ -80,7 +82,7 @@ class ScaleItemCard extends StatelessWidget {
                           alpha: 0.35,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppRadii.sm),
                         ),
                       ),
                     )

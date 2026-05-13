@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/animated_check.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 import '../providers/password_reset_controller.dart';
@@ -74,7 +75,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           Text(
             l10n.forgotPasswordInstruction,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -82,7 +83,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSpacing.xxl),
           TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
@@ -101,7 +102,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           if (state.hasError)
             Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -110,7 +111,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
           FilledButton(
             onPressed: state.isLoading ? null : _submit,
             child: state.isLoading
@@ -121,7 +122,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   )
                 : Text(l10n.sendResetLinkButton),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           TextButton(
             onPressed: () => context.go('/login'),
             child: Text(l10n.backToLoginButton),
@@ -137,13 +138,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         const Center(child: AnimatedCheck(size: 80)),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.xl),
         Text(
           l10n.resetLinkSentMessage,
           style: Theme.of(context).textTheme.bodyLarge,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: AppSpacing.xxl),
         FilledButton(
           onPressed: () => context.go('/login'),
           child: Text(l10n.backToLoginButton),

@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/disclaimer_provider.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../widgets/auth_card.dart';
 
 const _prefKey = 'disclaimer_accepted';
@@ -27,7 +29,7 @@ class DisclaimerScreen extends ConsumerWidget {
               Icons.warning_amber_rounded,
               color: Theme.of(context).colorScheme.tertiary,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Text(
                 l10n.disclaimerTitle,
@@ -38,12 +40,12 @@ class DisclaimerScreen extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
         Text(
           l10n.disclaimerBody,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: AppSpacing.xxl),
         SizedBox(
           width: double.infinity,
           child: FilledButton(
@@ -65,12 +67,12 @@ class DisclaimerScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.xxl),
               ClipRRect(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppRadii.lg),
                 child: Image.asset('assets/logo.png', width: 80, height: 80),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               Text(
                 l10n.appTitle,
                 textAlign: TextAlign.center,

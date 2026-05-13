@@ -5,6 +5,7 @@ import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/widgets/severity_badge.dart';
@@ -273,14 +274,14 @@ class _EvaluationsTabState extends State<_EvaluationsTab> {
       padding: const EdgeInsets.all(16),
       children: [
         _PatientHeader(patient: widget.patient),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.lg),
         Text(
           l10n.evaluationsHeader,
           style: Theme.of(
             context,
           ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         if (widget.evaluations.isNotEmpty)
           SegmentedButton<_EvalSort>(
             segments: [
@@ -303,7 +304,7 @@ class _EvaluationsTabState extends State<_EvaluationsTab> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.sm),
         if (widget.evaluations.isEmpty)
           const _NoEvaluationsCard()
         else if (_sort == _EvalSort.byScale)
@@ -334,7 +335,7 @@ class _PatientHeader extends StatelessWidget {
             Row(
               children: [
                 PatientAvatar(patient: patient, radius: 28),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Text(
                     patient.alias,
@@ -346,13 +347,13 @@ class _PatientHeader extends StatelessWidget {
               ],
             ),
             if (patient.notes.isNotEmpty) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
               Text(
                 patient.notes,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               l10n.patientCreatedOn(_formatDate(patient.createdAt)),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -481,7 +482,7 @@ class _EvaluationTile extends ConsumerWidget {
                               ],
                             ],
                           ),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: AppSpacing.xxs),
                           Text(
                             _formatDate(eval.createdAt),
                             style: Theme.of(context).textTheme.bodySmall

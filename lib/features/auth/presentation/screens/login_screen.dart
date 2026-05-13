@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_motion.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../providers/auth_controller.dart';
 import '../providers/session_provider.dart';
 import '../widgets/auth_card.dart';
@@ -75,7 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           return null;
         },
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: AppSpacing.lg),
       AuthFormField(
         label: l10n.passwordLabel,
         hint: l10n.passwordHint,
@@ -98,7 +100,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           return null;
         },
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: AppSpacing.sm),
       if (authState.hasError)
         Padding(
           padding: const EdgeInsets.only(top: 8),
@@ -107,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             style: TextStyle(color: Theme.of(context).colorScheme.error),
           ),
         ),
-      const SizedBox(height: 24),
+      const SizedBox(height: AppSpacing.xl),
       FilledButton(
         onPressed: authState.isLoading ? null : _submit,
         child: authState.isLoading
@@ -118,7 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               )
             : Text(l10n.loginButton),
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: AppSpacing.sm),
       TextButton(
         onPressed: () => context.go('/forgot-password'),
         child: Text(l10n.forgotPasswordLinkText),
@@ -145,7 +147,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xl),
               ...formFields,
             ],
           ),
@@ -173,7 +175,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                     children: [
                       Center(
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(AppRadii.lg),
                           child: Image.asset(
                             'assets/logo.png',
                             width: 80,
@@ -181,7 +183,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppSpacing.lg),
                       Text(
                         l10n.appTitle,
                         style: Theme.of(context).textTheme.headlineMedium
@@ -195,13 +197,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                             ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppSpacing.sm),
                       Text(
                         l10n.loginTitle,
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: AppSpacing.xxl),
                       ...formFields,
                     ],
                   ),

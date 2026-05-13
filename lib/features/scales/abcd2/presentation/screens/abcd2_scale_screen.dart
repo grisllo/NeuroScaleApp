@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/extensions/l10n_extension.dart';
 import '../../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../../core/theme/app_radii.dart';
+import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../core/widgets/scale_item_help_button.dart';
 import '../../../abcd2/domain/abcd2_calculator.dart';
 import '../../../abcd2/domain/abcd2_definition.dart';
@@ -61,7 +63,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           ..._definition.items.map(
             (item) => _Abcd2ItemCard(
               item: item,
@@ -71,7 +73,7 @@ class Abcd2ScaleScreen extends ConsumerWidget {
                   .setAnswer(item.key, value),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
         ],
       ),
       bottomNavigationBar: SafeArea(
@@ -136,7 +138,7 @@ class _Abcd2ItemCard extends StatelessWidget {
                     helpKey: item.helpKey!,
                   ),
                 if (selectedValue != null) ...[
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.sm),
                   Chip(
                     label: Text('+$selectedValue'),
                     backgroundColor: scheme.primaryContainer,
@@ -149,7 +151,7 @@ class _Abcd2ItemCard extends StatelessWidget {
                 ],
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             RadioGroup<int>(
               groupValue: selectedValue,
               onChanged: (int? v) {
@@ -176,7 +178,7 @@ class _Abcd2ItemCard extends StatelessWidget {
                           alpha: 0.35,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(AppRadii.sm),
                         ),
                       ),
                     )

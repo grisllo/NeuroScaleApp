@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../providers/auth_controller.dart';
 import '../providers/session_provider.dart';
 import '../widgets/auth_card.dart';
@@ -59,7 +60,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           return null;
         },
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: AppSpacing.lg),
       AuthFormField(
         label: l10n.passwordLabel,
         hint: l10n.passwordHint,
@@ -84,7 +85,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           return null;
         },
       ),
-      const SizedBox(height: 16),
+      const SizedBox(height: AppSpacing.lg),
       AuthFormField(
         label: l10n.confirmPasswordLabel,
         controller: _confirmController,
@@ -100,7 +101,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           return null;
         },
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: AppSpacing.sm),
       if (authState.hasError)
         Padding(
           padding: const EdgeInsets.only(top: 8),
@@ -113,7 +114,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
           ),
         ),
-      const SizedBox(height: 24),
+      const SizedBox(height: AppSpacing.xl),
       FilledButton(
         onPressed: authState.isLoading ? null : _submit,
         child: authState.isLoading
@@ -124,7 +125,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               )
             : Text(l10n.registerButton),
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: AppSpacing.sm),
       TextButton(
         onPressed: () => context.go('/login'),
         child: Text(l10n.loginLinkText),
@@ -147,7 +148,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xl),
               ...formFields,
             ],
           ),
@@ -174,7 +175,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: AppSpacing.xxl),
                   ...formFields,
                 ],
               ),

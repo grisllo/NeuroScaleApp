@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patients_controller.dart';
 
@@ -100,7 +101,7 @@ class _PatientEditDialogState extends ConsumerState<PatientEditDialog> {
                   : null,
               textInputAction: TextInputAction.next,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             TextFormField(
               controller: _notesController,
               minLines: 2,
@@ -110,7 +111,7 @@ class _PatientEditDialogState extends ConsumerState<PatientEditDialog> {
                 hintText: l10n.patientNotesHint,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Text(
               l10n.caseDescriptionWarning,
               style: TextStyle(
@@ -119,7 +120,7 @@ class _PatientEditDialogState extends ConsumerState<PatientEditDialog> {
               ),
             ),
             if (_errorMessage != null) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 _errorMessage!,
                 style: TextStyle(color: Theme.of(context).colorScheme.error),

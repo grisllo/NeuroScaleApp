@@ -6,6 +6,7 @@ import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/theme/app_motion.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/utils/pii_detector.dart';
 import '../../../../core/widgets/animated_check.dart';
@@ -146,7 +147,7 @@ class ResultScreen extends ConsumerWidget {
                         ),
                       ),
                     ), // _AnimatedEntrance
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     SeverityBadge(
                       severity: result.severity,
                       label: l10n.resolveKey(result.severity.interpretationKey),
@@ -168,7 +169,7 @@ class ResultScreen extends ConsumerWidget {
                           color: scheme.onSurfaceVariant,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: AppSpacing.sm),
                       Card(
                         margin: EdgeInsets.zero,
                         child: Column(
@@ -249,7 +250,7 @@ class ResultScreen extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: AppSpacing.sm),
                       ],
                     ),
                   ),
@@ -414,7 +415,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                 size: 80,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               Text(
                 l10n.saveSuccessMessage,
                 style: Theme.of(context).textTheme.titleMedium,
@@ -447,7 +448,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                 data: (patients) => _buildPatientPicker(patients, l10n: l10n),
               ),
               if (_isCreatingNew) ...[
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.md),
                 TextFormField(
                   controller: _newAliasController,
                   autofocus: true,
@@ -461,7 +462,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                       : null,
                 ),
               ],
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               TextFormField(
                 controller: _notesController,
                 minLines: 2,
@@ -485,7 +486,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                   return null;
                 },
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 l10n.caseDescriptionWarning,
                 style: TextStyle(
@@ -494,7 +495,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                 ),
               ),
               if (_errorMessage != null) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   _errorMessage!,
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
@@ -539,7 +540,7 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
           child: Row(
             children: [
               const Icon(Icons.add, size: 18),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSpacing.sm),
               Text(l10n.patientNewButton),
             ],
           ),

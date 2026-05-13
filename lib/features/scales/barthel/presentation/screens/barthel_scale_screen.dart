@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/extensions/l10n_extension.dart';
+import '../../../../../core/theme/app_spacing.dart';
 import '../../../barthel/domain/barthel_calculator.dart';
 import '../../../barthel/domain/barthel_definition.dart';
 import '../../../shared/presentation/widgets/scale_item_card.dart';
@@ -55,7 +56,7 @@ class BarthelScaleScreen extends ConsumerWidget {
                   .setAnswer(item.key, value),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
         ],
       ),
       bottomNavigationBar: SafeArea(

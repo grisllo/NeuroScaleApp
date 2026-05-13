@@ -40,7 +40,7 @@ class AlgorithmsTabScreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.lg),
               ...kAlgorithms.map((def) => _AlgorithmCard(definition: def)),
             ],
           ),
@@ -110,7 +110,7 @@ class _AlgorithmCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: AppSpacing.xxs),
                       Text(
                         l10n.algo(definition.descriptionKey),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(

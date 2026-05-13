@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/extensions/l10n_extension.dart';
 import '../../../../../core/extensions/scale_key_resolver.dart';
+import '../../../../../core/theme/app_radii.dart';
+import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../core/widgets/scale_item_help_button.dart';
 import '../../../nihss/domain/nihss_calculator.dart';
 import '../../../nihss/domain/nihss_definition.dart';
@@ -63,7 +65,7 @@ class NihssScaleScreen extends ConsumerWidget {
             ),
           ),
           if (isComa) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             Card(
               color: Theme.of(context).colorScheme.secondaryContainer,
               child: Padding(
@@ -76,7 +78,7 @@ class NihssScaleScreen extends ConsumerWidget {
                       size: 18,
                       color: Theme.of(context).colorScheme.onSecondaryContainer,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                     Expanded(
                       child: Text(
                         context.l10n.nihssComa,
@@ -92,7 +94,7 @@ class NihssScaleScreen extends ConsumerWidget {
               ),
             ),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           ..._definition.items.map(
             (item) => _NihssItemCard(
               item: item,
@@ -102,7 +104,7 @@ class NihssScaleScreen extends ConsumerWidget {
                   .setAnswer(item.key, value),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
         ],
       ),
       bottomNavigationBar: SafeArea(
@@ -186,7 +188,7 @@ class _NihssItemCard extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.sm),
             RadioGroup<int>(
               groupValue: selectedValue,
               onChanged: (v) => onChanged(v!),
@@ -220,7 +222,9 @@ class _NihssItemCard extends StatelessWidget {
       selectedTileColor: Theme.of(
         context,
       ).colorScheme.primaryContainer.withValues(alpha: 0.35),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.sm),
+      ),
       secondary: isUntestable
           ? null
           : opt.$1 > 0

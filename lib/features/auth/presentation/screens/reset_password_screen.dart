@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../providers/password_reset_controller.dart';
 import '../widgets/auth_card.dart';
 import '../widgets/auth_form_field.dart';
@@ -54,7 +55,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           Text(
             l10n.resetPasswordInstruction,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -62,7 +63,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSpacing.xxl),
           AuthFormField(
             label: l10n.newPasswordLabel,
             controller: _passwordController,
@@ -84,7 +85,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           AuthFormField(
             label: l10n.confirmPasswordLabel,
             controller: _confirmController,
@@ -102,7 +103,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           if (state.hasError)
             Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -111,7 +112,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
           FilledButton(
             onPressed: state.isLoading ? null : _submit,
             child: state.isLoading

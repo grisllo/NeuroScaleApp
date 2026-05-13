@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_motion.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/clinical_colors.dart';
 import '../../../../core/widgets/animated_tap_scale.dart';
 import '../../../../l10n/generated/app_localizations.dart';
@@ -257,7 +259,7 @@ class _QuestionBody extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: scheme.primaryContainer,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadii.md),
               border: Border(left: BorderSide(color: scheme.primary, width: 4)),
             ),
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
@@ -284,7 +286,7 @@ class _QuestionBody extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.md),
 
         // ── Opciones — lista anclada en la mitad inferior (thumb-friendly) ──
         Expanded(
@@ -391,7 +393,7 @@ class _ResultBody extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               color: pair.surface,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadii.md),
               border: Border.all(color: pair.foreground.withValues(alpha: 0.3)),
             ),
             child: Row(
@@ -408,7 +410,7 @@ class _ResultBody extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           Text(
             l10n.algo(node.titleKey),
             style: Theme.of(
@@ -422,7 +424,7 @@ class _ResultBody extends StatelessWidget {
               context,
             ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           ...node.recommendationKeys.indexed.map(
             ((int, String) entry) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -447,7 +449,7 @@ class _ResultBody extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 2),
@@ -463,7 +465,7 @@ class _ResultBody extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSpacing.xl),
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
@@ -472,7 +474,7 @@ class _ResultBody extends StatelessWidget {
               label: Text(l10n.algorithmRestartButton),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
@@ -480,7 +482,7 @@ class _ResultBody extends StatelessWidget {
               child: Text(l10n.cancelButton),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
         ],
       ),
     );

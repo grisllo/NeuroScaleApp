@@ -7,6 +7,8 @@ import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/locale_provider.dart';
 import '../../../../core/providers/theme_provider.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/breakpoints.dart';
 import '../../../auth/presentation/providers/auth_controller.dart';
 import '../../../auth/presentation/providers/password_reset_controller.dart';
@@ -42,7 +44,7 @@ class ProfileScreen extends ConsumerWidget {
             children: [
               // ── CUENTA ──────────────────────────────────────────────────
               _SectionHeader(label: l10n.profileAccountSection),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Card(
                 child: Column(
                   children: [
@@ -69,11 +71,11 @@ class ProfileScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xl),
 
               // ── PREFERENCIAS ─────────────────────────────────────────────
               _SectionHeader(label: l10n.profilePreferencesSection),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -116,7 +118,7 @@ class ProfileScreen extends ConsumerWidget {
                           await prefs.setString(themePrefsKey, modeString);
                         },
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppSpacing.lg),
                       Text(
                         l10n.profileLanguageLabel,
                         style: Theme.of(context).textTheme.bodyMedium,
@@ -145,7 +147,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xl),
 
               // ── CERRAR SESIÓN ─────────────────────────────────────────────
               SizedBox(
@@ -157,17 +159,17 @@ class ProfileScreen extends ConsumerWidget {
                   label: Text(l10n.signOutButton),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xl),
 
               // ── ZONA PELIGROSA ────────────────────────────────────────────
               _SectionHeader(
                 label: l10n.profileDangerZoneSection,
                 color: scheme.error,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppRadii.md),
                   side: BorderSide(color: scheme.error.withValues(alpha: 0.4)),
                 ),
                 child: ListTile(
@@ -187,7 +189,7 @@ class ProfileScreen extends ConsumerWidget {
                   onTap: () => _confirmDeleteAccount(context, ref),
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.xxl),
             ],
           ),
         ),
@@ -329,7 +331,7 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
                 _error!,
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSpacing.md),
             ],
             TextFormField(
               controller: _currentController,
@@ -346,7 +348,7 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
               validator: (v) =>
                   (v == null || v.isEmpty) ? l10n.fieldRequiredError : null,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             TextFormField(
               controller: _newController,
               obscureText: _obscure,
@@ -361,7 +363,7 @@ class _ChangePasswordDialogState extends ConsumerState<_ChangePasswordDialog> {
                 return null;
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.md),
             TextFormField(
               controller: _confirmController,
               obscureText: _obscure,

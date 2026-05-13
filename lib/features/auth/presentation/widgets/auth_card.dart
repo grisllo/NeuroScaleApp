@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_radii.dart';
+import '../../../../core/theme/app_spacing.dart';
 
 /// Pantalla de autenticación: fondo navy de la marca + logo + card centrada.
 /// Funciona igual en tema claro y oscuro — el fondo siempre es el navy del icono.
@@ -18,10 +20,12 @@ class AuthCard extends StatelessWidget {
     final cardColor = isDark ? AppColors.surfaceDarkContainer : Colors.white;
     final cardBorder = isDark
         ? RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppRadii.lg),
             side: const BorderSide(color: AppColors.outlineDark),
           )
-        : RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
+        : RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadii.lg),
+          );
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
@@ -41,7 +45,7 @@ class AuthCard extends StatelessWidget {
                       height: 110,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: AppSpacing.lg),
                   const Text(
                     'NeuroScale App',
                     style: TextStyle(
@@ -51,7 +55,7 @@ class AuthCard extends StatelessWidget {
                       letterSpacing: -0.5,
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: AppSpacing.xxl),
                 ],
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: _maxWidth),
