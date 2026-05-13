@@ -14,12 +14,10 @@ abstract final class Env {
 
   // Strips BOM (U+FEFF) that may appear when secrets are copy-pasted from
   // Windows editors or certain tools.
-  static String get supabaseUrl =>
-      _rawSupabaseUrl.replaceAll('﻿', '').trim();
+  static String get supabaseUrl => _rawSupabaseUrl.replaceAll('﻿', '').trim();
   static String get supabaseAnonKey =>
       _rawSupabaseAnonKey.replaceAll('﻿', '').trim();
-  static String get redirectUrl =>
-      _rawRedirectUrl.replaceAll('﻿', '').trim();
+  static String get redirectUrl => _rawRedirectUrl.replaceAll('﻿', '').trim();
 
   static bool get hasSupabase =>
       supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
