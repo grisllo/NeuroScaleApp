@@ -111,6 +111,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
               ],
             ),
             duration: const Duration(seconds: 4),
+            width: isWide ? 480.0 : null,
             dismissDirection: isWide
                 ? DismissDirection.down
                 : DismissDirection.horizontal,
