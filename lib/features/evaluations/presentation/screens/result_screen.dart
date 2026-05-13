@@ -146,7 +146,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
       ),
     );
     Overlay.of(context).insert(_toastEntry!);
-    _toastTimer = Timer(const Duration(seconds: 4), () {
+    _toastTimer = Timer(const Duration(seconds: 6), () {
       if (mounted) removeToast();
     });
   }
