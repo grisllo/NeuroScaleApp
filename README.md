@@ -67,9 +67,9 @@ gantt
     Refactor + History basica (2h)           :done, f2a1, 2026-04-27, 1d
     Filtros + busqueda + paginacion (30m)    :done, f2a2, after f2a1, 1d
     Graficos fl_chart (45m)                  :done, f2a3, after f2a2, 1d
-    mRS 0-6 (20m)                            :done, f2a4, after f2a1, 1d
+    mRS 0-6 (20m)                            :done, f2a4, after f2a3, 1d
     Barthel Index 0-100 (20m)                :done, f2a5, after f2a4, 1d
-    ABCD2 riesgo post-AIT (20m)              :done, f2a6, 2026-04-27, 1d
+    ABCD2 riesgo post-AIT (20m)              :done, f2a6, after f2a5, 1d
 
     section Fase 2B - NIHSS
     NIHSS 15 items condicionales (4h)        :done, f2b,  2026-04-28, 1d
@@ -157,8 +157,13 @@ gantt
     14.F Cobertura + ROADMAP + tag v1.0.0 (0.25h)                :done, f14f,  2026-05-13, 1d
 ```
 
-> Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).
-> Total acumulado: **~85h** de trabajo activo (Fases 0–14 + Mantenimiento).
+> **Fechas**: verificadas contra los timestamps de commits de git (contrastables en el historial).
+> **Horas**: tiempo de sesión del desarrollador activamente dirigiendo la implementación
+> (revisión de outputs, testing manual, decisiones de diseño, redirección de Claude).
+> En desarrollo asistido por IA el tiempo de implementación ocurre entre commits, no después.
+> El ordenado dentro del mismo día es por sección y fuente — Mermaid requiere timestamps
+> a nivel de hora para mostrar subordenado intradiario, no soportado con granularidad diaria.
+> Total acumulado: **~85h** de sesión activa (Fases 0–14 + Mantenimiento).
 
 ---
 
