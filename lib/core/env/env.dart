@@ -12,9 +12,14 @@ abstract final class Env {
     'SUPABASE_REDIRECT_URL',
   );
 
-  // Strips BOM (U+FEFF) that may appear when secrets are copy-pasted from
-  // Windows editors or certain tools.
-  static String get supabaseUrl => _rawSupabaseUrl.replaceAll('﻿', '').trim();
+  // Strips BOM (U+FEFF) and accidental /rest/v1 suffix from the base URL.
+  static String get supabaseUrl {
+    var url = _rawSupabaseUrl.replaceAll('﻿', '').trim();
+    if (url.endsWith('/rest/v1/')) url = url.substring(0, url.length - 9);
+    if (url.endsWith('/rest/v1')) url = url.substring(0, url.length - 8);
+    return url;
+  }
+
   static String get supabaseAnonKey =>
       _rawSupabaseAnonKey.replaceAll('﻿', '').trim();
   static String get redirectUrl => _rawRedirectUrl.replaceAll('﻿', '').trim();
