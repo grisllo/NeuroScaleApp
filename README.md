@@ -137,10 +137,13 @@ gantt
     13.3 Fix FilledButton apagado — backgroundColor+foregroundColor explícitos (0.1h) :done, f13c, 2026-05-13, 1d
     13.4 UX pacientes — tab Evaluaciones + cabecera Evolución web (0.1h) :done, f13d, 2026-05-13, 1d
     13.5 Toast disclaimer superior-derecha web + SnackBar swipe móvil (0.5h) :done, f13e, 2026-05-13, 1d
+    13.6 NavigationRail jerarquía visual — fondo diferenciado claro/oscuro (0.1h) :done, f13f, 2026-05-13, 1d
+    13.7 Ordenación evaluaciones por paciente — reciente, antigua, por escala (0.2h) :done, f13g, 2026-05-13, 1d
+    13.8 PatientAvatar iniciales inteligentes — P001→P1, P002→P2 (0.2h) :done, f13h, 2026-05-13, 1d
 ```
 
 > Tiempos derivados de los timestamps de los commits de git (intervalos con cap 45min en pausas).
-> Total acumulado: **~76h** de trabajo activo (Fases 0–13 + Mantenimiento).
+> Total acumulado: **~77h** de trabajo activo (Fases 0–13 + Mantenimiento).
 
 ---
 
