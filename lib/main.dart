@@ -16,12 +16,6 @@ import 'core/theme/app_theme.dart';
 import 'l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
-  // Captura errores Dart no controlados y los expone en consola web.
-  PlatformDispatcher.instance.onError = (error, stack) {
-    debugPrint('FATAL: $error\n$stack');
-    return false;
-  };
-
   // Remove '#' from web URLs (skill: flutter-setup-declarative-routing)
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +59,16 @@ Future<void> main() async {
       options.dsn = Env.sentryDsn;
       options.tracesSampleRate = 0.2;
       options.environment = Env.flavor;
+      // Strip PII patterns (email, DNI) from stack traces before sending.
+      options.beforeSend = (event, hint) {
+        final raw = event.toString();
+        final hasPii =
+            RegExp(
+              r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}',
+            ).hasMatch(raw) ||
+            RegExp(r'\b\d{8}[A-HJ-NP-TV-Z]\b').hasMatch(raw);
+        return hasPii ? null : event;
+      };
     }, appRunner: () => runApp(root));
   } else {
     runApp(root);

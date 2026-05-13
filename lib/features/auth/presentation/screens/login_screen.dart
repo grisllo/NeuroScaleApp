@@ -94,7 +94,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         ),
         validator: (v) {
           if (v == null || v.isEmpty) return l10n.fieldRequiredError;
-          if (v.length < 6) return l10n.passwordTooShortError;
+          if (v.length < 8) return l10n.passwordTooShortError;
           return null;
         },
       ),

@@ -72,7 +72,7 @@ class ScalesTabScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('NeuroScale')),
+      appBar: AppBar(title: Text(context.l10n.appTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
