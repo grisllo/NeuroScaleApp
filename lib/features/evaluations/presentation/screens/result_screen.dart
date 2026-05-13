@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import '../../../../core/extensions/scale_key_resolver.dart';
 import '../../../../core/providers/scale_disclaimer_provider.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/clinical_colors.dart';
+import '../../../../core/utils/breakpoints.dart';
 import '../../../../core/utils/pii_detector.dart';
 import '../../../../core/widgets/animated_check.dart';
 import '../../../../core/widgets/animated_score.dart';
@@ -95,6 +95,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
         final l10n = context.l10n;
         final scheme = Theme.of(context).colorScheme;
         final messenger = ScaffoldMessenger.of(context);
+        final isWide =
+            MediaQuery.sizeOf(context).width >= Breakpoints.tablet;
         messenger.showSnackBar(
           SnackBar(
             content: Row(
@@ -109,10 +111,10 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
               ],
             ),
             duration: const Duration(seconds: 4),
-            dismissDirection: kIsWeb
+            dismissDirection: isWide
                 ? DismissDirection.down
                 : DismissDirection.horizontal,
-            action: kIsWeb
+            action: isWide
                 ? SnackBarAction(
                     label: l10n.closeButton,
                     onPressed: messenger.hideCurrentSnackBar,
