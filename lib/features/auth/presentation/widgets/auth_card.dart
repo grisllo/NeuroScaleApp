@@ -62,19 +62,9 @@ class AuthCard extends StatelessWidget {
                     color: cardColor,
                     elevation: isDark ? 0 : 4,
                     shape: cardBorder,
-                    clipBehavior: Clip.antiAlias,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 3,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(32),
-                          child: child,
-                        ),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: child,
                     ),
                   ),
                 ),
