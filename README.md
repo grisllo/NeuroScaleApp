@@ -22,7 +22,7 @@ Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la
 | Backend | Supabase (`eu-west-2`) — 11 migraciones aplicadas |
 | Idiomas de la interfaz | Español, inglés (519 entradas ARB por idioma) |
 | Plataformas soportadas | Android (API 21+), iOS, web |
-| Horas de desarrollo | ~84 h de sesión activa |
+| Horas de desarrollo | ~85 h de sesión activa |
 
 ---
 
@@ -299,6 +299,7 @@ gantt
     Correccion horas desde timestamps (0.25h)   :done, pv1f, 2026-05-14, 1d
     Capturas reales + datos demo Supabase (1h)  :done, pv1g, 2026-05-14, 1d
     Favicon optimizado 1.14MB a 6KB (0.1h)     :done, pv1h, 2026-05-14, 1d
+    Revision holistica Opus + correcciones (0.75h) :done, pv1i, 2026-05-14, 1d
 ```
 
 > **Fechas**: verificadas contra los timestamps de los commits de Git (contrastables en el historial).
@@ -307,7 +308,7 @@ gantt
 >
 > **Granularidad**: el ordenado dentro del mismo día es por sección y orden de aparición — Mermaid no soporta orden intradiario con granularidad por hora.
 >
-> **Total acumulado**: ~84 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
+> **Total acumulado**: ~85 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
 
 ---
 
@@ -328,7 +329,7 @@ Véase el archivo [`LICENSE`](LICENSE) para los términos completos.
 | Documento | Contenido |
 |---|---|
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | Fases, entregables y decisiones de diseño desde Fase 0 hasta post v1.0.0. |
-| [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) | Metodología de trabajo, planificación estimada vs real, análisis de desviaciones (~84 h totales). |
+| [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) | Metodología de trabajo, planificación estimada vs real, análisis de desviaciones (~85 h totales). |
 | [`docs/RELEASE_GUIDE.md`](docs/RELEASE_GUIDE.md) | Build de APK / web / iOS, gestión de secretos, despliegue, checklist pre-release. |
 | [`docs/SECURITY.md`](docs/SECURITY.md) | Modelo de seguridad: RLS, gestión de PII, secretos, Sentry, reporte de vulnerabilidades. |
 | [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) | Flujo de PR, Conventional Commits, convenciones de código, accesibilidad. |

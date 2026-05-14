@@ -42,7 +42,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Último hito**: Fase 14 — Auditoría y producción v1.0.0 ✅ — Completada el 2026-05-13. Tag `v1.0.0` publicado en GitHub. **204 tests** verdes, `flutter analyze` en 0 issues, ~84 h acumuladas (incluyendo el mantenimiento post-v1.0.0). Producción web: <https://grisllo.github.io/NeuroScaleApp/>.
+**Último hito**: Fase 14 — Auditoría y producción v1.0.0 ✅ — Completada el 2026-05-13. Tag `v1.0.0` publicado en GitHub. **204 tests** verdes, `flutter analyze` en 0 issues, ~85 h acumuladas (incluyendo el mantenimiento post-v1.0.0). Producción web: <https://grisllo.github.io/NeuroScaleApp/>.
 
 ---
 

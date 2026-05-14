@@ -189,7 +189,7 @@ Horas reconstruidas a partir de los timestamps de commits de Git y las sesiones 
 | Fase 13 — Fixes UX evaluaciones + producción web (BOM + /rest/v1) | varios | 2026-05-13 | ~6,0 |
 | Fase 14 — Auditoría y producción v1.0.0 (RLS, tokens, a11y, tests, docs) | `92b2157`..`ccb29d0` | 2026-05-13 | ~2,5 |
 | Mantenimiento post-v1.0.0 — licencia, auth UI, docs polish integral | `3025a25`..`eef588b` | 2026-05-14 | ~2,0 |
-| **TOTAL ACUMULADO** | | | **~84,0 h** |
+| **TOTAL ACUMULADO** | | | **~85,0 h** |
 
 ### 3.3 Análisis de desviaciones
 
@@ -227,7 +227,7 @@ El balance de las **fases con estimación previa (0 a 4)** es de **−5,0 h** (�
 
 Las **fases 5 a 14**, no estimadas inicialmente, sumaron ~14 h adicionales (saneamiento técnico, beta, polish, animaciones, fixes de producción y auditoría). El **mantenimiento intermedio** (2026-05-11) aportó otras ~9 h de mejoras de UX y administración de cuenta. El **mantenimiento post-v1.0.0** (2026-05-14) añadió ~2 h de pulido documental y de UI.
 
-**Total acumulado del proyecto**: **~84 h** de sesión activa. La cota inferior estricta (suma de las duraciones de sesiones de commit con gaps > 2 h excluidos) es de 27 h; el trabajo previo a cada primer commit de sesión y la revisión de salidas del agente elevan la cifra real. El ancla más fiable es la corrección realizada por el propio desarrollador el 2026-05-12 (commit `535396f`): 73 h acumuladas al cierre de la Fase 12. Los +11 h posteriores corresponden a las Fases 13-14 y el mantenimiento post-v1.0.0, calculados por ventanas de sesión. Distribuidas en 19 días de trabajo efectivo (2026-04-26 a 2026-05-14).
+**Total acumulado del proyecto**: **~85 h** de sesión activa. La cota inferior estricta (suma de las duraciones de sesiones de commit con gaps > 2 h excluidos) es de 27 h; el trabajo previo a cada primer commit de sesión y la revisión de salidas del agente elevan la cifra real. El ancla más fiable es la corrección realizada por el propio desarrollador el 2026-05-12 (commit `535396f`): 73 h acumuladas al cierre de la Fase 12. Los +11 h posteriores corresponden a las Fases 13-14 y el mantenimiento post-v1.0.0, calculados por ventanas de sesión. Distribuidas en 19 días de trabajo efectivo (2026-04-26 a 2026-05-14).
 
 ---
 
