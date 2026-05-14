@@ -1,18 +1,48 @@
 # NeuroScale App — Roadmap estratégico
 
-Documento de referencia para el equipo y para Claude Code. Refleja el estado y los objetivos de cada fase.
+Documento de referencia que recopila el estado, los objetivos y las decisiones de cada fase del proyecto. Sirve de fuente única de verdad para el equipo de desarrollo y para el agente Claude Code.
+
+---
+
+## Tabla de contenidos
+
+- [Visión](#visión)
+- [Estado actual](#estado-actual)
+- [Fases](#fases)
+  - [Fase 0 — Bootstrap](#fase-0--bootstrap--completada-2026-04-26)
+  - [Fase 1 — MVP: Auth + GCS + Guardado](#fase-1--mvp-auth--gcs--guardado--completada-2026-04-27)
+  - [Fase 2A — Historial + mRS + Barthel + ABCD2](#fase-2a--historial--mrs--barthel--abcd2--completada-2026-04-27)
+  - [Fase 2B — NIHSS aislada](#fase-2b--nihss-aislada--completada-2026-04-28)
+  - [Fase 3 — UX shell + Modelo de Pacientes](#fase-3--ux-shell--modelo-de-pacientes--completada-2026-04-30)
+  - [Fase 4 — Algoritmos + Offline + Perfil](#fase-4--algoritmos--offline--perfil--completada-2026-04-30)
+  - [Fase 5 — Design System & UX visual](#fase-5--design-system--ux-visual--completada-2026-05-05)
+  - [Fase 6 — Saneamiento técnico](#fase-6--saneamiento-técnico--completada-2026-05-08)
+  - [Fase 7 — Features de producto](#fase-7--features-de-producto--completada-2026-05-08)
+  - [Fase 8 — Mantenimiento y calidad post-product](#fase-8--mantenimiento-y-calidad-post-product--completada-2026-05-09)
+  - [Fase 9 — Preparación Beta](#fase-9--preparación-beta--completada-2026-05-09)
+  - [Fase 10 — Polish & Optimización](#fase-10--polish--optimización--completada-2026-05-12)
+  - [Fase 11 — UX Visual](#fase-11--ux-visual--completada-2026-05-12)
+  - [Fase 12 — Animaciones](#fase-12--animaciones--completada-2026-05-12)
+  - [Fase 13 — Fixes UX evaluaciones](#fase-13--fixes-ux-evaluaciones--completada-2026-05-13)
+  - [Fase 14 — Auditoría y producción v1.0.0](#fase-14--auditoría-y-producción-v100--completada-2026-05-13)
+- [Mantenimiento post-v1.0.0](#mantenimiento-post-v100-2026-05-14)
+- [Decisiones arquitectónicas clave](#decisiones-arquitectónicas-clave)
+- [Reglas de negocio no negociables](#reglas-de-negocio-no-negociables)
+- [Estructura de referencia](#estructura-de-referencia)
+- [Deuda técnica y mejoras aplazadas](#deuda-técnica-y-mejoras-aplazadas)
+- [Documentos relacionados](#documentos-relacionados)
 
 ---
 
 ## Visión
 
-Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de la salud y estudiantes aplicar escalas neurológicas (GCS, NIHSS, Rankin, Barthel), calcular puntuaciones, interpretar resultados y registrar evaluaciones de forma anónima.
+Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de la salud y estudiantes aplicar escalas neurológicas estandarizadas (GCS, NIHSS, mRS, Barthel, ABCD2), calcular puntuaciones, interpretar resultados clínicos y registrar evaluaciones de forma anonimizada por paciente.
 
 ---
 
 ## Estado actual
 
-**Último hito: Fase 14 — Auditoría y producción v1.0.0** ✅ — Completada 2026-05-13. Tag `v1.0.0` pusheado. 204 tests, CI verde, ~85h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
+**Último hito**: Fase 14 — Auditoría y producción v1.0.0 ✅ — Completada el 2026-05-13. Tag `v1.0.0` publicado en GitHub. **204 tests** verdes, `flutter analyze` en 0 issues, ~87 h acumuladas (incluyendo el mantenimiento post-v1.0.0). Producción web: <https://grisllo.github.io/NeuroScaleApp/>.
 
 ---
 
@@ -602,11 +632,25 @@ lib/
 
 ---
 
-## Decisiones técnicas aplazadas
+## Deuda técnica y mejoras aplazadas
 
-**Certificate pinning Supabase** (revisado 2026-05-08, Fase 6.1): aplazado a Fase 7+ o cuando se requiera certificación clínica (HIPAA / ISO 13485). Razón: Supabase rota certificados LetsEncrypt cada ~60 días; un pin caducado dejaría la app inservible para todos los usuarios hasta que se publique un hotfix. El ROI actual no compensa el riesgo operacional.
+Decisiones que se han tomado conscientemente para diferir trabajo. Cada elemento incluye motivación y condición de revisión.
 
-**POLISH-05 — Screenshots en README**: requiere capturas manuales de la app en producción.
+### Deuda técnica
+
+| Elemento | Decisión | Motivación | Cuándo revisar |
+|---|---|---|---|
+| Certificate pinning Supabase | Aplazado | Supabase rota certificados LetsEncrypt cada ~60 días; un pin caducado dejaría la app inservible hasta publicar hotfix. El ROI actual no compensa el riesgo operacional. | Cuando se requiera certificación clínica (HIPAA, ISO 13485). |
+| `pubspec.yaml` vs tag | Versión `1.0.0-beta+1` en `pubspec.yaml` pese al tag `v1.0.0`. | Conservada para no romper `flutter pub get` ni cachés. | Cuando se prepare un release público en stores. |
+| Leaked Password Protection | No activado | Requiere plan Supabase Pro; no disponible en plan gratuito. | Cuando se migre a plan de pago. |
+| Cobertura de tests global 20,7 % | Aceptada | El dominio (calculadoras y algoritmos) está al 100 %. El resto es UI/datasource con poco valor en mock-tests. | Si se introducen flujos UI complejos con regresiones frecuentes. |
+
+### Polish opcional
+
+| Elemento | Estado | Acción pendiente |
+|---|---|---|
+| `POLISH-05` — capturas en README | Pendiente | Generar capturas finales de producción para sustituir los placeholders. |
+| `favicon.png` de 1,14 MB | Pendiente | Optimizar a < 50 KB sin pérdida visible. |
 
 ---
 
