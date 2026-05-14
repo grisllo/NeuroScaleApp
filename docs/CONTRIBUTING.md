@@ -83,8 +83,10 @@ Usar el skill `/create-scale` desde Claude Code. Genera el scaffold completo:
 ## Accesibilidad (checklist para features nuevos)
 
 - [ ] Todos los `IconButton` tienen `tooltip:`
-- [ ] Imágenes significativas tienen `Semantics(label: ...)`
+- [ ] Imágenes significativas tienen `Semantics(label: ..., excludeSemantics: true)`
 - [ ] Íconos decorativos van dentro de `ExcludeSemantics`
 - [ ] Colores no son la única forma de comunicar información (`color-not-only`)
 - [ ] Contraste ≥ 4.5:1 para texto normal (verificar en dark mode también)
 - [ ] Touch targets mínimo 44×44pt
+- [ ] Campos de contraseña tienen toggle show/hide con `tooltip:` (`showPasswordTooltip` / `hidePasswordTooltip`)
+- [ ] Strings nuevas tienen claves ARB en `app_es.arb` **y** `app_en.arb`

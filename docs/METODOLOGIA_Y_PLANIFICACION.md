@@ -13,7 +13,7 @@
 
 | Capa | Tecnología |
 |---|---|
-| Frontend | Flutter 3.x (Dart), Material 3 |
+| Frontend | Flutter 3.41.9 (Dart), Material 3 |
 | Estado | Riverpod (`AsyncNotifier`/`Notifier`) |
 | Navegación | go_router (rutas declarativas, auth guard) |
 | Backend | Supabase (Auth + PostgreSQL + RLS + Storage) |
@@ -48,13 +48,14 @@ lib/
 │   ├── scales/
 │   │   ├── shared/    entidades base (ScaleItem, ScaleResult, Severity)
 │   │   ├── gcs/       calculadora + pantalla + tests
-│   │   ├── rankin/    (Fase 2A)
-│   │   ├── barthel/   (Fase 2A)
-│   │   ├── abcd2/     (Fase 2A)
-│   │   └── nihss/     (Fase 2B)
+│   │   ├── rankin/    mRS 0-6
+│   │   ├── barthel/   Barthel Index 0-100
+│   │   ├── abcd2/     ABCD2 riesgo post-AIT
+│   │   └── nihss/     NIHSS 15 ítems con UN=9
 │   ├── evaluations/   persistencia de evaluaciones completadas
-│   └── history/       listado + gráficos (Fase 2A)
-└── l10n/              app_es.arb → generated/
+│   ├── patients/      gestión de pacientes anonimizados + evolución
+│   └── algorithms/    árboles de decisión clínicos (tPA, HTA, HSA)
+└── l10n/              app_es.arb + app_en.arb → generated/
 ```
 
 **Flujo de datos** (nunca saltado): `UI → Provider → UseCase → Repository → DataSource → Supabase`
@@ -190,8 +191,15 @@ Reconstruida a partir de commits git y sesiones de trabajo documentadas.
 | **Total acumulado Fase 9 completa (real)** | | | **~58,5 h** |
 | Mantenimiento 2026-05-11: borrado pacientes/evaluaciones, admin cuenta, tema oscuro, menú persistente, revisión UI/UX global | `5b5fb73`..`a7c6dbe` | 2026-05-11 | ~9,5 h |
 | **Total acumulado incluyendo mantenimiento (real)** | | | **~68 h** |
+| Fase 10: polish — errores localizados, ValidationException, RadioGroup, LICENSE, version bump | varios | 2026-05-12 | ~3,0 h |
+| Fase 11: UX visual — hash avatar, layout web, auth card navy, tema cálido, icono oficial | varios | 2026-05-12 | ~4,5 h |
+| Fase 12: animaciones — transiciones página, FadeSlideItem, AnimatedCheck, algoritmos reveal | varios | 2026-05-12 | ~4,5 h |
+| **Total acumulado Fases 10-12 (real)** | | | **~80 h** |
+| Fase 13: fixes UX — paciente obligatorio, disclaimer SnackBar, FilledButton, producción web | varios | 2026-05-13 | ~3,0 h |
+| Fase 14: auditoría y producción v1.0.0 — RLS, tokens, a11y, tests, docs, tag | `92b2157`..`ccb29d0` | 2026-05-13 | ~4,0 h |
+| **Total acumulado Fases 0-14 (real)** | | | **~85 h** |
 
-**Conclusión de desviaciones (proyecto completo hasta Fase 9 + mantenimiento)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0-4: −5,0 h (−9,9%). Fases 6-9 sin estimación previa (~13,0h acumuladas); mayor extra fue auth hardening post-deploy y troubleshooting de despliegue web. Mantenimiento post-beta: ~9,5h adicionales (features de UX, administración de cuenta, mejoras visuales). Total real acumulado: **~68 h**.
+**Conclusión de desviaciones (proyecto completo — Fases 0–14)**: La planificación fue ligeramente pesimista en implementación y optimista en contenido. Balance Fases 0–4: −5,0 h (−9,9%). Fases 6–9 sin estimación previa (~13,0 h); el mayor extra fue auth hardening post-deploy y troubleshooting de despliegue web. Mantenimiento post-beta (2026-05-11): ~9,5 h adicionales de UX, administración de cuenta y mejoras visuales. Fases 10–14: ~17 h de polish, animaciones, fixes y auditoría de producción. Total real acumulado: **~85 h**.
 
 ---
 

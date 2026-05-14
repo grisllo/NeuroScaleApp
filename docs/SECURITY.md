@@ -6,7 +6,7 @@ NeuroScale es una herramienta de apoyo clínico. **No almacena datos identificat
 
 1. **Confidencialidad de datos**: RLS en Supabase garantiza que cada usuario solo accede a sus propios datos.
 2. **Ausencia de PII**: el campo `case_description` tiene validación en la UI que bloquea el guardado si detecta DNI o emails.
-3. **Autenticación robusta**: contraseñas mínimo 8 caracteres con letras y números, Leaked Password Protection activo.
+3. **Autenticación robusta**: contraseñas mínimo 8 caracteres con letras y números. Leaked Password Protection requiere plan Supabase Pro (no disponible en plan gratuito).
 
 ---
 

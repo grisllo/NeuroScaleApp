@@ -38,11 +38,11 @@ lib/
 │   ├── auth/                      data/  domain/  presentation/
 │   ├── scales/
 │   │   ├── shared/                base entities (Scale, ScaleResult, Severity)
-│   │   ├── gcs/                   data/  domain/  presentation/
-│   │   ├── nihss/  rankin/  barthel/ (added in later phases)
+│   │   ├── gcs/   nihss/   rankin/   barthel/   abcd2/
 │   ├── evaluations/               persistence of completed scale evaluations
-│   └── history/                   listing + charts
-└── l10n/                          ARB files; generated/ excluded from analyzer
+│   ├── patients/                  patient management (CRUD + evolution chart)
+│   └── algorithms/                clinical decision trees (tPA, HTA, HSA)
+└── l10n/                          app_es.arb + app_en.arb; generated/ excluded from analyzer
 ```
 
 **Layer rules** (enforced by code review):
@@ -51,9 +51,9 @@ lib/
 - Repositories **throw `Failure`** subtypes (never raw exceptions). Datasources throw `AppException` subtypes; repositories convert them to `Failure` in catch blocks. Controllers use `AsyncValue.guard()` to catch. No `Either<L,R>` — deliberately avoided in this project to keep the code simple (see ROADMAP Decisiones arquitectónicas).
 - `presentation/` uses Riverpod (`AsyncNotifier`/`Notifier`) — no business logic in widgets.
 
-**Routing** uses `go_router` via `appRouterProvider` (Riverpod). Auth guard will redirect unauthenticated users once auth is wired in Phase 1.
+**Routing** uses `go_router` via `appRouterProvider` (Riverpod). Auth guard redirects unauthenticated users to `/login`.
 
-**i18n** is set up from day 1 via `intl` + `flutter_localizations`. All user-facing strings go in `lib/l10n/app_es.arb` (or future `app_en.arb`). Generated code lives in `lib/l10n/generated/` and is excluded from analyzer.
+**i18n** uses `intl` + `flutter_localizations`. All user-facing strings go in `lib/l10n/app_es.arb` and `lib/l10n/app_en.arb`. Generated code lives in `lib/l10n/generated/` and is excluded from analyzer.
 
 ## Conventions
 
@@ -67,13 +67,13 @@ lib/
 
 ## Roadmap and constraints
 
-The implementation roadmap lives at `~/.claude/plans/wild-imagining-creek.md` (approved 2026-04-26). Key points:
+The full roadmap lives at `docs/ROADMAP.md`. The project reached **v1.0.0** (Fase 14) on 2026-05-13. All planned phases are complete:
 
-- **MVP (Fase 1)**: auth + GCS + persistence with RLS.
-- **Fase 2A**: history + Rankin + Barthel.
-- **Fase 2B**: NIHSS isolated due to its 15-item conditional logic.
-- **Fase 3**: clinical algorithms, offline mode, profile.
-- The `patients` table from the original spec was deliberately deferred to Fase 3 — for MVP, evaluations carry a free-text `case_description` only.
+- **Fases 0–2B**: scaffold, auth, GCS, history, mRS, Barthel, ABCD2, NIHSS.
+- **Fase 3**: UX shell + patient model.
+- **Fase 4**: clinical algorithms, offline mode (Drift), EN localisation, profile screen.
+- **Fases 5–9**: design system, security hardening, responsive layout, tutorial mode, beta deploy.
+- **Fases 10–14**: polish, animations, UX fixes, production audit, v1.0.0 tag.
 
 ## Skills
 

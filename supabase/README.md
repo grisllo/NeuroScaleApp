@@ -14,6 +14,9 @@ Las migraciones se aplican **manualmente** en Supabase Studio → SQL Editor →
 | `migrations/0006_fix_function_search_path.sql` | Fija `search_path = public` en `handle_updated_at()` — elimina vulnerabilidad de schema injection (security advisor WARN). | 8.2 |
 | `migrations/0007_cascade_delete_patient_evaluations.sql` | Cambia `evaluations.patient_id FK` de `SET NULL` a `CASCADE`: borrar paciente borra sus evaluaciones. | Mant. |
 | `migrations/0008_fix_legacy_interpretation_keys.sql` | Normaliza claves de interpretación antiguas en español a claves ARB canónicas. Idempotente. | Mant. |
+| `migrations/0009_optimize_rls_auth_calls.sql` | Reescribe las 8 políticas RLS usando `(select auth.uid())` — evaluación una vez por sentencia en lugar de por fila. Reduce overhead en tablas con muchas filas. | 14.A |
+| `migrations/0010_remove_unused_indexes.sql` | Elimina 2 índices no usados (`evaluations_patient_id_idx`, `evaluations_user_scale_created_idx`) detectados por Supabase Performance Advisor. | 14.A |
+| `migrations/0011_constrain_patient_alias.sql` | Añade `CHECK (length(alias) <= 255)` en `patients.alias` — límite razonable para cualquier alias clínico. | 14.A |
 
 ## Convenciones
 
