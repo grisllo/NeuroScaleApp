@@ -127,7 +127,7 @@ The repository ships with the following Claude Code skills under `.claude/skills
 5. **`dart format` before pushing**, especially after editing files with the `Edit` tool — manual edits often miss formatting that the CI enforces.
 6. **i18n**: every new user-facing string goes through ARB (both ES and EN). Don't hardcode in widgets.
 7. **Invoke skills proactively**: for UI/UX, architecture, data or animation decisions, call the relevant skill before answering from general knowledge.
-8. **Calculate hours from git timestamps**: never ask the user; derive elapsed time from commit ranges.
+8. **Hours must come from git timestamps — strictly.** Use `git log --pretty="%ai %h %s"` to group commits into sessions (gap > 2 h = new session). The Gantt entry time is the session window (last commit − first commit). Pre-commit work may add up to ~50 % on top only when explicitly justified (e.g. long debugging without intermediate commits). Never estimate from memory or effort perception. The formula used in this project: `session_window_mins / 60 = hours_per_session`.
 9. **Run `/phase-close` at the end of every subfase** to keep `docs/ROADMAP.md`, the GitHub issue and the Gantt in `README.md` in sync.
 
 ---
