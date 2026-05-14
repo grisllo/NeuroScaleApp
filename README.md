@@ -156,18 +156,21 @@ flutter build web --dart-define-from-file=env/prod.json --base-href /NeuroScaleA
 
 ## Capturas de pantalla
 
-> Pendiente de incorporar capturas finales. Espacios reservados para la futura inclusión.
+> Tema oscuro (principal). Tema claro disponible en la última captura.
 
-| Pantalla | Móvil | Web/tablet |
-|---|---|---|
-| Login | `[CAPTURA: login móvil]` | `[CAPTURA: login web]` |
-| Disclaimer médico | `[CAPTURA: disclaimer móvil]` | `[CAPTURA: disclaimer web]` |
-| Tab de escalas | `[CAPTURA: lista escalas móvil]` | `[CAPTURA: grid escalas web]` |
-| Calculadora GCS | `[CAPTURA: GCS móvil]` | `[CAPTURA: GCS web]` |
-| Resultado de evaluación | `[CAPTURA: resultado móvil]` | `[CAPTURA: resultado web]` |
-| Detalle de paciente con evolución | `[CAPTURA: paciente móvil]` | `[CAPTURA: paciente web]` |
-| Algoritmo Código Ictus | `[CAPTURA: algoritmo móvil]` | `[CAPTURA: algoritmo web]` |
-| Perfil y preferencias | `[CAPTURA: perfil móvil]` | `[CAPTURA: perfil web]` |
+<div align="center">
+
+<img src="docs/screenshots/01_login_web.png" width="49%" alt="Login web"/>
+<img src="docs/screenshots/02_scales_grid_web.png" width="49%" alt="Grid de escalas web"/>
+
+<img src="docs/screenshots/05_patient_chart_web.png" width="49%" alt="Evolución de paciente web"/>
+<img src="docs/screenshots/06_algorithm_web.png" width="49%" alt="Algoritmo clínico web"/>
+
+<img src="docs/screenshots/03_gcs_mobile.png" width="24%" alt="Calculadora GCS móvil"/>
+<img src="docs/screenshots/04_result_mobile.png" width="24%" alt="Resultado clínico móvil"/>
+<img src="docs/screenshots/07_light_mode.png" width="49%" alt="Tema claro"/>
+
+</div>
 
 ---
 
