@@ -540,6 +540,19 @@ Issue #13.
 
 ---
 
+## Mantenimiento post-v1.0.0 (2026-05-14)
+
+Correcciones y mejoras de documentación y UI tras el lanzamiento.
+
+- **Documentación**: ROADMAP restructurado en orden cronológico 0→14; auditoría completa de todos los docs (CLAUDE.md, METODOLOGIA, SECURITY, CONTRIBUTING, supabase/README). Correcciones factuales: Leaked Password Protection, migraciones 0009-0011, arquitectura actualizada.
+- **Licencia**: MIT → Propietaria (preparación para posible venta comercial a empresa clínica).
+- **Badge CI**: corregida extensión `ci.yml` → `ci.yaml`.
+- **Favicon**: `web/favicon.png` reemplazado con icono NeuroScale (pendiente optimización de tamaño).
+- **Auth screens UI**: eliminado fondo navy hardcodeado (`#0C1840`) → fondo del tema (crema/dark); título `Colors.white` → `colorScheme.primary` (teal). Móvil y tablet/web alineados.
+- **Dark mode inputs**: corregida jerarquía visual — `fillColor` pasaba de `surfaceContainer` (#161D24, más oscuro que la card) a `colorScheme.outline` (#2A333C, más claro). Aplica a toda la app.
+
+---
+
 ## Decisiones arquitectónicas clave
 
 | Decisión | Justificación |

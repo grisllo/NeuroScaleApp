@@ -155,6 +155,12 @@ gantt
     14.D Tests widget — PatientAvatar + ProfileScreen (0.25h)     :done, f14d,  2026-05-13, 1d
     14.E Documentacion — RELEASE+SECURITY+CONTRIBUTING (0.25h)   :done, f14e,  2026-05-13, 1d
     14.F Cobertura + ROADMAP + tag v1.0.0 (0.25h)                :done, f14f,  2026-05-13, 1d
+
+    section Post v1.0.0 - Mantenimiento
+    ROADMAP restructura + auditoria documentacion (0.5h)          :done, pv1a, 2026-05-14, 1d
+    Licencia propietaria + badge CI + favicon (0.25h)             :done, pv1b, 2026-05-14, 1d
+    Auth screens: fondo tema + titulo teal (0.5h)                 :done, pv1c, 2026-05-14, 1d
+    Fix jerarquia inputs dark mode — fillColor outline (0.25h)    :done, pv1d, 2026-05-14, 1d
 ```
 
 > **Fechas**: verificadas contra los timestamps de commits de git (contrastables en el historial).
@@ -163,7 +169,7 @@ gantt
 > En desarrollo asistido por IA el tiempo de implementación ocurre entre commits, no después.
 > El ordenado dentro del mismo día es por sección y fuente — Mermaid requiere timestamps
 > a nivel de hora para mostrar subordenado intradiario, no soportado con granularidad diaria.
-> Total acumulado: **~85h** de sesión activa (Fases 0–14 + Mantenimiento).
+> Total acumulado: **~87h** de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
 
 ---
 
