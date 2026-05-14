@@ -4,8 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 
-/// Pantalla de autenticación: fondo navy de la marca + logo + card centrada.
-/// Funciona igual en tema claro y oscuro — el fondo siempre es el navy del icono.
+/// Pantalla de autenticación: fondo del tema + logo + card con acento teal.
 class AuthCard extends StatelessWidget {
   const AuthCard({super.key, required this.child, this.showLogo = true});
 
@@ -28,7 +27,7 @@ class AuthCard extends StatelessWidget {
           );
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -46,10 +45,10 @@ class AuthCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  const Text(
+                  Text(
                     'NeuroScale App',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                       letterSpacing: -0.5,
@@ -63,9 +62,19 @@ class AuthCard extends StatelessWidget {
                     color: cardColor,
                     elevation: isDark ? 0 : 4,
                     shape: cardBorder,
-                    child: Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: child,
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 3,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: child,
+                        ),
+                      ],
                     ),
                   ),
                 ),
