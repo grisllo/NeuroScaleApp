@@ -167,15 +167,12 @@ flutter build web --dart-define-from-file=env/prod.json --base-href /NeuroScaleA
 <img src="docs/screenshots/06_algorithm_web.png" width="49%" alt="Algoritmo clínico web"/>
 
 <table width="100%"><tr>
-<td width="30%" align="center" valign="top">
-  <img src="docs/screenshots/03_gcs_mobile.png" width="100%" alt="Calculadora GCS móvil"/><br/>
-  <img src="docs/screenshots/04_result_mobile.png" width="100%" alt="Resultado clínico móvil"/>
-</td>
-<td width="70%" align="center" valign="top">
-  <img src="docs/screenshots/07_light_mode.png" width="100%" alt="Tema claro"/><br/>
-  <img src="docs/screenshots/08_graphics_light.png" width="100%" alt="Gráfico de evolución tema claro"/>
-</td>
+<td width="49%" align="center"><img src="docs/screenshots/03_gcs_mobile.png" width="55%" alt="Calculadora GCS móvil"/></td>
+<td width="49%" align="center"><img src="docs/screenshots/04_result_mobile.png" width="55%" alt="Resultado clínico móvil"/></td>
 </tr></table>
+
+<img src="docs/screenshots/07_light_mode.png" width="49%" alt="Tema claro"/>
+<img src="docs/screenshots/08_graphics_light.png" width="49%" alt="Gráfico de evolución tema claro"/>
 
 </div>
 
