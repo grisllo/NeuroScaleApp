@@ -16,7 +16,8 @@ class AuthCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.surfaceDarkContainer : Colors.white;
+    final cardColor =
+        isDark ? AppColors.surfaceDarkContainerHigh : Colors.white;
     final cardBorder = isDark
         ? RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadii.lg),
@@ -27,7 +28,9 @@ class AuthCard extends StatelessWidget {
           );
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: isDark
+          ? AppColors.surfaceDarkContainer
+          : Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
