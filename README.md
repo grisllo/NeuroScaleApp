@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yaml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yaml)
 [![Deploy](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 
 Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la salud y estudiantes de medicina. Permite aplicar escalas neurológicas estandarizadas, calcular puntuaciones, interpretar resultados clínicos y registrar evaluaciones de forma anonimizada por paciente.
 
