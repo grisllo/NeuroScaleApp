@@ -42,7 +42,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Último hito**: Fase 14 — Auditoría y producción v1.0.0 ✅ — Completada el 2026-05-13. Tag `v1.0.0` publicado en GitHub. **204 tests** verdes, `flutter analyze` en 0 issues, ~87 h acumuladas (incluyendo el mantenimiento post-v1.0.0). Producción web: <https://grisllo.github.io/NeuroScaleApp/>.
+**Último hito**: Fase 14 — Auditoría y producción v1.0.0 ✅ — Completada el 2026-05-13. Tag `v1.0.0` publicado en GitHub. **204 tests** verdes, `flutter analyze` en 0 issues, ~91 h acumuladas (incluyendo el mantenimiento post-v1.0.0 con pulido integral de la documentación). Producción web: <https://grisllo.github.io/NeuroScaleApp/>.
 
 ---
 
@@ -572,14 +572,34 @@ Issue #13.
 
 ## Mantenimiento post-v1.0.0 (2026-05-14)
 
-Correcciones y mejoras de documentación y UI tras el lanzamiento.
+Correcciones y mejoras de documentación y UI tras el lanzamiento. Total aportado: ~6 h de sesión.
 
-- **Documentación**: ROADMAP restructurado en orden cronológico 0→14; auditoría completa de todos los docs (CLAUDE.md, METODOLOGIA, SECURITY, CONTRIBUTING, supabase/README). Correcciones factuales: Leaked Password Protection, migraciones 0009-0011, arquitectura actualizada.
-- **Licencia**: MIT → Propietaria (preparación para posible venta comercial a empresa clínica).
-- **Badge CI**: corregida extensión `ci.yml` → `ci.yaml`.
-- **Favicon**: `web/favicon.png` reemplazado con icono NeuroScale (pendiente optimización de tamaño).
-- **Auth screens UI**: eliminado fondo navy hardcodeado (`#0C1840`) → fondo del tema (crema/dark); título `Colors.white` → `colorScheme.primary` (teal). Móvil y tablet/web alineados.
-- **Dark mode inputs**: corregida jerarquía visual — `fillColor` pasaba de `surfaceContainer` (#161D24, más oscuro que la card) a `colorScheme.outline` (#2A333C, más claro). Aplica a toda la app.
+### Documentación y licencia (mañana)
+
+- **Reestructura del ROADMAP**: orden cronológico de fases 0→14 con tabla de contenidos navegable.
+- **Auditoría documental inicial** (correcciones factuales): Leaked Password Protection en `SECURITY.md`, migraciones 0009-0011 en `supabase/README.md`, arquitectura actualizada en `CLAUDE.md`.
+- **Licencia**: MIT → propietaria (preparación para una posible venta comercial a una empresa clínica).
+- **Badge CI**: corregida la extensión `ci.yml` → `ci.yaml` (apuntaba a un archivo inexistente).
+- **Favicon**: `web/favicon.png` reemplazado con el icono NeuroScale (queda pendiente optimizar el tamaño desde 1,14 MB a < 50 KB).
+
+### Auth UI y dark mode (mediodía)
+
+- **Auth screens**: eliminado el fondo navy hardcodeado (`#0C1840`) en favor del `colorScheme.surface` (crema en claro, oscuro en dark). Título `Colors.white` → `colorScheme.primary` (teal). Móvil y tablet/web alineados.
+- **Dark mode inputs**: corregida la jerarquía visual a nivel global. El `fillColor` pasaba a `surfaceContainer` (`#161D24`, más oscuro que la propia card), haciendo que los inputs se "hundieran" visualmente. Cambiado a `colorScheme.outline` (`#2A333C`), un tono más claro que la card. Aplica a toda la app, no solo a auth.
+
+### Pulido integral de los nueve documentos del proyecto (tarde)
+
+Trabajo de elevación a calidad final, técnico-formal y consistente, sirviendo de base para la futura "biblia" del TFC:
+
+- **`README.md`**: añadido bloque _Estado del proyecto_, tabla con stack y versiones reales de `pubspec.yaml`, diagrama Mermaid de arquitectura de capas, sección _Capturas de pantalla_ con placeholders, sección _Licencia_ explicativa.
+- **`docs/ROADMAP.md`**: tabla de contenidos navegable, _Deuda técnica y mejoras aplazadas_ reorganizada en dos tablas (deuda + polish opcional).
+- **`docs/METODOLOGIA_Y_PLANIFICACION.md`**: reescritura profunda de la sección 3 (Planificación) — tres tablas claramente delimitadas (estimación, horas reales, desviaciones). Trazabilidad extendida.
+- **`docs/SECURITY.md`**: expansión completa — tabla de 8 políticas RLS, patrones PII detectados con regex y ejemplos, snippet real del filtro Sentry, diagrama Mermaid del flujo de autenticación, sección Edge Function `delete-account`.
+- **`docs/RELEASE_GUIDE.md`**: nuevas secciones de versionado semántico, rollback (web / APK / base de datos), gestión de secretos en GitHub Actions, diagrama Mermaid de flujo CI/CD.
+- **`docs/CONTRIBUTING.md`**: plantilla completa para añadir un algoritmo clínico, secciones de tests con filtros y debugging.
+- **`supabase/README.md`**: diagrama ER Mermaid, verificación de migraciones aplicadas, buenas prácticas antes de producción, Edge Function `delete-account`.
+- **`android/README.md`**: nuevas secciones sobre pérdida y cambio de keystore.
+- **`CLAUDE.md`**: sincronización completa con el estado actual del proyecto y los 10 skills disponibles.
 
 ---
 

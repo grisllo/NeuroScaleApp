@@ -22,7 +22,7 @@ Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la
 | Backend | Supabase (`eu-west-2`) — 11 migraciones aplicadas |
 | Idiomas de la interfaz | Español, inglés (519 entradas ARB por idioma) |
 | Plataformas soportadas | Android (API 21+), iOS, web |
-| Horas de desarrollo | ~87 h de sesión activa |
+| Horas de desarrollo | ~91 h de sesión activa |
 
 ---
 
@@ -288,6 +288,8 @@ gantt
     Licencia propietaria + badge CI + favicon (0.25h)             :done, pv1b, 2026-05-14, 1d
     Auth screens: fondo tema + titulo teal (0.5h)                 :done, pv1c, 2026-05-14, 1d
     Fix jerarquia inputs dark mode — fillColor outline (0.25h)    :done, pv1d, 2026-05-14, 1d
+    Pulido integral 9 docs — README+ROADMAP+METODOLOGIA+SECURITY (3h) :done, pv1e, 2026-05-14, 1d
+    Pulido docs — RELEASE+CONTRIBUTING+supabase+android+CLAUDE (1h)  :done, pv1f, 2026-05-14, 1d
 ```
 
 > **Fechas**: verificadas contra los timestamps de los commits de Git (contrastables en el historial).
@@ -296,7 +298,7 @@ gantt
 >
 > **Granularidad**: el ordenado dentro del mismo día es por sección y orden de aparición — Mermaid no soporta orden intradiario con granularidad por hora.
 >
-> **Total acumulado**: ~87 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
+> **Total acumulado**: ~91 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
 
 ---
 

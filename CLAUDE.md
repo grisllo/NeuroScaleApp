@@ -8,7 +8,7 @@ Guidance for [Claude Code](https://claude.ai/code) when working in this reposito
 
 **NeuroScale App** — Flutter cross-platform application (Android, iOS, web) for applying, calculating, recording and interpreting neurological scales (GCS, NIHSS, mRS, Barthel, ABCD2) and clinical decision algorithms. Targeted at medical professionals and students. Backend: Supabase (Auth + PostgreSQL + Row Level Security + Edge Functions).
 
-Status: **v1.0.0** released on 2026-05-13. 204 tests green, `flutter analyze` at 0 issues, ~87 h of active development. Web production: <https://grisllo.github.io/NeuroScaleApp/>.
+Status: **v1.0.0** released on 2026-05-13. 204 tests green, `flutter analyze` at 0 issues, ~91 h of active development. Web production: <https://grisllo.github.io/NeuroScaleApp/>.
 
 ⚠️ **Medical context**: this is a clinical decision-support tool. Calculation correctness is non-negotiable. Domain logic must be implemented as pure functions with exhaustive unit tests covering every boundary score. The disclaimer in the UI does not exempt the codebase from clinical accuracy.
 
