@@ -22,7 +22,7 @@ Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la
 | Backend | Supabase (`eu-west-2`) — 11 migraciones aplicadas |
 | Idiomas de la interfaz | Español, inglés (519 entradas ARB por idioma) |
 | Plataformas soportadas | Android (API 21+), iOS, web |
-| Horas de desarrollo | ~91 h de sesión activa |
+| Horas de desarrollo | ~83 h de sesión activa |
 
 ---
 
@@ -275,21 +275,21 @@ gantt
     13.10 Fix producción web — BOM y sufijo /rest/v1 en SUPABASE_URL (2.5h) :done, f13j, 2026-05-13, 1d
 
     section Fase 14 - Auditoria y produccion v1.0.0
-    14.Audit Auditoria multi-dim + plan (1.5h)                    :done, f14au, 2026-05-13, 1d
-    14.A Criticos produccion — RLS+Sentry PII+validacion (0.75h)  :done, f14a,  2026-05-13, 1d
-    14.B Tokens spacing/radii — 90 SizedBox + 15 BorderRadius (0.75h) :done, f14b, 2026-05-13, 1d
-    14.C Accesibilidad — Semantics + tooltips + ARB (0.25h)       :done, f14c,  2026-05-13, 1d
-    14.D Tests widget — PatientAvatar + ProfileScreen (0.25h)     :done, f14d,  2026-05-13, 1d
-    14.E Documentacion — RELEASE+SECURITY+CONTRIBUTING (0.25h)   :done, f14e,  2026-05-13, 1d
-    14.F Cobertura + ROADMAP + tag v1.0.0 (0.25h)                :done, f14f,  2026-05-13, 1d
+    14.Audit Auditoria multi-dim + plan (0.5h)                     :done, f14au, 2026-05-13, 1d
+    14.A Criticos produccion — RLS+Sentry PII+validacion (0.5h)   :done, f14a,  2026-05-13, 1d
+    14.B Tokens spacing/radii — 90 SizedBox + 15 BorderRadius (0.5h) :done, f14b, 2026-05-13, 1d
+    14.C Accesibilidad — Semantics + tooltips + ARB (0.1h)        :done, f14c,  2026-05-13, 1d
+    14.D Tests widget — PatientAvatar + ProfileScreen (0.1h)      :done, f14d,  2026-05-13, 1d
+    14.E Documentacion — RELEASE+SECURITY+CONTRIBUTING (0.1h)    :done, f14e,  2026-05-13, 1d
+    14.F Cobertura + ROADMAP + tag v1.0.0 (0.1h)                 :done, f14f,  2026-05-13, 1d
 
     section Post v1.0.0 - Mantenimiento
-    ROADMAP restructura + auditoria documentacion (0.5h)          :done, pv1a, 2026-05-14, 1d
+    ROADMAP restructura + auditoria documentacion (0.25h)         :done, pv1a, 2026-05-14, 1d
     Licencia propietaria + badge CI + favicon (0.25h)             :done, pv1b, 2026-05-14, 1d
     Auth screens: fondo tema + titulo teal (0.5h)                 :done, pv1c, 2026-05-14, 1d
-    Fix jerarquia inputs dark mode — fillColor outline (0.25h)    :done, pv1d, 2026-05-14, 1d
-    Pulido integral 9 docs — README+ROADMAP+METODOLOGIA+SECURITY (3h) :done, pv1e, 2026-05-14, 1d
-    Pulido docs — RELEASE+CONTRIBUTING+supabase+android+CLAUDE (1h)  :done, pv1f, 2026-05-14, 1d
+    Fix jerarquia inputs dark mode — fillColor outline (0.1h)     :done, pv1d, 2026-05-14, 1d
+    Pulido integral 9 docs — plan + revision + ejecucion (0.75h)  :done, pv1e, 2026-05-14, 1d
+    Cross-check coherencia + cierre sesion (0.25h)                :done, pv1f, 2026-05-14, 1d
 ```
 
 > **Fechas**: verificadas contra los timestamps de los commits de Git (contrastables en el historial).
@@ -298,7 +298,7 @@ gantt
 >
 > **Granularidad**: el ordenado dentro del mismo día es por sección y orden de aparición — Mermaid no soporta orden intradiario con granularidad por hora.
 >
-> **Total acumulado**: ~91 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
+> **Total acumulado**: ~83 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
 
 ---
 
@@ -319,7 +319,7 @@ Véase el archivo [`LICENSE`](LICENSE) para los términos completos.
 | Documento | Contenido |
 |---|---|
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | Fases, entregables y decisiones de diseño desde Fase 0 hasta post v1.0.0. |
-| [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) | Metodología de trabajo, planificación estimada vs real, análisis de desviaciones (~87 h totales). |
+| [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) | Metodología de trabajo, planificación estimada vs real, análisis de desviaciones (~83 h totales). |
 | [`docs/RELEASE_GUIDE.md`](docs/RELEASE_GUIDE.md) | Build de APK / web / iOS, gestión de secretos, despliegue, checklist pre-release. |
 | [`docs/SECURITY.md`](docs/SECURITY.md) | Modelo de seguridad: RLS, gestión de PII, secretos, Sentry, reporte de vulnerabilidades. |
 | [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) | Flujo de PR, Conventional Commits, convenciones de código, accesibilidad. |

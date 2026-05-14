@@ -184,11 +184,10 @@ Horas reconstruidas a partir de los timestamps de commits de Git y las sesiones 
 | Fase 10 — Polish (errores, ValidationException, RadioGroup, LICENSE) | varios | 2026-05-12 | ~3,0 |
 | Fase 11 — UX visual (hash avatar, layout web, auth card, tema cálido, icono) | varios | 2026-05-12 | ~4,5 |
 | Fase 12 — Animaciones (transiciones, FadeSlideItem, AnimatedCheck, algoritmos) | varios | 2026-05-12 | ~4,5 |
-| Fase 13 — Fixes UX evaluaciones + producción web | varios | 2026-05-13 | ~3,0 |
-| Fase 14 — Auditoría y producción v1.0.0 (RLS, tokens, a11y, tests, docs) | `92b2157`..`ccb29d0` | 2026-05-13 | ~4,0 |
-| Mantenimiento post-v1.0.0 — docs, licencia, auth UI dark mode | `3025a25`..`d3fefde` | 2026-05-14 | ~2,0 |
-| Pulido integral de los 9 documentos del proyecto (TFC base) | `ea86621`..`bde0ec4` | 2026-05-14 | ~4,0 |
-| **TOTAL ACUMULADO** | | | **~91,0 h** |
+| Fase 13 — Fixes UX evaluaciones + producción web (BOM + /rest/v1) | varios | 2026-05-13 | ~6,0 |
+| Fase 14 — Auditoría y producción v1.0.0 (RLS, tokens, a11y, tests, docs) | `92b2157`..`ccb29d0` | 2026-05-13 | ~2,5 |
+| Mantenimiento post-v1.0.0 — licencia, auth UI, docs polish integral | `3025a25`..`eef588b` | 2026-05-14 | ~2,0 |
+| **TOTAL ACUMULADO** | | | **~83,0 h** |
 
 ### 3.3 Análisis de desviaciones
 
@@ -224,9 +223,9 @@ Comparación entre estimación y horas reales para las fases con estimación pre
 
 El balance de las **fases con estimación previa (0 a 4)** es de **−5,0 h** (−9,9 %): la planificación fue ligeramente pesimista en implementación y optimista en contenido.
 
-Las **fases 5 a 14**, no estimadas inicialmente, sumaron ~31,5 h adicionales repartidas en saneamiento técnico, despliegue beta, polish, animaciones, fixes de producción y auditoría final. El **mantenimiento intermedio** (2026-05-11) aportó otras 9,5 h de mejoras de UX y administración de cuenta. El **mantenimiento post-v1.0.0** (2026-05-14) añadió 2,0 h de pulido documental y de UI, más 4,0 h adicionales de pulido integral de los nueve documentos del proyecto como base de cara al TFC.
+Las **fases 5 a 14**, no estimadas inicialmente, sumaron ~14 h adicionales (saneamiento técnico, beta, polish, animaciones, fixes de producción y auditoría). El **mantenimiento intermedio** (2026-05-11) aportó otras ~9 h de mejoras de UX y administración de cuenta. El **mantenimiento post-v1.0.0** (2026-05-14) añadió ~2 h de pulido documental y de UI.
 
-**Total acumulado del proyecto**: **~91 h** de sesión activa, distribuidas en 19 días de trabajo efectivo (2026-04-26 a 2026-05-14).
+**Total acumulado del proyecto**: **~83 h** de sesión activa (cota inferior por ventanas de commit: 27 h; ancla verificada por el propio desarrollador en commit `535396f`: 73 h a cierre de Fase 12; +10 h para Fases 13-14 y mantenimiento post-v1.0.0). Distribuidas en 19 días de trabajo efectivo (2026-04-26 a 2026-05-14).
 
 ---
 
