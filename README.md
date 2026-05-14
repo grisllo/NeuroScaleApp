@@ -1,6 +1,6 @@
 # NeuroScale App
 
-[![CI](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yml)
+[![CI](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yaml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yaml)
 [![Deploy](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
