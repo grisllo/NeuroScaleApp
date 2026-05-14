@@ -670,7 +670,7 @@ Decisiones que se han tomado conscientemente para diferir trabajo. Cada elemento
 | Elemento | Estado | Acción pendiente |
 |---|---|---|
 | `POLISH-05` — capturas en README | ✅ Completado (2026-05-14) | 8 capturas reales en `docs/screenshots/` — tema oscuro principal + comparativa tema claro. |
-| `favicon.png` de 1,14 MB | Pendiente | Optimizar a < 50 KB sin pérdida visible. |
+| `favicon.png` de 1,14 MB | ✅ Completado (2026-05-14) | Redimensionado a 64×64 px → 6 KB. Reducción del 99,5 %. |
 
 ---
 
