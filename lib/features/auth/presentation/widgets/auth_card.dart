@@ -16,8 +16,9 @@ class AuthCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor =
-        isDark ? AppColors.surfaceDarkContainerHigh : Colors.white;
+    final cardColor = isDark
+        ? AppColors.surfaceDarkContainerHigh
+        : Colors.white;
     final cardBorder = isDark
         ? RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadii.lg),

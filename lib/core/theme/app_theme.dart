@@ -104,9 +104,7 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isLight
-            ? colorScheme.surfaceContainer
-            : colorScheme.outline,
+        fillColor: isLight ? colorScheme.surfaceContainer : colorScheme.outline,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
           vertical: 14,
