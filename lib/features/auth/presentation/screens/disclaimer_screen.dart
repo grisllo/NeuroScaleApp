@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/providers/disclaimer_provider.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../widgets/auth_card.dart';
@@ -18,6 +19,7 @@ class DisclaimerScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final isTablet = MediaQuery.sizeOf(context).width >= 600;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,6 +63,9 @@ class DisclaimerScreen extends ConsumerWidget {
     }
 
     return Scaffold(
+      backgroundColor: isDark
+          ? AppColors.surfaceDarkContainer
+          : Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

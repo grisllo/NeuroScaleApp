@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_motion.dart';
 import '../../../../core/theme/app_radii.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -56,6 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final l10n = context.l10n;
     final authState = ref.watch(authControllerProvider);
     final isTablet = MediaQuery.sizeOf(context).width >= 600;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     ref.listen(sessionProvider, (_, next) {
       if (next.asData?.value != null && context.mounted) context.go('/');
@@ -160,6 +162,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
     // ── Móvil: layout actual con animación de entrada ─────────────────────
     return Scaffold(
+      backgroundColor: isDark
+          ? AppColors.surfaceDarkContainer
+          : Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: FadeTransition(
           opacity: _fadeAnimation,
