@@ -83,8 +83,8 @@ Las migraciones viven en `supabase/migrations/` y se aplican en orden numérico 
 | `0007_cascade_delete_patient_evaluations.sql` | Cambia `evaluations.patient_id` de `on delete set null` a `on delete cascade`. Al borrar un paciente se borran sus evaluaciones. | Mantenimiento |
 | `0008_fix_legacy_interpretation_keys.sql` | Normaliza claves de interpretación antiguas en español a claves ARB canónicas. Idempotente. | Mantenimiento |
 | `0009_optimize_rls_auth_calls.sql` | Reescribe las 8 políticas RLS usando `(select auth.uid())` para evaluación una vez por sentencia (no por fila). | 14.A |
-| `0010_remove_unused_indexes.sql` | Elimina `evaluations_patient_id_idx` y `evaluations_user_scale_created_idx`, detectados como no usados por Performance Advisor. | 14.A |
-| `0011_constrain_patient_alias.sql` | `CHECK (length(alias) <= 255)` en `patients.alias` como límite razonable para cualquier alias clínico. | 14.A |
+| `0010_drop_unused_indexes.sql` | Elimina `evaluations_patient_id_idx` y `evaluations_user_scale_created_idx`, detectados como no usados por Performance Advisor. | 14.A |
+| `0011_patients_alias_length.sql` | `CHECK (length(alias) <= 255)` en `patients.alias` como límite razonable para cualquier alias clínico. | 14.A |
 
 ---
 

@@ -53,7 +53,9 @@ lib/
 │   │   ├── gcs/   nihss/   rankin/   barthel/   abcd2/
 │   ├── evaluations/               persistence of completed scale evaluations (local + remote)
 │   ├── patients/                  patient management (CRUD + temporal evolution chart)
-│   └── algorithms/                clinical decision trees (Stroke Code, HTA, SAH)
+│   ├── algorithms/                clinical decision trees (Stroke Code, HTA, SAH)
+│   ├── home/                      scales tab screen (entry point after login)
+│   └── profile/                   user profile, theme and language preferences
 └── l10n/                          app_es.arb + app_en.arb; generated/ excluded from analyzer
 ```
 
@@ -66,7 +68,7 @@ lib/
 
 **Routing** uses `go_router` via `appRouterProvider` (Riverpod). The auth guard redirects unauthenticated users to `/login`; `passwordRecoveryProvider` takes precedence and routes to `/reset-password` when a recovery flow is active.
 
-**i18n** uses `intl` + `flutter_localizations`. All user-facing strings go in `lib/l10n/app_es.arb` and `lib/l10n/app_en.arb` (≈ 519 keys per language). Generated code lives in `lib/l10n/generated/` and is excluded from analyzer.
+**i18n** uses `intl` + `flutter_localizations`. All user-facing strings go in `lib/l10n/app_es.arb` and `lib/l10n/app_en.arb` (519 keys per language). Generated code lives in `lib/l10n/generated/` and is excluded from analyzer.
 
 **Local persistence**: Drift (SQLite) with two tables (`Evaluations`, `Patients`) configured in `lib/core/database/app_database.dart`. The strategy is cache-aside: remote-first, with the local cache acting as fallback when offline.
 

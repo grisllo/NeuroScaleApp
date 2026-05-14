@@ -279,7 +279,7 @@ Para depurar problemas de RLS o políticas, las herramientas más útiles son:
 
 ## 10. Accesibilidad
 
-Aplicar antes de hacer commit en pantallas nuevas (réplica exacta de la checklist en `CLAUDE.md`):
+Aplicar antes de hacer commit en pantallas nuevas (extiende la checklist de `CLAUDE.md` con contraste mínimo y guía de touch targets):
 
 - [ ] Todos los `IconButton` tienen `tooltip:`.
 - [ ] Imágenes y avatares significativos llevan `Semantics(label: ..., excludeSemantics: true)`.

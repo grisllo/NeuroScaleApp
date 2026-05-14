@@ -133,7 +133,7 @@ Los secretos requeridos por `deploy.yml` se configuran en **Settings → Secrets
 | `SUPABASE_URL` | Inyectado en el build web mediante `--dart-define`. |
 | `SUPABASE_ANON_KEY` | Inyectado en el build web mediante `--dart-define`. |
 | `SUPABASE_REDIRECT_URL` | URL de retorno tras flujos de OAuth y recuperación de contraseña. Debe coincidir con la URL configurada en Supabase Authentication → URL Configuration. |
-| `SENTRY_DSN` _(opcional)_ | Si se omite, Sentry no se inicializa y la aplicación sigue funcionando con normalidad. |
+| `SENTRY_DSN` _(solo builds locales)_ | No lo inyecta `deploy.yml` actualmente; úsalo en `env/prod.json` para builds manuales. Si se omite, Sentry no se inicializa y la aplicación funciona con normalidad. |
 
 > El workflow `ci.yaml` no requiere ningún secreto — `flutter analyze` y `flutter test` se ejecutan con un valor `dart-define` vacío. Las llamadas reales a Supabase no se prueban en CI.
 

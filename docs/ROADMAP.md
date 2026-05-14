@@ -18,7 +18,7 @@ Documento de referencia que recopila el estado, los objetivos y las decisiones d
   - [Fase 5 — Design System & UX visual](#fase-5--design-system--ux-visual--completada-2026-05-05)
   - [Fase 6 — Saneamiento técnico](#fase-6--saneamiento-técnico--completada-2026-05-08)
   - [Fase 7 — Features de producto](#fase-7--features-de-producto--completada-2026-05-08)
-  - [Fase 8 — Mantenimiento y calidad post-product](#fase-8--mantenimiento-y-calidad-post-product--completada-2026-05-09)
+  - [Fase 8 — Mantenimiento y calidad post-producto](#fase-8--mantenimiento-y-calidad-post-producto--completada-2026-05-09)
   - [Fase 9 — Preparación Beta](#fase-9--preparación-beta--completada-2026-05-09)
   - [Fase 10 — Polish & Optimización](#fase-10--polish--optimización--completada-2026-05-12)
   - [Fase 11 — UX Visual](#fase-11--ux-visual--completada-2026-05-12)
@@ -140,7 +140,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 **Objetivo**: reformulación de la experiencia de usuario + introducción del concepto de paciente anonimizado.
 
-**Motivación**: la IA original mezcla escalas e historial en la misma pantalla, la navegación no tiene tabs persistentes, y la evolución agrupa por tipo de escala en lugar de por paciente — problemas detectados en uso real.
+**Motivación**: la versión original mezclaba escalas e historial en la misma pantalla, la navegación no tenía tabs persistentes y la evolución agrupaba por tipo de escala en lugar de por paciente — problemas detectados en uso real.
 
 **Subfases**:
 
@@ -320,7 +320,7 @@ Issue #13.
 
 ---
 
-### Fase 8 — Mantenimiento y calidad post-product ✅ Completada (2026-05-09)
+### Fase 8 — Mantenimiento y calidad post-producto ✅ Completada (2026-05-09)
 
 #### 8.1 — Auditoría post-Fase 7 y correcciones ✅ Completada (2026-05-08)
 
@@ -646,7 +646,10 @@ lib/
 │   │   ├── barthel/
 │   │   └── abcd2/
 │   ├── evaluations/ data/  domain/  presentation/
-│   └── patients/    data/  domain/  presentation/
+│   ├── patients/    data/  domain/  presentation/
+│   ├── algorithms/  domain/  presentation/
+│   ├── home/        presentation/
+│   └── profile/     presentation/
 └── l10n/            app_es.arb  app_en.arb  →  generated/app_localizations.dart
 ```
 
