@@ -3,50 +3,177 @@
 [![CI](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yaml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/ci.yaml)
 [![Deploy](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml/badge.svg)](https://github.com/grisllo/NeuroScaleApp/actions/workflows/deploy.yml)
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/grisllo/NeuroScaleApp/releases/tag/v1.0.0)
 
 Aplicación multiplataforma **(Android · iOS · Web)** para profesionales de la salud y estudiantes de medicina. Permite aplicar escalas neurológicas estandarizadas, calcular puntuaciones, interpretar resultados clínicos y registrar evaluaciones de forma anonimizada por paciente.
 
-**Producción web:** [grisllo.github.io/NeuroScaleApp](https://grisllo.github.io/NeuroScaleApp/)
+**Producción web**: [grisllo.github.io/NeuroScaleApp](https://grisllo.github.io/NeuroScaleApp/)
+
+---
+
+## Estado del proyecto
+
+| Indicador | Valor |
+|---|---|
+| Versión publicada | `v1.0.0` (2026-05-13) |
+| Tests automatizados | **204** (`flutter analyze`: 0 issues) |
+| Cobertura de dominio | 100 % en todos los umbrales clínicos |
+| Hosting web | GitHub Pages (deploy automático) |
+| Backend | Supabase (`eu-west-2`) — 11 migraciones aplicadas |
+| Idiomas de la interfaz | Español, inglés (519 entradas ARB por idioma) |
+| Plataformas soportadas | Android (API 21+), iOS, web |
+| Horas de desarrollo | ~87 h de sesión activa |
 
 ---
 
 ## Funcionalidades
 
 ### Escalas neurológicas
+
 | Escala | Rango | Uso clínico |
 |---|---|---|
 | GCS (Glasgow Coma Scale) | 3–15 | Nivel de consciencia |
 | NIHSS | 0–42 | Gravedad del ictus isquémico |
 | mRS (Modified Rankin Scale) | 0–6 | Discapacidad neurológica post-ictus |
-| Barthel Index | 0–100 | Independencia funcional en AVD |
-| ABCD2 | 0–7 | Riesgo de ictus tras AIT |
+| Barthel Index | 0–100 | Independencia funcional en actividades de la vida diaria |
+| ABCD2 | 0–7 | Riesgo de ictus tras accidente isquémico transitorio |
 
 ### Algoritmos clínicos
-Árboles de decisión paso a paso con indicación de urgencia: Código Ictus, HTA en el ictus, HSA (Hunt-Hess / Fisher).
+
+Árboles de decisión paso a paso con indicación de urgencia clasificada (`critical`, `high`, `moderate`, `low`):
+
+- **Código Ictus** — indicación de fibrinolisis intravenosa (tPA) en ventana 3–4,5 h.
+- **HTA en ictus agudo** — manejo de la presión arterial según tipo de ictus (isquémico con o sin reperfusión, hemorragia intracerebral, hemorragia subaracnoidea).
+- **HSA Hunt-Hess / Fisher** — clasificación clínica y radiológica de la hemorragia subaracnoidea.
 
 ### Pacientes y evaluaciones
-- Gestión de pacientes anonimizados (alias libre, sin PII)
-- Evaluaciones vinculadas a paciente con notas clínicas
-- Gráficos de evolución temporal por escala
-- Borrado de pacientes y evaluaciones individuales
+
+- Gestión de pacientes anonimizados (alias libre, sin información identificativa).
+- Evaluaciones vinculadas a paciente con descripción del caso clínico.
+- Gráficos de evolución temporal por escala (`fl_chart`).
+- Borrado granular de pacientes y evaluaciones individuales.
 
 ### Cuenta y preferencias
-- Registro, login, recuperación y cambio de contraseña
-- Borrado de cuenta con eliminación completa de datos
-- Tema claro / oscuro / sistema (persistido)
-- Idioma ES / EN (persistido)
+
+- Registro, inicio de sesión, recuperación y cambio de contraseña.
+- Borrado de cuenta con eliminación completa de datos asociados (Edge Function).
+- Tema claro, oscuro o automático (sigue al sistema).
+- Idioma español o inglés (persistido en `SharedPreferences`).
 
 ### Calidad técnica
-- **204 tests** — calculadoras cubren todos los umbrales clínicos + widget tests presentación
-- Modo offline con SQLite (Drift) para Android e iOS
-- Modo tutorial por ítem en escalas complejas
-- Responsive: NavigationBar (móvil) / NavigationRail (tablet/web)
+
+- **204 tests automatizados** — calculadoras cubren todos los umbrales clínicos, más widget tests de pantallas críticas.
+- Modo offline con SQLite (Drift) en Android e iOS — caché local con sincronización al recuperar conexión.
+- Modo tutorial por ítem en escalas complejas (GCS, NIHSS, Barthel, ABCD2).
+- Diseño responsive: `NavigationBar` (móvil), `NavigationRail` (tablet), `NavigationRail` extendido (desktop).
 
 ---
 
-## Planificación real — Diagrama de Gantt
+## Stack tecnológico
 
-> Fechas contrastables con los commits de este repositorio.
+| Capa | Tecnología | Versión |
+|---|---|---|
+| Lenguaje | Dart | SDK ^3.8.0 |
+| Framework | Flutter (stable channel) | 3.41.9 |
+| Sistema de diseño | Material 3 · Inter (`google_fonts`) | 6.2.1 |
+| Gestión de estado | `flutter_riverpod` | 3.1.0 |
+| Navegación | `go_router` · `StatefulShellRoute` | 17.2.3 |
+| Backend | Supabase (Auth + PostgreSQL + RLS + Edge Functions) | SDK 2.12.4 |
+| Persistencia local | Drift (SQLite) | 2.31.0 |
+| Internacionalización | `intl` · archivos ARB (ES + EN) | 0.20.2 |
+| Gráficas | `fl_chart` | 1.2.0 |
+| Conectividad | `connectivity_plus` | 6.1.1 |
+| Error tracking | Sentry (inicialización condicional) | 9.19.0 |
+| Testing | `flutter_test` · `mocktail` | 1.0.5 |
+| CI/CD | GitHub Actions · GitHub Pages | — |
+
+---
+
+## Arquitectura
+
+El proyecto sigue **feature-first con Clean Architecture** en cada feature. El flujo de datos es unidireccional y estricto:
+
+```mermaid
+flowchart LR
+    UI[UI · Widget]
+    PROV[Provider · Riverpod]
+    UC[UseCase]
+    REPO[Repository]
+    DS[DataSource]
+    SUPA[(Supabase · PostgreSQL)]
+    DRIFT[(Drift · SQLite local)]
+
+    UI --> PROV
+    PROV --> UC
+    UC --> REPO
+    REPO --> DS
+    DS --> SUPA
+    DS --> DRIFT
+
+    style UI fill:#0F6F8A,stroke:#fff,color:#fff
+    style SUPA fill:#3ECF8E,stroke:#fff,color:#fff
+    style DRIFT fill:#445A66,stroke:#fff,color:#fff
+```
+
+Reglas clave:
+
+- Calculadoras de escalas: **funciones puras** en `domain/`, sin imports de Flutter ni Supabase, con tests exhaustivos de frontera.
+- Repositorios lanzan `Failure` (nunca excepciones crudas); los datasources lanzan `AppException`; los controladores capturan con `AsyncValue.guard()`.
+- Navegación persistente: `StatefulShellRoute.indexedStack` con cuatro ramas (escalas, pacientes, algoritmos, perfil).
+- Estrategia offline-first: caché local Drift + sincronización con Supabase al recuperar conexión.
+
+La estructura física del proyecto se documenta en [`docs/ROADMAP.md`](docs/ROADMAP.md) y [`CLAUDE.md`](CLAUDE.md).
+
+---
+
+## Comandos
+
+Todos los comandos asumen PowerShell en Windows. En macOS/Linux funcionan con sintaxis equivalente.
+
+```powershell
+# Dependencias
+flutter pub get
+
+# Tests (204 en total)
+flutter test
+
+# Análisis estático
+flutter analyze
+
+# Ejecutar en web (entorno de desarrollo)
+flutter run --dart-define-from-file=env/dev.json -d chrome
+
+# Formatear código
+dart format lib test
+
+# Build web para producción (GitHub Pages)
+flutter build web --dart-define-from-file=env/prod.json --base-href /NeuroScaleApp/
+```
+
+> Requiere `env/dev.json` (usa `env/dev.example.json` como plantilla). La aplicación arranca sin credenciales: Supabase y Sentry se inicializan condicionalmente, mostrando placeholders cuando faltan las claves.
+
+---
+
+## Capturas de pantalla
+
+> Pendiente de incorporar capturas finales. Espacios reservados para la futura inclusión.
+
+| Pantalla | Móvil | Web/tablet |
+|---|---|---|
+| Login | `[CAPTURA: login móvil]` | `[CAPTURA: login web]` |
+| Disclaimer médico | `[CAPTURA: disclaimer móvil]` | `[CAPTURA: disclaimer web]` |
+| Tab de escalas | `[CAPTURA: lista escalas móvil]` | `[CAPTURA: grid escalas web]` |
+| Calculadora GCS | `[CAPTURA: GCS móvil]` | `[CAPTURA: GCS web]` |
+| Resultado de evaluación | `[CAPTURA: resultado móvil]` | `[CAPTURA: resultado web]` |
+| Detalle de paciente con evolución | `[CAPTURA: paciente móvil]` | `[CAPTURA: paciente web]` |
+| Algoritmo Código Ictus | `[CAPTURA: algoritmo móvil]` | `[CAPTURA: algoritmo web]` |
+| Perfil y preferencias | `[CAPTURA: perfil móvil]` | `[CAPTURA: perfil web]` |
+
+---
+
+## Planificación real — diagrama de Gantt
+
+> Fechas verificadas contra los timestamps de los commits del repositorio.
 
 ```mermaid
 gantt
@@ -163,68 +290,39 @@ gantt
     Fix jerarquia inputs dark mode — fillColor outline (0.25h)    :done, pv1d, 2026-05-14, 1d
 ```
 
-> **Fechas**: verificadas contra los timestamps de commits de git (contrastables en el historial).
-> **Horas**: tiempo de sesión del desarrollador activamente dirigiendo la implementación
-> (revisión de outputs, testing manual, decisiones de diseño, redirección de Claude).
-> En desarrollo asistido por IA el tiempo de implementación ocurre entre commits, no después.
-> El ordenado dentro del mismo día es por sección y fuente — Mermaid requiere timestamps
-> a nivel de hora para mostrar subordenado intradiario, no soportado con granularidad diaria.
-> Total acumulado: **~87h** de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
+> **Fechas**: verificadas contra los timestamps de los commits de Git (contrastables en el historial).
+>
+> **Horas**: tiempo de sesión del desarrollador dirigiendo activamente la implementación (revisión de salidas, testing manual, decisiones de diseño y redirección del agente). En el desarrollo asistido por IA el tiempo de implementación ocurre entre commits, no después.
+>
+> **Granularidad**: el ordenado dentro del mismo día es por sección y orden de aparición — Mermaid no soporta orden intradiario con granularidad por hora.
+>
+> **Total acumulado**: ~87 h de sesión activa (Fases 0–14 + Mantenimiento + Post v1.0.0).
 
 ---
 
-## Stack
+## Licencia
 
-| Capa | Tecnología |
-|---|---|
-| Frontend | Flutter 3.41.9 · Material 3 · Inter (google_fonts) |
-| Estado | Riverpod (`AsyncNotifier` / `Notifier`) |
-| Navegación | go_router · `StatefulShellRoute` |
-| Backend | Supabase (Auth + PostgreSQL + RLS + Edge Functions) |
-| Offline | Drift (SQLite) — Android e iOS |
-| i18n | intl + ARB files — ES + EN |
-| Error tracking | Sentry (condicional) |
-| CI/CD | GitHub Actions + GitHub Pages |
+Este proyecto se distribuye bajo una **licencia propietaria** (`All Rights Reserved`). El código fuente, los recursos visuales y la documentación son confidenciales y no pueden ser reproducidos, distribuidos, modificados ni utilizados sin autorización expresa por escrito del titular.
 
-## Arquitectura
+Para consultas de licenciamiento, evaluación comercial o uso académico, contactar con:
 
-**Feature-first con Clean Architecture.** Flujo estricto:
+**Arturo Ramos Reparaz** — `arturo.ramos.reparaz@gmail.com`
 
-```
-UI → Provider (Riverpod) → UseCase → Repository → DataSource → Supabase
-```
+Véase el archivo [`LICENSE`](LICENSE) para los términos completos.
 
-- Calculadoras de escalas: **funciones puras** en `domain/` — sin imports Flutter/Supabase, con tests exhaustivos de frontera
-- Repositorios lanzan `Failure` (nunca excepciones crudas); datasources lanzan `AppException`
-- Navegación persistente: `StatefulShellRoute.indexedStack` con 4 branches
-- Offline-first: caché local Drift + sincronización con Supabase al recuperar conexión
-
-## Comandos
-
-```powershell
-# Dependencias
-flutter pub get
-
-# Tests (191 en total)
-flutter test
-
-# Análisis estático
-flutter analyze
-
-# Ejecutar en web (dev)
-flutter run --dart-define-from-file=env/dev.json -d chrome
-
-# Formatear
-dart format lib test
-```
-
-> Requiere `env/dev.json` (usa `env/dev.example.json` como plantilla). La app arranca sin credenciales — Supabase y Sentry se inicializan condicionalmente.
+---
 
 ## Documentación
 
-- [`docs/ROADMAP.md`](docs/ROADMAP.md) — fases, entregables y decisiones de diseño
-- [`docs/RELEASE_GUIDE.md`](docs/RELEASE_GUIDE.md) — build APK/web/iOS, secretos, deploy, checklist pre-release
-- [`docs/SECURITY.md`](docs/SECURITY.md) — RLS, PII, secrets, reporting de vulnerabilidades
-- [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) — flujo de PR, convenciones, accesibilidad
-- [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) — metodología, planificación estimada vs real, análisis de desviaciones (~68h)
-- [Issues y milestones](https://github.com/grisllo/NeuroScaleApp/issues) — trazabilidad completa de tareas
+| Documento | Contenido |
+|---|---|
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Fases, entregables y decisiones de diseño desde Fase 0 hasta post v1.0.0. |
+| [`docs/METODOLOGIA_Y_PLANIFICACION.md`](docs/METODOLOGIA_Y_PLANIFICACION.md) | Metodología de trabajo, planificación estimada vs real, análisis de desviaciones (~87 h totales). |
+| [`docs/RELEASE_GUIDE.md`](docs/RELEASE_GUIDE.md) | Build de APK / web / iOS, gestión de secretos, despliegue, checklist pre-release. |
+| [`docs/SECURITY.md`](docs/SECURITY.md) | Modelo de seguridad: RLS, gestión de PII, secretos, Sentry, reporte de vulnerabilidades. |
+| [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) | Flujo de PR, Conventional Commits, convenciones de código, accesibilidad. |
+| [`supabase/README.md`](supabase/README.md) | Migraciones SQL, convenciones, modelo ER, Edge Functions. |
+| [`android/README.md`](android/README.md) | Configuración del keystore y firma de release. |
+| [`CLAUDE.md`](CLAUDE.md) | Instrucciones para el agente Claude Code (stack, comandos, convenciones). |
+
+**Trazabilidad pública**: [Issues y milestones en GitHub](https://github.com/grisllo/NeuroScaleApp/issues) — los issues `#1`–`#23` cubren las fases 0 a 9; las fases 10–14 quedan reflejadas en el Gantt y en `docs/ROADMAP.md`.
