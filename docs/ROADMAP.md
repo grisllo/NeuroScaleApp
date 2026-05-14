@@ -12,9 +12,7 @@ Aplicación multiplataforma (Android, iOS, web) que permite a profesionales de l
 
 ## Estado actual
 
-**Último hito: Fase 9 + Mantenimiento UI/UX** ✅ — Beta completada 2026-05-09 (password reset, Netlify, APK firmado). Mantenimiento 2026-05-11: borrado de pacientes/evaluaciones, administración de cuenta (cambiar contraseña, borrar cuenta), tema claro/oscuro, menú de navegación persistente, revisión UI/UX global de todas las pantallas. 191 tests, 0 issues de analyze, ~68h acumuladas.
-
-**Renumeración de fases** (decisión 2026-04-28): la Fase 3 original (Algoritmos + Offline) se ha desplazado a **Fase 4**. La nueva Fase 3 (UX + Pacientes) quedó completada el 2026-04-30.
+**Último hito: Fase 14 — Auditoría y producción v1.0.0** ✅ — Completada 2026-05-13. Tag `v1.0.0` pusheado. 204 tests, CI verde, ~85h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
 
 ---
 
@@ -177,7 +175,9 @@ Issue #13.
 
 ---
 
-### Fase 6.1 — Seguridad y release ✅ Completada (2026-05-08)
+### Fase 6 — Saneamiento técnico ✅ Completada (2026-05-08)
+
+#### 6.1 — Seguridad y release ✅
 
 **Objetivo**: cerrar los gaps de seguridad bloqueantes detectados en la auditoría completa de Fase 5: firma de release Android, validación de PII en `case_description`, vigilancia de CVEs en CI.
 
@@ -197,7 +197,7 @@ Issue #13.
 
 ---
 
-### Fase 6.2 — Optimización backend y rebuilds ✅ Completada (2026-05-08)
+#### 6.2 — Optimización backend y rebuilds ✅
 
 **Objetivo**: eliminar queries pesados, retención de memoria innecesaria y rebuilds de UI sobredimensionados detectados en la auditoría.
 
@@ -214,7 +214,7 @@ Issue #13.
 
 ---
 
-### Fase 6.3 — Refactor i18n + arquitectura ✅ Completada (2026-05-08)
+#### 6.3 — Refactor i18n + arquitectura ✅
 
 **Objetivo**: cerrar deuda de i18n (títulos hardcodeados), mejorar mantenibilidad del resolutor de claves de escala y documentar el contrato arquitectónico de repositorios.
 
@@ -227,9 +227,9 @@ Issue #13.
 
 ---
 
-### Fase 6.4 — Rendimiento web + tests + a11y ✅ Completada (2026-05-08)
+#### 6.4 — Rendimiento web + tests + a11y ✅
 
-**Objetivo**: cerrar el bloque de saneamiento técnico (Fase 6) con mejoras de rendimiento web, cobertura de widget tests y accesibilidad básica.
+**Objetivo**: cerrar el bloque de saneamiento técnico con mejoras de rendimiento web, cobertura de widget tests y accesibilidad básica.
 
 **Entregables**:
 - `lib/main.dart`: `GoogleFonts.config.allowRuntimeFetching = false` — Inter se bundlea en el artefacto web, sin fetch a `fonts.gstatic.com` en cold start.
@@ -241,9 +241,11 @@ Issue #13.
 
 ---
 
-### Fase 7.1 — Indicador visual de modo sin conexión ✅ Completada (2026-05-08)
+### Fase 7 — Features de producto ✅ Completada (2026-05-08)
 
-**Objetivo**: dar feedback visual inmediato al usuario cuando el dispositivo pierde conectividad, cerrando el gap de confianza del modo offline ya implementado.
+#### 7.1 — Indicador visual de modo sin conexión ✅
+
+**Objetivo**: dar feedback visual inmediato al usuario cuando el dispositivo pierde conectividad.
 
 **Entregables**:
 - `pubspec.yaml`: dependencia `connectivity_plus: ^6.1.1`.
@@ -256,7 +258,7 @@ Issue #13.
 
 ---
 
-### Fase 7.2 — Web/tablet responsive ✅ Completada (2026-05-08)
+#### 7.2 — Web/tablet responsive ✅
 
 **Objetivo**: adaptar el shell de navegación y las pantallas principales para tablet (≥600px) y desktop (≥1024px), priorizando el layout 2 columnas en la pantalla de detalle de paciente.
 
@@ -268,13 +270,12 @@ Issue #13.
 - `PatientsTabScreen`: `ConstrainedBox(800px)` en tablet.
 - `PatientDetailScreen`: 2 columnas en tablet (lista 380px + gráfico); `DefaultTabController` en mobile.
 - `AlgorithmsTabScreen` + `ProfileScreen`: `ConstrainedBox(800px)` en tablet.
-- `widget_test.dart`: aserción de navegación agnóstica al tipo.
 
 **Tests**: 187 (sin cambios de dominio; widget test de navegación actualizado).
 
 ---
 
-### Fase 7.3 — Modo tutorial: botón "?" por ítem ✅ Completada (2026-05-08)
+#### 7.3 — Modo tutorial: botón "?" por ítem ✅
 
 **Objetivo**: añadir explicación clínica + referencia bibliográfica por ítem en GCS, NIHSS, Barthel y ABCD2, accesible mediante un botón `?` discreto sin interrumpir el flujo de evaluación.
 
@@ -289,86 +290,9 @@ Issue #13.
 
 ---
 
-## Estado actual
+### Fase 8 — Mantenimiento y calidad post-product ✅ Completada (2026-05-09)
 
-**Último hito: Fase 14 — Auditoría y producción v1.0.0** ✅ — Completada 2026-05-13. Tag `v1.0.0` pusheado. 204 tests, CI verde, ~85h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
-
----
-
-## Fase 14 — Auditoría y producción v1.0.0 ✅ Completada (2026-05-13)
-
-**Objetivo**: llevar la app a un estado production-ready y entregable mediante auditoría multi-dimensional (arquitectura, seguridad, UI/UX, accesibilidad, datos, performance, testing, documentación).
-
-### 14.A — Críticos de producción ✅
-
-- **Migración 0009**: 8 políticas RLS optimizadas con `(select auth.uid())` — evaluación una vez por sentencia, no por fila. Impacto: menor overhead en tablas con muchas filas por usuario.
-- **Migración 0010**: eliminados 2 índices no usados (`evaluations_patient_id_idx`, `evaluations_user_scale_created_idx`) identificados por Supabase Performance Advisor.
-- **Migración 0011**: constraint `patients.alias` max 255 chars — límite razonable para cualquier alias clínico.
-- `lib/main.dart`: eliminado `PlatformDispatcher.onError` debug temporal.
-- `lib/main.dart`: añadido filtro `beforeSend` en Sentry que descarta eventos con patrones de email/DNI en stack traces.
-- `login_screen.dart`: unificada validación password 6→8 chars (igual que register).
-- `scales_tab_screen.dart`: `AppBar('NeuroScale')` hardcoded → `l10n.appTitle`.
-- **Nota**: Leaked Password Protection requiere plan Supabase Pro — no disponible en plan gratuito.
-
-### 14.B — Sistema de tokens (consistencia visual) ✅
-
-- `AppSpacing.xxs = 2` añadido al scale de 4pt.
-- ~90 `SizedBox(height/width: N)` → `AppSpacing.{xxs,sm,md,lg,xl,xxl}` en 20 archivos.
-- ~15 `BorderRadius.circular(N)` → `AppRadii.{sm,md,lg}` en 8 archivos.
-- Imports `AppSpacing`/`AppRadii` añadidos donde faltaban.
-- Valores sin token estándar (2px barras progreso, 22px/28px pill shapes) conservados como literales.
-
-### 14.C — Accesibilidad ✅
-
-- `PatientAvatar`: `Semantics(label: patient.alias, excludeSemantics: true)` — screen readers leen el alias real en lugar de las iniciales.
-- 5 `IconButton` sin etiqueta añadidos con `tooltip:`: show/hide password en login/register/reset/profile + editar paciente.
-- ARB ES+EN: `showPasswordTooltip`, `hidePasswordTooltip` (2 claves nuevas).
-- ARB ES+EN: `passwordHint` y `passwordTooShortError` corregidos a 8 chars (coincide con validación real).
-- NavigationBar/Rail: semántica ya cubierta por labels existentes (Material 3 los usa como tooltips automáticamente).
-
-### 14.D — Testing de presentación ✅
-
-**PatientAvatar (8 tests)** — `test/features/patients/patient_avatar_test.dart`:
-- Iniciales multi-palabra, mixto letra+número, solo dígitos, solo letras, vacío, tres palabras.
-- Verificación semántica: `Semantics.label == patient.alias`.
-
-**ProfileScreen (5 tests)** — `test/features/profile/profile_screen_test.dart`:
-- Email del usuario visible, SegmentedButtons de tema e idioma, botón logout, botón delete_forever (con scroll), dash `—` sin sesión.
-
-**Cobertura global**: 20.7% (204 líneas instrumentadas de 5.781). Nota: lcov cuenta todo el código UI, datasource y routing — la cobertura de dominio (calculadoras de escala) es efectivamente 100% en todos los umbrales clínicos. Un 20% global es normal en Flutter apps sin mocks de infraestructura.
-
-**Tests totales: 191 → 204**.
-
-### 14.E — Documentación profesional ✅
-
-- `docs/RELEASE_GUIDE.md`: build APK/web/iOS, gestión de secrets, CI/CD, checklist pre-release.
-- `docs/SECURITY.md`: modelo RLS, PII, Sentry filter, sesiones, reporting de vulnerabilidades.
-- `docs/CONTRIBUTING.md`: flujo PR, Conventional Commits, i18n, checklist de accesibilidad para features nuevos.
-- `CLAUDE.md`: sección "Accessibility checklist" para features nuevos.
-- `README.md`: badges CI+deploy+license, 204 tests, Fase 14 en Gantt, ~85h, links a nuevos docs.
-
-### 14.F — Cierre y entrega ✅
-
-- `flutter analyze` — 0 issues.
-- `flutter test` — 204 tests verdes.
-- `dart format --set-exit-if-changed lib test` — 0 cambios.
-- Supabase advisors: 0 WARN performance, 1 WARN security (Leaked Password Pro — plan gratuito).
-- Tag `v1.0.0` creado y pusheado a GitHub.
-- ROADMAP actualizado.
-
-**Commit clave**: `c1f07ce` (docs E) · `686c9e0` (tests D) · `5afd104` (a11y C) · `6890f0b` (tokens B) · `92b2157` (seguridad A).
-
----
-
-## Historial — Fase 13 — Fixes UX evaluaciones ✅ Completada (2026-05-13)
-
-**Último hito previo a Fase 14**: Fase 13 — Fixes UX evaluaciones ✅ — Completada 2026-05-13. Paciente obligatorio al guardar evaluación (eliminada opción "Sin paciente asignado", validación en picker). Fix bug `case_description` ausente del SELECT Supabase. Disclaimer clínico como SnackBar por escala — aparece solo la primera vez que se completa cada escala, persiste en SharedPreferences. Fix FilledButton apagado. Tab "Evaluaciones" móvil, cabecera "Evolución" web. NavigationRail con fondo diferenciado. Ordenación evaluaciones por paciente. PatientAvatar iniciales inteligentes. Spinner carga web. Fix producción: BOM (U+FEFF) y sufijo /rest/v1 accidental en SUPABASE_URL — app web funcional en grisllo.github.io/NeuroScaleApp. 191 tests, CI verde, ~80h acumuladas. Web: https://grisllo.github.io/NeuroScaleApp/
-
----
-
-## Fase 8 — Mantenimiento y calidad post-product
-
-### Subfase 8.1 — Auditoría post-cambios y correcciones ✅ Completada (2026-05-08)
+#### 8.1 — Auditoría post-Fase 7 y correcciones ✅ Completada (2026-05-08)
 
 **Objetivo**: auditoría completa en 4 dimensiones (integridad, funcionalidad, optimización, seguridad) tras la implementación intensiva de Fases 6–7, y corrección de los hallazgos detectados.
 
@@ -384,7 +308,7 @@ Issue #13.
 
 ---
 
-### Subfase 8.2 — Auth hardening y correcciones post-deploy ✅ Completada (2026-05-09)
+#### 8.2 — Auth hardening y correcciones post-deploy ✅ Completada (2026-05-09)
 
 **Objetivo**: corregir los bugs de inicio de sesión detectados en el primer uso real con `env/dev.json` y aplicar hardening de seguridad al flujo de autenticación.
 
@@ -403,10 +327,7 @@ Issue #13.
 - Registro exige ≥8 chars + letra + número; login mantiene ≥6 por compatibilidad.
 - Migración `0006_fix_function_search_path.sql` aplicada: `handle_updated_at()` con `search_path = public` (security advisor WARN resuelto).
 
-**Nuevos tipos**:
-- `ConfigurationException`, `EmailConfirmationPendingException` en `exceptions.dart`.
-- `ConfigFailure`, `EmailConfirmationPendingFailure` en `failures.dart`.
-- ARB: `backendUnavailableError`, `networkErrorMessage`, `emailConfirmationPendingMessage`, `passwordTooWeakError` (ES + EN).
+**Nuevos tipos**: `ConfigurationException`, `EmailConfirmationPendingException`, `ConfigFailure`, `EmailConfirmationPendingFailure`. ARB: `backendUnavailableError`, `networkErrorMessage`, `emailConfirmationPendingMessage`, `passwordTooWeakError` (ES + EN).
 
 **Commits**: `0a46992` (fix ProviderException) · `586b6df` (hardening) · `a36339b` (fix navegación post-login).
 
@@ -414,88 +335,208 @@ Issue #13.
 
 ---
 
-## Fase 9 — Preparación Beta ✅ Completada (2026-05-09)
+### Fase 9 — Preparación Beta ✅ Completada (2026-05-09)
 
 **Objetivo**: cerrar los gaps que bloquean una beta clínica real: flujo de recuperación de contraseña, despliegue web accesible y distribución Android directa.
 
-### Subfase 9.1 — Flujo "olvidé contraseña" ✅ Completada (2026-05-09)
+#### 9.1 — Flujo "olvidé contraseña" ✅
 
-- `ForgotPasswordScreen`: email input + estado de éxito con icono
-- `ResetPasswordScreen`: nueva contraseña + confirmación con validación ≥8 chars
-- `passwordRecoveryProvider`: detecta evento `PASSWORD_RECOVERY` de Supabase y redirige a `/reset-password`
-- `PasswordResetController`: `requestReset()` y `updatePassword()`
-- `RequestPasswordResetUseCase` + `UpdatePasswordUseCase`
-- `AuthRepository` ampliado con `requestPasswordReset` y `updatePassword`
-- Rutas `/forgot-password` y `/reset-password` añadidas como `publicRoutes`
-- Router: `isRecovery` tiene prioridad sobre `isLoggedIn`
-- `Env.redirectUrl` (SUPABASE_REDIRECT_URL) configurable por entorno
-- 11 claves ARB nuevas ES + EN
+- `ForgotPasswordScreen`: email input + estado de éxito con icono.
+- `ResetPasswordScreen`: nueva contraseña + confirmación con validación ≥8 chars.
+- `passwordRecoveryProvider`: detecta evento `PASSWORD_RECOVERY` de Supabase y redirige a `/reset-password`.
+- `PasswordResetController`: `requestReset()` y `updatePassword()`.
+- `RequestPasswordResetUseCase` + `UpdatePasswordUseCase`.
+- `AuthRepository` ampliado con `requestPasswordReset` y `updatePassword`.
+- Rutas `/forgot-password` y `/reset-password` añadidas como `publicRoutes`.
+- Router: `isRecovery` tiene prioridad sobre `isLoggedIn`.
+- `Env.redirectUrl` (SUPABASE_REDIRECT_URL) configurable por entorno.
+- 11 claves ARB nuevas ES + EN.
 
 **Commit**: `c97bfe5`
 
-### Subfase 9.2 — Despliegue web ✅ Completada (2026-05-09)
+#### 9.2 — Despliegue web ✅
 
-- `web/index.html` + `web/manifest.json`: título, descripción y colores actualizados a marca NeuroScale (`#0F6F8A`)
-- `GoogleFonts.allowRuntimeFetching` condicional: `false` en móvil/desktop, runtime CDN en web
-- Desplegado inicialmente en Netlify (2026-05-09); migrado a **GitHub Pages** (2026-05-11)
-- Deploy actual: `.github/workflows/deploy.yml` → `https://grisllo.github.io/NeuroScaleApp/`
-- Supabase redirect URLs configuradas para el dominio de GitHub Pages
+- `web/index.html` + `web/manifest.json`: título, descripción y colores actualizados a marca NeuroScale (`#0F6F8A`).
+- `GoogleFonts.allowRuntimeFetching` condicional: `false` en móvil/desktop, runtime CDN en web.
+- Desplegado inicialmente en Netlify (2026-05-09); migrado a **GitHub Pages** (2026-05-11).
+- Deploy actual: `.github/workflows/deploy.yml` → `https://grisllo.github.io/NeuroScaleApp/`.
+- Supabase redirect URLs configuradas para el dominio de GitHub Pages.
 
 **Commits**: `5ab5478` · `9985c7a`
 
-### Subfase 9.3 — Distribución Android APK ✅ Completada (2026-05-09)
+#### 9.3 — Distribución Android APK ✅
 
-- Build release con keystore configurado en Fase 6: `flutter build apk --release`
-- APK firmado (66 MB) instalado y verificado en Redmi Note 9 Pro (Android 12)
-- Distribución directa vía `flutter install --release`
+- Build release con keystore configurado en Fase 6: `flutter build apk --release`.
+- APK firmado (66 MB) instalado y verificado en Redmi Note 9 Pro (Android 12).
+- Distribución directa vía `flutter install --release`.
 
 **Tests**: 191 (sin cambios de dominio).
 
 ---
 
-## Fase 10 — Polish & Optimización
+### Fase 10 — Polish & Optimización ✅ Completada (2026-05-12)
 
 **Objetivo**: elevar la calidad del código antes de la entrega definitiva. Sin features nuevas — sólo coherencia, robustez y presentación profesional.
 
-### P0 — Completadas
-
 #### POLISH-01 + POLISH-02 — Saneamiento de mensajes de error en UI ✅
+
 - `lib/core/extensions/failure_l10n.dart`: helper `failureMessage(error, l10n)` que mapea cualquier `Failure` a string localizada. Nunca expone detalles técnicos internos ni stack traces.
-- `lib/l10n/app_es.arb` + `app_en.arb`: clave `authInvalidCredentialsError` para credenciales inválidas.
+- `lib/l10n/app_es.arb` + `app_en.arb`: clave `authInvalidCredentialsError`.
 - 8 archivos UI corregidos: `result_screen`, `profile_screen`, `patient_edit_dialog`, `patient_detail_screen`, `patients_tab_screen`, `login_screen`, `register_screen` — eliminados todos los `e.toString()` y `error.message` hardcodeados.
-- `_ChangePasswordDialog._submit()`: añadido `if (!mounted) return` antes del setState en catch.
 
 #### POLISH-03 — Documentar migraciones 0006-0008 en supabase/README.md ✅
+
 - Añadidas 3 filas faltantes: `0006` (search_path fix), `0007` (cascade delete), `0008` (normalización claves legacy).
 
 #### POLISH-04 — LICENSE + version bump ✅
+
 - `LICENSE`: MIT (copyright 2026 Arturo Ramos Reparaz).
 - `pubspec.yaml` version: `0.1.0` → `1.0.0-beta+1`.
 
-### P1 — Completadas
-
 #### POLISH-06 — Consolidar `_kInterpSeverity` en shared domain ✅
+
 - `lib/features/scales/shared/domain/scale_metadata.dart`: mapa `kInterpSeverity` como fuente única; elimina 26 líneas duplicadas de `patient_detail_screen.dart`.
 
 #### POLISH-07 — `ValidationException` para calculadoras de dominio puro ✅
+
 - `core/errors/exceptions.dart`: nuevo `ValidationException extends AppException`.
 - 5 calculadoras (GCS, NIHSS, mRS, Barthel, ABCD2): sustituyen `import failures.dart` por `exceptions.dart` y lanzan `ValidationException`. Dominio puro ya no depende de la capa `Failure`.
 - 5 tests de calculadoras actualizados a `isA<ValidationException>()`.
 
-### P2 — Completadas
+#### POLISH-08 — Migrar `RadioListTile` deprecated API ✅
+
+- 4 pantallas: `groupValue`/`onChanged` sustituidos por `RadioGroup<int>` wrapper. De 9 `// ignore` a 1.
 
 #### POLISH-09 — Fix O(n²) en breakdown ✅
+
 - `result_screen.dart`: loop usa `entries.indexed` en lugar de `elementAt(i)` por índice.
 
 #### POLISH-10 — Corregir `mockito` → `mocktail` en docs ✅
+
 - `METODOLOGIA_Y_PLANIFICACION.md`: stack de testing corregido.
 
-#### POLISH-08 — Migrar `RadioListTile` deprecated API ✅
-- 4 pantallas (`ScaleItemCard`, `Abcd2ScaleScreen`, `RankinScaleScreen`, `NihssItemCard`): `groupValue`/`onChanged` sustituidos por `RadioGroup<int>` wrapper. De 9 `// ignore` a 1 (el `DropdownButtonFormField.value` restante no tiene sustituto M3 directo sin cambiar la UX).
+---
 
-### Pendiente
+### Fase 11 — UX Visual ✅ Completada (2026-05-12)
 
-- **POLISH-05** — Screenshots en README (requiere capturas manuales)
+**Objetivo**: pulir la identidad visual de la app: avatar de paciente robusto cross-platform, layout web de anchura controlada, pantalla de autenticación con marca propia e icono oficial en todas las plataformas.
+
+**Entregables**:
+- `PatientAvatar`: reemplazado `hashCode` (inconsistente entre plataformas) por `_stableHash` determinista — el color del avatar es idéntico en web, Android e iOS para el mismo alias.
+- Layout web: `maxWidth` por breakpoint en `PatientDetailScreen` (desktop 1100/900px, grid 3 cols).
+- `LoginScreen` / `RegisterScreen`: fondo `AuthCard` con navy `#0C1840` + logo PNG real del usuario (sustituye icono genérico de Flutter).
+- Tema claro cálido: superficies crema `F2EDE8` en lugar de frío `F7F9FB` — reduce fatiga visual en uso clínico prolongado.
+- Unificación estilos dark/light en auth screens — sin divergencias visuales entre modos.
+- Icono oficial Android/iOS/web mediante `flutter_launcher_icons` (logo NeuroScale real).
+- Nombre "NeuroScale App" formalizado en ARB (`appTitle`) + `AndroidManifest.xml`.
+
+**Commits**: `f11a` serie (hash avatar) · `f11b` (auth card) · `f11c` (icono oficial).
+
+**Tests**: 191 (sin cambios — únicamente UI y assets).
+
+---
+
+### Fase 12 — Animaciones ✅ Completada (2026-05-12)
+
+**Objetivo**: añadir movimiento con propósito: transiciones de ruta, entradas escalonadas y reveals de resultado que comunican jerarquía sin distraer en contexto clínico.
+
+**Entregables**:
+- `CustomTransitionPage` fade+slide en todas las rutas pushed (go_router) — transición consistente en Android, iOS y web.
+- `_AnimatedEntrance` en círculo de severidad (`ResultScreen`) — scale+fade al aparecer el resultado (480ms emphasized).
+- `FadeSlideItem` escalonado en listas de pacientes + grid de escalas — entrada progresiva por índice.
+- `AnimatedCheck` en guardado de evaluación y forgot password — feedback visual de éxito.
+- Algoritmos Q→Q: fade + slide 40% (más suave en pantallas anchas).
+- Algoritmos Q→Result: scale+fade reveal (480ms emphasized).
+- Fix parpadeo post-transición: `FadeSlideItem` redundante eliminado de `ScalesTabScreen`.
+- Fix salto de layout resultado en PC: `SizedBox.expand` sustituido por constraint correcto.
+- Fix `PasswordResetController.build() async` → síncrono (bug que causaba animación al abrir la pantalla).
+- Algoritmos: pregunta con `primaryContainer` + borde teal, opciones thumb-friendly (altura mínima 56px).
+
+**Tests**: 191 (sin cambios — animaciones son UI pura, no lógica de dominio).
+
+---
+
+### Fase 13 — Fixes UX evaluaciones ✅ Completada (2026-05-13)
+
+**Objetivo**: corregir los problemas de UX detectados durante el primer uso real en producción web.
+
+**Subfases**:
+
+#### 13.1 — Paciente obligatorio + fix case_description ✅
+- Eliminada opción "Sin paciente asignado" del picker — el paciente es obligatorio al guardar.
+- Validación en picker: botón Guardar deshabilitado hasta seleccionar paciente.
+- Bug `case_description` ausente del SELECT Supabase — corregido en datasource.
+
+#### 13.2 — Disclaimer clínico como SnackBar por escala ✅
+- Disclaimer aparece solo la primera vez que se completa cada escala — evita fatiga por repetición.
+- Persistencia en SharedPreferences por `ScaleType`.
+
+#### 13.3–13.8 — Fixes menores UI ✅
+- `FilledButton` apagado: `backgroundColor` + `foregroundColor` explícitos — corrige bug de color en modo oscuro.
+- Tab "Evaluaciones" móvil, cabecera "Evolución" web — etiquetas correctas según contexto.
+- Toast disclaimer superior-derecha web + SnackBar swipe móvil.
+- `NavigationRail`: fondo diferenciado claro/oscuro para jerarquía visual.
+- Ordenación evaluaciones: reciente, antigua, por escala — `SortOrder` enum.
+- `PatientAvatar` iniciales inteligentes: `P001` → `P1`, `P002` → `P2`.
+
+#### 13.9–13.10 — Producción web ✅
+- Spinner de carga web + homepage GitHub Pages.
+- Fix crítico BOM (U+FEFF) y sufijo `/rest/v1` accidental en `SUPABASE_URL` — app web funcional en producción.
+
+**Tests**: 191 (sin cambios de dominio; correcciones en datasource, UI y routing).
+
+---
+
+### Fase 14 — Auditoría y producción v1.0.0 ✅ Completada (2026-05-13)
+
+**Objetivo**: llevar la app a un estado production-ready y entregable mediante auditoría multi-dimensional (arquitectura, seguridad, UI/UX, accesibilidad, datos, performance, testing, documentación).
+
+#### 14.A — Críticos de producción ✅
+
+- **Migración 0009**: 8 políticas RLS optimizadas con `(select auth.uid())` — evaluación una vez por sentencia, no por fila.
+- **Migración 0010**: eliminados 2 índices no usados identificados por Supabase Performance Advisor.
+- **Migración 0011**: constraint `patients.alias` max 255 chars.
+- `lib/main.dart`: eliminado `PlatformDispatcher.onError` debug temporal.
+- `lib/main.dart`: filtro `beforeSend` en Sentry que descarta eventos con patrones de email/DNI en stack traces.
+- `login_screen.dart`: unificada validación password 6→8 chars (igual que register).
+- `scales_tab_screen.dart`: `AppBar('NeuroScale')` hardcoded → `l10n.appTitle`.
+- **Nota**: Leaked Password Protection requiere plan Supabase Pro — no disponible en plan gratuito.
+
+#### 14.B — Sistema de tokens (consistencia visual) ✅
+
+- `AppSpacing.xxs = 2` añadido al scale de 4pt.
+- ~90 `SizedBox(height/width: N)` → `AppSpacing.{xxs,sm,md,lg,xl,xxl}` en 20 archivos.
+- ~15 `BorderRadius.circular(N)` → `AppRadii.{sm,md,lg}` en 8 archivos.
+
+#### 14.C — Accesibilidad ✅
+
+- `PatientAvatar`: `Semantics(label: patient.alias, excludeSemantics: true)`.
+- 5 `IconButton` sin etiqueta añadidos con `tooltip:`: show/hide password en login/register/reset/profile + editar paciente.
+- ARB ES+EN: `showPasswordTooltip`, `hidePasswordTooltip`, `passwordHint`, `passwordTooShortError` (8 chars).
+
+#### 14.D — Testing de presentación ✅
+
+- **PatientAvatar (8 tests)**: iniciales multi-palabra, mixto letra+número, solo dígitos, vacío, semántica.
+- **ProfileScreen (5 tests)**: email visible, SegmentedButtons tema/idioma, logout, delete_forever, dash sin sesión.
+- **Tests totales: 191 → 204**.
+
+#### 14.E — Documentación profesional ✅
+
+- `docs/RELEASE_GUIDE.md`: build APK/web/iOS, secretos, CI/CD, checklist pre-release.
+- `docs/SECURITY.md`: modelo RLS, PII, Sentry filter, sesiones, reporting.
+- `docs/CONTRIBUTING.md`: flujo PR, Conventional Commits, i18n, checklist accesibilidad.
+- `CLAUDE.md`: sección "Accessibility checklist" para features nuevos.
+- `README.md`: badges CI+deploy+license, Fase 14 en Gantt.
+
+#### 14.F — Cierre y entrega ✅
+
+- `flutter analyze` — 0 issues.
+- `flutter test` — 204 tests verdes.
+- `dart format --set-exit-if-changed lib test` — 0 cambios.
+- Supabase advisors: 0 WARN performance, 1 WARN security (Leaked Password Pro — plan gratuito).
+- Tag `v1.0.0` creado y pusheado a GitHub.
+
+**Commits clave**: `c1f07ce` (docs E) · `686c9e0` (tests D) · `5afd104` (a11y C) · `6890f0b` (tokens B) · `92b2157` (seguridad A).
 
 ---
 
@@ -537,13 +578,13 @@ lib/
 │   ├── scales/
 │   │   ├── shared/  entidades base (ScaleItem, ScaleResult, Severity)
 │   │   ├── gcs/
-│   │   ├── nihss/   (Fase 2B)
-│   │   ├── rankin/  (Fase 2A — mRS 0-6)
-│   │   ├── barthel/ (Fase 2A)
-│   │   └── abcd2/   (Fase 2A)
+│   │   ├── nihss/
+│   │   ├── rankin/  (mRS 0-6)
+│   │   ├── barthel/
+│   │   └── abcd2/
 │   ├── evaluations/ data/  domain/  presentation/
-│   └── history/     (Fase 2A)
-└── l10n/            app_es.arb  →  generated/app_localizations.dart
+│   └── patients/    data/  domain/  presentation/
+└── l10n/            app_es.arb  app_en.arb  →  generated/app_localizations.dart
 ```
 
 ---
@@ -551,6 +592,8 @@ lib/
 ## Decisiones técnicas aplazadas
 
 **Certificate pinning Supabase** (revisado 2026-05-08, Fase 6.1): aplazado a Fase 7+ o cuando se requiera certificación clínica (HIPAA / ISO 13485). Razón: Supabase rota certificados LetsEncrypt cada ~60 días; un pin caducado dejaría la app inservible para todos los usuarios hasta que se publique un hotfix. El ROI actual no compensa el riesgo operacional.
+
+**POLISH-05 — Screenshots en README**: requiere capturas manuales de la app en producción.
 
 ---
 
