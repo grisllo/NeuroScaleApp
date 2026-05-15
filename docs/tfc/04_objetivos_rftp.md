@@ -17,7 +17,7 @@ Los objetivos específicos son:
 
 ## Cómo leer este apartado
 
-Cada requisito se describe en cuatro niveles. El nivel **R** (Requisito) plantea la necesidad en lenguaje natural. El nivel **F** (Función) describe qué hace la aplicación para cubrirla. El nivel **T** (Tarea) entra en el detalle técnico de la implementación. Y el nivel **P** (Prueba) indica cómo se verifica.
+Cada requisito se describe en cuatro niveles. El nivel **R** (Requisito) plantea la necesidad en lenguaje natural. El nivel **F** (Función) describe qué hace la aplicación para cubrirla. El nivel **T** (Tarea) entra en el detalle técnico de la implementación. Y el nivel **P** (Prueba) indica qué se comprueba para verificar que la función hace lo que debe.
 
 Un lector no técnico puede quedarse en R y F y obtener una visión completa. Las cinco escalas neurológicas funcionan internamente del mismo modo, igual que los tres algoritmos clínicos, así que se describen una sola vez como caso de uso representativo. Las cinco escalas y los tres algoritmos concretos se enumeran en sus tablas correspondientes.
 
@@ -33,7 +33,7 @@ El usuario nuevo introduce su correo y una contraseña, y recibe un enlace de co
 
 **R01F01T01** — Implementar `SignUpUseCase` que invoca `supabase.auth.signUp()` y devuelve un `AppUser` o lanza `AuthFailure`.
 
-> **R01F01T01P01** — `test/features/auth/domain/usecases/sign_up_usecase_test.dart` (2 tests). Commit: `6d677db`.
+> **R01F01T01P01** — Se comprueba que un correo válido con una contraseña suficiente registra al usuario correctamente y que un correo vacío genera el error esperado. *(2 tests automatizados; commit de referencia `6d677db`.)*
 
 ### R01F02 — Inicio de sesión
 
@@ -41,7 +41,7 @@ El usuario introduce correo y contraseña y, si son correctos, accede a la aplic
 
 **R01F02T01** — Implementar `SignInUseCase` con `supabase.auth.signInWithPassword()` y redirección vía `authStateProvider`.
 
-> **R01F02T01P01** — `test/features/auth/domain/usecases/sign_in_usecase_test.dart` (3 tests). Commit: `586b6df`.
+> **R01F02T01P01** — Se verifica que unas credenciales correctas abren la sesión y que una contraseña incorrecta produce un mensaje de error claro y traducible. *(3 tests automatizados; commit `586b6df`.)*
 
 ### R01F03 — Recuperación de contraseña
 
@@ -49,7 +49,7 @@ Si el usuario olvida la contraseña, solicita un enlace de recuperación, lo abr
 
 **R01F03T01** — `passwordRecoveryProvider` (Riverpod) escucha `onAuthStateChange` y activa la ruta de restablecimiento.
 
-> **R01F03T01P01** — Prueba manual en dispositivo físico y Chrome. Commit: `c97bfe5`.
+> **R01F03T01P01** — Se comprueba manualmente, tanto en dispositivo físico como en navegador, el ciclo completo: solicitar el enlace, recibirlo por correo, pulsarlo, introducir la nueva contraseña y confirmar el acceso. *(Prueba manual; commit `c97bfe5`.)*
 
 ### R01F04 — Cambio de contraseña autenticado
 
@@ -57,7 +57,7 @@ Desde el perfil, el usuario puede cambiar su contraseña, pero la aplicación le
 
 **R01F04T01** — Re-autenticación en `ProfileNotifier`: `signIn()` de verificación previa, después `updatePassword()`.
 
-> **R01F04T01P01** — Prueba manual. Commit: `949361f`.
+> **R01F04T01P01** — Se verifica que una contraseña actual incorrecta bloquea el cambio con un mensaje de error visible, y que la contraseña correcta lo permite. *(Prueba manual; commit `949361f`.)*
 
 ### R01F05 — Borrado de cuenta y datos
 
@@ -65,7 +65,7 @@ El RGPD reconoce el derecho del usuario a eliminar sus datos. La aplicación bor
 
 **R01F05T01** — Edge Function `delete-account` (Deno/TypeScript) con `verify_jwt=true`, invocada desde `DeleteAccountUseCase`.
 
-> **R01F05T01P01** — Prueba de integración manual contra Supabase Dashboard. Commit: `178b9e9`.
+> **R01F05T01P01** — Se prueba el ciclo completo de extremo a extremo: crear cuenta de prueba, guardar al menos una evaluación, borrar la cuenta y verificar después en el panel de Supabase que no queda rastro ni de usuario, ni de pacientes, ni de evaluaciones. *(Prueba de integración manual; commit `178b9e9`.)*
 
 ---
 
@@ -89,7 +89,7 @@ El usuario selecciona una escala desde la pantalla principal y responde a sus í
 
 **R02F01T01** — Para cada escala, implementar una función pura `calculateXxx(items)` en `domain/` que devuelva un `ScaleResult` con puntuación e interpretación. Pantalla de presentación con `ProgressBar` y resaltado de la opción seleccionada. Los pesos y umbrales se han implementado según fuentes médicas verificadas: GCS (Teasdale & Jennett 1974; Teasdale et al. 2014), NIHSS (Brott 1989; Lyden 1994), mRS (Van Swieten 1988), Barthel (Baztán 1993 — versión española en uso) y ABCD² (Johnston 2007).
 
-> **R02F01T01P01** — Tests unitarios exhaustivos sobre todos los umbrales y casos límite de cada escala: GCS (17), NIHSS (27), mRS (12), Barthel (16), ABCD² (15). Total: 87 tests del dominio de escalas. Commits representativos: `6d677db`, `70d2a59`, `2e10959`, `7ced22c`, `902594c`.
+> **R02F01T01P01** — Para cada escala se prueba que la puntuación mínima posible y la máxima posible producen el resultado correcto, que cada cambio de tramo de gravedad se detecta exactamente en el valor esperado, y que cualquier combinación de ítems extraños (vacíos, fuera de rango o, en el caso de la NIHSS, marcados como no valorables) se gestiona sin perder corrección. En total se ejecutan 87 pruebas: 17 para GCS, 27 para NIHSS, 12 para mRS, 16 para Barthel y 15 para ABCD². *(Commits representativos: `6d677db`, `70d2a59`, `2e10959`, `7ced22c`, `902594c`.)*
 
 ### R02F02 — Modo tutorial por ítem
 
@@ -97,7 +97,7 @@ Junto a cada ítem clínico aparece un pequeño botón con un signo de interroga
 
 **R02F02T01** — `ScaleItemHelpButton` con `helpKey` por ítem; 31 claves ARB en español e inglés con textos clínicos revisados; `BottomSheet` con título, descripción y referencia.
 
-> **R02F02T01P01** — Prueba manual en las cuatro escalas con tutorial (GCS, NIHSS, Barthel, ABCD²). Commits: `bb65acb`, `6babf9a`, `5a6c667`.
+> **R02F02T01P01** — Se comprueba a mano en las cuatro escalas con tutorial (GCS, NIHSS, Barthel y ABCD²) que el botón de ayuda abre la ficha clínica correcta para cada ítem, con el texto adecuado en el idioma activo. *(Prueba manual; commits `bb65acb`, `6babf9a`, `5a6c667`.)*
 
 ---
 
@@ -119,7 +119,7 @@ El usuario selecciona un algoritmo y la aplicación le presenta la primera pregu
 
 **R03F01T01** — Modelar cada algoritmo como un grafo inmutable de `AlgorithmNode` (con dos subtipos `QuestionNode` y `ResultNode` mediante `sealed class`). Función pura `evaluate(state, optionId)` que avanza por el árbol. Pantalla `AlgorithmScreen` con animación de barrido. Los criterios clínicos se han extraído de fuentes verificadas: Código Ictus (NINDS 1995; Hacke 2008; Berge 2021), HTA (Powers 2019; Hemphill 2015; Steiner 2013), HSA (Hunt & Hess 1968; Frontera 2006).
 
-> **R03F01T01P01** — Tests unitarios que recorren todos los caminos posibles de cada algoritmo: Código Ictus (12), HTA (11), HSA (9), motor común (15). Total: 47 tests de algoritmos. Commits: `884ff0c`, `01846f7`.
+> **R03F01T01P01** — Para cada algoritmo se recorren automáticamente todos los caminos posibles del árbol y se verifica que cada hoja produce el nivel de urgencia y la recomendación clínica correctos. Se incluye también una prueba del motor común que asegura que avanzar, retroceder y reiniciar funcionan en cualquier estado intermedio. Total: 47 pruebas automatizadas (12 de Código Ictus, 11 de HTA, 9 de HSA y 15 del motor común). *(Commits: `884ff0c`, `01846f7`.)*
 
 ---
 
@@ -133,7 +133,7 @@ El usuario introduce un alias libre y la aplicación lo guarda en remoto y en lo
 
 **R04F01T01** — `CreatePatientUseCase` con doble persistencia remota/local; formulario con validación.
 
-> **R04F01T01P01** — `test/features/patients/domain/usecases/create_patient_usecase_test.dart` (4 tests). Commit: `c8e6845`.
+> **R04F01T01P01** — Se prueba que un alias válido crea correctamente un paciente con su identificador único, y que un alias vacío produce un error de validación. *(4 pruebas automatizadas; commit `c8e6845`.)*
 
 ### R04F02 — Listar y consultar pacientes
 
@@ -141,7 +141,7 @@ La pestaña de pacientes muestra una lista con avatar de iniciales y color únic
 
 **R04F02T01** — `FetchPatientsUseCase` con estrategia remote-first + fallback local; `PatientAvatar` con color determinista.
 
-> **R04F02T01P01** — `fetch_patients_usecase_test.dart` (3 tests) + `patient_avatar_test.dart` (8 tests). Commit: `f8fe853`.
+> **R04F02T01P01** — Se comprueba que la lista de pacientes se carga ordenada desde el servidor y que, si la conexión falla, se sirve correctamente desde la caché local. Se verifica además que el avatar de iniciales genera siempre el mismo color para el mismo alias. *(11 pruebas automatizadas entre caso de uso y avatar; commit `f8fe853`.)*
 
 ### R04F03 — Borrar paciente con cascada
 
@@ -149,7 +149,7 @@ Al eliminar un paciente se borran también sus evaluaciones automáticamente. La
 
 **R04F03T01** — `DeletePatientUseCase`; FK con `ON DELETE CASCADE` en la migración 0007.
 
-> **R04F03T01P01** — `delete_patient_usecase_test.dart` (2 tests). Commit: `5b5fb73`.
+> **R04F03T01P01** — Se verifica que borrar un paciente existente no produce error y que intentar borrar uno que no existe genera el error esperado. *(2 pruebas automatizadas; commit `5b5fb73`.)*
 
 ### R04F04 — Detector de PII en descripciones libres
 
@@ -157,7 +157,7 @@ El campo libre de descripción del caso podría usarse por descuido para introdu
 
 **R04F04T01** — `PiiDetector.containsPii(text)` con 5 patrones; integrado en `SaveEvaluationUseCase` antes de persistir.
 
-> **R04F04T01P01** — `test/core/utils/pii_detector_test.dart` (21 tests). Commit: `301157f`.
+> **R04F04T01P01** — Para cada tipo de dato sensible se prueba tanto un caso positivo (texto que sí contiene el patrón y debe ser detectado) como uno negativo (texto similar pero sin el patrón). Se cubren DNI, NIE, correo, teléfono con prefijo +34 y sin él, y fecha de nacimiento en formatos `DD/MM/YYYY` y `DD-MM-YYYY`. *(21 pruebas automatizadas; commit `301157f`.)*
 
 ---
 
@@ -171,7 +171,7 @@ Al terminar una escala, el usuario puede guardar el resultado asociándolo a un 
 
 **R05F01T01** — `SaveEvaluationUseCase` con validación de PII, doble persistencia y `AnimatedCheck`.
 
-> **R05F01T01P01** — `save_evaluation_usecase_test.dart` (4 tests). Commit: `6d677db`.
+> **R05F01T01P01** — Se comprueba que una evaluación válida se guarda y devuelve un identificador, y que una evaluación cuya descripción contiene un DNI queda bloqueada con el error correspondiente. *(4 pruebas automatizadas; commit `6d677db`.)*
 
 ### R05F02 — Listar evaluaciones con orden y filtros
 
@@ -179,7 +179,7 @@ El historial muestra las evaluaciones ordenadas por fecha (la más reciente arri
 
 **R05F02T01** — `FetchEvaluationsUseCase` con parámetro `orderBy`; `EvaluationTile` con `SeverityBadge`.
 
-> **R05F02T01P01** — `fetch_evaluations_usecase_test.dart` (7 tests). Commit: `d8d4fe7`.
+> **R05F02T01P01** — Se verifica que la lista llega ordenada por fecha descendente por defecto, y que cuando el servidor falla se devuelve correctamente la versión local sin perder el orden. *(7 pruebas automatizadas; commit `d8d4fe7`.)*
 
 ### R05F03 — Gráfico de evolución temporal
 
@@ -187,7 +187,7 @@ En el detalle del paciente, el usuario elige una escala y la aplicación dibuja 
 
 **R05F03T01** — `LineChart` (fl_chart) con eje X proporcional al tiempo real y puntuaciones normalizadas [0–1].
 
-> **R05F03T01P01** — Prueba manual con el paciente `Demo-TCE-01` (6 GCS de 8→15 + 3 Barthel de 35→95). Commit: `cef0664`.
+> **R05F03T01P01** — Se comprueba a mano con el paciente de demostración `Demo-TCE-01`, que tiene seis evaluaciones GCS (de 8 hasta 15) y tres Barthel (de 35 hasta 95), que la curva refleja la progresión clínica esperada y que los tooltips muestran los valores correctos. *(Prueba manual; commit `cef0664`.)*
 
 ### R05F04 — Borrar evaluación individual
 
@@ -195,7 +195,7 @@ Desde el historial, el usuario desliza una evaluación para borrarla. La aplicac
 
 **R05F04T01** — `DeleteEvaluationUseCase`; `Dismissible` con diálogo de confirmación.
 
-> **R05F04T01P01** — `delete_evaluation_usecase_test.dart` (3 tests). Commit: `4c1706a`.
+> **R05F04T01P01** — Se prueba que borrar una evaluación existente completa la operación sin error y que un identificador inexistente produce el error esperado. *(3 pruebas automatizadas; commit `4c1706a`.)*
 
 ---
 
@@ -209,7 +209,7 @@ Cada operación de escritura se guarda en remoto y en local de forma simultánea
 
 **R06F01T01** — `AppDatabase` con tablas `EvaluationsTable` y `PatientsTable`; DAOs tipados; estrategia *cache-aside* en repositorios.
 
-> **R06F01T01P01** — Prueba de integración manual: modo avión → ver datos cachedos → reconectar → verificar sincronización. Commit: `14a2b31`.
+> **R06F01T01P01** — Se comprueba a mano que, al activar el modo avión y abrir la aplicación, los pacientes y evaluaciones cacheados anteriormente siguen apareciendo correctamente, y que al recuperar la conexión las nuevas operaciones se sincronizan con el servidor. *(Prueba de integración manual; commit `14a2b31`.)*
 
 ### R06F02 — Banner de conexión
 
@@ -217,7 +217,7 @@ Si se pierde la red, aparece una franja informativa en la parte superior. Desapa
 
 **R06F02T01** — `isOfflineProvider` con `connectivity_plus`; `OfflineBanner` en `AppShell`.
 
-> **R06F02T01P01** — Prueba manual en Android: activar modo avión → banner aparece en <2 s; desactivar → banner desaparece. Commits: `8f5f442`, `e1cc475`.
+> **R06F02T01P01** — En un dispositivo Android se comprueba que al activar el modo avión el aviso aparece en menos de dos segundos, y que al desactivarlo desaparece automáticamente sin intervención del usuario. *(Prueba manual; commits `8f5f442`, `e1cc475`.)*
 
 ---
 
@@ -231,7 +231,7 @@ Los textos viven en dos ficheros ARB centralizados (uno por idioma) con 519 entr
 
 **R07F01T01** — `app_es.arb` + `app_en.arb` sincronizados; `AppLocalizations` configurado en `MaterialApp`; generación en CI.
 
-> **R07F01T01P01** — `flutter gen-l10n` sin errores; `flutter analyze` en 0 issues. Commits: `b025b43`, `3b7f16a`.
+> **R07F01T01P01** — Se valida en cada build de integración continua que el generador de localizaciones se ejecuta sin errores ni claves faltantes, y que el análisis estático queda en cero avisos. *(Comprobación automatizada en CI; commits `b025b43`, `3b7f16a`.)*
 
 ### R07F02 — Selector de idioma persistente
 
@@ -239,7 +239,7 @@ Desde el perfil, el usuario cambia el idioma al instante. La preferencia se recu
 
 **R07F02T01** — `LocaleProvider` (Riverpod) sobre `SharedPreferences`.
 
-> **R07F02T01P01** — Prueba manual: cambiar a inglés → reiniciar → idioma persiste. Commit: `ea1a77c`.
+> **R07F02T01P01** — Se prueba a mano que tras seleccionar inglés y cerrar y volver a abrir la aplicación, el idioma elegido se mantiene sin que el usuario tenga que volver a configurarlo. *(Prueba manual; commit `ea1a77c`.)*
 
 ---
 
@@ -253,7 +253,7 @@ En móvil, las cuatro secciones aparecen como barra inferior; en tablet y escrit
 
 **R08F01T01** — `AppShell` con `StatefulShellRoute` y condición sobre `MediaQuery.size.width`.
 
-> **R08F01T01P01** — Prueba manual en Chrome cambiando el tamaño de ventana. Commit: `d3a5f72`.
+> **R08F01T01P01** — En Chrome se comprueba a mano que reducir la ventana por debajo de 600 px sustituye el panel lateral por la barra inferior, y que ampliarla por encima vuelve a poner el panel lateral. *(Prueba manual; commit `d3a5f72`.)*
 
 ### R08F02 — Layouts en dos columnas en tablet
 
@@ -261,7 +261,7 @@ En pantallas grandes, el contenido se distribuye en dos columnas donde tiene sen
 
 **R08F02T01** — `ResponsiveContainer` con `LayoutBuilder`; max-width 800 dp.
 
-> **R08F02T01P01** — Prueba manual en simulador de tablet (1024×1366 dp). Commits: `67b8645`, `8407050`.
+> **R08F02T01P01** — En un simulador de tablet (1024 × 1366 dp) se verifica que la cuadrícula de escalas aparece en dos columnas y que la pantalla de detalle de paciente muestra la lista y el gráfico de evolución en paralelo. *(Prueba manual; commits `67b8645`, `8407050`.)*
 
 ### R08F03 — Despliegue web continuo
 
@@ -269,4 +269,4 @@ Cada push a `main` compila la versión web y la publica en GitHub Pages sin inte
 
 **R08F03T01** — `deploy.yml` con `subosito/flutter-action` + `peaceiris/actions-gh-pages`.
 
-> **R08F03T01P01** — Verificación: push a `main` → CI verde → URL pública responde. Commit: `ec8b97a`.
+> **R08F03T01P01** — Tras cada subida de cambios a la rama principal se verifica que el pipeline de integración continua se completa en verde y que la URL pública del proyecto carga correctamente en Chrome, Firefox y Safari. *(Verificación automatizada en CI + prueba manual; commit `ec8b97a`.)*
