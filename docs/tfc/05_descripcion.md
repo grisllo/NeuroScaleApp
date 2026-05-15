@@ -245,7 +245,7 @@ Las transiciones entre pantallas combinan un fundido suave con un desplazamiento
 
 ## Casos de uso
 
-El diagrama de casos de uso se encuentra en el apartado de Diseños. Las tablas siguientes describen cada caso de uso con sus datos de entrada y salida, las tablas de base de datos implicadas, las clases del dominio involucradas y las interfaces de usuario correspondientes.
+El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartado **Diagrama de casos de uso**. Las tablas siguientes describen cada caso de uso con sus datos de entrada y salida, las tablas de base de datos implicadas, las clases del dominio involucradas y las interfaces de usuario correspondientes.
 
 ---
 
