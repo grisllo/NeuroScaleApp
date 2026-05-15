@@ -2,11 +2,11 @@
 
 ## Motivación
 
-Las escalas neurológicas estandarizadas son instrumentos clínicamente mandatados en España: la **Estrategia en Ictus del Sistema Nacional de Salud (actualización 2024)** del Ministerio de Sanidad establece la NIHSS como herramienta obligatoria en la valoración del ictus agudo y define los criterios de reperfusión en función de su puntuación. La Guía de Práctica Clínica sobre el Manejo del Ictus en Atención Primaria (OSTEBA/GuíaSalud, 2025) recomienda la escala de Glasgow para la valoración inicial del nivel de conciencia en urgencias. El protocolo **Código Ictus**, vigente en todas las comunidades autónomas, depende directamente de la puntuación NIHSS medida en urgencias para tomar decisiones de tratamiento con una ventana terapéutica inferior a 4,5 horas.
+Las escalas neurológicas estandarizadas son instrumentos de uso obligado en la práctica clínica española. La Estrategia en Ictus del Sistema Nacional de Salud, en su actualización de 2024, establece la NIHSS como herramienta obligatoria en la valoración del ictus agudo y define los criterios de reperfusión a partir de su puntuación. La Guía de Práctica Clínica sobre el Manejo del Ictus en Atención Primaria (OSTEBA/GuíaSalud, 2025) recomienda la escala de Glasgow para la valoración inicial del nivel de conciencia en urgencias. Y el protocolo Código Ictus, vigente en todas las comunidades autónomas, depende directamente de la puntuación NIHSS para tomar decisiones de tratamiento con una ventana terapéutica inferior a 4,5 horas.
 
-A pesar de esta relevancia clínica, su aplicación en la práctica asistencial adolece de dos problemas concretos: la fragmentación (el profesional consulta las escalas en fuentes distintas, muchas veces en papel o en aplicaciones de cálculo genéricas sin contexto neurológico) y la ausencia de trazabilidad por paciente (no existe herramienta que registre las evaluaciones sucesivas de un mismo caso clínico para monitorizar su evolución).
+A pesar de esta relevancia clínica, su aplicación cotidiana arrastra dos problemas que cualquiera que haya rotado por urgencias conoce. El primero es la fragmentación: el profesional consulta cada escala en una fuente distinta, muchas veces en papel o en calculadoras genéricas sin contexto neurológico. El segundo es la ausencia de trazabilidad por paciente: no hay ninguna herramienta extendida que registre las evaluaciones sucesivas de un mismo caso clínico para monitorizar su evolución.
 
-NeuroScale App nació para resolver precisamente esos dos problemas: centralizar las escalas neurológicas más utilizadas en una única aplicación multiplataforma, y registrar el historial de evaluaciones vinculado a cada caso clínico anonimizado.
+NeuroScale App se diseñó precisamente para atender esos dos huecos: agrupar en una sola aplicación multiplataforma las escalas neurológicas más utilizadas y registrar el historial de evaluaciones vinculado a cada caso clínico anonimizado.
 
 ## Estado de la cuestión: aplicaciones existentes
 
@@ -25,17 +25,15 @@ Fuentes: App Store, Google Play, PMC NIH (App review: MDCalc, 2019; Mobile medic
 
 ## Limitaciones de las soluciones existentes
 
-Del análisis anterior se extraen cinco limitaciones estructurales comunes a todas las aplicaciones del mercado:
+Repasando el análisis anterior aparecen varias limitaciones que se repiten en todas o casi todas las aplicaciones del mercado.
 
-1. **Calculadoras de uso único sin memoria.** Ninguna app permite almacenar evaluaciones sucesivas vinculadas a un caso clínico. La monitorización de la evolución de un ictus o un traumatismo craneoencefálico requiere combinar manualmente los resultados de diferentes sesiones, lo que introduce riesgo de error y dificulta el seguimiento.
+La primera y más visible es que se trata de calculadoras de uso único sin memoria. Ninguna de las aplicaciones revisadas permite almacenar evaluaciones sucesivas vinculadas a un caso clínico. Monitorizar la evolución de un ictus o de un traumatismo craneoencefálico obliga al profesional a combinar manualmente los resultados de cada sesión, lo que introduce riesgo de error y dificulta el seguimiento longitudinal.
 
-2. **Ausencia de gestión de pacientes anonimizada.** Las apps generalistas no contemplan el riesgo de introducción accidental de datos identificativos en campos de texto libre. NeuroScale App incorpora un detector activo de PII (DNI, NIE, email, teléfono, fecha de nacimiento) que bloquea el guardado si detecta información sensible.
+Tampoco contemplan la gestión de pacientes anonimizada. Las apps generalistas ofrecen campos de texto libre sin pensar en el riesgo de introducción accidental de datos identificativos. NeuroScale App incorpora un detector activo de PII (DNI, NIE, correo, teléfono y fecha de nacimiento) que bloquea el guardado si detecta información sensible.
 
-3. **Algoritmos clínicos no integrados.** Herramientas como la activación del Código Ictus o el manejo de la hipertensión en el ictus agudo requieren combinar varias escalas con criterios decisionales. Ninguna app del mercado encadena ese flujo en un árbol de decisión guiado; el profesional debe construirlo mentalmente.
+Otra limitación es que los algoritmos clínicos no están integrados con las escalas. Herramientas como la activación del Código Ictus o el manejo de la hipertensión en el ictus agudo requieren combinar varias escalas con criterios decisionales que el profesional debe construir mentalmente. Ninguna app del mercado encadena ese flujo en un árbol de decisión guiado.
 
-4. **Cobertura lingüística limitada.** La mayoría son monolingüe (inglés), lo que supone una barrera de adopción en el entorno asistencial español. NeuroScale App es completamente bilingüe (español e inglés) desde la primera versión.
-
-5. **Ausencia de versión web optimizada.** Neuro Toolkit funciona únicamente en iOS. Las demás son aplicaciones móvil-first sin interfaz web adaptada al uso en estación de trabajo de urgencias o consulta. NeuroScale App compila para web con navegación adaptativa (NavigationBar en móvil, NavigationRail en tablet y escritorio).
+A esto se suman dos limitaciones de alcance: la mayoría son monolingües (inglés), lo que supone una barrera de adopción en el entorno asistencial español, y casi todas son aplicaciones móvil-first sin interfaz web adaptada al uso en una estación de trabajo de urgencias o consulta. Neuro Toolkit, además, solo está disponible en iOS. NeuroScale App es bilingüe (español e inglés) desde la primera versión y compila también para web, con una navegación que se adapta al tamaño de pantalla (NavigationBar en móvil y NavigationRail en tablet o escritorio).
 
 ## Público objetivo
 
@@ -46,7 +44,7 @@ La aplicación está dirigida a dos perfiles principales:
 
 ## Conclusión de la justificación
 
-NeuroScale App no compite con las grandes plataformas de referencia médica generalistas (MDCalc, Medscape) en amplitud de catálogo, sino que propone un valor diferencial concreto: **la trazabilidad clínica anonimizada por paciente** para las escalas neurológicas más utilizadas en España, combinada con los algoritmos de decisión que guían las actuaciones de urgencia más críticas. Este enfoque cubre un vacío real que ninguna de las soluciones existentes atiende actualmente.
+El proyecto no pretende competir con las grandes plataformas de referencia médica generalistas, como MDCalc o Medscape, en amplitud de catálogo. Propone un valor diferencial distinto: ofrecer trazabilidad clínica anonimizada por paciente sobre las escalas neurológicas más utilizadas en España, y combinarla con los algoritmos de decisión que guían las actuaciones de urgencia más críticas. Es un nicho concreto, pero un nicho que las soluciones actuales no cubren.
 
 ## Referencias de este apartado
 

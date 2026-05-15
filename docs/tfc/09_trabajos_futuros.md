@@ -1,10 +1,10 @@
 # Trabajos futuros
 
-NeuroScale App alcanzó la versión 1.0.0 como proyecto académico funcional y desplegado. Las líneas de trabajo futuro descritas en este apartado representan la evolución natural del proyecto hacia un producto clínico de mayor alcance.
+NeuroScale App ha llegado a la versión 1.0.0 como proyecto académico funcional y desplegado, pero su recorrido natural no se agota ahí. Las líneas que se describen a continuación apuntan a cómo podría evolucionar la aplicación si se quisiera convertir en un producto clínico real, con usuarios más allá del entorno del TFC.
 
 ## Distribución en tiendas de aplicaciones
 
-La versión 1.0.0 distribuye un APK firmado para Android mediante descarga directa. El siguiente paso natural es la publicación en **Google Play Store** (Android) y **Apple App Store** (iOS). La base de código ya está preparada para iOS —la plataforma está activa en el proyecto Flutter— pero requiere un Mac con Xcode para compilar el paquete `.ipa` y una cuenta de desarrollador de Apple (99 $/año). La publicación en Play Store requiere un registro único de 25 $ y el proceso de revisión de política de privacidad.
+En su estado actual, la versión 1.0.0 se distribuye en Android mediante un APK firmado de descarga directa. El paso natural sería publicarla en Google Play Store y, en paralelo, preparar la versión de iOS para la App Store. La base de código ya contempla iOS como plataforma activa en el proyecto Flutter, pero compilar el `.ipa` requiere un Mac con Xcode y una cuenta de desarrollador de Apple (99 $ anuales). La publicación en Play Store, por su parte, exige un registro único de 25 $ y pasar por el proceso de revisión de política de privacidad.
 
 ## Certificación como producto sanitario (MDR 2017/745)
 
@@ -46,14 +46,7 @@ Actualmente los resultados solo son visibles en la aplicación. Una mejora de al
 
 ## Validación con usuarios reales
 
-El proyecto no ha incluido un estudio formal de usabilidad con profesionales sanitarios. Un trabajo futuro relevante sería realizar un piloto con un grupo de médicos y estudiantes de medicina, midiendo:
-
-- Tiempo hasta primer uso correcto (aprendizaje).
-- Tasa de errores en la aplicación de la escala NIHSS (la más compleja).
-- Satisfacción percibida (escala SUS — System Usability Scale).
-- Identificación de flujos problemáticos mediante registros de sesión.
-
-Los resultados alimentarían una iteración de UX orientada a reducir la carga cognitiva en situaciones de urgencia.
+Una de las carencias más claras del proyecto, vista en perspectiva, es la ausencia de un estudio formal de usabilidad con profesionales sanitarios. Un trabajo futuro de evidente valor sería organizar un piloto con un grupo pequeño de médicos y estudiantes de medicina y medir, al menos, el tiempo hasta el primer uso correcto, la tasa de errores en la aplicación de la NIHSS (la más compleja del conjunto), la satisfacción percibida con el cuestionario SUS y la identificación de flujos problemáticos a partir de los registros de sesión. Los resultados de ese piloto serían la base de una iteración de UX orientada a reducir la carga cognitiva en situaciones de urgencia, que es donde la aplicación pretende ser más útil.
 
 ## Mejoras técnicas aplazadas
 

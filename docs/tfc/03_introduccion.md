@@ -46,20 +46,11 @@ Tres árboles de decisión guiados con indicación de urgencia clasificada (`cr�
 
 ### Calidad técnica
 
-- **204 tests automatizados**: calculadoras de dominio cubren todos los umbrales clínicos; tests de presentación para componentes críticos.
-- **Modo offline**: caché local SQLite (Drift) para Android e iOS — la aplicación funciona sin conexión y sincroniza al recuperarla.
-- **Diseño responsive**: NavigationBar en móvil, NavigationRail en tablet y escritorio.
-- **Internacionalización completa**: 519 entradas ARB en español e inglés.
+La aplicación se sostiene sobre 204 tests automatizados, con las calculadoras del dominio cubriendo todos los umbrales clínicos y tests de presentación para los componentes más críticos. El modo offline está implementado mediante una caché local SQLite con Drift en Android e iOS, lo que permite seguir trabajando sin conexión y sincronizar al recuperarla. El diseño es responsive (NavigationBar en móvil, NavigationRail en tablet y escritorio) y la interfaz está localizada al completo en español e inglés, con 519 entradas ARB por idioma.
 
 ## Problemas que resuelve
 
-El proyecto da respuesta a tres necesidades concretas detectadas en el uso clínico real:
-
-1. **Fragmentación de herramientas**: el profesional consulta cada escala en una app o documento diferente, sin contexto clínico ni continuidad. NeuroScale App unifica las cinco escalas más usadas en neurología de urgencias en una interfaz única.
-
-2. **Ausencia de trazabilidad clínica**: ninguna app del mercado registra el historial de evaluaciones de un mismo caso. NeuroScale App almacena cada evaluación vinculada al paciente y la representa gráficamente para monitorizar la evolución.
-
-3. **Brecha entre escalas y decisiones**: las escalas son una entrada de un proceso decisional que el clínico debe construir mentalmente. Los algoritmos clínicos de la aplicación encadenan ese proceso en un árbol de decisión guiado, reduciendo el riesgo de omisión en situaciones de alta presión.
+El proyecto responde a tres necesidades que aparecen de forma recurrente en el uso clínico de las escalas neurológicas. La primera es la fragmentación de herramientas: el profesional consulta cada escala en una app o documento distinto, sin contexto clínico ni continuidad. NeuroScale App reúne las cinco escalas más usadas en neurología de urgencias en una sola interfaz. La segunda es la ausencia de trazabilidad: ninguna app del mercado registra el historial de evaluaciones de un mismo paciente, mientras que NeuroScale App almacena cada evaluación vinculada al caso clínico y la representa en un gráfico de evolución. La tercera, más sutil, es la brecha entre escalas y decisiones: una puntuación es solo una entrada de un proceso decisional que el clínico tiene que construir mentalmente. Los algoritmos integrados en la aplicación encadenan ese proceso en un árbol guiado y reducen el riesgo de omisión en situaciones de alta presión.
 
 ## Alcance y limitaciones
 

@@ -2,9 +2,9 @@
 
 ## Arquitectura general
 
-NeuroScale App está construida sobre una arquitectura de dos dimensiones ortogonales: **feature-first** en el eje horizontal (organización de carpetas) y **Clean Architecture** en el eje vertical (capas de responsabilidad dentro de cada feature).
+La arquitectura de NeuroScale App combina dos ideas que actúan en planos diferentes. En el eje de la organización del código, el proyecto sigue una estructura *feature-first*: cada funcionalidad vive en su propia carpeta con todo lo que necesita. En el eje de las responsabilidades dentro de cada funcionalidad, se aplican las capas habituales de Clean Architecture (dominio, datos y presentación), con dependencias dirigidas hacia el dominio.
 
-La decisión de no usar una estructura plana `data/`–`domain/`–`presentation/` a nivel de raíz responde a la escala del proyecto: con cinco escalas, tres algoritmos, gestión de pacientes, evaluaciones, autenticación y perfil, la cohesión por feature escala mejor que la cohesión por capa. Cada módulo puede crecer, testearse y borrarse de forma independiente sin afectar al resto.
+Al principio del proyecto consideré la estructura más sencilla de tener `data/`, `domain/` y `presentation/` en la raíz, agrupando por capa en lugar de por feature. La descarté en cuanto vi que el proyecto iba a tener cinco escalas, tres algoritmos, módulos separados de pacientes, evaluaciones, autenticación y perfil. Con tantas funcionalidades, agrupar por capa habría obligado a saltar entre carpetas distantes cada vez que se toca una feature concreta. Agrupar por feature, en cambio, permite añadir, modificar o borrar un módulo sin tocar el resto.
 
 ### Capas de responsabilidad
 

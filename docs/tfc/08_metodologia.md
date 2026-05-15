@@ -4,15 +4,15 @@
 
 ### Enfoque de desarrollo
 
-El proyecto se desarrolló siguiendo un **modelo iterativo por fases** con entregables funcionales al final de cada iteración. La unidad mínima de trabajo es la **subfase**, que sigue el ciclo:
+El proyecto se ha desarrollado siguiendo un modelo iterativo por fases, con entregables funcionales al final de cada iteración. La unidad mínima de trabajo es la subfase, y cada una recorre el mismo ciclo:
 
 ```
 Diseño → Aprobación → Implementación → Tests → flutter analyze → Commit de cierre
 ```
 
-Este ciclo tiene una regla estricta: no se escribe código sin aprobación previa del diseño de la subfase. Esta restricción redujo el retrabajo estructural y permitió detectar problemas de diseño antes de su implementación, algo especialmente relevante en un proyecto con contexto médico donde un cambio tardío en la arquitectura de las calculadoras habría invalidado los tests.
+La regla que se mantuvo a lo largo de todo el proyecto fue no escribir código sin aprobar antes el diseño de la subfase. Esta restricción tiene un coste evidente —obliga a parar y pensar incluso cuando se intuye qué hay que hacer—, pero a cambio reduce muchísimo el retrabajo estructural. En un proyecto con contexto médico, donde un cambio tardío en la arquitectura de una calculadora invalidaría los tests que ya verifican su corrección clínica, esta disciplina compensa con creces el coste inicial.
 
-El agente **Claude Code** (Anthropic, modelo Sonnet) actuó como asistente de implementación a lo largo de todo el proyecto, generando código, tests y documentación bajo la dirección del desarrollador. El tiempo registrado en las tablas de este apartado corresponde a la **sesión activa del desarrollador** (revisión de salidas, testing manual en dispositivo, decisiones de diseño y redireccionamiento del agente), no al tiempo de ejecución autónoma del agente.
+Claude Code (Anthropic, modelo Sonnet) actuó como asistente de implementación a lo largo de todo el proyecto, generando código, tests y documentación bajo mi dirección. Las horas que figuran en las tablas siguientes corresponden a sesión activa por mi parte (revisión de las salidas, pruebas manuales en dispositivo, decisiones de diseño y redireccionamiento del agente), no al tiempo de ejecución autónoma de la herramienta.
 
 ### Gestión de requisitos y trazabilidad
 
@@ -71,8 +71,7 @@ Las estimaciones se realizaron antes de iniciar cada fase. El alcance inicial cu
 | **Subtotal fases 5–14 + mantenimientos** | | — | **49,5** | — |
 | **TOTAL ACUMULADO** | | — | **~85,0** | — |
 
-**Análisis de desviaciones (fases 0–4):**
-El balance en las fases con estimación previa es de **−4,5 h (−9,0 %)**. Las principales desviaciones positivas (ahorro) se concentraron en la Fase 4: las `sealed classes` de Dart 3 simplificaron los algoritmos clínicos (−2,5 h) y la pantalla de perfil fue trivial una vez preparada la lógica de idioma (−1,5 h). La única desviación negativa destacable fue el diseño inicial (+1,0 h), con más capas de infraestructura compartida de las previstas. La estimación global fue **ligeramente pesimista**, lo que es preferible en un proyecto de estas características.
+**Análisis de desviaciones (fases 0–4).** El balance global en las fases que sí contaban con estimación previa fue de −4,5 h, un 9 % por debajo de lo previsto. Las desviaciones a favor se concentraron sobre todo en la Fase 4: las `sealed classes` de Dart 3 simplificaron mucho los algoritmos clínicos (ahorro de unas 2,5 h) y la pantalla de perfil resultó casi inmediata una vez resuelta la lógica de idioma en la subfase anterior (ahorro de 1,5 h). La única desviación al alza apreciable fue el diseño inicial, que necesitó una hora más de la prevista porque la infraestructura compartida (errores, extensiones, providers comunes) acabó teniendo más capas de las que había planteado al principio. En conjunto, la estimación inicial fue ligeramente pesimista, lo que en mi experiencia es preferible a quedarse corto.
 
 ### Diagrama de Gantt
 
