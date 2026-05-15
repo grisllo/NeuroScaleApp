@@ -2,461 +2,425 @@
 
 ## Arquitectura general
 
-La arquitectura de NeuroScale App combina dos ideas que actúan en planos diferentes. En el eje de la organización del código, el proyecto sigue una estructura *feature-first*: cada funcionalidad vive en su propia carpeta con todo lo que necesita. En el eje de las responsabilidades dentro de cada funcionalidad, se aplican las capas habituales de Clean Architecture (dominio, datos y presentación), con dependencias dirigidas hacia el dominio.
+NeuroScale App está organizada siguiendo dos criterios complementarios que actúan en planos distintos. En el plano del código, el proyecto se estructura por **funcionalidades** (lo que se conoce como *feature-first*): cada feature —autenticación, pacientes, escalas, algoritmos, perfil— vive en su propia carpeta con todo lo que necesita. En el plano interno de cada feature, las responsabilidades se reparten en tres capas siguiendo los principios de Clean Architecture: el dominio, los datos y la presentación.
 
-Al principio del proyecto consideré la estructura más sencilla de tener `data/`, `domain/` y `presentation/` en la raíz, agrupando por capa en lugar de por feature. La descarté en cuanto vi que el proyecto iba a tener cinco escalas, tres algoritmos, módulos separados de pacientes, evaluaciones, autenticación y perfil. Con tantas funcionalidades, agrupar por capa habría obligado a saltar entre carpetas distantes cada vez que se toca una feature concreta. Agrupar por feature, en cambio, permite añadir, modificar o borrar un módulo sin tocar el resto.
+La elección de organizar por feature y no por capa (es decir, evitar tener un único `data/`, `domain/` y `presentation/` en la raíz del proyecto) responde a un problema práctico. Cuando el código crece hasta tener varias funcionalidades distintas, agrupar por capa obliga a saltar de un lado a otro cada vez que se toca un módulo concreto. Agrupar por feature, en cambio, mantiene cerca todo lo relacionado con un mismo dominio y permite añadirlo, modificarlo o eliminarlo sin afectar al resto.
 
-### Capas de responsabilidad
+### Las tres capas
 
-Cada feature implementa tres capas con reglas de dependencia estrictas:
+Dentro de cada feature, las tres capas tienen reglas estrictas sobre qué puede depender de qué:
 
-| Capa | Contenido | Regla de dependencia |
+| Capa | Qué vive aquí | Reglas |
 |---|---|---|
-| **Domain** | Entidades, calculadoras puras, interfaces de repositorio, casos de uso | Sin imports de Flutter ni Supabase. Solo Dart puro. |
-| **Data** | Implementaciones de repositorios, datasources, modelos ORM, mappers | Puede importar Supabase, Drift y paquetes de datos. |
-| **Presentation** | Screens, widgets, providers Riverpod, notifiers | Solo importa el dominio. Nunca llama a datasources directamente. |
+| **Domain** | Entidades, calculadoras puras, interfaces de repositorio, casos de uso | No conoce Flutter ni Supabase. Solo Dart puro. |
+| **Data** | Implementaciones de repositorios, fuentes de datos, modelos ORM y mapeadores | Puede usar Supabase, Drift y todo lo relacionado con persistencia. |
+| **Presentation** | Pantallas, widgets, proveedores Riverpod, notifiers | Habla con el dominio. Nunca llama directamente a fuentes de datos. |
 
-El flujo de datos sigue la dirección `UI → Provider → UseCase → Repository → DataSource → Supabase / Drift`. Los repositorios lanzan subtipos de `Failure` (nunca excepciones desnudas); los datasources lanzan subtipos de `AppException` que los repositorios convierten en `Failure` en sus bloques `catch`.
+El flujo de datos respeta siempre la misma dirección: la interfaz pide algo al proveedor, el proveedor invoca un caso de uso, el caso de uso pasa por el repositorio, y el repositorio decide si la información viene del servidor remoto o de la caché local. En sentido inverso, cuando algo falla, los repositorios devuelven una jerarquía de errores tipados (`Failure`) que la interfaz puede traducir a mensajes localizados sin perder información sobre la causa.
 
-### Estructura de módulos
+### Estructura de carpetas
 
 ```
 lib/
 ├── core/                    infraestructura compartida
-│   ├── database/            AppDatabase (Drift), DAOs
-│   ├── routing/             go_router, AppShell, guards de auth
-│   ├── theme/               tokens de diseño, paleta clínica, tipografía Inter
-│   ├── errors/              jerarquía Failure / AppException
-│   ├── widgets/             widgets reutilizables (ResponsiveContainer, SeverityBadge…)
-│   └── utils/               PiiDetector, extensiones
+│   ├── database/            base de datos local (Drift) y DAOs
+│   ├── routing/             configuración de navegación, guardián de auth
+│   ├── theme/               paleta clínica, tipografía, animaciones base
+│   ├── errors/              jerarquía de errores tipados
+│   ├── widgets/             widgets reutilizables
+│   └── utils/               detector de PII, extensiones, helpers
 │
 ├── features/
 │   ├── auth/                autenticación y gestión de cuenta
 │   ├── scales/
-│   │   ├── shared/          entidades base (ScaleItem, ScaleResult, Severity, ScaleDefinition)
+│   │   ├── shared/          entidades base comunes a todas las escalas
 │   │   ├── gcs/             Glasgow Coma Scale
 │   │   ├── nihss/           NIHSS
 │   │   ├── rankin/          Modified Rankin Scale
 │   │   ├── barthel/         Índice de Barthel
 │   │   └── abcd2/           ABCD²
 │   ├── evaluations/         persistencia y consulta de evaluaciones
-│   ├── patients/            CRUD de pacientes anonimizados + gráfico de evolución
-│   ├── algorithms/          algoritmos clínicos de decisión (Código Ictus, HTA, HSA)
-│   ├── home/                pantalla de escalas (entry point tras login)
+│   ├── patients/            pacientes anonimizados + gráfico de evolución
+│   ├── algorithms/          algoritmos clínicos de decisión
+│   ├── home/                pantalla de escalas (entrada tras el login)
 │   └── profile/             perfil, tema e idioma
 │
-└── l10n/                    app_es.arb + app_en.arb (519 entradas cada uno)
+└── l10n/                    textos en español e inglés (519 entradas)
 ```
 
 ---
 
 ## Modelo de dominio
 
+El modelo de dominio es la parte de la aplicación que representa el conocimiento clínico de las escalas y los algoritmos, sin mezclarlo con detalles técnicos de la interfaz ni de la persistencia. Aquí viven las entidades que el resto de la aplicación consume.
+
 ### Escalas neurológicas
 
-La abstracción central de las escalas es la clase `ScaleDefinition`, que actúa como contrato compartido entre las cinco escalas:
+Todas las escalas comparten un mismo contrato abstracto que reúne los datos comunes: un identificador único, un nombre para mostrar, una versión, la lista de ítems que la componen y la función de cálculo que produce el resultado.
 
-| Campo / Método | Tipo | Descripción |
+| Campo / método | Tipo | Descripción |
 |---|---|---|
-| `key` | `String` | Identificador único de la escala (`'gcs'`, `'nihss'`…) |
-| `displayName` | `String` | Nombre para mostrar en la interfaz |
-| `version` | `int` | Versión del protocolo de la escala |
-| `items` | `List<ScaleItem>` | Ítems que componen la escala |
-| `calculate(answers)` | `ScaleResult` | Función pura de cálculo |
+| `key` | texto | Identificador único de la escala (`'gcs'`, `'nihss'`…) |
+| `displayName` | texto | Nombre legible en la interfaz |
+| `version` | entero | Versión del protocolo |
+| `items` | lista | Ítems clínicos que componen la escala |
+| `calculate(answers)` | función | Devuelve la puntuación y la interpretación |
 
-Cada ítem de escala se representa mediante `ScaleItem`:
+Cada ítem de escala es una pregunta clínica con sus opciones de respuesta, un rango válido de puntuación y, opcionalmente, un texto de ayuda y un valor especial para casos no valorables (este último solo aplica a la NIHSS):
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `key` | `String` | Identificador único del ítem |
-| `labelKey` | `String` | Clave ARB del enunciado |
-| `min` / `max` | `int` | Rango válido de puntuación |
-| `options` | `List<(int, String)>` | Pares (valor, clave ARB de opción) |
-| `untestableValue` | `int?` | Valor especial `UN` (solo NIHSS: 9) |
-| `helpKey` | `String?` | Clave ARB del texto tutorial |
+| `key` | texto | Identificador del ítem |
+| `labelKey` | texto | Clave del enunciado para el sistema de traducciones |
+| `min` / `max` | enteros | Rango válido de puntuación |
+| `options` | lista de pares | Cada opción es un valor numérico y su clave traducible |
+| `untestableValue` | entero opcional | Valor reservado para casos no valorables (NIHSS = 9) |
+| `helpKey` | texto opcional | Clave del texto del modo tutorial |
 
-El resultado de cualquier cálculo es un `ScaleResult`:
+El resultado de aplicar una escala se representa como un objeto cerrado que incluye la puntuación, el máximo posible, la severidad clasificada, la interpretación traducible y el desglose por ítem:
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `totalScore` | `int` | Puntuación obtenida |
-| `maxScore` | `int` | Puntuación máxima posible |
-| `severity` | `Severity` | Clasificación de gravedad (`none`, `mild`, `moderate`, `severe`) |
-| `interpretation` | `String` | Clave ARB de la interpretación clínica |
-| `itemScores` | `Map<String, int>` | Desglose por ítem |
+| `totalScore` | entero | Puntuación obtenida |
+| `maxScore` | entero | Puntuación máxima posible |
+| `severity` | enum | Clasificación de gravedad (sin déficit, leve, moderada, grave) |
+| `interpretation` | texto | Clave traducible de la interpretación |
+| `itemScores` | mapa | Puntuación obtenida en cada ítem |
 
 ### Algoritmos clínicos
 
-Los algoritmos se modelan como grafos dirigidos acíclicos de nodos inmutables. Existen dos tipos de nodo (patrón `sealed class`):
+Los algoritmos clínicos se modelan como árboles de decisión inmutables. El árbol es un conjunto de nodos enlazados, donde solo existen dos tipos: nodos de pregunta y nodos de resultado.
 
-**`QuestionNode`** — nodo de pregunta:
-
-| Campo | Tipo | Descripción |
-|---|---|---|
-| `id` | `String` | Identificador del nodo |
-| `questionKey` | `String` | Clave ARB de la pregunta |
-| `hintKey` | `String?` | Texto de ayuda opcional |
-| `options` | `List<AlgorithmOption>` | Opciones disponibles, cada una con `nextNodeId` |
-
-**`ResultNode`** — nodo hoja con resultado clínico:
+Un **nodo de pregunta** plantea una decisión y ofrece varias opciones; cada opción apunta al nodo siguiente:
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `id` | `String` | Identificador del nodo |
-| `titleKey` | `String` | Clave ARB del título del resultado |
-| `urgency` | `AlgorithmUrgency` | Nivel de urgencia: `info`, `low`, `moderate`, `high`, `critical` |
-| `recommendationKeys` | `List<String>` | Lista de claves ARB con recomendaciones |
+| `id` | texto | Identificador del nodo |
+| `questionKey` | texto | Clave traducible de la pregunta |
+| `hintKey` | texto opcional | Texto de ayuda |
+| `options` | lista | Opciones disponibles, cada una con su nodo destino |
 
-El estado de ejecución de un algoritmo se encapsula en `AlgorithmState`:
-
-| Campo / Propiedad | Tipo | Descripción |
-|---|---|---|
-| `definition` | `AlgorithmDefinition` | Definición inmutable del algoritmo |
-| `path` | `List<String>` | Historial de IDs de nodos visitados |
-| `selectedOptionIds` | `List<String>` | Opciones elegidas en cada paso |
-| `currentNode` | `AlgorithmNode` | Nodo actual (calculado) |
-| `isComplete` | `bool` | `true` si el nodo actual es un `ResultNode` |
-| `canGoBack` | `bool` | `true` si hay nodos anteriores en el historial |
-
-### Evaluaciones
-
-La entidad `Evaluation` representa una evaluación clínica completada y persistida:
+Un **nodo de resultado** es una hoja del árbol: no tiene continuación, sino que entrega un resultado clínico con su nivel de urgencia:
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `id` | `String` (UUID) | Identificador único |
-| `userId` | `String` (UUID) | Usuario propietario |
-| `scaleType` | `String` | Tipo de escala (`'gcs'`, `'nihss'`…) |
-| `scaleVersion` | `int` | Versión del protocolo usado |
-| `caseDescription` | `String` | Texto libre anonimizado (validado contra PII) |
-| `totalScore` | `int` | Puntuación obtenida |
-| `interpretation` | `String` | Interpretación clínica |
-| `detailedScores` | `Map<String, dynamic>` | Desglose por ítem (serializado como JSONB) |
-| `createdAt` / `updatedAt` | `DateTime` | Marcas temporales |
-| `patientId` | `String?` (UUID) | Paciente asociado (nullable) |
+| `id` | texto | Identificador del nodo |
+| `titleKey` | texto | Clave traducible del título del resultado |
+| `urgency` | enum | Nivel de urgencia (informativa, baja, moderada, alta, crítica) |
+| `recommendationKeys` | lista | Recomendaciones clínicas asociadas |
 
-### Pacientes
+Durante el recorrido del árbol, la aplicación mantiene un estado de ejecución que recuerda los nodos visitados y permite avanzar, retroceder o reiniciar:
 
-La entidad `Patient` modela un paciente anonimizado:
+| Campo / propiedad | Tipo | Descripción |
+|---|---|---|
+| `definition` | algoritmo | Definición inmutable del algoritmo |
+| `path` | lista | Historial de nodos visitados |
+| `selectedOptionIds` | lista | Opciones elegidas en cada paso |
+| `currentNode` | nodo | Nodo actual (calculado a partir del historial) |
+| `isComplete` | booleano | Indica si se ha llegado a un nodo de resultado |
+| `canGoBack` | booleano | Indica si hay nodos anteriores en el historial |
+
+### Evaluaciones y pacientes
+
+Una **evaluación** representa una escala completada y guardada: contiene la puntuación, la interpretación, el desglose por ítem, las marcas de tiempo y, opcionalmente, una referencia al paciente al que pertenece.
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `id` | `String` (UUID) | Identificador único |
-| `userId` | `String` (UUID) | Usuario propietario |
-| `alias` | `String` | Identificador libre sin PII (1–255 caracteres) |
-| `notes` | `String` | Notas clínicas libres (sin PII) |
-| `createdAt` / `updatedAt` | `DateTime` | Marcas temporales |
+| `id` | UUID | Identificador único |
+| `userId` | UUID | Usuario propietario |
+| `scaleType` | texto | Tipo de escala (`gcs`, `nihss`, etc.) |
+| `scaleVersion` | entero | Versión del protocolo usado |
+| `caseDescription` | texto | Descripción libre anonimizada (validada contra PII) |
+| `totalScore` | entero | Puntuación obtenida |
+| `interpretation` | texto | Interpretación clínica |
+| `detailedScores` | mapa | Desglose por ítem |
+| `patientId` | UUID opcional | Paciente al que se asocia |
+| `createdAt` / `updatedAt` | fecha y hora | Marcas temporales |
+
+Un **paciente** es una entidad mínima por diseño: solo un alias clínico libre y unas notas, sin nombre real, sin DNI ni ningún otro dato identificativo.
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `id` | UUID | Identificador único |
+| `userId` | UUID | Usuario propietario |
+| `alias` | texto | Alias clínico (1–255 caracteres) |
+| `notes` | texto | Notas clínicas libres, sin PII |
+| `createdAt` / `updatedAt` | fecha y hora | Marcas temporales |
 
 ### Usuarios
 
-La entidad de dominio `AppUser` es intencionalmente mínima, ya que los datos de autenticación son gestionados íntegramente por Supabase Auth:
+La entidad de dominio de usuario es intencionalmente mínima, porque todo lo relacionado con autenticación lo gestiona Supabase Auth: contraseñas, sesiones, tokens, confirmación por correo, etc. Lo único que la aplicación necesita conocer de un usuario es su identificador y su correo verificado.
 
 | Campo | Tipo | Descripción |
 |---|---|---|
-| `id` | `String` (UUID) | UUID del usuario en `auth.users` |
-| `email` | `String` | Correo electrónico verificado |
+| `id` | UUID | Identificador en `auth.users` |
+| `email` | texto | Correo electrónico verificado |
 
 ---
 
 ## Modelo de datos persistido
 
-### Base de datos remota (Supabase / PostgreSQL)
+NeuroScale App guarda los datos en dos sitios al mismo tiempo: en el servidor remoto (Supabase / PostgreSQL) y en una caché local del dispositivo (SQLite gestionado por Drift). Cualquier operación de escritura se replica en los dos almacenes; las lecturas intentan primero el servidor y, si la red falla, recurren a la caché sin que el usuario lo perciba.
 
-La base de datos remota consta de dos tablas de aplicación, más las tablas de autenticación gestionadas internamente por Supabase (`auth.users`, `auth.sessions`…).
+### Base de datos remota: Supabase / PostgreSQL
 
-**Tabla `evaluations`**
+El esquema remoto está formado por dos tablas de aplicación —`evaluations` y `patients`— más las tablas internas de autenticación que Supabase gestiona por su cuenta. Las dos tablas siguen las convenciones habituales de PostgreSQL: identificadores UUID, marcas de tiempo con zona horaria, claves foráneas hacia `auth.users` y restricciones de integridad explícitas.
 
-| Columna | Tipo PostgreSQL | Restricciones | Descripción |
+**Tabla `evaluations`:**
+
+| Columna | Tipo | Restricciones | Descripción |
 |---|---|---|---|
-| `id` | `uuid` | PK, `gen_random_uuid()` | Identificador único |
-| `user_id` | `uuid` | FK → `auth.users(id)` ON DELETE CASCADE | Propietario |
-| `scale_type` | `scale_type` (enum) | NOT NULL | `gcs`, `nihss`, `rankin`, `barthel`, `abcd2` |
-| `scale_version` | `smallint` | NOT NULL, default 1 | Versión del protocolo |
-| `case_description` | `text` | NOT NULL, default `''`, máx. 500 chars | Descripción anonimizada |
-| `total_score` | `integer` | NOT NULL | Puntuación total |
-| `interpretation` | `text` | NOT NULL | Clave ARB de interpretación |
-| `detailed_scores` | `jsonb` | NOT NULL, default `{}` | Desglose por ítem |
-| `patient_id` | `uuid` | FK → `patients(id)` ON DELETE CASCADE, nullable | Paciente asociado |
-| `created_at` | `timestamptz` | NOT NULL, default `now()` | Fecha de creación |
-| `updated_at` | `timestamptz` | NOT NULL, trigger `set_updated_at` | Última modificación |
+| `id` | `uuid` | PK, generación automática | Identificador único |
+| `user_id` | `uuid` | FK → `auth.users(id)`, borrado en cascada | Propietario |
+| `scale_type` | enum `scale_type` | No nulo | Una de las cinco escalas |
+| `scale_version` | `smallint` | No nulo, valor por defecto 1 | Versión del protocolo |
+| `case_description` | `text` | No nulo, máximo 500 caracteres | Descripción anonimizada |
+| `total_score` | `integer` | No nulo | Puntuación obtenida |
+| `interpretation` | `text` | No nulo | Interpretación clínica |
+| `detailed_scores` | `jsonb` | No nulo | Desglose por ítem |
+| `patient_id` | `uuid` | FK → `patients(id)`, borrado en cascada, anulable | Paciente asociado |
+| `created_at` | `timestamptz` | No nulo, automático | Fecha de creación |
+| `updated_at` | `timestamptz` | No nulo, actualizado por trigger | Última modificación |
 
-Índices: `(user_id, created_at DESC)`, `(patient_id)`.
+Sobre esta tabla se mantienen dos índices: uno por usuario y fecha (`user_id`, `created_at`) para consultar el historial de forma rápida, y otro por paciente (`patient_id`) para filtrar las evaluaciones de un caso concreto.
 
-**Tabla `patients`**
+**Tabla `patients`:**
 
-| Columna | Tipo PostgreSQL | Restricciones | Descripción |
+| Columna | Tipo | Restricciones | Descripción |
 |---|---|---|---|
-| `id` | `uuid` | PK, `gen_random_uuid()` | Identificador único |
-| `user_id` | `uuid` | FK → `auth.users(id)` ON DELETE CASCADE | Propietario |
-| `alias` | `text` | NOT NULL, length > 0, length ≤ 255 | Alias clínico |
-| `notes` | `text` | NOT NULL, default `''` | Notas libres |
-| `created_at` | `timestamptz` | NOT NULL, default `now()` | Fecha de creación |
-| `updated_at` | `timestamptz` | NOT NULL, trigger `set_updated_at_patients` | Última modificación |
+| `id` | `uuid` | PK, generación automática | Identificador único |
+| `user_id` | `uuid` | FK → `auth.users(id)`, borrado en cascada | Propietario |
+| `alias` | `text` | No nulo, longitud entre 1 y 255 | Alias clínico |
+| `notes` | `text` | No nulo, valor por defecto vacío | Notas libres |
+| `created_at` | `timestamptz` | No nulo, automático | Fecha de creación |
+| `updated_at` | `timestamptz` | No nulo, actualizado por trigger | Última modificación |
 
-Índice: `(user_id, created_at DESC)`.
+### Seguridad: Row Level Security
 
-**Row Level Security (RLS)**
+Ambas tablas tienen activada la seguridad a nivel de fila (RLS), una característica de PostgreSQL que filtra automáticamente las filas que cada usuario puede ver y modificar. Las políticas son simétricas: cada operación (lectura, inserción, actualización, borrado) solo se permite sobre filas donde el `user_id` coincide con el identificador del usuario autenticado. Esta protección actúa a nivel de base de datos, lo que significa que sigue siendo efectiva incluso si la aplicación cliente tuviera errores o si alguien intentase saltarse las comprobaciones del lado cliente.
 
-Ambas tablas tienen RLS habilitado con cuatro políticas simétricas (`select_own`, `insert_own`, `update_own`, `delete_own`) que restringen cada operación a filas donde `auth.uid() = user_id`. La función de autenticación se materializa mediante `(select auth.uid())` en las políticas para evitar la evaluación repetida por fila (migración 0009).
+### Base de datos local: Drift / SQLite
 
-### Base de datos local (Drift / SQLite)
+La caché local replica el subconjunto de datos que el usuario consulta con más frecuencia. El esquema lógico es el mismo, adaptado a los tipos disponibles en SQLite: lo que en PostgreSQL es `jsonb` se almacena como cadena de texto serializada, y los campos opcionales se marcan como anulables.
 
-La caché local replica el subconjunto de datos necesario para el modo offline con el mismo esquema lógico, adaptado a los tipos disponibles en SQLite:
-
-| Tabla Drift | Equivalente remoto | Diferencia |
+| Tabla local | Equivalente remoto | Diferencias relevantes |
 |---|---|---|
-| `Evaluations` | `evaluations` | `detailed_scores` almacenado como `TEXT` (JSON serializado) |
-| `Patients` | `patients` | `notes` es nullable en SQLite |
-
-Los DAOs (`EvaluationsDao`, `PatientsDao`) exponen operaciones de `upsert` por lote e individuales, y consultas filtradas por `userId`. La estrategia de sincronización es **cache-aside**: escritura dual remoto + local; lectura remoto-first con fallback a local ante fallo de red.
+| `Evaluations` | `evaluations` | `detailed_scores` se guarda como JSON en texto plano |
+| `Patients` | `patients` | `notes` admite valor nulo |
 
 ### Edge Functions
 
-La función `delete-account` (Deno/TypeScript, `verify_jwt=true`) ejecuta el borrado en cascada del usuario con privilegios `service_role`, operación que no puede realizarse desde el cliente por limitaciones de RLS. Acepta la petición del usuario autenticado (token en cabecera `Authorization`) y elimina en orden: evaluaciones → pacientes → usuario en `auth.users`.
+La función `delete-account`, escrita en TypeScript sobre Deno, ejecuta el borrado completo de un usuario con privilegios de administrador. Esta operación no se puede hacer desde el cliente porque las políticas RLS lo impedirían (un usuario no puede borrar registros de `auth.users`). La función verifica el token JWT del usuario, comprueba que efectivamente quiere borrarse a sí mismo, y elimina en orden sus evaluaciones, sus pacientes y por último su entrada en `auth.users`.
 
 ---
 
 ## Flujo de navegación
 
-El routing está gestionado por `go_router` con una `StatefulShellRoute` que mantiene el estado de cada rama de navegación entre cambios de pestaña.
+La navegación se construye con `go_router` sobre la primitiva `StatefulShellRoute`, que tiene una propiedad clave: mantiene el estado interno de cada rama de navegación entre cambios de pestaña, evitando reconstrucciones innecesarias y peticiones de red duplicadas.
 
-### Rutas de autenticación (sin shell)
+### Rutas de autenticación (fuera del shell)
 
-| Ruta | Pantalla | Descripción |
+| Ruta | Pantalla | Cuándo se muestra |
 |---|---|---|
-| `/disclaimer` | `DisclaimerScreen` | Aviso médico-legal en primer inicio |
-| `/login` | `LoginScreen` | Inicio de sesión |
-| `/register` | `RegisterScreen` | Registro de cuenta |
-| `/forgot-password` | `ForgotPasswordScreen` | Solicitud de enlace de recuperación |
-| `/reset-password` | `ResetPasswordScreen` | Formulario de nueva contraseña (desde enlace) |
+| `/disclaimer` | Aviso médico-legal | En la primera ejecución de la aplicación |
+| `/login` | Inicio de sesión | Sin sesión activa o tras un cierre |
+| `/register` | Registro | Acceso desde el enlace de login |
+| `/forgot-password` | Solicitud de recuperación | Acceso desde el enlace de login |
+| `/reset-password` | Nueva contraseña | Cuando el usuario pulsa el enlace recibido por correo |
 
-### Shell principal (4 ramas, NavigationBar / NavigationRail)
+### Shell principal (cuatro ramas con estado independiente)
 
-| Rama | Raíz | Subrutas | Descripción |
+| Rama | Raíz | Subrutas | Propósito |
 |---|---|---|---|
-| 0 — Escalas | `/` (`ScalesTabScreen`) | `/scales/gcs`, `/scales/nihss`, `/scales/rankin`, `/scales/barthel`, `/scales/abcd2`, `/result` | Selección y aplicación de escalas |
-| 1 — Pacientes | `/patients` (`PatientsTabScreen`) | `/patients/:id` | Lista y detalle de paciente |
-| 2 — Algoritmos | `/algorithms` (`AlgorithmsTabScreen`) | `/algorithms/:id` | Lista y ejecución de algoritmos |
-| 3 — Perfil | `/profile` | — | Cuenta, tema, idioma |
+| 0 | `/` | `/scales/gcs`, `/scales/nihss`, `/scales/rankin`, `/scales/barthel`, `/scales/abcd2`, `/result` | Aplicación de escalas |
+| 1 | `/patients` | `/patients/:id` | Pacientes y detalle individual |
+| 2 | `/algorithms` | `/algorithms/:id` | Algoritmos clínicos |
+| 3 | `/profile` | — | Cuenta, tema e idioma |
 
-El guard de autenticación (`_RouterNotifier.redirect`) redirige a `/login` cuando no hay sesión activa. El `passwordRecoveryProvider` tiene prioridad sobre el guard estándar y redirige a `/reset-password` cuando se detecta un evento `passwordRecovery` en el stream de Supabase.
+El guardián de autenticación vigila en todo momento si la sesión está activa. Cuando deja de estarlo —por cierre voluntario o por borrado de cuenta— redirige al usuario al login. Hay una excepción que tiene prioridad sobre este comportamiento: si el flujo en curso es una recuperación de contraseña, el guardián redirige a `/reset-password` en lugar de al login, porque en ese caso el usuario sí tiene un token válido aunque limitado.
 
-Las transiciones de página usan una animación combinada de fundido (`FadeTransition`) y deslizamiento hacia arriba (`SlideTransition`) con curva `easeOutCubic`.
+Las transiciones entre pantallas combinan un fundido suave con un desplazamiento ligero hacia arriba, lo justo para que el cambio se note pero no distraiga.
 
 ---
 
 ## Casos de uso
 
-Los siguientes casos de uso cubren los flujos principales del sistema. Las precondiciones y postcondiciones describen el estado observable de la aplicación, no el estado interno.
-
----
+Los casos de uso describen los flujos principales del sistema desde la perspectiva del usuario. Las precondiciones y postcondiciones se refieren al estado observable de la aplicación, no a su estado interno. La estructura es la habitual para una memoria académica: actor, precondiciones, postcondiciones, flujo principal y flujos alternativos.
 
 ### CU-01 — Registrar nueva cuenta
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario no autenticado |
-| **Precondiciones** | La aplicación está en la pantalla de login o registro |
-| **Postcondiciones** | La cuenta está creada en Supabase Auth; el usuario recibe un correo de confirmación |
+| **Precondiciones** | La aplicación muestra el login o la pantalla de registro |
+| **Postcondiciones** | La cuenta queda creada y el usuario recibe un correo de confirmación |
 
 **Flujo principal:**
-1. El usuario navega a `/register`.
-2. Introduce correo electrónico y contraseña (mínimo 6 caracteres).
-3. El sistema valida el formato del correo y la longitud de la contraseña en cliente.
-4. `SignUpUseCase` invoca `supabase.auth.signUp()`.
-5. Supabase envía un correo de confirmación al usuario.
-6. La aplicación muestra un mensaje de verificación pendiente.
+1. El usuario navega a la pantalla de registro.
+2. Introduce correo y contraseña (mínimo de seis caracteres).
+3. La aplicación valida el formato en el cliente antes de enviar nada al servidor.
+4. El servicio de autenticación procesa el alta y envía un correo con un enlace de confirmación.
+5. La aplicación muestra un mensaje informando de que la verificación está pendiente.
 
 **Flujos alternativos:**
-- 3a. Correo con formato inválido → mensaje de error localizado, sin llamada al servidor.
-- 4a. Correo ya registrado → `AuthFailure` con mensaje `emailAlreadyInUse`.
-
----
+- Si el formato del correo no es válido, se muestra un error en el cliente sin contactar con el servidor.
+- Si el correo ya está registrado, el servicio devuelve un error específico y se traduce a un mensaje legible.
 
 ### CU-02 — Iniciar sesión
 
 | Campo | Descripción |
 |---|---|
-| **Actores** | Usuario registrado y con cuenta confirmada |
-| **Precondiciones** | La aplicación muestra `/login` |
-| **Postcondiciones** | Sesión activa; el usuario es redirigido a la pantalla de escalas (`/`) |
+| **Actores** | Usuario registrado con cuenta confirmada |
+| **Precondiciones** | La aplicación muestra el login |
+| **Postcondiciones** | Sesión activa, usuario redirigido a la pantalla principal |
 
 **Flujo principal:**
-1. El usuario introduce correo y contraseña.
-2. `SignInUseCase` invoca `supabase.auth.signInWithPassword()`.
-3. Supabase valida las credenciales y devuelve un `Session`.
-4. `authStateProvider` detecta el cambio de estado y el guard de routing redirige a `/`.
+1. El usuario introduce sus credenciales.
+2. El servicio de autenticación las valida y devuelve una sesión.
+3. El proveedor de estado detecta la sesión y el guardián de navegación redirige a la pantalla de escalas.
 
 **Flujos alternativos:**
-- 2a. Contraseña incorrecta → `AuthFailure` con mensaje `invalidCredentials`.
-- 2b. Sin conexión → `NetworkFailure`; la pantalla de login muestra el `OfflineBanner`.
+- Una contraseña incorrecta produce un mensaje de error traducible.
+- La pérdida de conexión muestra el aviso de modo offline y bloquea el intento hasta que se restablezca la red.
 
----
-
-### CU-03 — Aplicar escala neurológica
+### CU-03 — Aplicar una escala neurológica
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario está en la pestaña de escalas (`/`) |
-| **Postcondiciones** | La pantalla de resultado muestra la puntuación y la interpretación clínica |
+| **Precondiciones** | El usuario se encuentra en la pestaña de escalas |
+| **Postcondiciones** | Se muestra la pantalla de resultado con la puntuación y la interpretación clínica |
 
 **Flujo principal:**
-1. El usuario selecciona una escala de la lista (p. ej. GCS).
-2. La aplicación navega a `/scales/gcs` y presenta los ítems secuencialmente.
-3. El usuario selecciona una opción por cada ítem.
-4. La calculadora de dominio (`calculateGcs`) computa la puntuación en tiempo real.
-5. Al completar todos los ítems, el botón «Calcular» lleva a `/result`.
-6. `ResultScreen` muestra la puntuación total, la clasificación de gravedad (con el color clínico correspondiente) y el desglose por ítem.
+1. El usuario selecciona una escala de la lista.
+2. La aplicación presenta los ítems uno a uno con su barra de progreso.
+3. El usuario marca una opción por ítem.
+4. La calculadora del dominio devuelve la puntuación y la interpretación al momento.
+5. Al completar todos los ítems, el botón principal lleva a la pantalla de resultado, que muestra la puntuación en un círculo con el color de severidad, el desglose por ítem y un aviso clínico explícito.
 
 **Flujos alternativos:**
-- 4a. El usuario activa el botón ? en un ítem → se abre el `BottomSheet` tutorial con la descripción clínica y la referencia bibliográfica.
-- 5a. El usuario vuelve atrás → el estado del formulario se conserva (Riverpod `Notifier`).
-
----
+- El usuario puede pulsar el botón de ayuda de cualquier ítem para abrir la ficha del modo tutorial.
+- Si vuelve atrás, el estado del formulario se conserva.
 
 ### CU-04 — Guardar evaluación
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
-| **Precondiciones** | Se muestra la pantalla de resultado de una escala completada |
-| **Postcondiciones** | La evaluación queda persistida en Supabase y en la caché local Drift |
+| **Precondiciones** | El usuario está en la pantalla de resultado de una escala |
+| **Postcondiciones** | La evaluación queda persistida en el servidor y en la caché local |
 
 **Flujo principal:**
-1. El usuario pulsa «Guardar» en `ResultScreen`.
-2. Aparece un formulario que permite seleccionar un paciente (opcional) e introducir una descripción libre.
-3. `PiiDetector.containsPii()` valida en tiempo real la descripción; si detecta PII, el botón de guardar queda deshabilitado.
-4. `SaveEvaluationUseCase` persiste la evaluación en Supabase y en Drift.
-5. La pantalla muestra `AnimatedCheck` como confirmación visual.
+1. El usuario pulsa «Guardar» en la pantalla de resultado.
+2. Aparece un formulario para seleccionar paciente y añadir una descripción libre.
+3. El detector de PII valida la descripción en tiempo real; si encuentra algún patrón sensible, deshabilita el botón hasta que el texto se corrija.
+4. La aplicación guarda la evaluación simultáneamente en el servidor y en la caché local.
+5. Una animación de check confirma que la operación ha terminado.
 
 **Flujos alternativos:**
-- 3a. Descripción contiene un DNI → se muestra el mensaje `piiDetectedError`; el guardado está bloqueado hasta corregirlo.
-- 4a. Fallo de red → la evaluación se persiste solo en Drift; se sincroniza al reconectar.
+- Si la descripción contiene un DNI o similar, se muestra el aviso correspondiente.
+- Si falla la red, la evaluación se guarda solo en local y se sincronizará al reconectar.
 
----
-
-### CU-05 — Consultar historial de evaluaciones
+### CU-05 — Consultar historial
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
 | **Precondiciones** | El usuario tiene al menos una evaluación guardada |
-| **Postcondiciones** | La pantalla muestra la lista de evaluaciones según el orden seleccionado |
+| **Postcondiciones** | La lista de evaluaciones se muestra con el orden elegido |
 
 **Flujo principal:**
-1. El usuario accede a la pantalla de escalas y navega al historial.
-2. `FetchEvaluationsUseCase` recupera las evaluaciones del usuario desde Supabase.
-3. La lista se muestra ordenada por fecha descendente (más reciente primero) por defecto.
-4. El usuario puede cambiar el orden mediante el menú: más reciente, más antigua, por escala.
+1. El usuario accede a la lista de evaluaciones.
+2. La aplicación recupera el historial desde el servidor.
+3. La lista aparece ordenada por fecha descendente; el usuario puede cambiar el orden por más antigua o por escala.
 
 **Flujos alternativos:**
-- 2a. Sin conexión → se muestran las evaluaciones de la caché Drift con el `OfflineBanner` visible.
-- 4a. El usuario desliza un ítem → aparece la acción de borrado con confirmación.
-
----
+- Sin conexión, la lista se sirve desde la caché con el aviso de modo offline visible.
+- El usuario puede deslizar una evaluación para eliminarla con confirmación previa.
 
 ### CU-06 — Ver evolución temporal de un paciente
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
-| **Precondiciones** | El paciente tiene al menos dos evaluaciones de la misma escala registradas en fechas distintas |
-| **Postcondiciones** | El gráfico muestra la evolución temporal de la puntuación seleccionada |
+| **Precondiciones** | El paciente tiene al menos dos evaluaciones de la misma escala en fechas distintas |
+| **Postcondiciones** | El gráfico muestra la evolución temporal de la escala seleccionada |
 
 **Flujo principal:**
-1. El usuario navega a `/patients` y selecciona un paciente.
-2. `PatientDetailScreen` carga las evaluaciones asociadas.
-3. El selector de escala permite elegir la serie a visualizar (GCS, Barthel, etc.).
-4. El `LineChart` (fl_chart) dibuja los puntos de puntuación con el eje X proporcional al tiempo real y el eje Y normalizado al rango de la escala.
-5. El usuario puede pulsar un punto para ver el tooltip con puntuación exacta, fecha y hora.
+1. El usuario abre el detalle del paciente.
+2. La aplicación carga las evaluaciones asociadas.
+3. El usuario elige qué escala visualizar.
+4. El gráfico dibuja los puntos de puntuación con el eje horizontal proporcional al tiempo real entre evaluaciones.
+5. Al pulsar un punto, se muestra una etiqueta emergente con puntuación, fecha y hora exactas.
 
 **Flujos alternativos:**
-- 3a. Solo hay evaluaciones de una escala → el selector se muestra preseleccionado sin posibilidad de cambio.
-- 2a. Sin evaluaciones → pantalla de estado vacío con llamada a la acción.
+- Si solo hay evaluaciones de una escala, el selector aparece preseleccionado.
+- Sin evaluaciones, se muestra un estado vacío con la acción de crear la primera.
 
----
-
-### CU-07 — Ejecutar algoritmo clínico
+### CU-07 — Ejecutar un algoritmo clínico
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario está en la pestaña de algoritmos (`/algorithms`) |
-| **Postcondiciones** | La pantalla muestra el resultado con nivel de urgencia y recomendaciones |
+| **Precondiciones** | El usuario se encuentra en la pestaña de algoritmos |
+| **Postcondiciones** | La pantalla muestra el resultado clínico con su nivel de urgencia |
 
 **Flujo principal:**
-1. El usuario selecciona un algoritmo (p. ej. Código Ictus).
-2. La aplicación navega a `/algorithms/strokeCode` y presenta el primer nodo.
-3. El usuario responde cada pregunta seleccionando una opción.
-4. `stepAlgorithm()` actualiza el `AlgorithmState` y el nodo actual cambia con animación de barrido.
-5. Al alcanzar un `ResultNode`, la pantalla muestra el título del resultado, el color de urgencia (`ClinicalColors`) y las recomendaciones.
-6. El botón «Reiniciar» limpia el estado y vuelve al primer nodo.
+1. El usuario selecciona un algoritmo.
+2. La aplicación presenta la primera pregunta con sus opciones.
+3. A cada respuesta, el árbol avanza al siguiente nodo con una animación lateral.
+4. Al llegar a un nodo final, se muestra el título del resultado, las recomendaciones y el nivel de urgencia con su color asociado.
 
 **Flujos alternativos:**
-- 3a. El usuario pulsa «Atrás» → `backAlgorithm()` retrocede un paso en el historial.
+- El usuario puede volver al paso anterior o reiniciar el algoritmo en cualquier momento.
 
----
-
-### CU-08 — Gestionar paciente
+### CU-08 — Gestionar un paciente
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario está en la pestaña de pacientes |
-| **Postcondiciones** | La lista de pacientes refleja la operación realizada (creación, edición o borrado) |
+| **Precondiciones** | El usuario se encuentra en la pestaña de pacientes |
+| **Postcondiciones** | La lista de pacientes refleja la operación realizada |
 
-**Flujo principal (creación):**
-1. El usuario pulsa el botón flotante «Nuevo paciente».
-2. Introduce un alias clínico libre (p. ej. `P-001`).
-3. `CreatePatientUseCase` persiste el paciente en Supabase y en Drift.
-4. La lista se actualiza con el nuevo paciente en primer lugar.
+**Flujo principal de creación:**
+1. El usuario pulsa el botón de nuevo paciente.
+2. Introduce un alias clínico libre.
+3. La aplicación lo persiste en remoto y en local.
+4. El nuevo paciente aparece en lo alto de la lista.
 
-**Flujo alternativo (borrado):**
-1. El usuario desliza un paciente en la lista o accede al detalle y pulsa «Eliminar».
-2. Se muestra un `AlertDialog` de confirmación.
-3. `DeletePatientUseCase` borra el paciente de Supabase.
-4. La restricción `ON DELETE CASCADE` elimina automáticamente todas las evaluaciones asociadas.
-5. La caché Drift se actualiza.
+**Flujo alternativo de borrado:**
+- El usuario desliza un paciente o accede al detalle y pulsa eliminar; la aplicación pide confirmación y, al aceptar, borra el paciente. La restricción de cascada en la base de datos elimina automáticamente sus evaluaciones asociadas.
 
----
-
-### CU-09 — Configurar preferencias de usuario
+### CU-09 — Configurar preferencias
 
 | Campo | Descripción |
 |---|---|
 | **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario está en la pantalla de perfil (`/profile`) |
-| **Postcondiciones** | El tema y/o el idioma cambian inmediatamente y persisten entre sesiones |
+| **Precondiciones** | El usuario se encuentra en la pantalla de perfil |
+| **Postcondiciones** | El tema o el idioma cambian al instante y persisten entre sesiones |
 
 **Flujo principal:**
-1. El usuario accede a `/profile`.
-2. Selecciona el tema (claro, oscuro, automático) mediante `SegmentedButton`.
-3. `ThemeNotifier` actualiza el estado en Riverpod y persiste la preferencia en `SharedPreferences`.
-4. `MaterialApp` reconstruye con el nuevo `ThemeMode`.
-5. El usuario selecciona el idioma (español/inglés) en el selector correspondiente.
-6. `LocaleProvider` actualiza el `locale` de `MaterialApp`.
-
----
+1. El usuario abre el perfil.
+2. Selecciona el tema (claro, oscuro o automático).
+3. La aplicación reconstruye la interfaz con el nuevo tema y guarda la preferencia.
+4. El usuario selecciona el idioma (español o inglés) y la aplicación lo aplica al instante.
 
 ### CU-10 — Recuperar acceso con contraseña olvidada
 
 | Campo | Descripción |
 |---|---|
-| **Actores** | Usuario registrado sin sesión activa |
-| **Precondiciones** | La aplicación muestra `/login` |
-| **Postcondiciones** | La contraseña ha sido cambiada; el usuario tiene sesión activa |
+| **Actores** | Usuario registrado sin sesión |
+| **Precondiciones** | La aplicación muestra el login |
+| **Postcondiciones** | La contraseña queda cambiada y el usuario tiene sesión activa |
 
 **Flujo principal:**
-1. El usuario pulsa «¿Olvidaste tu contraseña?» y navega a `/forgot-password`.
-2. Introduce su correo; `AuthRepository.requestPasswordReset()` envía el enlace.
-3. El usuario abre el enlace en el dispositivo donde tiene la app instalada.
-4. Supabase emite un evento `passwordRecovery`; `passwordRecoveryProvider` redirige a `/reset-password`.
+1. El usuario pulsa el enlace de contraseña olvidada y navega a la pantalla correspondiente.
+2. Introduce su correo y solicita el enlace de recuperación.
+3. Abre el enlace en el mismo dispositivo donde tiene la aplicación instalada.
+4. La aplicación detecta el evento de recuperación y redirige a la pantalla de nueva contraseña.
 5. El usuario introduce y confirma la nueva contraseña.
-6. `AuthRepository.updatePassword()` actualiza la contraseña; se muestra `AnimatedCheck`.
-7. El guard de routing redirige a `/`.
-
----
+6. La aplicación la guarda y muestra la animación de confirmación.
+7. El guardián de navegación redirige a la pantalla principal.
 
 ### CU-11 — Eliminar cuenta y datos
 
@@ -464,15 +428,14 @@ Los siguientes casos de uso cubren los flujos principales del sistema. Las preco
 |---|---|
 | **Actores** | Usuario autenticado |
 | **Precondiciones** | El usuario está en la pantalla de perfil |
-| **Postcondiciones** | La cuenta y todos los datos asociados han sido eliminados irreversiblemente |
+| **Postcondiciones** | La cuenta y todos los datos asociados han sido borrados de forma irreversible |
 
 **Flujo principal:**
-1. El usuario pulsa «Eliminar cuenta» en la sección de administración de cuenta.
-2. Se muestra un `AlertDialog` con advertencia de irreversibilidad y botón de confirmación en rojo.
-3. `DeleteAccountUseCase` invoca la Edge Function `delete-account` con el token JWT del usuario.
-4. La Edge Function borra evaluaciones, pacientes y el registro en `auth.users` con `service_role`.
-5. `authStateProvider` detecta la sesión cerrada; el guard redirige a `/login`.
-6. La caché Drift local se limpia en el próximo inicio de sesión.
+1. El usuario pulsa la opción de eliminar cuenta.
+2. Aparece un diálogo de advertencia sobre la irreversibilidad de la operación.
+3. Al confirmar, la aplicación invoca la función de servidor que borra al usuario.
+4. La función elimina en orden las evaluaciones, los pacientes y el propio usuario.
+5. El proveedor de estado detecta el cierre de sesión y el guardián redirige al login.
 
 **Flujos alternativos:**
-- 3a. El token ha expirado → `AuthFailure`; se solicita re-autenticación antes de reintentar.
+- Si el token ha expirado, la aplicación pide al usuario que vuelva a autenticarse antes de reintentar la operación.
