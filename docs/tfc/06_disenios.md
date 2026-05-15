@@ -6,42 +6,98 @@ Los diagramas de esta sección se pueden visualizar directamente en GitHub abrie
 
 ## Arquitectura de la solución
 
-Muestra cómo el cliente Flutter se organiza en capas (presentación, dominio, datos) y cómo estas se conectan con los servicios externos de Supabase y con el hosting de GitHub.
+El diagrama presenta el funcionamiento global de la aplicación desde la perspectiva del usuario: cómo accede al sistema, qué secciones puede recorrer, qué contenido encuentra en cada una y cómo los resultados se persisten en la base de datos. Es una vista funcional centrada en el flujo de uso, no en las capas técnicas internas (que se describen en el apartado de Descripción del sistema).
 
 ```mermaid
-flowchart TB
-    subgraph cliente["Cliente — Aplicación Flutter"]
-        direction TB
-        UI["Capa de presentación (pantallas, widgets)"]
-        State["Gestión de estado (Riverpod)"]
-        UseCase["Casos de uso (domain)"]
-        Calc["Calculadoras puras (escalas y algoritmos)"]
-        Repo["Repositorios (data)"]
-        LocalDB["Caché local (Drift / SQLite)"]
-    end
-    subgraph backend["Backend — Supabase"]
-        direction TB
-        Auth["Auth Service (JWT)"]
-        Postgres["PostgreSQL + Row Level Security"]
-        EdgeFn["Edge Function: delete-account"]
-    end
-    subgraph hosting["Hosting y CI/CD — GitHub"]
-        direction TB
-        Repo2["Repositorio (rama main)"]
-        Actions["GitHub Actions (CI + Deploy)"]
-        Pages["GitHub Pages (versión web pública)"]
-    end
-    UI --> State
-    State --> UseCase
-    UseCase --> Calc
-    UseCase --> Repo
-    Repo --> LocalDB
-    Repo -.->|HTTPS / PostgREST| Auth
-    Repo -.->|HTTPS / PostgREST| Postgres
-    Repo -.->|HTTPS| EdgeFn
-    Repo2 -->|push| Actions
-    Actions -->|deploy| Pages
+flowchart LR
+    %% Entrada al sistema
+    login[["🔐 Login / Registro<br/>(Supabase Auth)"]]
+
+    %% Pantalla principal
+    inicio["🏠 <b>Inicio</b>"]
+
+    %% Cuatro secciones del shell
+    escalas["📋 Escalas"]
+    pacientes["👥 Pacientes"]
+    algoritmos["🔀 Algoritmos"]
+    perfil["⚙️ Perfil"]
+
+    %% Las cinco escalas
+    gcs(["GCS"])
+    nihss(["NIHSS"])
+    mrs(["mRS"])
+    barthel(["Barthel"])
+    abcd2(["ABCD²"])
+
+    %% Los tres algoritmos
+    ictus(["Código Ictus"])
+    hta(["HTA en ictus"])
+    hsa(["HSA Hunt-Hess<br/>+ Fisher"])
+
+    %% Contenido de pacientes
+    grafico[/"📈 Gráfico de<br/>evolución temporal"/]
+
+    %% Contenido de perfil
+    config[/"🎨 Tema · 🌐 Idioma<br/>🗑️ Eliminar cuenta"/]
+
+    %% Salidas visibles al usuario
+    resultado[/"📊 <b>Resultado</b><br/>Puntuación + severidad<br/>+ interpretación clínica"/]
+
+    %% Servicios backend
+    db[("🗄️ Base de datos<br/>Supabase + caché Drift")]
+    edge["⚙️ Edge Function<br/>delete-account"]
+
+    %% Actor
+    user(("👨‍⚕️<br/>Profesional<br/>sanitario"))
+
+    %% Flujo de autenticación
+    user --> login
+    login --> inicio
+
+    %% Inicio se ramifica en las 4 secciones
+    inicio --> escalas
+    inicio --> pacientes
+    inicio --> algoritmos
+    inicio --> perfil
+
+    %% Escalas → cinco escalas → resultado
+    escalas --> gcs
+    escalas --> nihss
+    escalas --> mrs
+    escalas --> barthel
+    escalas --> abcd2
+    gcs --> resultado
+    nihss --> resultado
+    mrs --> resultado
+    barthel --> resultado
+    abcd2 --> resultado
+
+    %% Algoritmos → tres árboles → resultado
+    algoritmos --> ictus
+    algoritmos --> hta
+    algoritmos --> hsa
+    ictus --> resultado
+    hta --> resultado
+    hsa --> resultado
+
+    %% Pacientes → gráfico
+    pacientes --> grafico
+
+    %% Perfil → config + delete
+    perfil --> config
+    config -.->|invoca| edge
+
+    %% Persistencia
+    resultado -.->|guardar evaluación| db
+    grafico -.->|consultar| db
+    edge -.->|borrado en cascada| db
+
+    %% Resultados visibles al usuario
+    resultado --> user
+    grafico --> user
 ```
+
+El recorrido típico del usuario es el siguiente: tras autenticarse con Supabase Auth, accede a la pantalla principal desde donde puede dirigirse a cualquiera de las cuatro secciones del *shell*. Si entra en **Escalas**, elige una de las cinco escalas disponibles y obtiene un resultado clínico con su severidad; si entra en **Algoritmos**, recorre uno de los tres árboles de decisión y llega al mismo tipo de resultado. En **Pacientes** consulta los pacientes guardados y el gráfico de evolución temporal de sus evaluaciones, y en **Perfil** ajusta sus preferencias o elimina su cuenta. Todos los resultados se persisten en la base de datos (Supabase + caché local con Drift) y vuelven al usuario en forma de feedback visual.
 
 ---
 
