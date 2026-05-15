@@ -15,13 +15,19 @@ Los objetivos específicos son:
 
 ---
 
+## Cómo leer este apartado
+
+Cada requisito se describe en cuatro niveles de detalle. El nivel **R** (Requisito) presenta la necesidad del usuario en lenguaje natural. El nivel **F** (Función) describe qué hace la aplicación para cubrirla. El nivel **T** (Tarea) entra en el detalle técnico de cómo se implementó. Y el nivel **P** (Prueba) indica cómo se verifica que la implementación cumple lo que promete. Un lector no técnico puede quedarse en los niveles R y F y obtener una visión completa del alcance; un lector técnico puede descender a T y P para validar cada componente.
+
+---
+
 ## R01 — Autenticación y gestión de cuenta
 
-El usuario debe poder crear una cuenta, iniciar sesión con correo electrónico y contraseña, recuperar el acceso ante una contraseña olvidada, modificar su contraseña estando autenticado y eliminar su cuenta junto con todos los datos asociados.
+Cualquier persona que quiera utilizar NeuroScale App debe identificarse primero. La autenticación es la puerta de entrada a todo lo demás: sin sesión activa, la aplicación no muestra ninguna evaluación ni permite crear pacientes. Este requisito agrupa todo lo relacionado con la gestión de la cuenta del usuario, desde el registro inicial hasta el borrado definitivo de la misma. El objetivo es que cualquier usuario pueda crearse una cuenta, recuperar el acceso si olvida la contraseña, modificarla cuando lo desee y, llegado el caso, eliminar su cuenta junto con todos los datos asociados sin dejar rastros.
 
 ### R01F01 — Registro de nueva cuenta
 
-El sistema ofrece un formulario de registro con validación de formato de correo electrónico y longitud mínima de contraseña. Supabase Auth envía un enlace de confirmación al correo indicado; hasta que el usuario confirma, la cuenta permanece inactiva.
+Un usuario nuevo abre la aplicación y encuentra un formulario sencillo: introduce su correo electrónico, elige una contraseña y la confirma. La aplicación comprueba que el correo tiene un formato válido y que la contraseña cumple un mínimo de longitud, y a continuación envía un enlace de verificación al correo indicado. Hasta que el usuario hace clic en ese enlace y confirma su dirección, la cuenta permanece inactiva. Este paso evita que alguien pueda registrarse con un correo que no le pertenece.
 
 **R01F01T01** — Implementar `SignUpUseCase` que invoca `supabase.auth.signUp()` y convierte la respuesta en una entidad `AppUser` o lanza `AuthFailure` ante credenciales inválidas.
 
@@ -29,7 +35,7 @@ El sistema ofrece un formulario de registro con validación de formato de correo
 
 ### R01F02 — Inicio de sesión
 
-El sistema autentica al usuario mediante par correo/contraseña. Un guard de `go_router` redirige automáticamente a `/login` si la sesión no está activa y a la pantalla principal en caso contrario.
+Una vez confirmada la cuenta, el usuario inicia sesión introduciendo su correo y contraseña. Si las credenciales son correctas, la aplicación abre la pantalla principal con las escalas; si la sesión no está activa, cualquier intento de acceder a otras zonas redirige automáticamente al login. Este comportamiento, llamado *guard* de autenticación, garantiza que el flujo de la aplicación respeta siempre el estado de la sesión.
 
 **R01F02T01** — Implementar `SignInUseCase` con `supabase.auth.signInWithPassword()`, gestión de errores localizados y redireccionamiento mediante `authStateProvider`.
 
@@ -37,7 +43,7 @@ El sistema autentica al usuario mediante par correo/contraseña. Un guard de `go
 
 ### R01F03 — Recuperación de contraseña
 
-El sistema envía un enlace de restablecimiento al correo registrado. Al activar el enlace, la aplicación detecta el tipo de evento `passwordRecovery` en el stream de autenticación y redirige al usuario a la pantalla `/reset-password`.
+Si el usuario olvida su contraseña, no debería perder el acceso a sus pacientes y evaluaciones. La aplicación le permite solicitar un enlace de recuperación: introduce su correo, recibe un mensaje con un enlace seguro y, al pulsarlo desde su dispositivo, llega a una pantalla donde puede definir una contraseña nueva. La aplicación detecta automáticamente este flujo gracias al sistema de eventos de autenticación de Supabase.
 
 **R01F03T01** — Implementar `passwordRecoveryProvider` (Riverpod) que escucha `onAuthStateChange` y activa la ruta de restablecimiento; formulario de nueva contraseña con confirmación y `AnimatedCheck` de confirmación.
 
@@ -45,7 +51,7 @@ El sistema envía un enlace de restablecimiento al correo registrado. Al activar
 
 ### R01F04 — Cambio de contraseña autenticado
 
-Desde la pantalla de perfil, el usuario puede cambiar su contraseña verificando primero la contraseña actual. El sistema rechaza el cambio si la verificación falla, evitando que un tercero con acceso físico al dispositivo cambie la contraseña sin conocerla.
+Aunque no haya olvidado su contraseña, el usuario puede querer cambiarla por motivos de seguridad o de costumbre. Desde la pantalla de perfil tiene un formulario que se lo permite, pero con una garantía importante: antes de aceptar el cambio, la aplicación le pide que introduzca también la contraseña actual. De este modo, si alguien obtiene acceso físico al dispositivo con una sesión abierta, no podrá apropiarse de la cuenta cambiando la contraseña sin conocerla previamente.
 
 **R01F04T01** — Implementar lógica de re-autenticación en `ProfileNotifier`: `signIn()` de verificación → si ok, `updatePassword()`; lanzar `AuthFailure` si la contraseña actual es incorrecta.
 
@@ -53,7 +59,7 @@ Desde la pantalla de perfil, el usuario puede cambiar su contraseña verificando
 
 ### R01F05 — Borrado de cuenta y datos
 
-El usuario puede eliminar su cuenta desde el perfil. La operación invoca una Edge Function de Supabase con privilegios de administrador (`service_role`) que borra en cascada evaluaciones, pacientes y el propio usuario de `auth.users`. La operación es irreversible y requiere confirmación explícita mediante diálogo.
+El RGPD reconoce al usuario el derecho a eliminar sus datos personales del servicio. NeuroScale App lo implementa de forma íntegra: desde el perfil, el usuario puede solicitar el borrado de su cuenta, y la aplicación elimina en cascada todas sus evaluaciones, pacientes y la propia cuenta de autenticación. La operación es irreversible y por eso se solicita confirmación explícita mediante un diálogo de advertencia antes de ejecutarla.
 
 **R01F05T01** — Implementar Edge Function `delete-account` (Deno/TypeScript) con `verify_jwt=true`; llamarla desde `DeleteAccountUseCase`; mostrar `AlertDialog` de confirmación antes de ejecutar.
 
@@ -63,11 +69,11 @@ El usuario puede eliminar su cuenta desde el perfil. La operación invoca una Ed
 
 ## R02 — Aplicación de escalas neurológicas
 
-El sistema debe implementar las cinco escalas neurológicas más utilizadas en neurología de urgencias con calculadoras clínicamente correctas, clasificación de gravedad por tramos y modo tutorial que explique el significado clínico de cada ítem.
+Las escalas son el corazón funcional de NeuroScale App. El usuario las aplica a un paciente, responde a cada uno de sus ítems, obtiene una puntuación y una interpretación clínica de gravedad, y opcionalmente guarda el resultado. Las cinco escalas implementadas son las más utilizadas en neurología de urgencias en el sistema sanitario español: la Escala de Coma de Glasgow para valorar el nivel de consciencia, la NIHSS para cuantificar la gravedad del ictus isquémico, la Escala de Rankin modificada para medir la discapacidad neurológica tras un ictus, el Índice de Barthel para evaluar la independencia en las actividades básicas de la vida diaria, y la escala ABCD² para estimar el riesgo de ictus tras un accidente isquémico transitorio. Cada una incluye un modo tutorial pensado para estudiantes y profesionales que necesiten refrescar el significado clínico de cada ítem.
 
 ### R02F01 — Glasgow Coma Scale (GCS)
 
-Evaluación del nivel de consciencia mediante tres subescalas: apertura ocular (O, 1–4), respuesta verbal (V, 1–5) y respuesta motora (M, 1–6). Puntuación total 3–15. Clasificación: grave (3–8), moderado (9–12), leve (13–15).
+La GCS es la escala más conocida para medir el nivel de consciencia de un paciente, especialmente útil en traumatismos craneoencefálicos y emergencias neurológicas. Pregunta tres cosas: con qué facilidad abre los ojos el paciente, qué calidad tiene su respuesta verbal y cómo responde con el movimiento. La puntuación va de 3 a 15, y la aplicación clasifica el resultado en tres tramos: grave (3–8), moderado (9–12) o leve (13–15). Cuanto más baja la puntuación, más profunda la alteración de la consciencia.
 
 **R02F01T01** — Implementar `GcsCalculator.calculate(o, v, m)` como función pura que retorna `ScaleResult` con puntuación e interpretación de severidad.
 
@@ -75,7 +81,7 @@ Evaluación del nivel de consciencia mediante tres subescalas: apertura ocular (
 
 ### R02F02 — NIHSS (National Institutes of Health Stroke Scale)
 
-Valoración de la gravedad del ictus isquémico mediante 11 ítems neurológicos. Puntuación 0–42. Soporte para ítem marcado como no valorable (`UN`). Aviso clínico automático cuando la puntuación indica coma (nivel de consciencia 0). Clasificación: sin déficit (0), mínimo (1–4), leve (5–15), moderado (16–20), moderado-grave (21–25), grave (26–42).
+La NIHSS es la herramienta de referencia para cuantificar la gravedad de un ictus isquémico en su fase aguda. Está compuesta por 11 ítems que recorren el examen neurológico completo: nivel de consciencia, orientación, mirada, campo visual, parálisis facial, fuerza en cada extremidad, ataxia, sensibilidad, lenguaje, disartria y atención. La puntuación total va de 0 (sin déficit) a 42 (déficit muy grave). Algunos ítems pueden marcarse como no valorables (por ejemplo, si el paciente está intubado y no se le puede evaluar la palabra); la escala asigna a esos casos el valor convencional 9. La aplicación incluye además un aviso clínico automático cuando la puntuación del primer ítem indica coma.
 
 **R02F02T01** — Implementar `NihssCalculator.calculate(items)` que maneja valores `UN` como `9` según el protocolo estándar; generar aviso de coma cuando el ítem 1a = 3. Implementar UI con campo `Untestable` por ítem.
 
@@ -83,7 +89,7 @@ Valoración de la gravedad del ictus isquémico mediante 11 ítems neurológicos
 
 ### R02F03 — Modified Rankin Scale (mRS)
 
-Escala de discapacidad neurológica post-ictus de selección única. Rango 0–6, incluyendo grado 6 (fallecido). Clasificación: sin síntomas (0), sin discapacidad significativa (1), discapacidad leve (2), moderada (3), moderadamente grave (4), grave (5), fallecido (6).
+A diferencia de las escalas anteriores, la mRS no se calcula sumando ítems: el clínico observa al paciente y selecciona directamente un grado del 0 al 6 que describe su nivel de discapacidad neurológica. El grado 0 significa que no tiene síntomas, los grados intermedios cubren distintos niveles de dependencia (sin discapacidad significativa, leve, moderada, moderadamente grave, grave) y el grado 6 corresponde al fallecimiento del paciente. Es la escala estándar para describir el desenlace funcional de un ictus a los tres o seis meses de evolución.
 
 **R02F03T01** — Implementar `RankinCalculator.calculate(grade)` con mapeo de grado a `Severity`; pantalla de selección única con descripción clínica por grado.
 
@@ -91,15 +97,15 @@ Escala de discapacidad neurológica post-ictus de selección única. Rango 0–6
 
 ### R02F04 — Índice de Barthel
 
-Valoración de la independencia funcional en actividades de la vida diaria (AVD) mediante 10 ítems. Puntuación 0–100. Clasificación: dependencia total (0–20), grave (21–60), moderada (61–90), leve (91–99), independencia total (100).
+El Índice de Barthel mide hasta qué punto un paciente puede realizar las actividades básicas de la vida diaria de forma autónoma. Recorre diez aspectos del día a día: comer, asearse, ducharse, vestirse, controlar los esfínteres, usar el inodoro, trasladarse de la cama a la silla, caminar y subir escaleras. Cada ítem suma un número distinto de puntos según el grado de autonomía, y el total va de 0 (dependencia total) a 100 (independencia completa). La aplicación implementa los pesos exactos de la versión española validada por Baztán y colaboradores, que es la que se utiliza de forma estándar en el sistema sanitario español.
 
 **R02F04T01** — Implementar `BarthelCalculator.calculate(items)` con los valores exactos de cada ítem según la versión validada en español (Baztán 1993); validar que ningún ítem supere su máximo permitido.
 
 > **R02F04T01P01** — Prueba unitaria que cubre todos los umbrales de clasificación, valores límite de cada ítem y puntuaciones con combinaciones de cero. Implementada en `test/features/scales/barthel/barthel_calculator_test.dart` (16 tests). Commit: `7ced22c`.
 
-### R02F05 — ABCD² (Stratificación de riesgo post-AIT)
+### R02F05 — ABCD² (estratificación de riesgo post-AIT)
 
-Escala de cinco ítems para cuantificar el riesgo de ictus en los dos días siguientes a un accidente isquémico transitorio (AIT). Puntuación 0–7. Clasificación: riesgo bajo (0–3), moderado (4–5), alto (6–7).
+Cuando un paciente sufre un accidente isquémico transitorio (un episodio breve con síntomas de ictus que remiten en menos de 24 horas), una pregunta clínica clave es: ¿cuál es la probabilidad de que sufra un ictus completo en los próximos días? La escala ABCD² responde a esta pregunta mediante cinco factores de riesgo: edad del paciente, presión arterial en el momento del episodio, tipo de síntomas clínicos, duración del episodio y presencia de diabetes. La suma de los cinco factores va de 0 a 7 y permite clasificar al paciente en riesgo bajo (0–3), moderado (4–5) o alto (6–7), lo que orienta sobre la urgencia con que debe ser estudiado.
 
 **R02F05T01** — Implementar `Abcd2Calculator.calculate(items)` con los pesos exactos por ítem (edad, presión arterial, clínica, duración, diabetes); pantalla de 5 preguntas con opciones múltiples.
 
@@ -107,7 +113,7 @@ Escala de cinco ítems para cuantificar el riesgo de ictus en los dos días sigu
 
 ### R02F06 — Modo tutorial por ítem
 
-Cada ítem de las escalas GCS, NIHSS, Barthel y ABCD² dispone de un botón de ayuda contextual (?) que abre un `BottomSheet` con la descripción clínica del criterio y su referencia bibliográfica. El modo tutorial está diseñado para estudiantes y profesionales que deseen refrescar el significado de cada ítem durante la evaluación.
+Cada escala se aplica respondiendo a varios ítems clínicos cuyo significado no siempre es evidente para alguien que está aprendiendo o que la usa de forma poco frecuente. Por eso, junto a cada pregunta de las escalas GCS, NIHSS, Barthel y ABCD² aparece un pequeño botón con un signo de interrogación: al pulsarlo se abre una ficha emergente con la descripción clínica del ítem y la referencia bibliográfica de la fuente original. El modo tutorial no condiciona el flujo de la evaluación: el usuario que ya conoce la escala simplemente lo ignora.
 
 **R02F06T01** — Implementar `ScaleItemHelpButton` con `helpKey` asociada a cada ítem; 31 claves ARB en ES+EN con textos clínicos revisados; `BottomSheet` con título, descripción y referencia.
 
@@ -117,11 +123,11 @@ Cada ítem de las escalas GCS, NIHSS, Barthel y ABCD² dispone de un botón de a
 
 ## R03 — Algoritmos clínicos de decisión
 
-El sistema debe implementar tres árboles de decisión clínica guiados que orienten al profesional paso a paso, con indicación de nivel de urgencia clasificado en cinco categorías (`crítica`, `alta`, `moderada`, `baja`, `informativa`).
+Las escalas son una herramienta de medida; los algoritmos clínicos son una herramienta de decisión. Cuando un profesional se enfrenta a un paciente con sospecha de ictus, no solo necesita medir su NIHSS: necesita decidir si activa el Código Ictus, si administra tratamiento fibrinolítico, qué hacer con su presión arterial o qué grado de hemorragia subaracnoidea presenta. NeuroScale App implementa tres de los árboles de decisión más relevantes en neurología de urgencias. Cada uno guía al usuario paso a paso, le pregunta los datos que necesita y entrega un resultado final que combina una indicación clínica con un nivel de urgencia (informativa, baja, moderada, alta o crítica).
 
 ### R03F01 — Código Ictus (fibrinólisis intravenosa)
 
-Árbol de decisión que evalúa los criterios de inclusión y exclusión para la administración de tPA (alteplasa) en ventana terapéutica de 3–4,5 horas. Cada nodo muestra una pregunta con dos opciones; el resultado final indica si el paciente cumple los criterios y qué acción clínica priorizar.
+El Código Ictus es el protocolo de actuación urgente ante una sospecha de ictus isquémico agudo. Su objetivo es decidir si el paciente cumple los criterios para recibir tratamiento con tPA (alteplasa), un fibrinolítico que solo puede administrarse dentro de una ventana terapéutica de 3 a 4,5 horas desde el inicio de los síntomas. El algoritmo guía al usuario por una serie de preguntas sobre tiempo, gravedad neurológica, contraindicaciones y comorbilidades, y entrega como resultado una recomendación clara sobre si el paciente es candidato a fibrinólisis o no.
 
 **R03F01T01** — Implementar `StrokeCodeAlgorithm` como árbol de nodos inmutables (`AlgorithmNode`) con función pura `evaluate(nodeId, answer)`; pantalla `AlgorithmScreen` con animación de barrido entre nodos.
 
@@ -129,7 +135,7 @@ El sistema debe implementar tres árboles de decisión clínica guiados que orie
 
 ### R03F02 — HTA en ictus agudo
 
-Algoritmo de manejo de la presión arterial en la fase aguda del ictus, con ramificaciones según el tipo de ictus (isquémico con o sin reperfusión, hemorragia intracerebral, hemorragia subaracnoidea) y los valores de presión arterial sistólica y diastólica del paciente.
+La presión arterial en la fase aguda de un ictus se maneja de forma muy distinta según el tipo de ictus que sufra el paciente. En un ictus isquémico sin reperfusión se tolera una presión más alta para preservar la circulación cerebral; en un ictus isquémico con reperfusión, en cambio, la presión debe controlarse estrictamente para evitar la transformación hemorrágica. En una hemorragia intracerebral los objetivos son más estrictos aún, y en una hemorragia subaracnoidea entran en juego otros factores como el vasoespasmo. El algoritmo recorre estas ramas pidiendo al usuario el tipo de ictus y los valores de presión, y entrega los objetivos terapéuticos y las indicaciones farmacológicas adecuadas en cada caso.
 
 **R03F02T01** — Implementar `HtaIctusAlgorithm` con nodos paramétricos que admiten valor numérico de PA; lógica de comparación de umbrales dentro de la función pura de evaluación.
 
@@ -137,7 +143,7 @@ Algoritmo de manejo de la presión arterial en la fase aguda del ictus, con rami
 
 ### R03F03 — HSA Hunt-Hess / Fisher
 
-Algoritmo combinado para la clasificación clínica (escala Hunt-Hess, grados I–V) y radiológica (escala Fisher modificada, grados 1–4) de la hemorragia subaracnoidea. Orienta sobre la indicación de intervención neuroquirúrgica urgente.
+Ante una hemorragia subaracnoidea (la rotura de un aneurisma cerebral, una emergencia neurológica de primer orden), el clínico necesita clasificar al paciente con dos criterios independientes para decidir el manejo: una clasificación clínica basada en el estado neurológico del paciente (la escala Hunt-Hess, con cinco grados de I a V) y una clasificación radiológica basada en la imagen de TC craneal (la escala Fisher modificada, con cuatro grados de 1 a 4). El algoritmo presenta ambas escalas de forma secuencial, recoge las dos respuestas y combina las dos clasificaciones en el resultado final, orientando sobre la prioridad de la intervención neuroquirúrgica.
 
 **R03F03T01** — Implementar `SahAlgorithm` con dos subramas independientes (clínica y radiológica) que se presentan secuencialmente; mostrar ambas clasificaciones en el resultado final.
 
@@ -147,11 +153,11 @@ Algoritmo combinado para la clasificación clínica (escala Hunt-Hess, grados I�
 
 ## R04 — Gestión de pacientes anonimizados
 
-El sistema debe permitir crear, listar, visualizar y eliminar pacientes identificados únicamente por un alias clínico libre (p. ej. `P-001` o `Demo-TCE-01`). Nunca se almacenará el nombre real ni ningún dato identificativo directo o indirecto.
+Una de las diferencias fundamentales de NeuroScale App frente a otras aplicaciones de cálculo clínico es que permite agrupar las evaluaciones por paciente, lo que hace posible monitorizar la evolución de un caso a lo largo del tiempo. Para hacerlo cumpliendo el RGPD y evitar el almacenamiento de datos personales, los pacientes se identifican mediante un alias clínico libre (por ejemplo `P-001`, `Box-3-Lunes` o `Demo-TCE-01`) que el propio usuario elige y que no contiene información identificativa real. La aplicación se asegura activamente de que ningún dato sensible se cuele en los campos de texto libre mediante un detector de patrones de PII.
 
 ### R04F01 — Creación de paciente con alias
 
-El usuario introduce un alias libre sin PII. El sistema valida que el campo no esté vacío y persiste el paciente tanto en la base de datos remota (Supabase) como en la caché local (Drift).
+El usuario crea un paciente nuevo desde la pestaña de pacientes y le asigna un alias libre, sin más restricciones que el alias no esté vacío y no supere una longitud máxima razonable. Una vez creado, el paciente queda guardado tanto en la base de datos remota como en la caché local del dispositivo, de modo que está disponible incluso si se pierde la conexión a Internet en el momento de seleccionarlo.
 
 **R04F01T01** — Implementar `CreatePatientUseCase` con doble persistencia remota/local; formulario con validación de campo obligatorio y longitud máxima.
 
@@ -159,7 +165,7 @@ El usuario introduce un alias libre sin PII. El sistema valida que el campo no e
 
 ### R04F02 — Listado y detalle de paciente
 
-La pantalla de pacientes muestra la lista con avatar de iniciales y color tonal único por paciente. Al seleccionar un paciente, se accede a su pantalla de detalle con el historial de evaluaciones y el gráfico de evolución.
+La pestaña de pacientes muestra una lista visualmente clara donde cada paciente aparece representado por un avatar circular con sus iniciales y un color único derivado de su alias, lo que ayuda a distinguirlos de un vistazo. Al seleccionar uno, se accede a su pantalla de detalle, que reúne el historial de evaluaciones asociadas y el gráfico de evolución temporal. El listado funciona aunque no haya conexión, sirviendo los datos desde la caché local.
 
 **R04F02T01** — Implementar `FetchPatientsUseCase` con estrategia remote-first + fallback local; `PatientAvatar` con color derivado del alias mediante hash determinista.
 
@@ -167,7 +173,7 @@ La pantalla de pacientes muestra la lista con avatar de iniciales y color tonal 
 
 ### R04F03 — Borrado con propagación en cascada
 
-Al eliminar un paciente, el sistema borra también todas las evaluaciones asociadas mediante restricción de clave foránea con `ON DELETE CASCADE` en la base de datos. El usuario confirma la operación mediante diálogo.
+Cuando un usuario elimina un paciente, la aplicación borra también todas las evaluaciones que tenía asociadas. Mantenerlas huérfanas no tendría sentido clínico ni cumpliría con la expectativa razonable del usuario (que asume que "borrar al paciente" elimina todo lo relacionado con él). La cascada se aplica directamente en la base de datos mediante una restricción de clave foránea, de modo que la operación es atómica y no puede dejar registros inconsistentes. La operación pide confirmación previa porque es irreversible.
 
 **R04F03T01** — Implementar `DeletePatientUseCase` que invoca `supabase.from('patients').delete()` y borra el registro local de Drift; la cascada en BD elimina evaluaciones automáticamente.
 
@@ -175,7 +181,7 @@ Al eliminar un paciente, el sistema borra también todas las evaluaciones asocia
 
 ### R04F04 — Protección activa frente a PII en la descripción del caso
 
-El campo de texto libre `case_description` de las evaluaciones está protegido por un detector de expresiones regulares que identifica patrones de DNI/NIE, NIF, correo electrónico, número de teléfono español y fecha de nacimiento. Si se detecta PII, el guardado queda bloqueado y se muestra un mensaje de error localizado.
+Cada evaluación tiene un campo de texto libre donde el usuario puede anotar contexto clínico relevante: "Paciente con TCE leve, GCS 14, sin pérdida de consciencia". El problema potencial es que ese campo, al ser libre, podría usarse por descuido para introducir datos identificativos del paciente (un nombre, un DNI, un teléfono). NeuroScale App detecta activamente esos patrones mediante expresiones regulares y bloquea el guardado mostrando un mensaje de aviso. La protección no es perfecta —ningún detector lo es— pero cubre los formatos identificativos más habituales en España y reduce drásticamente la probabilidad de incumplimiento involuntario del RGPD.
 
 **R04F04T01** — Implementar `PiiDetector.containsPii(text)` como función pura con 5 patrones de expresión regular; integrar la validación en `SaveEvaluationUseCase` antes de persistir.
 
@@ -185,11 +191,11 @@ El campo de texto libre `case_description` de las evaluaciones está protegido p
 
 ## R05 — Historial y evolución temporal
 
-El sistema debe almacenar cada evaluación completada con su escala, puntuación, interpretación, fecha/hora, alias del paciente y descripción del caso; y presentar el historial con opciones de ordenación y un gráfico de evolución temporal por escala.
+Aplicar una escala y obtener un resultado es solo la mitad del valor clínico que ofrece NeuroScale App. La otra mitad es poder consultar más tarde lo que se aplicó, compararlo con evaluaciones anteriores y observar la evolución del paciente a lo largo del tiempo. Este requisito agrupa todo lo relacionado con la persistencia, listado, visualización y borrado de evaluaciones, incluyendo el gráfico de evolución temporal que permite ver de un vistazo si un paciente mejora o empeora.
 
 ### R05F01 — Guardado de evaluaciones
 
-Al finalizar una escala, el usuario puede guardar el resultado asociándolo a un paciente existente y añadiendo una descripción de caso opcional (protegida por el detector de PII). La evaluación se persiste de forma síncrona en remoto y en la caché local.
+Al terminar de aplicar una escala, el usuario llega a la pantalla de resultado, donde puede ver la puntuación, la interpretación clínica y el desglose por ítem. Desde ahí puede guardar la evaluación pulsando un botón fijo en la parte inferior. Antes de hacerlo, la aplicación le ofrece asociar el resultado a un paciente existente y añadir una descripción opcional del caso. Si la descripción contiene PII, el guardado queda bloqueado hasta que el usuario corrija el texto. Una vez guardada, una pequeña animación de confirmación le indica que todo ha ido bien.
 
 **R05F01T01** — Implementar `SaveEvaluationUseCase` con validación de PII, doble persistencia y generación de UUID local; `ResultScreen` con botón Guardar sticky y feedback visual mediante `AnimatedCheck`.
 
@@ -197,7 +203,7 @@ Al finalizar una escala, el usuario puede guardar el resultado asociándolo a un
 
 ### R05F02 — Listado de evaluaciones con filtros
 
-La pantalla de historial muestra las evaluaciones del usuario con posibilidad de ordenar por más reciente, más antigua o por escala. Cada ítem muestra la franja de color de la escala, el chip de puntuación con color de severidad y la fecha de evaluación.
+Una vez guardadas las evaluaciones, el usuario quiere revisarlas. La pantalla de historial las muestra como una lista ordenada por fecha, mostrando para cada una la escala aplicada, la puntuación con su color de severidad, la fecha y la información del paciente al que corresponde. El usuario puede cambiar el orden a su gusto: por más reciente, más antigua o agrupado por escala. Cada tarjeta usa una franja de color para identificar visualmente la escala de un solo vistazo, lo que ayuda a localizar rápidamente lo que se busca.
 
 **R05F02T01** — Implementar `FetchEvaluationsUseCase` con parámetro `orderBy`; `EvaluationTile` con `SeverityBadge` y franja de color por escala.
 
@@ -205,7 +211,7 @@ La pantalla de historial muestra las evaluaciones del usuario con posibilidad de
 
 ### R05F03 — Gráfico de evolución temporal
 
-La pantalla de detalle de paciente incluye un gráfico `LineChart` (fl_chart) que representa la evolución de la puntuación por escala a lo largo del tiempo. El eje X es temporal y proporcional al tiempo real; cada punto del gráfico muestra un tooltip con puntuación, fecha y hora al pulsarlo.
+Cuando un paciente tiene varias evaluaciones de la misma escala separadas en el tiempo, la pregunta clínica natural es: ¿va mejor, igual o peor que la última vez? El gráfico de evolución temporal responde a esta pregunta visualmente. En la pantalla de detalle del paciente, el usuario selecciona qué escala quiere visualizar y aparece una gráfica de líneas donde el eje horizontal es el tiempo (proporcional a la separación real entre evaluaciones) y el eje vertical es la puntuación. Al pulsar cualquier punto del gráfico, una pequeña etiqueta emergente muestra la puntuación exacta, la fecha y la hora de esa evaluación concreta.
 
 **R05F03T01** — Implementar `PatientDetailScreen` con selector de escala; normalizar puntuaciones al rango [0–1] para representar múltiples escalas en el mismo eje Y; eje X proporcional calculado desde epoch.
 
@@ -213,7 +219,7 @@ La pantalla de detalle de paciente incluye un gráfico `LineChart` (fl_chart) qu
 
 ### R05F04 — Borrado individual de evaluaciones
 
-El usuario puede eliminar una evaluación del historial de forma individual mediante acción deslizante (`Dismissible`) con confirmación. El borrado propaga la eliminación a la caché local.
+A veces el usuario guarda una evaluación por error, o quiere eliminar registros antiguos que ya no le interesan. La aplicación permite borrar evaluaciones de forma individual desde el historial: basta con deslizar el dedo sobre una tarjeta y la aplicación pide confirmación antes de eliminarla. El borrado se propaga simultáneamente a la base de datos remota y a la caché local, de modo que la coherencia se mantiene incluso si la conexión se pierde antes de completar la operación.
 
 **R05F04T01** — Implementar `DeleteEvaluationUseCase` con borrado remoto + local; `Dismissible` con dirección de inicio a fin y diálogo de confirmación.
 
@@ -223,11 +229,11 @@ El usuario puede eliminar una evaluación del historial de forma individual medi
 
 ## R06 — Persistencia local y modo offline
 
-La aplicación debe funcionar sin conexión a Internet en Android e iOS, sirviendo los datos desde una caché local SQLite gestionada por Drift, e informar al usuario del estado de conectividad mediante un banner persistente.
+En un entorno hospitalario o en una zona rural, no siempre hay conexión a Internet disponible. Sería problemático que NeuroScale App dejara de funcionar en esas situaciones, justo cuando más se necesita. Por eso la aplicación incluye un modo offline completo en Android e iOS: guarda una copia local de los datos del usuario en una base de datos SQLite gestionada por Drift y los sirve desde ahí cuando no hay conexión. Cuando la conexión vuelve, las nuevas operaciones se sincronizan automáticamente con el servidor.
 
 ### R06F01 — Base de datos local con Drift/SQLite
 
-Drift actúa como capa de caché-aside para las tablas `evaluations` y `patients`. Las operaciones de escritura son duales (remoto + local); las operaciones de lectura usan el remoto como fuente primaria y el local como fallback ante fallo de red.
+Cada evaluación y cada paciente que el usuario crea se guarda al mismo tiempo en dos sitios: en el servidor de Supabase y en una pequeña base de datos local que vive en el dispositivo. La aplicación intenta siempre leer primero desde el servidor (porque puede haber cambios hechos desde otro dispositivo), pero si falla por falta de conexión, recurre al almacén local sin que el usuario perciba la diferencia. Este patrón se conoce como *cache-aside* y es el que mejor se adapta a aplicaciones móviles con conectividad irregular.
 
 **R06F01T01** — Implementar `AppDatabase` con las tablas `EvaluationsTable` y `PatientsTable`; DAOs `EvaluationsDao` y `PatientsDao`; integración en los repositorios mediante `try remote / catch → local`.
 
@@ -235,7 +241,7 @@ Drift actúa como capa de caché-aside para las tablas `evaluations` y `patients
 
 ### R06F02 — Banner de estado de conectividad
 
-Cuando el dispositivo pierde la conexión, aparece un banner en la parte superior de la pantalla con el mensaje localizado `offlineBannerMessage`. El banner desaparece automáticamente al recuperar la conexión.
+Aunque la aplicación funcione sin conexión, es útil que el usuario sepa que está trabajando en modo offline, sobre todo si lo está haciendo sin darse cuenta. Cuando el dispositivo pierde la conectividad, una pequeña franja informativa aparece en la parte superior de la pantalla con un mensaje localizado que avisa de la situación. En cuanto se recupera la conexión, la franja desaparece automáticamente, sin que el usuario tenga que hacer nada.
 
 **R06F02T01** — Implementar `isOfflineProvider` con `connectivity_plus`; `OfflineBanner` que se inserta condicionalmente en el slot `persistentHeader` del `AppShell`.
 
@@ -245,11 +251,11 @@ Cuando el dispositivo pierde la conexión, aparece un banner en la parte superio
 
 ## R07 — Internacionalización español/inglés
 
-La aplicación debe estar completamente localizada en español e inglés, con posibilidad de seleccionar el idioma desde la pantalla de perfil y persistir la preferencia entre sesiones.
+NeuroScale App nació pensada para profesionales y estudiantes hispanohablantes, pero queríamos también que fuera accesible para usuarios en inglés sin tener que mantener dos versiones distintas del código. Por eso, desde la primera versión todas las cadenas de texto de la interfaz —incluidos los textos clínicos del modo tutorial, los mensajes de error y los avisos de PII— están traducidas a los dos idiomas y el usuario puede cambiar entre ellos desde la pantalla de perfil.
 
 ### R07F01 — Catálogo de cadenas ARB con flutter_localizations
 
-Todas las cadenas de texto de la interfaz, incluidos mensajes de error, etiquetas de escalas, textos clínicos del modo tutorial y avisos de PII, residen en los ficheros `lib/l10n/app_es.arb` y `lib/l10n/app_en.arb`. El código generado por `flutter gen-l10n` queda excluido del analizador.
+Todas las cadenas de texto que aparecen en la interfaz viven en dos ficheros centralizados (uno por idioma) en lugar de estar repartidas por los componentes de la aplicación. Cada texto tiene una clave única y el sistema oficial de internacionalización de Flutter se encarga de elegir la traducción correcta según el idioma activo. El proyecto mantiene 519 textos en español y 519 en inglés, y un proceso de generación automática los convierte en clases tipadas que el código puede consumir con seguridad.
 
 **R07F01T01** — Mantener los dos ficheros ARB en sincronía (519 entradas cada uno); configurar `AppLocalizations` en `MaterialApp`; ejecutar `flutter gen-l10n` como paso previo al análisis estático en CI.
 
@@ -257,7 +263,7 @@ Todas las cadenas de texto de la interfaz, incluidos mensajes de error, etiqueta
 
 ### R07F02 — Selector de idioma con persistencia
 
-La pantalla de perfil incluye un selector de idioma (español / inglés). La preferencia se almacena en `SharedPreferences` y se lee al iniciar la aplicación, antes de construir el árbol de widgets.
+Desde la pantalla de perfil, el usuario puede cambiar el idioma de la aplicación entre español e inglés. El cambio se aplica al instante y se recuerda entre sesiones, de modo que la próxima vez que abra la aplicación seguirá apareciendo en el idioma elegido sin tener que volver a seleccionarlo.
 
 **R07F02T01** — Implementar `LocaleProvider` (Riverpod) que lee y escribe la preferencia en `SharedPreferences`; pasar el `locale` resuelto a `MaterialApp.locale`.
 
@@ -267,11 +273,11 @@ La pantalla de perfil incluye un selector de idioma (español / inglés). La pre
 
 ## R08 — Diseño responsive multiplataforma
 
-La aplicación debe adaptar su navegación y disposición a los tres factores de forma principales: móvil (< 600 dp), tablet/escritorio (≥ 600 dp) y web (Chrome / GitHub Pages).
+NeuroScale App debe funcionar igual de bien en el móvil que usa el residente para una consulta rápida, en la tablet de la sala de urgencias y en el navegador del ordenador de despacho. Para cubrir esas tres formas de uso, la interfaz se adapta automáticamente al tamaño de pantalla disponible: cambia la navegación, distribuye el contenido en una o dos columnas, y ajusta los anchos máximos para que la lectura sea cómoda en cualquier dispositivo.
 
 ### R08F01 — Navegación adaptativa
 
-En móvil se utiliza `NavigationBar` (M3) en la parte inferior; en tablet y escritorio se sustituye por `NavigationRail` lateral. El cambio se produce automáticamente al superar el breakpoint de 600 dp.
+En un dispositivo móvil con pantalla estrecha, la navegación principal de la aplicación aparece como una barra inferior con los iconos de las cuatro secciones (escalas, pacientes, algoritmos y perfil). En tablet o escritorio, esa misma barra se transforma en un panel lateral vertical (NavigationRail), que aprovecha mejor el espacio horizontal disponible. El cambio se produce automáticamente cuando el ancho de la ventana supera los 600 píxeles, sin que el usuario tenga que configurar nada.
 
 **R08F01T01** — Implementar `AppShell` con `StatefulShellRoute` de `go_router` y condición `MediaQuery.of(context).size.width >= 600` para seleccionar el tipo de navegación.
 
@@ -279,7 +285,7 @@ En móvil se utiliza `NavigationBar` (M3) en la parte inferior; en tablet y escr
 
 ### R08F02 — Layouts adaptados a tablet
 
-Las pantallas principales (escalas, pacientes, algoritmos, perfil) aplican `ResponsiveContainer` con ancho máximo de 800 dp y, en tablet, presentan un grid de dos columnas donde el contenido lo permite.
+En una pantalla grande, mostrar el contenido en una sola columna estrecha desperdicia el espacio disponible y obliga al usuario a hacer más scroll del necesario. Por eso, en las pantallas de escalas, pacientes, algoritmos y perfil, la aplicación aplica un ancho máximo razonable y, cuando tiene sentido, distribuye el contenido en dos columnas. El caso más visible es la pantalla de detalle del paciente, que en tablet muestra el listado de evaluaciones a la izquierda y el gráfico de evolución a la derecha, permitiendo consultar ambos sin tener que cambiar de pestaña.
 
 **R08F02T01** — Implementar `ResponsiveContainer` con `LayoutBuilder` y `BoxConstraints.maxWidth`; adaptar `PatientDetailScreen` a dos columnas (lista de evaluaciones + gráfico) en tablet.
 
@@ -287,7 +293,7 @@ Las pantallas principales (escalas, pacientes, algoritmos, perfil) aplican `Resp
 
 ### R08F03 — Despliegue web continuo (GitHub Pages)
 
-La versión web se publica automáticamente en `https://grisllo.github.io/NeuroScaleApp/` mediante un flujo de GitHub Actions que construye con `flutter build web --base-href /NeuroScaleApp/` y despliega en la rama `gh-pages` en cada push a `main`.
+Para que cualquier persona pueda probar NeuroScale App sin necesidad de instalar nada, la aplicación se publica como sitio web estático en GitHub Pages. Cada vez que se hace un push de cambios a la rama principal del repositorio, un proceso automatizado compila la versión web, la sube al hosting y la deja disponible públicamente en la URL del proyecto. Esto convierte cada commit en `main` en un despliegue inmediato, sin pasos manuales ni intervención del desarrollador.
 
 **R08F03T01** — Configurar `deploy.yml` con acción `subosito/flutter-action` para el build y `peaceiris/actions-gh-pages` para el deploy; incluir `flutter.js` y `manifest.json` para soporte PWA.
 
