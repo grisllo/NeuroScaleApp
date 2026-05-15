@@ -82,49 +82,6 @@ flowchart LR
 
 ---
 
-## Diagrama de casos de uso
-
-Resume las once acciones que un usuario puede realizar sobre el sistema, agrupadas en cuatro bloques funcionales.
-
-```mermaid
-flowchart LR
-    actor(("Usuario"))
-    subgraph autenticacion["Autenticación"]
-        cu01([CU-01 · Registrar cuenta])
-        cu02([CU-02 · Iniciar sesión])
-        cu10([CU-10 · Recuperar acceso])
-        cu11([CU-11 · Eliminar cuenta])
-    end
-    subgraph clinico["Uso clínico"]
-        cu03([CU-03 · Aplicar escala])
-        cu04([CU-04 · Guardar evaluación])
-        cu05([CU-05 · Consultar historial])
-        cu06([CU-06 · Ver evolución del paciente])
-        cu07([CU-07 · Ejecutar algoritmo])
-    end
-    subgraph gestion["Gestión"]
-        cu08([CU-08 · Gestionar paciente])
-    end
-    subgraph ajustes["Ajustes"]
-        cu09([CU-09 · Configurar preferencias])
-    end
-    actor --> cu01
-    actor --> cu02
-    actor --> cu10
-    actor --> cu03
-    actor --> cu04
-    actor --> cu05
-    actor --> cu06
-    actor --> cu07
-    actor --> cu08
-    actor --> cu09
-    actor --> cu11
-```
-
-La descripción detallada de cada caso de uso —con precondiciones, postcondiciones, datos de entrada y salida, tablas, clases e interfaces— se encuentra en el apartado de Descripción del sistema.
-
----
-
 ## Diagrama de clases del dominio
 
 Muestra las entidades del dominio (escalas, algoritmos, evaluaciones, pacientes) y sus relaciones. No incluye las capas de datos ni de presentación, que dependen del dominio y no al revés.

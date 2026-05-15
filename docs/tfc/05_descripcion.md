@@ -245,13 +245,29 @@ Las transiciones entre pantallas combinan un fundido suave con un desplazamiento
 
 ## Casos de uso
 
-El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartado **Diagrama de casos de uso**. Las tablas siguientes describen cada caso de uso con sus datos de entrada y salida, las tablas de base de datos implicadas, las clases del dominio involucradas y las interfaces de usuario correspondientes.
+Las tablas siguientes describen cada uno de los once casos de uso del sistema con su correspondiente diagrama UML. Para cada caso se especifica una descripción funcional, las precondiciones y postcondiciones, los datos de entrada y salida, las tablas de base de datos implicadas, las clases del dominio involucradas y las interfaces de usuario correspondientes.
+
+En los diagramas, las relaciones se representan con el siguiente criterio: una línea continua entre actor y caso de uso indica asociación directa; las flechas discontinuas etiquetadas con `<<include>>` indican una funcionalidad que el caso de uso incluye obligatoriamente; las etiquetadas con `<<extend>>` representan una funcionalidad opcional que extiende al caso de uso principal.
 
 ---
 
 ### CU-01 — Registrar nueva cuenta
 
 **Descripción:** El usuario crea una nueva cuenta en la aplicación introduciendo su correo electrónico y una contraseña.
+
+```mermaid
+flowchart LR
+    user(("Usuario<br/>no autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-01<br/>Registrar nueva cuenta"])
+        val(["Validar formato<br/>de correo"])
+    end
+    auth[("Supabase Auth")]
+    user --- uc
+    uc -.->|include| val
+    uc -->|alta usuario| auth
+    auth -.->|email confirmación| user
+```
 
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
@@ -279,6 +295,20 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 **Descripción:** El usuario accede a la aplicación con su correo electrónico y contraseña registrados.
 
+```mermaid
+flowchart LR
+    user(("Usuario<br/>registrado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-02<br/>Iniciar sesión"])
+        guard(["Activar guardián<br/>de navegación"])
+    end
+    auth[("Supabase Auth")]
+    user --- uc
+    uc -->|credenciales| auth
+    auth -.->|token JWT| uc
+    uc -.->|include| guard
+```
+
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
 | El usuario tiene cuenta confirmada | Sesión activa con token JWT |
@@ -305,6 +335,21 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 **Descripción:** El usuario aplica una de las cinco escalas neurológicas (GCS, NIHSS, mRS, Barthel o ABCD²) y obtiene la puntuación con su interpretación clínica.
 
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-03<br/>Aplicar escala"])
+        calc(["Calcular<br/>puntuación"])
+        res(["Mostrar resultado<br/>con severidad"])
+        tut(["Consultar tutorial<br/>de ítem"])
+    end
+    user --- uc
+    uc -.->|include| calc
+    uc -.->|include| res
+    tut -.->|extend| uc
+```
+
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
 | El usuario está autenticado | La pantalla de resultado muestra la puntuación |
@@ -312,8 +357,8 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 | DATOS DE ENTRADA | DATOS DE SALIDA |
 |---|---|
-| Respuestas a los ítems de la escala | Puntuación total |
-| Escala seleccionada | Clasificación de gravedad |
+| Escala seleccionada | Puntuación total |
+| Respuestas a los ítems de la escala | Clasificación de gravedad |
 | | Desglose de puntuación por ítem |
 
 | TABLAS | CLASES |
@@ -331,7 +376,22 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 ### CU-04 — Guardar evaluación
 
-**Descripción:** El usuario guarda el resultado de una escala asociándolo a un paciente y una descripción libre del caso.
+**Descripción:** El usuario guarda el resultado de una escala asociándolo a un paciente y a una descripción libre del caso.
+
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-04<br/>Guardar evaluación"])
+        pii(["Validar PII<br/>en descripción"])
+        link(["Asociar a<br/>paciente"])
+    end
+    db[("Supabase<br/>+ caché local")]
+    user --- uc
+    uc -.->|include| pii
+    link -.->|extend| uc
+    uc -->|persistir| db
+```
 
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
@@ -361,6 +421,21 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 **Descripción:** El usuario consulta la lista de evaluaciones guardadas con opciones de ordenación.
 
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-05<br/>Consultar historial"])
+        order(["Ordenar por<br/>fecha o escala"])
+        del(["Borrar<br/>evaluación"])
+    end
+    db[("Supabase<br/>+ caché local")]
+    user --- uc
+    order -.->|extend| uc
+    del -.->|extend| uc
+    uc -->|leer| db
+```
+
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
 | El usuario tiene al menos una evaluación guardada | La lista de evaluaciones se muestra ordenada |
@@ -385,6 +460,23 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 ### CU-06 — Ver evolución temporal de un paciente
 
 **Descripción:** El usuario visualiza la evolución de las puntuaciones de un paciente a lo largo del tiempo mediante un gráfico de líneas.
+
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-06<br/>Ver evolución del paciente"])
+        sel(["Seleccionar<br/>escala"])
+        chart(["Renderizar gráfico<br/>temporal"])
+        tip(["Mostrar tooltip<br/>al pulsar punto"])
+    end
+    db[("Supabase<br/>+ caché local")]
+    user --- uc
+    uc -.->|include| sel
+    uc -.->|include| chart
+    tip -.->|extend| chart
+    uc -->|leer evaluaciones| db
+```
 
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
@@ -412,6 +504,23 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 **Descripción:** El usuario recorre un árbol de decisión clínica guiado (Código Ictus, HTA o HSA) y obtiene una recomendación con nivel de urgencia.
 
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-07<br/>Ejecutar algoritmo"])
+        ans(["Responder<br/>pregunta"])
+        res(["Mostrar resultado<br/>con urgencia"])
+        back(["Volver atrás<br/>en el árbol"])
+        reset(["Reiniciar<br/>algoritmo"])
+    end
+    user --- uc
+    uc -.->|include| ans
+    uc -.->|include| res
+    back -.->|extend| uc
+    reset -.->|extend| uc
+```
+
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
 | El usuario está autenticado | La pantalla muestra el resultado clínico |
@@ -419,8 +528,8 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 | DATOS DE ENTRADA | DATOS DE SALIDA |
 |---|---|
-| Respuestas a las preguntas de cada nodo | Resultado clínico |
-| | Nivel de urgencia (info / baja / moderada / alta / crítica) |
+| Algoritmo seleccionado | Resultado clínico |
+| Respuestas a las preguntas de cada nodo | Nivel de urgencia (info / baja / moderada / alta / crítica) |
 | | Lista de recomendaciones |
 
 | TABLAS | CLASES |
@@ -439,6 +548,27 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 ### CU-08 — Gestionar un paciente
 
 **Descripción:** El usuario crea, consulta o elimina un paciente identificado únicamente por un alias clínico anonimizado.
+
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-08<br/>Gestionar paciente"])
+        c(["Crear paciente"])
+        v(["Consultar<br/>paciente"])
+        d(["Eliminar paciente<br/>(cascada)"])
+        conf(["Confirmar<br/>borrado"])
+    end
+    db[("Supabase<br/>+ caché local")]
+    user --- uc
+    uc -.->|include| c
+    uc -.->|include| v
+    uc -.->|include| d
+    d -.->|include| conf
+    c --> db
+    v --> db
+    d --> db
+```
 
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
@@ -467,6 +597,22 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 
 **Descripción:** El usuario cambia el tema visual de la aplicación o el idioma de la interfaz.
 
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-09<br/>Configurar preferencias"])
+        theme(["Cambiar tema<br/>claro/oscuro/auto"])
+        lang(["Cambiar idioma<br/>ES/EN"])
+    end
+    sp[("SharedPreferences<br/>local")]
+    user --- uc
+    uc -.->|extend| theme
+    uc -.->|extend| lang
+    theme --> sp
+    lang --> sp
+```
+
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
 | El usuario está autenticado | El tema o el idioma cambian al instante |
@@ -491,6 +637,23 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 ### CU-10 — Recuperar acceso con contraseña olvidada
 
 **Descripción:** El usuario restablece su contraseña mediante un enlace enviado a su correo electrónico.
+
+```mermaid
+flowchart LR
+    user(("Usuario<br/>sin sesión"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-10<br/>Recuperar contraseña"])
+        req(["Solicitar enlace<br/>de recuperación"])
+        new(["Definir nueva<br/>contraseña"])
+    end
+    auth[("Supabase Auth")]
+    user --- uc
+    uc -.->|include| req
+    uc -.->|include| new
+    req -->|email| auth
+    auth -.->|enlace| user
+    new -->|actualizar| auth
+```
 
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
@@ -518,6 +681,21 @@ El diagrama de casos de uso se encuentra en el apartado **Diseños**, subapartad
 ### CU-11 — Eliminar cuenta y datos
 
 **Descripción:** El usuario elimina su cuenta y todos los datos asociados de forma irreversible, ejerciendo el derecho de supresión del RGPD.
+
+```mermaid
+flowchart LR
+    user(("Usuario<br/>autenticado"))
+    subgraph sys["NeuroScale App"]
+        uc(["CU-11<br/>Eliminar cuenta"])
+        conf(["Confirmar<br/>borrado"])
+    end
+    edge[("Edge Function<br/>delete-account")]
+    db[("Supabase<br/>BD + Auth")]
+    user --- uc
+    uc -.->|include| conf
+    uc -->|invocar con JWT| edge
+    edge -->|borrado en cascada| db
+```
 
 | PRECONDICIONES | POSTCONDICIONES |
 |---|---|
