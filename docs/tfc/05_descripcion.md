@@ -245,197 +245,297 @@ Las transiciones entre pantallas combinan un fundido suave con un desplazamiento
 
 ## Casos de uso
 
-Los casos de uso describen los flujos principales del sistema desde la perspectiva del usuario. Las precondiciones y postcondiciones se refieren al estado observable de la aplicación, no a su estado interno. La estructura es la habitual para una memoria académica: actor, precondiciones, postcondiciones, flujo principal y flujos alternativos.
+El diagrama de casos de uso se encuentra en el apartado de Diseños. Las tablas siguientes describen cada caso de uso con sus datos de entrada y salida, las tablas de base de datos implicadas, las clases del dominio involucradas y las interfaces de usuario correspondientes.
+
+---
 
 ### CU-01 — Registrar nueva cuenta
 
-| Campo | Descripción |
+**Descripción:** El usuario crea una nueva cuenta en la aplicación introduciendo su correo electrónico y una contraseña.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario no autenticado |
-| **Precondiciones** | La aplicación muestra el login o la pantalla de registro |
-| **Postcondiciones** | La cuenta queda creada y el usuario recibe un correo de confirmación |
+| La aplicación muestra la pantalla de registro | La cuenta queda creada en Supabase Auth |
+| El correo no está registrado previamente | El usuario recibe un correo de confirmación |
 
-**Flujo principal:**
-1. El usuario navega a la pantalla de registro.
-2. Introduce correo y contraseña (mínimo de seis caracteres).
-3. La aplicación valida el formato en el cliente antes de enviar nada al servidor.
-4. El servicio de autenticación procesa el alta y envía un correo con un enlace de confirmación.
-5. La aplicación muestra un mensaje informando de que la verificación está pendiente.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Correo electrónico | Mensaje de verificación pendiente |
+| Contraseña | |
 
-**Flujos alternativos:**
-- Si el formato del correo no es válido, se muestra un error en el cliente sin contactar con el servidor.
-- Si el correo ya está registrado, el servicio devuelve un error específico y se traduce a un mensaje legible.
+| TABLAS | CLASES |
+|---|---|
+| auth.users | AppUser |
+| | SignUpUseCase |
+| | AuthRepository |
+
+| INTERFACES |
+|---|
+| RegisterScreen |
+
+---
 
 ### CU-02 — Iniciar sesión
 
-| Campo | Descripción |
+**Descripción:** El usuario accede a la aplicación con su correo electrónico y contraseña registrados.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario registrado con cuenta confirmada |
-| **Precondiciones** | La aplicación muestra el login |
-| **Postcondiciones** | Sesión activa, usuario redirigido a la pantalla principal |
+| El usuario tiene cuenta confirmada | Sesión activa con token JWT |
+| La aplicación muestra la pantalla de login | El usuario es redirigido a la pantalla de escalas |
 
-**Flujo principal:**
-1. El usuario introduce sus credenciales.
-2. El servicio de autenticación las valida y devuelve una sesión.
-3. El proveedor de estado detecta la sesión y el guardián de navegación redirige a la pantalla de escalas.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Correo electrónico | Token de sesión JWT |
+| Contraseña | AppUser (id, email) |
 
-**Flujos alternativos:**
-- Una contraseña incorrecta produce un mensaje de error traducible.
-- La pérdida de conexión muestra el aviso de modo offline y bloquea el intento hasta que se restablezca la red.
+| TABLAS | CLASES |
+|---|---|
+| auth.users | AppUser |
+| | SignInUseCase |
+| | AuthRepository |
+
+| INTERFACES |
+|---|
+| LoginScreen · ScalesTabScreen |
+
+---
 
 ### CU-03 — Aplicar una escala neurológica
 
-| Campo | Descripción |
+**Descripción:** El usuario aplica una de las cinco escalas neurológicas (GCS, NIHSS, mRS, Barthel o ABCD²) y obtiene la puntuación con su interpretación clínica.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario se encuentra en la pestaña de escalas |
-| **Postcondiciones** | Se muestra la pantalla de resultado con la puntuación y la interpretación clínica |
+| El usuario está autenticado | La pantalla de resultado muestra la puntuación |
+| La aplicación muestra la pestaña de escalas | La gravedad queda clasificada por tramos y color |
 
-**Flujo principal:**
-1. El usuario selecciona una escala de la lista.
-2. La aplicación presenta los ítems uno a uno con su barra de progreso.
-3. El usuario marca una opción por ítem.
-4. La calculadora del dominio devuelve la puntuación y la interpretación al momento.
-5. Al completar todos los ítems, el botón principal lleva a la pantalla de resultado, que muestra la puntuación en un círculo con el color de severidad, el desglose por ítem y un aviso clínico explícito.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Respuestas a los ítems de la escala | Puntuación total |
+| Escala seleccionada | Clasificación de gravedad |
+| | Desglose de puntuación por ítem |
 
-**Flujos alternativos:**
-- El usuario puede pulsar el botón de ayuda de cualquier ítem para abrir la ficha del modo tutorial.
-- Si vuelve atrás, el estado del formulario se conserva.
+| TABLAS | CLASES |
+|---|---|
+| — (sin persistencia en este paso) | ScaleDefinition |
+| | ScaleItem |
+| | ScaleResult |
+| | Severity |
+
+| INTERFACES |
+|---|
+| ScalesTabScreen · ScaleFormScreen · ResultScreen |
+
+---
 
 ### CU-04 — Guardar evaluación
 
-| Campo | Descripción |
+**Descripción:** El usuario guarda el resultado de una escala asociándolo a un paciente y una descripción libre del caso.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario está en la pantalla de resultado de una escala |
-| **Postcondiciones** | La evaluación queda persistida en el servidor y en la caché local |
+| La pantalla de resultado está activa | La evaluación queda guardada en el servidor |
+| | La evaluación queda guardada en la caché local |
 
-**Flujo principal:**
-1. El usuario pulsa «Guardar» en la pantalla de resultado.
-2. Aparece un formulario para seleccionar paciente y añadir una descripción libre.
-3. El detector de PII valida la descripción en tiempo real; si encuentra algún patrón sensible, deshabilita el botón hasta que el texto se corrija.
-4. La aplicación guarda la evaluación simultáneamente en el servidor y en la caché local.
-5. Una animación de check confirma que la operación ha terminado.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Resultado de la escala | Evaluación persistida con identificador único |
+| Paciente asociado (opcional) | Animación de confirmación |
+| Descripción libre del caso | |
 
-**Flujos alternativos:**
-- Si la descripción contiene un DNI o similar, se muestra el aviso correspondiente.
-- Si falla la red, la evaluación se guarda solo en local y se sincronizará al reconectar.
+| TABLAS | CLASES |
+|---|---|
+| evaluations | Evaluation |
+| patients | SaveEvaluationUseCase |
+| | EvaluationRepository |
+| | PiiDetector |
+
+| INTERFACES |
+|---|
+| ResultScreen |
+
+---
 
 ### CU-05 — Consultar historial
 
-| Campo | Descripción |
+**Descripción:** El usuario consulta la lista de evaluaciones guardadas con opciones de ordenación.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario tiene al menos una evaluación guardada |
-| **Postcondiciones** | La lista de evaluaciones se muestra con el orden elegido |
+| El usuario tiene al menos una evaluación guardada | La lista de evaluaciones se muestra ordenada |
 
-**Flujo principal:**
-1. El usuario accede a la lista de evaluaciones.
-2. La aplicación recupera el historial desde el servidor.
-3. La lista aparece ordenada por fecha descendente; el usuario puede cambiar el orden por más antigua o por escala.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Criterio de ordenación (reciente / antigua / escala) | Lista de evaluaciones ordenada |
+| | Escala, puntuación, severidad y fecha de cada evaluación |
 
-**Flujos alternativos:**
-- Sin conexión, la lista se sirve desde la caché con el aviso de modo offline visible.
-- El usuario puede deslizar una evaluación para eliminarla con confirmación previa.
+| TABLAS | CLASES |
+|---|---|
+| evaluations | Evaluation |
+| | FetchEvaluationsUseCase |
+| | EvaluationRepository |
+
+| INTERFACES |
+|---|
+| EvaluationsHistoryScreen · EvaluationTile |
+
+---
 
 ### CU-06 — Ver evolución temporal de un paciente
 
-| Campo | Descripción |
+**Descripción:** El usuario visualiza la evolución de las puntuaciones de un paciente a lo largo del tiempo mediante un gráfico de líneas.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El paciente tiene al menos dos evaluaciones de la misma escala en fechas distintas |
-| **Postcondiciones** | El gráfico muestra la evolución temporal de la escala seleccionada |
+| El paciente tiene al menos dos evaluaciones | El gráfico muestra la evolución temporal |
+| Las evaluaciones son de la misma escala | Los tooltips muestran puntuación y fecha por punto |
 
-**Flujo principal:**
-1. El usuario abre el detalle del paciente.
-2. La aplicación carga las evaluaciones asociadas.
-3. El usuario elige qué escala visualizar.
-4. El gráfico dibuja los puntos de puntuación con el eje horizontal proporcional al tiempo real entre evaluaciones.
-5. Al pulsar un punto, se muestra una etiqueta emergente con puntuación, fecha y hora exactas.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Paciente seleccionado | Gráfico de evolución temporal |
+| Escala a visualizar | Puntuación, fecha y hora de cada punto |
 
-**Flujos alternativos:**
-- Si solo hay evaluaciones de una escala, el selector aparece preseleccionado.
-- Sin evaluaciones, se muestra un estado vacío con la acción de crear la primera.
+| TABLAS | CLASES |
+|---|---|
+| evaluations | Patient |
+| patients | Evaluation |
+| | FetchEvaluationsUseCase |
+
+| INTERFACES |
+|---|
+| PatientDetailScreen |
+
+---
 
 ### CU-07 — Ejecutar un algoritmo clínico
 
-| Campo | Descripción |
+**Descripción:** El usuario recorre un árbol de decisión clínica guiado (Código Ictus, HTA o HSA) y obtiene una recomendación con nivel de urgencia.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario se encuentra en la pestaña de algoritmos |
-| **Postcondiciones** | La pantalla muestra el resultado clínico con su nivel de urgencia |
+| El usuario está autenticado | La pantalla muestra el resultado clínico |
+| La aplicación muestra la pestaña de algoritmos | Se indica el nivel de urgencia y las recomendaciones |
 
-**Flujo principal:**
-1. El usuario selecciona un algoritmo.
-2. La aplicación presenta la primera pregunta con sus opciones.
-3. A cada respuesta, el árbol avanza al siguiente nodo con una animación lateral.
-4. Al llegar a un nodo final, se muestra el título del resultado, las recomendaciones y el nivel de urgencia con su color asociado.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Respuestas a las preguntas de cada nodo | Resultado clínico |
+| | Nivel de urgencia (info / baja / moderada / alta / crítica) |
+| | Lista de recomendaciones |
 
-**Flujos alternativos:**
-- El usuario puede volver al paso anterior o reiniciar el algoritmo en cualquier momento.
+| TABLAS | CLASES |
+|---|---|
+| — (sin persistencia) | AlgorithmDefinition |
+| | AlgorithmNode |
+| | AlgorithmState |
+| | AlgorithmUrgency |
+
+| INTERFACES |
+|---|
+| AlgorithmsTabScreen · AlgorithmScreen |
+
+---
 
 ### CU-08 — Gestionar un paciente
 
-| Campo | Descripción |
+**Descripción:** El usuario crea, consulta o elimina un paciente identificado únicamente por un alias clínico anonimizado.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario se encuentra en la pestaña de pacientes |
-| **Postcondiciones** | La lista de pacientes refleja la operación realizada |
+| El usuario está autenticado | La lista de pacientes refleja la operación |
+| La aplicación muestra la pestaña de pacientes | En borrado: las evaluaciones del paciente se eliminan en cascada |
 
-**Flujo principal de creación:**
-1. El usuario pulsa el botón de nuevo paciente.
-2. Introduce un alias clínico libre.
-3. La aplicación lo persiste en remoto y en local.
-4. El nuevo paciente aparece en lo alto de la lista.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Alias clínico (en creación) | Paciente creado o eliminado |
+| Paciente seleccionado (en consulta o borrado) | Lista de pacientes actualizada |
 
-**Flujo alternativo de borrado:**
-- El usuario desliza un paciente o accede al detalle y pulsa eliminar; la aplicación pide confirmación y, al aceptar, borra el paciente. La restricción de cascada en la base de datos elimina automáticamente sus evaluaciones asociadas.
+| TABLAS | CLASES |
+|---|---|
+| patients | Patient |
+| evaluations (CASCADE en borrado) | CreatePatientUseCase |
+| | DeletePatientUseCase |
+| | PatientRepository |
+
+| INTERFACES |
+|---|
+| PatientsTabScreen · PatientDetailScreen |
+
+---
 
 ### CU-09 — Configurar preferencias
 
-| Campo | Descripción |
-|---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario se encuentra en la pantalla de perfil |
-| **Postcondiciones** | El tema o el idioma cambian al instante y persisten entre sesiones |
+**Descripción:** El usuario cambia el tema visual de la aplicación o el idioma de la interfaz.
 
-**Flujo principal:**
-1. El usuario abre el perfil.
-2. Selecciona el tema (claro, oscuro o automático).
-3. La aplicación reconstruye la interfaz con el nuevo tema y guarda la preferencia.
-4. El usuario selecciona el idioma (español o inglés) y la aplicación lo aplica al instante.
+| PRECONDICIONES | POSTCONDICIONES |
+|---|---|
+| El usuario está autenticado | El tema o el idioma cambian al instante |
+| La aplicación muestra la pantalla de perfil | Las preferencias quedan guardadas entre sesiones |
+
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Tema seleccionado (claro / oscuro / automático) | Interfaz actualizada |
+| Idioma seleccionado (español / inglés) | Preferencia persistida en el dispositivo |
+
+| TABLAS | CLASES |
+|---|---|
+| — (SharedPreferences local) | ThemeNotifier |
+| | LocaleProvider |
+
+| INTERFACES |
+|---|
+| ProfileScreen |
+
+---
 
 ### CU-10 — Recuperar acceso con contraseña olvidada
 
-| Campo | Descripción |
-|---|---|
-| **Actores** | Usuario registrado sin sesión |
-| **Precondiciones** | La aplicación muestra el login |
-| **Postcondiciones** | La contraseña queda cambiada y el usuario tiene sesión activa |
+**Descripción:** El usuario restablece su contraseña mediante un enlace enviado a su correo electrónico.
 
-**Flujo principal:**
-1. El usuario pulsa el enlace de contraseña olvidada y navega a la pantalla correspondiente.
-2. Introduce su correo y solicita el enlace de recuperación.
-3. Abre el enlace en el mismo dispositivo donde tiene la aplicación instalada.
-4. La aplicación detecta el evento de recuperación y redirige a la pantalla de nueva contraseña.
-5. El usuario introduce y confirma la nueva contraseña.
-6. La aplicación la guarda y muestra la animación de confirmación.
-7. El guardián de navegación redirige a la pantalla principal.
+| PRECONDICIONES | POSTCONDICIONES |
+|---|---|
+| El usuario tiene cuenta confirmada | La contraseña ha sido cambiada |
+| No hay sesión activa | El usuario tiene sesión activa |
+
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Correo electrónico | Enlace de recuperación enviado al correo |
+| Nueva contraseña (al abrir el enlace) | Confirmación visual de contraseña cambiada |
+
+| TABLAS | CLASES |
+|---|---|
+| auth.users | AppUser |
+| | AuthRepository |
+| | RequestPasswordResetUseCase |
+| | UpdatePasswordUseCase |
+
+| INTERFACES |
+|---|
+| ForgotPasswordScreen · ResetPasswordScreen |
+
+---
 
 ### CU-11 — Eliminar cuenta y datos
 
-| Campo | Descripción |
+**Descripción:** El usuario elimina su cuenta y todos los datos asociados de forma irreversible, ejerciendo el derecho de supresión del RGPD.
+
+| PRECONDICIONES | POSTCONDICIONES |
 |---|---|
-| **Actores** | Usuario autenticado |
-| **Precondiciones** | El usuario está en la pantalla de perfil |
-| **Postcondiciones** | La cuenta y todos los datos asociados han sido borrados de forma irreversible |
+| El usuario está autenticado | La cuenta queda eliminada de Supabase Auth |
+| La aplicación muestra la pantalla de perfil | Evaluaciones y pacientes eliminados en cascada |
+| | La sesión se cierra automáticamente |
 
-**Flujo principal:**
-1. El usuario pulsa la opción de eliminar cuenta.
-2. Aparece un diálogo de advertencia sobre la irreversibilidad de la operación.
-3. Al confirmar, la aplicación invoca la función de servidor que borra al usuario.
-4. La función elimina en orden las evaluaciones, los pacientes y el propio usuario.
-5. El proveedor de estado detecta el cierre de sesión y el guardián redirige al login.
+| DATOS DE ENTRADA | DATOS DE SALIDA |
+|---|---|
+| Confirmación explícita del usuario | Confirmación de borrado completo |
+| | Cierre de sesión y redirección al login |
 
-**Flujos alternativos:**
-- Si el token ha expirado, la aplicación pide al usuario que vuelva a autenticarse antes de reintentar la operación.
+| TABLAS | CLASES |
+|---|---|
+| auth.users | AppUser |
+| evaluations | DeleteAccountUseCase |
+| patients | AuthRepository |
+
+| INTERFACES |
+|---|
+| ProfileScreen |

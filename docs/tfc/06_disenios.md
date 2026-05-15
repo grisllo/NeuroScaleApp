@@ -121,19 +121,7 @@ flowchart LR
     actor --> cu11
 ```
 
-| Código | Caso de uso | Bloque |
-|---|---|---|
-| CU-01 | Registrar nueva cuenta | Autenticación |
-| CU-02 | Iniciar sesión | Autenticación |
-| CU-03 | Aplicar una escala neurológica | Uso clínico |
-| CU-04 | Guardar evaluación | Uso clínico |
-| CU-05 | Consultar historial | Uso clínico |
-| CU-06 | Ver evolución temporal de un paciente | Uso clínico |
-| CU-07 | Ejecutar un algoritmo clínico | Uso clínico |
-| CU-08 | Gestionar un paciente | Gestión |
-| CU-09 | Configurar preferencias | Ajustes |
-| CU-10 | Recuperar acceso con contraseña olvidada | Autenticación |
-| CU-11 | Eliminar cuenta y datos | Autenticación |
+La descripción detallada de cada caso de uso —con precondiciones, postcondiciones, datos de entrada y salida, tablas, clases e interfaces— se encuentra en el apartado de Descripción del sistema.
 
 ---
 
