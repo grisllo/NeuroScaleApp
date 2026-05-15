@@ -2,7 +2,7 @@
 
 Esta sección reúne los diagramas que documentan el sistema desde distintos planos: la arquitectura de alto nivel, el despliegue, los casos de uso, el modelo de clases del dominio, el modelo de datos, el flujo de navegación y el lenguaje visual de la interfaz. Cada diagrama responde a una pregunta concreta y los textos que los acompañan están pensados para complementarlos, no para repetirlos.
 
-> Los bloques de código etiquetados como `mermaid` se pueden renderizar en [mermaid.live](https://mermaid.live) y exportar como PNG o SVG para insertarlos como imagen en el documento Word final.
+> **Sobre los diagramas de esta sección:** los diagramas se obtienen renderizando su código fuente en [mermaid.live](https://mermaid.live) o abriendo este fichero directamente en GitHub (que renderiza Mermaid de forma nativa). Para cada diagrama, el código fuente original se conserva en el repositorio como comentario dentro del fichero `docs/tfc/06_disenios.md`. Los nombres de fichero esperados en `docs/screenshots/` son: `diag_arquitectura.png`, `diag_despliegue.png`, `diag_casos_uso.png`, `diag_clases.png`, `diag_er.png` y `diag_navegacion.png`.
 
 ---
 
@@ -12,7 +12,9 @@ El sistema completo se divide en tres planos diferenciados: el cliente, que es l
 
 El diagrama siguiente muestra cómo se organizan los componentes del cliente en capas y cómo se relacionan con los servicios externos.
 
-```mermaid
+![Arquitectura de la solución](../screenshots/diag_arquitectura.png)
+
+<!-- mermaid-source: diag_arquitectura
 flowchart TB
     subgraph cliente["Cliente — Aplicación Flutter"]
         direction TB
@@ -23,21 +25,18 @@ flowchart TB
         Repo["Repositorios<br/>(data)"]
         LocalDB["Caché local<br/>(Drift / SQLite)"]
     end
-
     subgraph backend["Backend — Supabase"]
         direction TB
         Auth["Auth Service<br/>(JWT)"]
         Postgres["PostgreSQL<br/>+ Row Level Security"]
         EdgeFn["Edge Function<br/>delete-account"]
     end
-
     subgraph hosting["Hosting y CI/CD — GitHub"]
         direction TB
         Repo2["Repositorio<br/>(rama main)"]
         Actions["GitHub Actions<br/>(CI + Deploy)"]
         Pages["GitHub Pages<br/>(versión web pública)"]
     end
-
     UI --> State
     State --> UseCase
     UseCase --> Calc
@@ -46,10 +45,9 @@ flowchart TB
     Repo -.->|HTTPS / PostgREST| Auth
     Repo -.->|HTTPS / PostgREST| Postgres
     Repo -.->|HTTPS| EdgeFn
-
     Repo2 -->|push| Actions
     Actions -->|deploy| Pages
-```
+-->
 
 Lo importante de este diagrama no es la lista de tecnologías —que se discute con detalle en el apartado de Tecnología—, sino la dirección de las dependencias. La presentación nunca habla directamente con el backend; siempre pasa por un caso de uso, que a su vez delega en un repositorio que actúa como única puerta hacia el exterior. Esta jerarquía permite, por ejemplo, sustituir la implementación de un repositorio sin tocar la interfaz, o testear los casos de uso de forma aislada con un repositorio falso.
 
@@ -59,46 +57,41 @@ Lo importante de este diagrama no es la lista de tecnologías —que se discute 
 
 Mientras la arquitectura describe **cómo está organizado el código**, el diagrama de despliegue describe **dónde se ejecuta cada cosa y cómo se comunican** los distintos componentes. Es la visión que necesita un equipo de operaciones o de seguridad para entender el flujo real de datos.
 
-```mermaid
+![Diagrama de despliegue y comunicación](../screenshots/diag_despliegue.png)
+
+<!-- mermaid-source: diag_despliegue
 flowchart LR
     User(("👤 Usuario"))
-
     subgraph dispositivo["Dispositivo del usuario"]
         direction TB
         WebApp["Aplicación web<br/>(Chrome, Firefox, Safari)"]
         AndroidApp["Aplicación Android<br/>(APK firmado)"]
     end
-
     subgraph github["GitHub"]
         direction TB
         Pages["GitHub Pages<br/>HTTPS, hosting estático"]
         CI["GitHub Actions"]
         RepoGit["Repositorio<br/>main"]
     end
-
     subgraph supabase["Supabase EU-West-2"]
         direction TB
         AuthSvc["Auth<br/>(login, JWT, recovery)"]
         DB["PostgreSQL<br/>+ RLS"]
         EdgeFnSvc["Edge Functions<br/>delete-account"]
     end
-
     User --> WebApp
     User --> AndroidApp
-
     WebApp -->|HTTPS| Pages
     Pages -->|carga estática| WebApp
-
     WebApp -->|HTTPS / PostgREST| AuthSvc
     AndroidApp -->|HTTPS / PostgREST| AuthSvc
     WebApp -->|HTTPS / PostgREST| DB
     AndroidApp -->|HTTPS / PostgREST| DB
     WebApp -->|HTTPS + JWT| EdgeFnSvc
     AndroidApp -->|HTTPS + JWT| EdgeFnSvc
-
     RepoGit -->|push a main| CI
     CI -->|build + deploy| Pages
-```
+-->
 
 Todas las comunicaciones externas viajan por HTTPS. La autenticación se realiza con tokens JWT firmados por Supabase, que el cliente incluye en cada petición posterior a las tablas o a la función de servidor. Cuando el cliente accede a la base de datos no lo hace mediante SQL plano, sino a través de PostgREST, la capa REST automática que Supabase genera sobre el esquema; esto permite que las políticas RLS se apliquen sobre cada petición sin que el cliente tenga que conocer la estructura interna del filtro.
 
@@ -108,17 +101,17 @@ Todas las comunicaciones externas viajan por HTTPS. La autenticación se realiza
 
 El diagrama UML de casos de uso resume, en una sola imagen, todas las acciones que un usuario puede realizar sobre el sistema. NeuroScale App tiene un único tipo de actor —el usuario autenticado o no, según el caso de uso— y once casos de uso principales, agrupados en cuatro bloques funcionales.
 
-```mermaid
+![Diagrama de casos de uso](../screenshots/diag_casos_uso.png)
+
+<!-- mermaid-source: diag_casos_uso
 flowchart LR
     actor(("👤 Usuario"))
-
     subgraph autenticacion["Autenticación"]
         cu01([CU-01 · Registrar cuenta])
         cu02([CU-02 · Iniciar sesión])
         cu10([CU-10 · Recuperar acceso])
         cu11([CU-11 · Eliminar cuenta])
     end
-
     subgraph clinico["Uso clínico"]
         cu03([CU-03 · Aplicar escala])
         cu04([CU-04 · Guardar evaluación])
@@ -126,15 +119,12 @@ flowchart LR
         cu06([CU-06 · Ver evolución del paciente])
         cu07([CU-07 · Ejecutar algoritmo])
     end
-
     subgraph gestion["Gestión"]
         cu08([CU-08 · Gestionar paciente])
     end
-
     subgraph ajustes["Ajustes"]
         cu09([CU-09 · Configurar preferencias])
     end
-
     actor --> cu01
     actor --> cu02
     actor --> cu10
@@ -146,7 +136,7 @@ flowchart LR
     actor --> cu08
     actor --> cu09
     actor --> cu11
-```
+-->
 
 La descripción formal de cada caso de uso —actor, precondiciones, postcondiciones, flujo principal y flujos alternativos— se encuentra en el apartado de Descripción del sistema. La siguiente tabla resume los once casos para consulta rápida:
 
@@ -170,120 +160,24 @@ La descripción formal de cada caso de uso —actor, precondiciones, postcondici
 
 Este diagrama recoge las entidades del dominio (la capa más interna de la arquitectura) y sus relaciones. Las capas de datos y presentación no aparecen aquí porque su misión es servir y consumir el dominio, no extenderlo: las reglas de dependencia que se describen en el apartado de Arquitectura general garantizan que ese contrato se respeta.
 
-```mermaid
+![Diagrama de clases del dominio](../screenshots/diag_clases.png)
+
+<!-- mermaid-source: diag_clases
 classDiagram
-    class ScaleDefinition {
-        <<abstract>>
-        +String key
-        +String displayName
-        +int version
-        +List~ScaleItem~ items
-        +calculate(Map answers) ScaleResult
-    }
-
-    class ScaleItem {
-        +String key
-        +String labelKey
-        +int min
-        +int max
-        +List options
-        +int? untestableValue
-        +String? helpKey
-    }
-
-    class ScaleResult {
-        +int totalScore
-        +int maxScore
-        +Severity severity
-        +String interpretation
-        +Map itemScores
-    }
-
-    class Severity {
-        <<enumeration>>
-        none
-        mild
-        moderate
-        severe
-    }
-
-    class Evaluation {
-        +String id
-        +String userId
-        +String scaleType
-        +int scaleVersion
-        +String caseDescription
-        +int totalScore
-        +String interpretation
-        +Map detailedScores
-        +String? patientId
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class Patient {
-        +String id
-        +String userId
-        +String alias
-        +String notes
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class AppUser {
-        +String id
-        +String email
-    }
-
-    class AlgorithmDefinition {
-        +String id
-        +String titleKey
-        +String descriptionKey
-        +String startNodeId
-        +Map~String,AlgorithmNode~ nodes
-    }
-
-    class AlgorithmNode {
-        <<sealed>>
-        +String id
-    }
-
-    class QuestionNode {
-        +String questionKey
-        +String? hintKey
-        +List~AlgorithmOption~ options
-    }
-
-    class ResultNode {
-        +String titleKey
-        +AlgorithmUrgency urgency
-        +List~String~ recommendationKeys
-    }
-
-    class AlgorithmOption {
-        +String id
-        +String labelKey
-        +String nextNodeId
-    }
-
-    class AlgorithmState {
-        +AlgorithmDefinition definition
-        +List path
-        +List selectedOptionIds
-        +currentNode() AlgorithmNode
-        +isComplete() bool
-        +canGoBack() bool
-    }
-
-    class AlgorithmUrgency {
-        <<enumeration>>
-        info
-        low
-        moderate
-        high
-        critical
-    }
-
+    class ScaleDefinition { <<abstract>> +String key +String displayName +int version +List~ScaleItem~ items +calculate(Map answers) ScaleResult }
+    class ScaleItem { +String key +String labelKey +int min +int max +List options +int? untestableValue +String? helpKey }
+    class ScaleResult { +int totalScore +int maxScore +Severity severity +String interpretation +Map itemScores }
+    class Severity { <<enumeration>> none mild moderate severe }
+    class Evaluation { +String id +String userId +String scaleType +int scaleVersion +String caseDescription +int totalScore +String interpretation +Map detailedScores +String? patientId +DateTime createdAt +DateTime updatedAt }
+    class Patient { +String id +String userId +String alias +String notes +DateTime createdAt +DateTime updatedAt }
+    class AppUser { +String id +String email }
+    class AlgorithmDefinition { +String id +String titleKey +String descriptionKey +String startNodeId +Map~String,AlgorithmNode~ nodes }
+    class AlgorithmNode { <<sealed>> +String id }
+    class QuestionNode { +String questionKey +String? hintKey +List~AlgorithmOption~ options }
+    class ResultNode { +String titleKey +AlgorithmUrgency urgency +List~String~ recommendationKeys }
+    class AlgorithmOption { +String id +String labelKey +String nextNodeId }
+    class AlgorithmState { +AlgorithmDefinition definition +List path +List selectedOptionIds +currentNode() AlgorithmNode +isComplete() bool +canGoBack() bool }
+    class AlgorithmUrgency { <<enumeration>> info low moderate high critical }
     ScaleDefinition "1" *-- "1..*" ScaleItem : contiene
     ScaleDefinition ..> ScaleResult : produce
     ScaleResult --> Severity : clasifica
@@ -296,7 +190,7 @@ classDiagram
     Evaluation "0..*" --> "0..1" Patient : pertenece a
     Evaluation "0..*" --> "1" AppUser : pertenece a
     Patient "0..*" --> "1" AppUser : pertenece a
-```
+-->
 
 Las dos jerarquías importantes son `ScaleDefinition` (con cinco implementaciones, una por escala) y `AlgorithmNode` (con dos subtipos cerrados, `QuestionNode` y `ResultNode`). Esta segunda jerarquía aprovecha la característica de *sealed classes* de Dart 3, que garantiza en tiempo de compilación que cualquier código que distinga entre tipos de nodo cubre todos los casos posibles; si en el futuro se añadiera un tercer subtipo, el compilador señalaría todos los lugares del proyecto donde habría que actualizar el tratamiento.
 
@@ -306,41 +200,17 @@ Las dos jerarquías importantes son `ScaleDefinition` (con cinco implementacione
 
 El modelo entidad-relación muestra las tablas de aplicación y su relación con la tabla `auth.users` que gestiona internamente Supabase. La estructura es deliberadamente sencilla: dos tablas de aplicación, tres claves foráneas y reglas de borrado en cascada para garantizar que no quedan registros huérfanos.
 
-```mermaid
+![Modelo entidad-relación](../screenshots/diag_er.png)
+
+<!-- mermaid-source: diag_er
 erDiagram
-    AUTH_USERS {
-        uuid id PK
-        text email
-        timestamptz created_at
-    }
-
-    PATIENTS {
-        uuid id PK
-        uuid user_id FK
-        text alias
-        text notes
-        timestamptz created_at
-        timestamptz updated_at
-    }
-
-    EVALUATIONS {
-        uuid id PK
-        uuid user_id FK
-        enum scale_type
-        smallint scale_version
-        text case_description
-        integer total_score
-        text interpretation
-        jsonb detailed_scores
-        uuid patient_id FK
-        timestamptz created_at
-        timestamptz updated_at
-    }
-
+    AUTH_USERS { uuid id PK text email timestamptz created_at }
+    PATIENTS { uuid id PK uuid user_id FK text alias text notes timestamptz created_at timestamptz updated_at }
+    EVALUATIONS { uuid id PK uuid user_id FK enum scale_type smallint scale_version text case_description integer total_score text interpretation jsonb detailed_scores uuid patient_id FK timestamptz created_at timestamptz updated_at }
     AUTH_USERS ||--o{ PATIENTS : "posee (CASCADE)"
     AUTH_USERS ||--o{ EVALUATIONS : "posee (CASCADE)"
     PATIENTS ||--o{ EVALUATIONS : "agrupa (CASCADE)"
-```
+-->
 
 La columna `evaluations.patient_id` es anulable de forma intencional: existen evaluaciones legítimamente no asociadas a ningún paciente —por ejemplo, una prueba puntual—, y por tanto no debe forzarse la relación. Las tres relaciones se borran en cascada, de modo que cuando un usuario se da de baja desaparecen también sus pacientes y todas sus evaluaciones, sin posibilidad de dejar registros huérfanos en la base de datos.
 
@@ -374,12 +244,12 @@ Más allá del modelo lógico, conviene documentar los detalles físicos del esq
 
 El siguiente diagrama refleja las pantallas de la aplicación y las transiciones entre ellas, incluyendo el comportamiento del guardián de autenticación, que se indica con la etiqueta `[auth]` en las flechas que produce.
 
-```mermaid
+![Diagrama de flujo de navegación](../screenshots/diag_navegacion.png)
+
+<!-- mermaid-source: diag_navegacion
 flowchart TD
     Start([Inicio de la app]) --> Disclaimer
-
     Disclaimer["/disclaimer<br/>Aviso médico-legal"] -->|Primera vez aceptado| Login
-
     subgraph autenticacion["Flujo de autenticación (sin shell)"]
         Login["/login<br/>Inicio de sesión"]
         Register["/register<br/>Registro"]
@@ -389,11 +259,9 @@ flowchart TD
         Login -->|Enlace| Register
         ForgotPwd -->|Email enviado + enlace abierto| ResetPwd
     end
-
     Login -->|Credenciales correctas| Shell
     Register -->|Registro completado| Shell
     ResetPwd -->|Contraseña cambiada| Shell
-
     subgraph shellsub["Shell principal (StatefulShellRoute)"]
         direction TB
         Tab0["Escalas  /"]
@@ -401,20 +269,15 @@ flowchart TD
         Tab2["Algoritmos  /algorithms"]
         Tab3["Perfil  /profile"]
     end
-
     Tab0 --> ScaleForm["/scales/:id<br/>Formulario de escala"]
     ScaleForm --> Result["/result<br/>Puntuación + Guardar"]
     Result -->|Guardar| Tab0
-
     Tab1 --> PatientDetail["/patients/:id<br/>Detalle + gráfico"]
-
     Tab2 --> AlgoRun["/algorithms/:id<br/>Ejecución paso a paso"]
-
     Tab3 -->|Cerrar sesión| Login
     Tab3 -->|Borrar cuenta| Login
-
     Shell -->|Sin sesión (auth)| Login
-```
+-->
 
 Las rutas de autenticación viven fuera del *shell* principal, lo que significa que cuando el usuario está en una de ellas no ve la barra de navegación. El shell principal, en cambio, mantiene cuatro ramas con su propio historial cada una, de modo que cambiar de pestaña no descarta el estado de la rama anterior: si estabas a mitad de aplicar una escala, vuelves justo donde la dejaste.
 
