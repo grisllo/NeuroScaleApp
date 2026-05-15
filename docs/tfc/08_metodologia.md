@@ -54,34 +54,38 @@ Más allá de la elección de la herramienta (descrita en el apartado de Tecnolo
 
 ### Estimación inicial vs. horas reales
 
-Las estimaciones se realizaron antes de iniciar cada fase. El alcance inicial cubría las **fases 0 a 4** (estimadas en 40,0 h); las fases 5 a 14 surgieron durante la ejecución como respuesta a hallazgos de auditoría, despliegue real en producción y decisiones de calidad.
+Las estimaciones se realizaron antes de iniciar cada fase. El alcance inicial cubría las **fases 0 a 4**, estimadas en 50,0 h. Las fases 5 a 14 surgieron durante la ejecución como respuesta a hallazgos de auditoría, despliegue real en producción y decisiones de calidad; sus estimaciones son por tanto retrospectivas (cifras marcadas con asterisco) y representan el tiempo que habría reservado para cada fase si hubieran formado parte del alcance inicial.
 
 | Fase | Descripción | Estimado (h) | Real (h) | Desviación |
 |---|---|---:|---:|---:|
 | Diseño inicial | Arquitectura, setup | 1,0 | 2,0 | +1,0 |
 | Fase 0 | Scaffold Flutter + CI + i18n | 2,0 | 1,5 | −0,5 |
 | Fase 1 | Auth + GCS + Evaluations + Supabase | 8,0 | 7,0 | −1,0 |
-| Fase 2A | History + Filtros + Gráficos + mRS + Barthel + ABCD2 | 12,5 | 12,5 | 0,0 |
+| Fase 2A | History + Filtros + Gráficos + mRS + Barthel + ABCD² | 12,5 | 12,5 | 0,0 |
 | Fase 2B | NIHSS (UN=9, advisory coma, UI) | 6,0 | 5,0 | −1,0 |
 | Fase 3 | UX shell + Pacientes (CRUD + evolución) | 10,5 | 11,0 | +0,5 |
 | Fase 4 | Algoritmos + Offline + i18n EN + Perfil | 10,0 | 6,5 | −3,5 |
 | **Subtotal fases 0–4** | | **50,0** | **45,5** | **−4,5** |
-| Fase 5 | Design system (paleta clínica, tipografía, animaciones base) | — | 1,0 | — |
-| Fase 6 | Seguridad + optimización backend + refactor i18n | — | 4,0 | — |
-| Fase 7 | Offline banner + responsive + modo tutorial | — | 2,5 | — |
-| Fase 8 | Auditoría post-Fase 7 + auth hardening | — | 3,0 | — |
-| Fase 9 | Password reset + deploy web + APK firmado | — | 3,5 | — |
-| Mantenimiento 2026-05-11 | Borrado, admin cuenta, tema oscuro, UX global | — | 9,5 | — |
-| Fase 10 | Polish: errores localizados, ValidationException, LICENSE | — | 3,0 | — |
-| Fase 11 | UX visual: avatar hash, layout web, auth card, icono | — | 4,5 | — |
-| Fase 12 | Animaciones: transiciones, AnimatedCheck, algoritmos | — | 4,5 | — |
-| Fase 13 | Fixes UX evaluaciones + producción web | — | 6,0 | — |
-| Fase 14 | Auditoría v1.0.0 (RLS, tokens spacing, a11y, tests) | — | 2,5 | — |
-| Post-v1.0.0 | Licencia, auth UI dark mode, docs polish | — | 2,0 | — |
-| **Subtotal fases 5–14 + mantenimientos** | | — | **49,5** | — |
-| **TOTAL ACUMULADO** | | — | **~85,0** | — |
+| Fase 5 | Design system (paleta clínica, tipografía, animaciones base) | 2,0* | 1,0 | −1,0 |
+| Fase 6 | Seguridad + optimización backend + refactor i18n | 4,0* | 3,5 | −0,5 |
+| Fase 7 | Offline banner + responsive + modo tutorial | 3,5* | 2,5 | −1,0 |
+| Fase 8 | Auditoría post-Fase 7 + auth hardening | 2,0* | 3,0 | +1,0 |
+| Fase 9 | Password reset + deploy web + APK firmado | 4,0* | 3,5 | −0,5 |
+| Mantenimiento 2026-05-11 | Borrado, admin cuenta, tema oscuro, UX global | 5,0* | 7,0 | +2,0 |
+| Fase 10 | Polish: errores localizados, ValidationException, LICENSE | 2,5* | 3,0 | +0,5 |
+| Fase 11 | UX visual: avatar hash, layout web, auth card, icono | 3,0* | 3,5 | +0,5 |
+| Fase 12 | Animaciones: transiciones, AnimatedCheck, algoritmos | 3,0* | 3,5 | +0,5 |
+| Fase 13 | Fixes UX evaluaciones + producción web | 3,0* | 4,5 | +1,5 |
+| Fase 14 | Auditoría v1.0.0 (RLS, tokens spacing, a11y, tests) | 3,0* | 2,5 | −0,5 |
+| Post-v1.0.0 | Licencia, auth UI dark mode, docs polish | 1,5* | 2,0 | +0,5 |
+| **Subtotal fases 5–14 + mantenimientos** | | **36,5*** | **39,5** | **+3,0** |
+| **TOTAL ACUMULADO** | | **86,5** | **85,0** | **−1,5** |
+
+> \* *Estimación retrospectiva: la fase emergió durante la ejecución y no contaba con presupuesto previo. La cifra refleja el tiempo que habría reservado si hubiera formado parte del alcance inicial.*
 
 **Análisis de desviaciones (fases 0–4).** El balance global en las fases que sí contaban con estimación previa fue de −4,5 h, un 9 % por debajo de lo previsto. Las desviaciones a favor se concentraron sobre todo en la Fase 4: las `sealed classes` de Dart 3 simplificaron mucho los algoritmos clínicos (ahorro de unas 2,5 h) y la pantalla de perfil resultó casi inmediata una vez resuelta la lógica de idioma en la subfase anterior (ahorro de 1,5 h). La única desviación al alza apreciable fue el diseño inicial, que necesitó una hora más de la prevista porque la infraestructura compartida (errores, extensiones, providers comunes) acabó teniendo más capas de las que había planteado al principio. En conjunto, la estimación inicial fue ligeramente pesimista, lo que en mi experiencia es preferible a quedarse corto.
+
+**Análisis de desviaciones (fases 5–14).** Las cifras retrospectivas muestran un balance global ligeramente al alza (+3,0 h, un 8 % por encima de lo que habría estimado). Las dos fuentes principales de desviación positiva fueron el mantenimiento del 11 de mayo (+2,0 h, sesión maratoniana de mejoras de UX que incluyó borrado de cuenta, administración, modo oscuro y ajustes visuales) y los fixes de producción de la Fase 13 (+1,5 h, los bugs detectados en el despliegue web real siempre son más laboriosos de lo que parecen). En el lado contrario, la Fase 5 (Design system) y la Fase 7 (offline + responsive + tutorial) terminaron antes de lo que habría reservado, principalmente porque el sistema de tokens de diseño se consolidó más rápido que lo esperado.
 
 ### Diagrama de Gantt
 
@@ -89,29 +93,29 @@ Las estimaciones se realizaron antes de iniciar cada fase. El alcance inicial cu
 
 ```mermaid
 gantt
-    title NeuroScale App — Cronograma de desarrollo (2026)
+    title NeuroScale App — Cronograma del proyecto (2026)
     dateFormat  YYYY-MM-DD
     axisFormat  %d/%m
 
-    section Fases 0–1  (MVP)
+    section Fases 0–1 (MVP)
     Scaffold + CI + i18n base        :done, f0,  2026-04-26, 1d
     Auth + GCS + Evaluations         :done, f1a, 2026-04-26, 1d
     Migración Supabase + smoke test  :done, f1b, 2026-04-27, 1d
 
-    section Fase 2A  (Escalas)
+    section Fase 2A (Escalas)
     History + Filtros + Gráficos     :done, f2a, 2026-04-27, 1d
-    mRS + Barthel + ABCD2            :done, f2b, 2026-04-27, 1d
+    mRS + Barthel + ABCD²            :done, f2b, 2026-04-27, 1d
 
-    section Fase 2B  (NIHSS)
+    section Fase 2B (NIHSS)
     NIHSS dominio + UN=9             :done, f2c, 2026-04-28, 1d
     NIHSS UI + advisory coma         :done, f2d, 2026-04-28, 1d
 
-    section Fase 3  (Shell + Pacientes)
+    section Fase 3 (Shell + Pacientes)
     UX shell + NavigationBar         :done, f3a, 2026-04-28, 1d
     Pacientes CRUD + integración     :done, f3b, 2026-04-29, 1d
     Detalle paciente + gráfico       :done, f3c, 2026-04-30, 1d
 
-    section Fase 4  (Algoritmos + Offline + i18n)
+    section Fase 4 (Algoritmos + Offline + i18n)
     Algoritmos clínicos (3)          :done, f4a, 2026-04-30, 1d
     Modo offline Drift               :done, f4b, 2026-04-30, 1d
     Multilenguaje EN + Perfil        :done, f4c, 2026-04-30, 1d
@@ -119,10 +123,10 @@ gantt
     section CI + Compatibilidad
     Fixes CI / deps / lint           :done, fx1, 2026-05-04, 1d
 
-    section Fase 5  (Design System)
+    section Fase 5 (Design System)
     Paleta clínica + tipografía      :done, f5,  2026-05-05, 1d
 
-    section Fases 6–9  (Calidad + Deploy)
+    section Fases 6–9 (Calidad + Deploy)
     Seguridad + optimización         :done, f6,  2026-05-08, 1d
     Responsive + tutorial + offline  :done, f7,  2026-05-08, 1d
     Auditoría + auth hardening       :done, f8,  2026-05-08, 2d
@@ -131,7 +135,7 @@ gantt
     section Mantenimiento (11 mayo)
     Borrado cuenta + UX + dark mode  :done, m1,  2026-05-11, 1d
 
-    section Fases 10–14  (Polish + v1.0.0)
+    section Fases 10–14 (Polish + v1.0.0)
     Polish errores + LICENSE         :done, f10, 2026-05-12, 1d
     UX visual + icono                :done, f11, 2026-05-12, 1d
     Animaciones                      :done, f12, 2026-05-12, 1d
@@ -140,10 +144,16 @@ gantt
 
     section Post-v1.0.0
     Docs polish + auth UI dark mode  :done, pv,  2026-05-14, 1d
-    Memoria académica TFC            :active, tfc, 2026-05-15, 7d
+
+    section Memoria académica TFC
+    Secciones 1–3 (Abstract + Just. + Intro)  :done, tfc1, 2026-05-14, 1d
+    Secciones 4–11 (RFTP, Descripción, Diseños, Tecnología, Metodología, Conclusiones, Referencias) :done, tfc2, 2026-05-15, 1d
+    Revisión y reescritura de estilo          :active, tfc3, 2026-05-15, 2d
+    Maquetación Word + captura de diagramas   :tfc4, after tfc3, 2d
+    Preparación de la defensa oral            :tfc5, after tfc4, 3d
 ```
 
-**Resumen temporal:** el desarrollo software activo abarcó **19 días** (2026-04-26 a 2026-05-14), con mayor densidad de commits en los cuatro primeros días (MVP) y en el sprint de cierre (fases 10–14). La elaboración de la memoria académica se inicia el 2026-05-15.
+**Resumen temporal:** el desarrollo del software abarcó **19 días** (2026-04-26 a 2026-05-14), con mayor densidad de commits en los cuatro primeros días (MVP) y en el sprint de cierre (fases 10–14, v1.0.0 publicada el 2026-05-13). La elaboración de la memoria académica se inició el 2026-05-14 por la tarde, con las tres primeras secciones (Abstract, Justificación e Introducción), y continuó el 2026-05-15 con el resto de la memoria y las revisiones de estilo. Las tareas pendientes son la maquetación final en Word (insertar los diagramas Mermaid como imágenes y aplicar la plantilla institucional) y la preparación de la defensa oral.
 
 ---
 
