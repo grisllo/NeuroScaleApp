@@ -108,6 +108,44 @@ En cuanto a seguridad, el pipeline de CI integra `osv-scanner` de Google, que an
 
 ---
 
+## Asistencia de desarrollo con IA
+
+Este proyecto se ha desarrollado con asistencia intensiva de inteligencia artificial generativa, y esa decisión merece quedar documentada en el stack como cualquier otra herramienta. En este apartado se describen las versiones concretas que se utilizaron, las extensiones que se prepararon sobre el agente y la configuración de seguridad aplicada para que la herramienta no pudiera acceder a información sensible.
+
+### Claude Code (Anthropic)
+
+Claude Code es el agente de programación de Anthropic, distribuido como CLI y disponible también como aplicación de escritorio. Se invoca desde la terminal y actúa como par programador: lee y escribe ficheros, ejecuta comandos, propone planes, genera código y tests, y mantiene contexto del proyecto entre turnos de una misma sesión. En el proyecto se utilizaron dos modelos en momentos distintos:
+
+- **Claude Sonnet 4.6** como modelo principal de implementación, por su buen equilibrio entre velocidad de respuesta y calidad de salida. Cubrió la mayor parte del desarrollo: scaffolding, escalas, algoritmos, tests, migraciones y documentación.
+- **Claude Opus 4.7** se reservó para tareas puntuales que requerían un razonamiento más profundo: auditoría holística previa a la v1.0.0, revisión arquitectónica de varios módulos y la pasada de estilo de esta misma memoria académica.
+
+La trazabilidad de la coautoría con el agente se garantizó mediante el uso sistemático de la etiqueta `Co-Authored-By: Claude` en los mensajes de commit, lo que permite reconstruir desde Git en qué partes del proyecto intervino la IA y en cuáles no.
+
+### Skills personalizadas
+
+Una *skill* es un módulo reutilizable que encapsula un flujo de trabajo concreto que se quiere poder invocar sin tener que reexplicar el contexto cada vez. El proyecto incluye **diez skills** definidas en `.claude/skills/`, cada una con su propio fichero `SKILL.md` que describe cuándo aplicarla y qué pasos ejecuta. Las dos que más se usaron a lo largo del desarrollo son específicas de este proyecto:
+
+- **`create-scale`** automatiza el scaffolding completo de una nueva escala neurológica: la calculadora pura en `domain/`, una pantalla placeholder, las claves ARB en español e inglés y la suite de tests de frontera exhaustiva. Redujo el coste de añadir una nueva escala de unas dos horas a unos treinta minutos, manteniendo siempre el mismo patrón estructural.
+- **`phase-close`** automatiza el cierre de subfase: ejecuta `flutter analyze` y `flutter test`, recalcula las horas a partir de los *timestamps* de los commits, actualiza la tabla del ROADMAP y el Gantt del README, cierra el issue de GitHub correspondiente y prepara el commit y el push finales.
+
+Las ocho restantes (`flutter-animations`, `flutter-build-responsive-layout`, `fl-chart-patterns`, `supabase-postgres-best-practices`, `ui-ux-pro-max`, `flutter-apply-architecture-best-practices`, `flutter-setup-declarative-routing` y `find-skills`) son aceleradores temáticos para animaciones, layout responsive, gráficos `fl_chart`, optimización de Postgres, revisión de UX y arquitectura.
+
+### MCP (Model Context Protocol) de Supabase
+
+El protocolo MCP es un estándar abierto que permite a un agente LLM conectarse a fuentes de datos y servicios externos y ejecutar acciones sobre ellos sin necesidad de pasar por terminal manual. En este proyecto se conectó el servidor MCP oficial de Supabase, lo que dio al agente la capacidad de:
+
+- Listar y describir tablas, ejecutar SQL arbitrario y aplicar migraciones desde el repositorio al proyecto remoto.
+- Consultar la tabla `auth.users`, revisar los *advisors* de seguridad y rendimiento que Supabase ofrece, y leer los logs en tiempo real.
+- Generar tipos TypeScript desde el esquema actual para tareas de integración.
+
+La integración del MCP eliminó la fricción de tener que alternar constantemente entre el editor y Supabase Studio durante las once migraciones del proyecto y durante las auditorías de seguridad previas a la v1.0.0.
+
+### Configuración de seguridad del agente
+
+La configuración del agente vive en `.claude/settings.json` y define dos listas de control de acceso. La lista de permisos auto-aprobados incluye 33 comandos seguros y de uso frecuente —entre ellos `flutter analyze`, `flutter test`, `git status`, `git diff` y `dart format`— que el agente puede ejecutar sin solicitar confirmación al usuario, lo que reduce el ruido en el flujo de trabajo. La lista de denegados, por su parte, bloquea explícitamente la lectura de cualquier fichero que pueda contener secretos: `env/*.json`, `*.key`, `credentials.json` y `secrets.json`. Esta configuración garantiza que el contexto que recibe el agente nunca incluye claves API, tokens de servicio ni configuración sensible, ni siquiera por error humano al adjuntar contexto.
+
+---
+
 ## Infraestructura y despliegue
 
 El pipeline de integración continua está definido en `.github/workflows/ci.yaml` y se ejecuta en cada push a `main` y en cada pull request. Los pasos, en orden, son:
@@ -143,3 +181,6 @@ El pipeline de despliegue (`deploy.yml`) construye la versión web con `flutter 
 | Seguridad deps | osv-scanner | 2.0.2 |
 | CI/CD | GitHub Actions | — |
 | Hosting web | GitHub Pages | — |
+| Asistente IA | Claude Code (Sonnet 4.6 / Opus 4.7) | — |
+| Skills personalizadas | 10 skills (`create-scale`, `phase-close`, …) | — |
+| MCP | Servidor MCP de Supabase | — |

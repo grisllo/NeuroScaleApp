@@ -38,6 +38,16 @@ Formato de commits utilizado: **Conventional Commits** (`tipo(scope): descripci�
 | i18n desde el MVP | Añadir tras completar el MVP | En Flutter, incorporar i18n a posteriori requiere modificar todos los widgets. Desde el inicio el coste es de un día; a posteriori, de semanas. |
 | `env/*.json` gitignoreado | Variables en CI | Los secretos nunca entran en el historial de Git. `--dart-define-from-file` funciona en web y CI sin dependencias adicionales. |
 
+### Trabajo asistido por IA
+
+Más allá de la elección de la herramienta (descrita en el apartado de Tecnología), el uso de Claude Code influyó de manera directa en la forma de trabajar y en las garantías que se exigieron al proceso. Tres aspectos merecen mención explícita por su impacto metodológico.
+
+**Cómo se trabajó con el agente.** El ciclo de subfase (diseño → aprobación → implementación → tests → commit) se materializó en interacción con el agente del modo siguiente: el agente proponía un plan, yo lo aprobaba o lo redirigía antes de que escribiera código, y la implementación avanzaba en pasos pequeños con verificación intermedia. La regla autoimpuesta del "plan-first" —no implementar sin aprobar antes el plan— acabó siendo más importante que cualquier afinado de prompt. Cuando me la salté, las correcciones posteriores consumieron más tiempo del que había ahorrado.
+
+**Garantías de corrección clínica.** Las calculadoras de escala se validaron manualmente contra fuentes médicas antes de aceptar la implementación generada por el agente: los pesos del Barthel se contrastaron con la versión validada en español por Baztán (1993), los criterios del Código Ictus con las guías de la European Stroke Organisation, los rangos de severidad del NIHSS con la documentación de los NIH. Los tests de frontera se escribieron en colaboración con el agente, pero se revisaron caso a caso para asegurar que cubrían los umbrales clínicos reales y no solo los matemáticos. En este apartado del proyecto, la IA aceleró la mecanografía pero no sustituyó la verificación de la fuente.
+
+**Trazabilidad y limitaciones.** Cada commit en el que intervino el agente lleva la etiqueta `Co-Authored-By: Claude` en el pie del mensaje, lo que permite reconstruir desde Git el alcance de la autoría compartida. En cuanto a las limitaciones encontradas, las dos más recurrentes fueron la deriva de contexto en sesiones largas (el agente pierde matices conforme la conversación se alarga) y las alucinaciones puntuales en APIs poco frecuentes (el agente inventaba métodos plausibles que en realidad no existían). Ambas se mitigaron con la disciplina del plan-first, con el sistema de memoria persistente del agente que conserva preferencias y decisiones entre sesiones, y con la verificación de cada salida antes de pasar al siguiente paso.
+
 ---
 
 ## Planificación
