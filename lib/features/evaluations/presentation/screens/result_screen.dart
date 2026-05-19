@@ -456,10 +456,21 @@ class _SaveEvaluationDialogState extends ConsumerState<_SaveEvaluationDialog> {
                     labelText: l10n.newPatientAliasLabel,
                     hintText: l10n.newPatientAliasHint,
                   ),
-                  validator: (v) =>
-                      _isCreatingNew && (v == null || v.trim().isEmpty)
-                      ? l10n.patientAliasRequired
-                      : null,
+                  validator: (v) {
+                    if (!_isCreatingNew) return null;
+                    if (v == null || v.trim().isEmpty) {
+                      return l10n.patientAliasRequired;
+                    }
+                    final matches = PiiDetector.detect(v.trim());
+                    if (matches.isNotEmpty) {
+                      final kinds = matches
+                          .map((m) => m.kind.name)
+                          .toSet()
+                          .join(', ');
+                      return l10n.caseDescriptionPiiDetected(kinds);
+                    }
+                    return null;
+                  },
                 ),
               ],
               const SizedBox(height: AppSpacing.lg),
