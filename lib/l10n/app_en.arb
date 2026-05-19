@@ -229,6 +229,9 @@
   "authInvalidCredentialsError": "Incorrect email or password",
   "@authInvalidCredentialsError": { "description": "Error for invalid authentication credentials" },
 
+  "rateLimitErrorMessage": "The registration service is temporarily unavailable. Please try again later.",
+  "@rateLimitErrorMessage": { "description": "Rate limit error (429 Too Many Requests)" },
+
   "retryButton": "Retry",
   "@retryButton": { "description": "Retry button" },
 

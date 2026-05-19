@@ -34,3 +34,7 @@ class EmailConfirmationPendingException extends AppException {
 class ValidationException extends AppException {
   const ValidationException(super.message);
 }
+
+class RateLimitException extends AppException {
+  const RateLimitException() : super('Demasiados intentos. Espera un momento.');
+}

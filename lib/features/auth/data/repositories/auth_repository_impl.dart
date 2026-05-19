@@ -34,6 +34,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return await _datasource.signUp(email: email, password: password);
     } on EmailConfirmationPendingException {
       throw const EmailConfirmationPendingFailure();
+    } on RateLimitException {
+      throw const RateLimitFailure();
     } on UnauthorizedException catch (e) {
       throw AuthFailure(e.message);
     } on ConnectionException catch (e) {

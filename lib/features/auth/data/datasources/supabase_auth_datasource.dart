@@ -50,6 +50,7 @@ class SupabaseAuthDatasource {
     } on EmailConfirmationPendingException {
       rethrow;
     } on AuthException catch (e) {
+      if (e.statusCode == '429') throw const RateLimitException();
       throw UnauthorizedException(e.message);
     } on SocketException {
       throw const ConnectionException('Sin conexión a internet.');

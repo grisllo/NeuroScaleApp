@@ -34,3 +34,7 @@ final class EmailConfirmationPendingFailure extends Failure {
   const EmailConfirmationPendingFailure()
     : super('Revisa tu email para confirmar la cuenta.');
 }
+
+final class RateLimitFailure extends Failure {
+  const RateLimitFailure() : super('Demasiados intentos. Espera un momento.');
+}

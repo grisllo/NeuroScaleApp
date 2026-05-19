@@ -6,6 +6,7 @@ import '../errors/failures.dart';
 String failureMessage(Object? error, AppLocalizations l10n) {
   if (error is NetworkFailure) return l10n.networkErrorMessage;
   if (error is AuthFailure) return l10n.authInvalidCredentialsError;
+  if (error is RateLimitFailure) return l10n.rateLimitErrorMessage;
   if (error is EmailConfirmationPendingFailure) {
     return l10n.emailConfirmationPendingMessage;
   }

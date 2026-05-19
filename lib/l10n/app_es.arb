@@ -229,6 +229,9 @@
   "authInvalidCredentialsError": "Correo electrónico o contraseña incorrectos",
   "@authInvalidCredentialsError": { "description": "Error de credenciales de autenticación inválidas" },
 
+  "rateLimitErrorMessage": "El servicio de registro no está disponible temporalmente. Inténtalo más tarde.",
+  "@rateLimitErrorMessage": { "description": "Error de límite de solicitudes (429 Too Many Requests)" },
+
   "retryButton": "Reintentar",
   "@retryButton": { "description": "Botón de reintentar acción" },
 
