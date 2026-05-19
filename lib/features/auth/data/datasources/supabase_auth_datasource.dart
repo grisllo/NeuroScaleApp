@@ -112,6 +112,10 @@ class SupabaseAuthDatasource {
           'Error al borrar la cuenta (${response.status}).',
         );
       }
+      // Sign out locally so the auth state change fires and the router
+      // redirects to login. Admin-side deletion does not trigger
+      // onAuthStateChange on the client.
+      await _client.auth.signOut();
     } on SocketException {
       throw const ConnectionException('Sin conexión a internet.');
     } catch (e) {
