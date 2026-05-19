@@ -223,7 +223,7 @@
   "networkErrorMessage": "Sin conexión. Comprueba tu red e inténtalo de nuevo.",
   "@networkErrorMessage": { "description": "Error de red (sin internet)" },
 
-  "emailConfirmationPendingMessage": "Registro completado. Revisa tu correo para confirmar la cuenta antes de iniciar sesión.",
+  "emailConfirmationPendingMessage": "Registro completado. Ya puedes iniciar sesión con tus credenciales.",
   "@emailConfirmationPendingMessage": { "description": "Aviso de confirmación de email pendiente tras el registro" },
 
   "authInvalidCredentialsError": "Correo electrónico o contraseña incorrectos",

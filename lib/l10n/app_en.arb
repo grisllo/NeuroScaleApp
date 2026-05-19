@@ -223,7 +223,7 @@
   "networkErrorMessage": "No connection. Check your network and try again.",
   "@networkErrorMessage": { "description": "Network error (no internet)" },
 
-  "emailConfirmationPendingMessage": "Registration complete. Check your email to confirm your account before signing in.",
+  "emailConfirmationPendingMessage": "Registration complete. You can now sign in with your credentials.",
   "@emailConfirmationPendingMessage": { "description": "Email confirmation pending notice after registration" },
 
   "authInvalidCredentialsError": "Incorrect email or password",

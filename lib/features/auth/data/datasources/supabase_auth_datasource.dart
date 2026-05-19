@@ -43,10 +43,11 @@ class SupabaseAuthDatasource {
       );
       final user = response.user;
       if (user == null) throw const UnauthorizedException('Registro fallido.');
-      if (response.session == null) {
-        throw const EmailConfirmationPendingException();
+      // Sign out any auto-created session so the user must log in explicitly.
+      if (response.session != null) {
+        await _client.auth.signOut();
       }
-      return AppUserModel.fromSupabaseUser(user);
+      throw const EmailConfirmationPendingException();
     } on EmailConfirmationPendingException {
       rethrow;
     } on AuthException catch (e) {
