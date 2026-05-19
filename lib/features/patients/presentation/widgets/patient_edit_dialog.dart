@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/extensions/failure_l10n.dart';
 import '../../../../core/extensions/l10n_extension.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/utils/pii_detector.dart';
 import '../../domain/entities/patient.dart';
 import '../providers/patients_controller.dart';
 
@@ -96,9 +97,20 @@ class _PatientEditDialogState extends ConsumerState<PatientEditDialog> {
                 labelText: l10n.patientAliasLabel,
                 hintText: l10n.patientAliasHint,
               ),
-              validator: (v) => (v == null || v.trim().isEmpty)
-                  ? l10n.patientAliasRequired
-                  : null,
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) {
+                  return l10n.patientAliasRequired;
+                }
+                final matches = PiiDetector.detect(v.trim());
+                if (matches.isNotEmpty) {
+                  final kinds = matches
+                      .map((m) => m.kind.name)
+                      .toSet()
+                      .join(', ');
+                  return l10n.caseDescriptionPiiDetected(kinds);
+                }
+                return null;
+              },
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: AppSpacing.md),
@@ -110,6 +122,18 @@ class _PatientEditDialogState extends ConsumerState<PatientEditDialog> {
                 labelText: l10n.patientNotesLabel,
                 hintText: l10n.patientNotesHint,
               ),
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) return null;
+                final matches = PiiDetector.detect(v.trim());
+                if (matches.isNotEmpty) {
+                  final kinds = matches
+                      .map((m) => m.kind.name)
+                      .toSet()
+                      .join(', ');
+                  return l10n.caseDescriptionPiiDetected(kinds);
+                }
+                return null;
+              },
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
